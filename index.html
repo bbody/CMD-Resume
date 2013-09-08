@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>JSON-RPC Demo for JQuery Terminal Emulator</title>
+    <meta name="author" content="Jakub Jankiewicz - jcubic&#64;onet.pl"/>
+    <meta name="Description" content="Demonstration for JQuery Terminal Emulator using call automaticly JSON-RPC service (in php) with authentication."/>
+    <link rel="sitemap" type="application/xml" title="Sitemap" href=""/>
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <script src="../js/jquery-1.7.1.min.js"></script>
+    <script src="../js/jquery.mousewheel-min.js"></script>
+    <script src="../js/jquery.terminal-min.js"></script>
+    <link href="../css/jquery.terminal.css" rel="stylesheet"/>
+  </head>
+<body>
+
+<script>
+var name = "Brendon Body";
+var title = "Welcome to " + name + "'s résumé. Enter command `help` for command list";
+var commandMap = {};
+commandMap["github"] = " - list Github repositories.";
+commandMap[""] = " - .";
+
+jQuery(document).ready(function($) {
+    var id = 1;
+    $('body').terminal(function(command, term) {
+        var commandList = command.split(" ");
+        if (commandList[0] == 'help') {
+            term.echo("Command list:\n");
+            for (String s : commandMap)
+            {
+              term.echo(s);
+            }
+        } 
+        else if (commandList[0] == "man"){
+          term.echo(commandList[1] + commandMap(commandList[1]));
+
+        }
+
+        else {
+          term.echo ("`" + command + "` is an unknown command.")
+        }
+    }, {
+        greetings: $title,
+        onBlur: function() {
+            // prevent loosing focus
+            return false;
+        }
+    });
+});
+
+</script>
+</body>
