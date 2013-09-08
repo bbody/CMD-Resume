@@ -2,52 +2,90 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>JSON-RPC Demo for JQuery Terminal Emulator</title>
+    <title>Brendon Body's résumé</title>
     <meta name="author" content="Jakub Jankiewicz - jcubic&#64;onet.pl"/>
     <meta name="Description" content="Demonstration for JQuery Terminal Emulator using call automaticly JSON-RPC service (in php) with authentication."/>
     <link rel="sitemap" type="application/xml" title="Sitemap" href=""/>
     <link rel="shortcut icon" href="favicon.ico"/>
-    <script src="../js/jquery-1.7.1.min.js"></script>
-    <script src="../js/jquery.mousewheel-min.js"></script>
-    <script src="../js/jquery.terminal-min.js"></script>
-    <link href="../css/jquery.terminal.css" rel="stylesheet"/>
+    <script src="js/jquery-1.7.1.min.js"></script>
+    <script src="js/jquery.mousewheel-min.js"></script>
+    <script src="js/jquery.terminal-min.js"></script>
+    <script src="js/github.js"></script>
+    <link href="css/jquery.terminal.css" rel="stylesheet"/>
   </head>
 <body>
 
 <script>
-var name = "Brendon Body";
+// Put your details here
+var name = "John Doe";
+var githubUsername = "jdoe";
+var bitbucketUsername = "jdoe";
+var pdfLink = "http://www.example.com/resume.pdf";
+
+// Variables
 var title = "Welcome to " + name + "'s résumé. Enter command `help` for command list";
+
+// Command map 
 var commandMap = {};
+var commandFunctionMap = {};
+
 commandMap["github"] = " - list Github repositories.";
-commandMap[""] = " - .";
+commandFunctionMap["github"] = github(githubUsername);
 
-jQuery(document).ready(function($) {
-    var id = 1;
-    $('body').terminal(function(command, term) {
-        var commandList = command.split(" ");
-        if (commandList[0] == 'help') {
-            term.echo("Command list:\n");
-            for (String s : commandMap)
-            {
-              term.echo(s);
+commandMap["pdf"] = " - pdf version of the resume.";
+commandFunctionMap["pdf"] = pdf;
+
+
+
+
+commandLine();
+
+function commandLine(){
+    
+
+    jQuery(document).ready(function($) {
+        var id = 1;
+
+        $('body').terminal(function(command, term) {
+            var commandList = command.toLowerCase().split(" ");
+
+            if (commandList[0] == 'help') {
+                term.echo("Commands:\n");
+            } else if (commandList[0] == "man"){
+                if (commandMap[commandList[1]][0] != undefined){
+                    term.echo(commandList[1] + commandMap[commandList[1]][0]);
+                } else if (commandList[1] == undefined){
+                    term.echo ("man: No command entered.");
+                } else {
+                    term.echo ("man: `" + commandList[1] + "` is an unknown command.");
+                }
+            } else if (commandMap[commandList[0]] != undefined){
+                term.echo(commandFunctionMap[commandList[0]]);
+            } else {
+                if (command.length > 0){
+                    term.echo ("`" + command + "` is an unknown command.");
+                } else {
+                    term.echo ("No command entered.");
+                }
             }
-        } 
-        else if (commandList[0] == "man"){
-          term.echo(commandList[1] + commandMap(commandList[1]));
-
-        }
-
-        else {
-          term.echo ("`" + command + "` is an unknown command.")
-        }
-    }, {
-        greetings: $title,
-        onBlur: function() {
-            // prevent loosing focus
-            return false;
-        }
+        }, {
+            greetings: title,
+            onBlur: function() {
+                // prevent loosing focus
+                return false;
+            }
+        });
     });
-});
+}
+
+function github(username){
+    return username;
+}
+
+function pdf(){
+    window.open(pdfLink);
+    return "Hint: May need to allow pop-ups.";
+}
 
 </script>
 </body>
