@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
+<head>
     <meta charset="utf-8" />
     <title>Brendon Body's résumé</title>
     <meta name="author" content="Jakub Jankiewicz - jcubic&#64;onet.pl"/>
@@ -11,37 +11,34 @@
     <script src="js/jquery.mousewheel-min.js"></script>
     <script src="js/jquery.terminal-min.js"></script>
     <script src="js/github.js"></script>
+    <script src="js/resume.js"></script>
+    <script src="js/details.js"></script>
     <link href="css/jquery.terminal.css" rel="stylesheet"/>
-  </head>
+</head>
 <body>
 
-<script>
-// Put your details here
-var name = "John Doe";
-var githubUsername = "jdoe";
-var bitbucketUsername = "jdoe";
-var pdfLink = "http://www.example.com/resume.pdf";
+    <script>
 
 // Variables
 var title = "Welcome to " + name + "'s résumé. Enter command `help` for command list";
 
-// Command map 
+// Command map
 var commandMap = {};
 var commandFunctionMap = {};
 
 commandMap["github"] = " - list Github repositories.";
-commandFunctionMap["github"] = github(githubUsername);
+
+commandMap["name"] = " - owner of the résumé.";
+commandFunctionMap["name"] = name;
 
 commandMap["pdf"] = " - pdf version of the resume.";
 commandFunctionMap["pdf"] = pdf;
 
 
-
-
 commandLine();
 
 function commandLine(){
-    
+
 
     jQuery(document).ready(function($) {
         var id = 1;
@@ -60,31 +57,65 @@ function commandLine(){
                     term.echo ("man: `" + commandList[1] + "` is an unknown command.");
                 }
             } else if (commandMap[commandList[0]] != undefined){
-                term.echo(commandFunctionMap[commandList[0]]);
+                if (commandList[0] == "github"){
+
+                    var mess = "Repositories:\n";
+                    var list = [];
+
+                    jQuery.githubUser = function(username, callback) {
+                        jQuery.getJSON('https://api.github.com/users/'+username+'/repos?callback=?',callback);
+                    }
+
+
+                    $.githubUser(githubUsername, function(data) {
+                        var repos = data.data; // JSON Parsing
+
+                        $(repos).each(function() {
+                            if (this != undefined){
+                                var message = this.name;
+                                if ((this.description != undefined) && (this.description.length > 0)){
+                                    message += " - " + this.description;
+                                }
+
+                                message += "\n";
+
+                                if (this.name != (githubUsername.toLowerCase()+'.github.com')) {
+                                    list.push(message);
+                                    mess += message;
+                                }
+                            } else {
+                                console.log(repos.meta);
+                                if (data.meta.status == '403'){
+                                    mess += "Too many requests"
+                                } else {
+                                   mess += "No repositories found."
+                                }
+                            }
+                        });
+
+                    term.echo(mess);
+                    });
+
+            } else if (commandList[0] == "school"){
+                
             } else {
-                if (command.length > 0){
-                    term.echo ("`" + command + "` is an unknown command.");
-                } else {
-                    term.echo ("No command entered.");
-                }
+                term.echo(commandFunctionMap[commandList[0]]);
             }
-        }, {
-            greetings: title,
-            onBlur: function() {
+} else {
+    if (command.length > 0){
+        term.echo ("`" + command + "` is an unknown command.");
+    } else {
+        term.echo ("No command entered.");
+    }
+}
+}, {
+    greetings: title,
+    onBlur: function() {
                 // prevent loosing focus
                 return false;
             }
         });
-    });
-}
-
-function github(username){
-    return username;
-}
-
-function pdf(){
-    window.open(pdfLink);
-    return "Hint: May need to allow pop-ups.";
+                });
 }
 
 </script>
