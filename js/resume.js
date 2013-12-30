@@ -38,15 +38,16 @@ function github(username){
 }
 
 // Variables
-var title;
+var title = "";
 
 // Command map
 var commandMap = {};
 var commandFunctionMap = {};
 
 function init(){
+
     title = "Welcome to " + name + "'s résumé. Enter command `help` for command list";
-    
+
     commandMap["clear"] = " - clear command history from screen.";
 
     commandMap["github"] = " - list Github repositories.";
