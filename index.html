@@ -7,7 +7,7 @@
     <meta name="Description" content="JQuery Terminal Resume."/>
     <link rel="sitemap" type="application/xml" title="Sitemap" href=""/>
     <link rel="shortcut icon" href="favicon.ico"/>
-    
+
     <script src="js/jquery-1.7.1.min.js"></script>
     <script src="js/jquery.mousewheel-min.js"></script>
     <script src="js/jquery.terminal-min.js"></script>
@@ -38,6 +38,20 @@ commandFunctionMap["pdf"] = pdf;
 commandMap["employment"] = " - employment status.";
 commandFunctionMap["employment"] = employment;
 
+commandMap["location"] = " - current location.";
+commandFunctionMap["location"] = loc;
+
+commandMap.getKeys = function (){
+    var commands = "Commands:\n";
+    for(var key in this) {
+
+        if( typeof this[key] !== 'function') {
+            commands += key + commandMap[key] + "\n";
+        }
+    }
+    return commands;
+}
+
 commandLine();
 
 function commandLine(){
@@ -50,7 +64,7 @@ function commandLine(){
             var commandList = command.toLowerCase().split(" ");
 
             if (commandList[0] == 'help') {
-                term.echo("Commands:\n");
+                term.echo(commandMap.getKeys());
             } else if (commandList[0] == "man"){
                 if (commandMap[commandList[1]][0] != undefined){
                     term.echo(commandList[1] + commandMap[commandList[1]][0]);
@@ -91,19 +105,19 @@ function commandLine(){
                                 if (data.meta.status == '403'){
                                     mess += "Too many requests"
                                 } else {
-                                   mess += "No repositories found."
-                                }
-                            }
-                        });
+                                 mess += "No repositories found."
+                             }
+                         }
+                     });
 
-                    term.echo(mess);
-                    });
+term.echo(mess);
+});
 
-            } else if (commandList[0] == "school"){
-                
-            } else {
-                term.echo(commandFunctionMap[commandList[0]]);
-            }
+} else if (commandList[0] == "school"){
+
+} else {
+    term.echo(commandFunctionMap[commandList[0]]);
+}
 } else {
     if (command.length > 0){
         term.echo ("`" + command + "` is an unknown command.");
@@ -118,7 +132,7 @@ function commandLine(){
                 return false;
             }
         });
-                });
+});
 }
 
 </script>

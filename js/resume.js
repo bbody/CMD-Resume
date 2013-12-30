@@ -31,4 +31,3 @@ function pdf(){
     window.open(pdfLink);
     return "Hint: May need to allow pop-ups.";
 }
-
