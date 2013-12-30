@@ -1,5 +1,6 @@
 /examples/*
-/js/*
+/js/jquery*
+/js/dterm.js
 /css/*
 /bin/*
 CHANGELOG
