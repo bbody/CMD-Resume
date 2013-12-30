@@ -1,6 +1,6 @@
 // Put your details here
-var name = "Brendon Body";
-var githubUsername = "bbody";
-var bitbucketUsername = "bbody";
-var pdfLink = "https://www.dropbox.com/s/shc3t4ttk0j7xwl/resume.pdf";
-var employment = "Currently interning/Looking for opportunities";
+var name = "John Doe";
+var githubUsername = "example";
+var bitbucketUsername = "example";
+var pdfLink = "http://en.wikipedia.org/wiki/R%C3%A9sum%C3%A9";
+var employment = "Looking for opportunities";
