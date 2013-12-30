@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>John Doe's résumé</title>
+    <title>Brendon Body's résumé</title>
     <meta name="author" content="Brendon Body - www.brendonbody.com"/>
     <meta name="Description" content="JQuery Terminal Resume."/>
     <link rel="sitemap" type="application/xml" title="Sitemap" href=""/>
@@ -11,7 +11,6 @@
     <script src="js/jquery-1.7.1.min.js"></script>
     <script src="js/jquery.mousewheel-min.js"></script>
     <script src="js/jquery.terminal-min.js"></script>
-    <script src="js/github.js"></script>
     <script src="js/resume.js"></script>
     <script src="js/details.js"></script>
     <link href="css/jquery.terminal.css" rel="stylesheet"/>
@@ -20,38 +19,7 @@
 
     <script>
 
-// Variables
-var title = "Welcome to " + name + "'s résumé. Enter command `help` for command list";
-
-// Command map
-var commandMap = {};
-var commandFunctionMap = {};
-
-commandMap["github"] = " - list Github repositories.";
-
-commandMap["name"] = " - owner of the résumé.";
-commandFunctionMap["name"] = name;
-
-commandMap["pdf"] = " - pdf version of the resume.";
-commandFunctionMap["pdf"] = pdf;
-
-commandMap["employment"] = " - employment status.";
-commandFunctionMap["employment"] = employment;
-
-commandMap["location"] = " - current location.";
-commandFunctionMap["location"] = loc;
-
-commandMap.getKeys = function (){
-    var commands = "Commands:\n";
-    for(var key in this) {
-
-        if( typeof this[key] !== 'function') {
-            commands += key + commandMap[key] + "\n";
-        }
-    }
-    return commands;
-}
-
+init();
 commandLine();
 
 function commandLine(){
@@ -96,9 +64,14 @@ function commandLine(){
 
                                 message += "\n";
 
-                                if (this.name != (githubUsername.toLowerCase()+'.github.com')) {
-                                    list.push(message);
-                                    mess += message;
+                                if (this.name != (githubUsername.toLowerCase()+'.github.com')) { //
+                                    if (!showForks && (this.fork == false)){
+                                        list.push(message);
+                                        mess += message;
+                                    } else if (showForks){
+                                        list.push(message);
+                                        mess += message;
+                                    }
                                 }
                             } else {
                                 console.log(repos.meta);
@@ -113,8 +86,39 @@ function commandLine(){
 term.echo(mess);
 });
 
-} else if (commandList[0] == "school"){
-
+} else if (commandList[0] == "education"){
+    if (commandList[1] == "-top"){
+        term.echo(commandFunctionMap["education -top"]);
+    } else {
+        term.echo(commandFunctionMap["education"]);
+    }
+} else if (commandList[0] == "employment"){
+    if (commandList[1] == "-top"){
+        term.echo(commandFunctionMap["employment -top"]);
+    } else {
+        term.echo(commandFunctionMap["employment"]);
+    }
+} else if (commandList[0] == "volunteering"){
+    if (commandList[1] == "-top"){
+        term.echo(commandFunctionMap["volunteering -top"]);
+    } else {
+        term.echo(commandFunctionMap["volunteering"]);
+    }
+} else if (commandList[0] == "awards"){
+    term.echo(commandFunctionMap["awards"]);
+} else if (commandList[0] == "memberships"){
+    term.echo(commandFunctionMap["memberships"]);
+} else if (commandList[0] == "skills"){
+    if (commandList[1] != undefined){
+        var fullCommand = commandList[0] + " " + commandList[1];
+        if (fullCommand in commandFunctionMap){
+            term.echo(commandFunctionMap[fullCommand]);
+        } else {
+            term.echo("Warning: Invalid arguments");
+        }
+    } else {
+        term.echo(commandFunctionMap[commandList[0]]);
+    }
 } else {
     term.echo(commandFunctionMap[commandList[0]]);
 }
