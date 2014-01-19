@@ -8,3 +8,4 @@
 
 #Example
 [Here](http://bbody.github.io/) is an example of my resume in a command line.
+[Blog post](http://www.brendonbody.com/2014/01/19/cmd-resume-javascript/) is my blog post about it.
