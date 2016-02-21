@@ -1,3 +1,5 @@
+CMD-Resume is a Javascript based command line for demonstrating your resume.
+
 # How to set up
 1. Clone the project to desktop
 2. Edit js/details.js and fill in your own details
