@@ -46,7 +46,11 @@ var commandFunctionMap = {};
 
 function init(){
 
-    title = "Welcome to " + name + "'s résumé. Enter command `help` for command list";
+    splash += "Welcome to " + name + "'s résumé.\n";
+    splash += "Type [[b;#ffffff;#000]help] for commands\n"
+
+    commandMap["splash"] = " - print the welcome screen.";
+    commandFunctionMap["splash"] = splash;
 
     commandMap["clear"] = " - clear command history from screen.";
 
@@ -82,6 +86,9 @@ function init(){
     commandMap["membership"] = " - membership obtained.";
     commandFunctionMap["membership"] = getAll("Professional membership:\n", membership);
 
+    commandMap["pgpkey"] = " - my public PGP key.";
+    commandFunctionMap["pgpkey"] = publicPGPkey;
+
     commandMap["skills"] = " - skills obtained. [-languages|l][-tools|t][-concepts|c]";
     commandFunctionMap["skills"] = getSkillTable();
     commandFunctionMap["skills -l"] = commandFunctionMap["skills -language"] 
@@ -95,7 +102,7 @@ function init(){
     commandFunctionMap["socialmedia"] = getSocialMedia();
 
     commandMap.getKeys = function (){
-    var commands = "Commands:\n";
+    var commands = "Available Commands:\n";
     for(var key in this) {
 
         if( typeof this[key] !== 'function') {

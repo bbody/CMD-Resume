@@ -31,8 +31,10 @@ function commandLine(){
         $('body').terminal(function(command, term) {
             var commandList = command.toLowerCase().split(" ");
 
-            if (commandList[0] == 'help') {
+            if (commandList[0] == "help") {
                 term.echo(commandMap.getKeys());
+            } else if (commandList[0] == "splash"){
+              term.echo(commandFunctionMap["splash"]);
             } else if (commandList[0] == "man"){
                 if (commandMap[commandList[1]][0] != undefined){
                     term.echo(commandList[1] + commandMap[commandList[1]][0]);
@@ -108,6 +110,8 @@ term.echo(mess);
     term.echo(commandFunctionMap["awards"]);
 } else if (commandList[0] == "memberships"){
     term.echo(commandFunctionMap["memberships"]);
+} else if (commandList[0] == "pgpkey"){
+    term.echo(commandFunctionMap["pgpkey"]);
 } else if (commandList[0] == "skills"){
     if (commandList[1] != undefined){
         var fullCommand = commandList[0] + " " + commandList[1];
@@ -130,7 +134,7 @@ term.echo(mess);
     }
 }
 }, {
-    greetings: title,
+    greetings: splash,
     onBlur: function() {
                 // prevent loosing focus
                 return false;
