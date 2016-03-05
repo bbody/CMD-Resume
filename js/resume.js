@@ -82,7 +82,7 @@ function init(){
     commandMap["membership"] = " - membership obtained.";
     commandFunctionMap["membership"] = getAll("Professional membership:\n", membership);
 
-    commandMap["skills"] = " - membership obtained. [-languages|l][-tools|t][-concepts|c]";
+    commandMap["skills"] = " - skills obtained. [-languages|l][-tools|t][-concepts|c]";
     commandFunctionMap["skills"] = getSkillTable();
     commandFunctionMap["skills -l"] = commandFunctionMap["skills -language"] 
         = getAll("Languages:\n", skillsLanguages);
