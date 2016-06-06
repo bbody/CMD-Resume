@@ -45,7 +45,7 @@ var lookingfor = "Raking in the money";
 var pdfLink = "http://en.wikipedia.org/wiki/R%C3%A9sum%C3%A9";
 
 // Settings
-var showForks = true;
+var showForks = false; // Shows forks of repositories on Github
 
 // Github and Bitbucket accounts
 var githubUsername = "example";
@@ -58,7 +58,7 @@ var websiteURL = "http://www.example.com/";
 var blogURL = "";
 var portfolioURL = "";
 var twitterURL = "https://twitter.com/";
-var facebookURL = "";
+var facebookURL = "https://facebook.com/";
 var skypeAccount = "test";
 var socialMedia = [["Github", githubURL], ["Bitbucket", bitbucketURL], ["Website", websiteURL], 
 	["Blog", blogURL], ["Portfolio", portfolioURL], ["Twitter", twitterURL], ["Facebook", facebookURL],
