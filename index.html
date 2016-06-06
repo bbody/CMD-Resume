@@ -21,11 +21,11 @@
 
     <script>
 
-init();
-commandLine();
+        init();
+        commandLine();
 
-function commandLine(){
-    jQuery(document).ready(function($) {
+        function commandLine(){
+            jQuery(document).ready(function($) {
         // Update page title
         document.title = name + "'s Résumé";
         
@@ -64,8 +64,8 @@ function commandLine(){
                             if (this != undefined){
                                 var message = this.name;
                                 if ((this.description != undefined) && (this.description.length > 0)){
-                                    message += " - " + this.description;
-                                }
+                                        message += " - " + this.description;
+                                    }
 
                                 message += "\n";
 
@@ -83,65 +83,66 @@ function commandLine(){
                                 if (data.meta.status == '403'){
                                     mess += "Too many requests"
                                 } else {
-                                 mess += "No repositories found."
-                             }
-                         }
-                     });
+                                   mess += "No repositories found."
+                               }
+                           }
+                        });
 
-term.echo(mess);
-});
+                        term.echo(mess);
+                    });
 
-} else if (commandList[0] == "education"){
-    if (commandList[1] == "-top"){
-        term.echo(commandFunctionMap["education -top"]);
-    } else {
-        term.echo(commandFunctionMap["education"]);
-    }
-} else if (commandList[0] == "employment"){
-    if (commandList[1] == "-top"){
-        term.echo(commandFunctionMap["employment -top"]);
-    } else {
-        term.echo(commandFunctionMap["employment"]);
-    }
-} else if (commandList[0] == "volunteering"){
-    if (commandList[1] == "-top"){
-        term.echo(commandFunctionMap["volunteering -top"]);
-    } else {
-        term.echo(commandFunctionMap["volunteering"]);
-    }
-} else if (commandList[0] == "awards"){
-    term.echo(commandFunctionMap["awards"]);
-} else if (commandList[0] == "memberships"){
-    term.echo(commandFunctionMap["memberships"]);
-} else if (commandList[0] == "pgpkey"){
-    term.echo(commandFunctionMap["pgpkey"]);
-} else if (commandList[0] == "skills"){
-    if (commandList[1] != undefined){
-        var fullCommand = commandList[0] + " " + commandList[1];
-        if (fullCommand in commandFunctionMap){
-            term.echo(commandFunctionMap[fullCommand]);
+            } else if (commandList[0] == "education"){
+                if (commandList[1] == "-top"){
+                    term.echo(commandFunctionMap["education -top"]);
+                } else {
+                    term.echo(commandFunctionMap["education"]);
+                }
+            } else if (commandList[0] == "employment"){
+                if (commandList[1] == "-top"){
+                    term.echo(commandFunctionMap["employment -top"]);
+                } else {
+                    term.echo(commandFunctionMap["employment"]);
+                }
+            } else if (commandList[0] == "volunteering"){
+                if (commandList[1] == "-top"){
+                    term.echo(commandFunctionMap["volunteering -top"]);
+                } else {
+                    term.echo(commandFunctionMap["volunteering"]);
+                }
+            } else if (commandList[0] == "awards"){
+                term.echo(commandFunctionMap["awards"]);
+            } else if (commandList[0] == "memberships"){
+                term.echo(commandFunctionMap["memberships"]);
+            } else if (commandList[0] == "pgpkey"){
+                term.echo(commandFunctionMap["pgpkey"]);
+            } else if (commandList[0] == "skills"){
+                if (commandList[1] != undefined){
+                    var fullCommand = commandList[0] + " " + commandList[1];
+                    if (fullCommand in commandFunctionMap){
+                        term.echo(commandFunctionMap[fullCommand]);
+                    } else {
+                        term.echo("Warning: Invalid arguments");
+                    }
+                } else {
+                    term.echo(commandFunctionMap[commandList[0]]);
+                }
+            } else {
+                term.echo(commandFunctionMap[commandList[0]]);
+            }
         } else {
-            term.echo("Warning: Invalid arguments");
+            if (command.length > 0){
+                term.echo ("`" + command + "` is an unknown command.");
+            } else {
+                term.echo ("No command entered.");
+            }
         }
-    } else {
-        term.echo(commandFunctionMap[commandList[0]]);
-    }
-} else {
-    term.echo(commandFunctionMap[commandList[0]]);
-}
-} else {
-    if (command.length > 0){
-        term.echo ("`" + command + "` is an unknown command.");
-    } else {
-        term.echo ("No command entered.");
-    }
-}
-}, {
-    greetings: splash,
-    onBlur: function() {
+    }, {
+        greetings: splash,
+        onBlur: function() {
                 // prevent loosing focus
                 return false;
-            }
+            },completion: $.map(commandMap, function(element,index) {return index})
+
         });
 });
 }
