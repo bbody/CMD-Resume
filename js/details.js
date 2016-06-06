@@ -1,42 +1,42 @@
 // Splash
-var splash = `
-                                                                     ..;===+.
-                                                                  .:=iiiiii=+=
-                                                               .=i))=;::+)i=+,
-                                                            ,=i);)I)))I):=i=;
-                                                         .=i==))))ii)))I:i++
-                                                       +)+))iiiiiiii))I=i+:\'
-                                  .,:;;++++++;:,.       )iii+:::;iii))+i=\'
-                               .:;++=iiiiiiiiii=++;.    =::,,,:::=i));=+\'
-                             ,;+==ii)))))))))))ii==+;,      ,,,:=i))+=:
-                           ,;+=ii))))))IIIIII))))ii===;.    ,,:=i)=i+
-                          ;+=ii)))IIIIITIIIIII))))iiii=+,   ,:=));=,
-                        ,+=i))IIIIIITTTTTITIIIIII)))I)i=+,,:+i)=i+
-                       ,+i))IIIIIITTTTTTTTTTTTI))IIII))i=::i))i=\'
-                      ,=i))IIIIITLLTTTTTTTTTTIITTTTIII)+;+i)+i\`
-                      =i))IIITTLTLTTTTTTTTTIITTLLTTTII+:i)ii:\'
-                     +i))IITTTLLLTTTTTTTTTTTTLLLTTTT+:i)))=,
-                     =))ITTTTTTTTTTTLTTTTTTLLLLLLTi:=)IIiii;
-                    .i)IIITTTTTTTTLTTTITLLLLLLLT);=)I)))))i;
-                    :))IIITTTTTLTTTTTTLLHLLLLL);=)II)IIIIi=:
-                    :i)IIITTTTTTTTTLLLHLLHLL)+=)II)ITTTI)i=
-                    .i)IIITTTTITTLLLHHLLLL);=)II)ITTTTII)i+
-                    =i)IIIIIITTLLLLLLHLL=:i)II)TTTTTTIII)i\'
-                  +i)i)))IITTLLLLLLLLT=:i)II)TTTTLTTIII)i;
-                +ii)i:)IITTLLTLLLLT=;+i)I)ITTTTLTTTII))i;
-               =;)i=:,=)ITTTTLTTI=:i))I)TTTLLLTTTTTII)i;
-             +i)ii::,  +)IIITI+:+i)I))TTTTLLTTTTTII))=,
-           :=;)i=:,,    ,i++::i))I)ITTTTTTTTTTIIII)=+\'
-         .+ii)i=::,,   ,,::=i)))iIITTTTTTTTIIIII)=+
-        ,==)ii=;:,,,,:::=ii)i)iIIIITIIITIIII))i+:\'
-       +=:))i==;:::;=iii)+)=  \`:i)))IIIII)ii+\'
-     .+=:))iiiiiiii)))+ii;
-    .+=;))iiiiii)));ii+
-   .+=i:)))))))=+ii+
-  .;==i+::::=)i=;
-  ,+==iiiiii+,
-  \`+=+++;\`
-`;
+var splash = ""
+  + "                                                                     ..;===+.\n"
+  + "                                                                  .:=iiiiii=+=\n"
+  + "                                                               .=i))=;::+)i=+,\n"
+  + "                                                            ,=i);)I)))I):=i=;\n"
+  + "                                                         .=i==))))ii)))I:i++\n"
+  + "                                                       +)+))iiiiiiii))I=i+:'\n"
+  + "                                  .,:;;++++++;:,.       )iii+:::;iii))+i='\n"
+  + "                               .:;++=iiiiiiiiii=++;.    =::,,,:::=i));=+'\n"
+  + "                             ,;+==ii)))))))))))ii==+;,      ,,,:=i))+=:\n"
+  + "                           ,;+=ii))))))IIIIII))))ii===;.    ,,:=i)=i+\n"
+  + "                          ;+=ii)))IIIIITIIIIII))))iiii=+,   ,:=));=,\n"
+  + "                        ,+=i))IIIIIITTTTTITIIIIII)))I)i=+,,:+i)=i+\n"
+  + "                       ,+i))IIIIIITTTTTTTTTTTTI))IIII))i=::i))i='\n"
+  + "                      ,=i))IIIIITLLTTTTTTTTTTIITTTTIII)+;+i)+i`\n"
+  + "                      =i))IIITTLTLTTTTTTTTTIITTLLTTTII+:i)ii:'\n"
+  + "                     +i))IITTTLLLTTTTTTTTTTTTLLLTTTT+:i)))=,\n"
+  + "                     =))ITTTTTTTTTTTLTTTTTTLLLLLLTi:=)IIiii;\n"
+  + "                    .i)IIITTTTTTTTLTTTITLLLLLLLT);=)I)))))i;\n"
+  + "                    :))IIITTTTTLTTTTTTLLHLLLLL);=)II)IIIIi=:\n"
+  + "                    :i)IIITTTTTTTTTLLLHLLHLL)+=)II)ITTTI)i=\n"
+  + "                    .i)IIITTTTITTLLLHHLLLL);=)II)ITTTTII)i+\n"
+  + "                    =i)IIIIIITTLLLLLLHLL=:i)II)TTTTTTIII)i'\n"
+  + "                  +i)i)))IITTLLLLLLLLT=:i)II)TTTTLTTIII)i;\n"
+  + "                +ii)i:)IITTLLTLLLLT=;+i)I)ITTTTLTTTII))i;\n"
+  + "               =;)i=:,=)ITTTTLTTI=:i))I)TTTLLLTTTTTII)i;\n"
+  + "             +i)ii::,  +)IIITI+:+i)I))TTTTLLTTTTTII))=,\n"
+  + "           :=;)i=:,,    ,i++::i))I)ITTTTTTTTTTIIII)=+'\n"
+  + "         .+ii)i=::,,   ,,::=i)))iIITTTTTTTTIIIII)=+\n"
+  + "        ,==)ii=;:,,,,:::=ii)i)iIIIITIIITIIII))i+:'\n"
+  + "       +=:))i==;:::;=iii)+)=  `:i)))IIIII)ii+'\n"
+  + "     .+=:))iiiiiiii)))+ii;\n"
+  + "    .+=;))iiiiii)));ii+\n"
+  + "   .+=i:)))))))=+ii+\n"
+  + "  .;==i+::::=)i=;\n"
+  + "  ,+==iiiiii+,\n"
+  + "  `+=+++;`\n";
+
 
 // Details
 var name = "John Doe";
