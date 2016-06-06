@@ -2,18 +2,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>Brendon Body's résumé</title>
-    <meta name="author" content="Brendon Body - www.brendonbody.com"/>
-    <meta name="Description" content="JQuery Terminal Resume."/>
+    <title>John Doe's résumé</title>
+    <meta name="author" content="Brendon Body - https://github.com/bbody/CMD-Resume"/>
+    <meta name="Description" content="JQuery Terminal Resume"/>
     <link rel="sitemap" type="application/xml" title="Sitemap" href=""/>
     <link rel="shortcut icon" href="favicon.ico"/>
 
-    <script src="js/jquery-1.7.1.min.js"></script>
+<!--     <script src="js/jquery-1.7.1.min.js"></script>
     <script src="js/jquery.mousewheel-min.js"></script>
-    <script src="js/jquery.terminal-min.js"></script>
+    <script src="js/jquery.terminal-min.js"></script> -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.10.10/js/jquery.terminal.min.js"></script>
+
     <script src="js/resume.js"></script>
     <script src="js/details.js"></script>
-    <link href="css/jquery.terminal.css" rel="stylesheet"/>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.10.10/css/jquery.terminal.min.css" rel="stylesheet"/>
+    <!-- <link href="css/jquery.terminal.css" rel="stylesheet"/> -->
 </head>
 <body>
 
@@ -36,10 +42,10 @@ function commandLine(){
             } else if (commandList[0] == "splash"){
               term.echo(commandFunctionMap["splash"]);
             } else if (commandList[0] == "man"){
-                if (commandMap[commandList[1]][0] != undefined){
-                    term.echo(commandList[1] + commandMap[commandList[1]][0]);
-                } else if (commandList[1] == undefined){
+                if (commandList[1] == undefined){
                     term.echo ("man: No command entered.");
+                } else if (commandFunctionMap[commandList[1]] != undefined){
+                    term.echo(commandList[1] + commandMap[commandList[1]]);
                 } else {
                     term.echo ("man: `" + commandList[1] + "` is an unknown command.");
                 }
