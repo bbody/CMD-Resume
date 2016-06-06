@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>John Doe's résumé</title>
+    <title>Command Line Resume Résumé</title>
     <meta name="author" content="Brendon Body - https://github.com/bbody/CMD-Resume"/>
     <meta name="Description" content="JQuery Terminal Resume"/>
     <link rel="sitemap" type="application/xml" title="Sitemap" href=""/>
@@ -25,9 +25,10 @@ init();
 commandLine();
 
 function commandLine(){
-
-
     jQuery(document).ready(function($) {
+        // Update page title
+        document.title = name + "'s Résumé";
+        
         var id = 1;
 
         $('body').terminal(function(command, term) {
