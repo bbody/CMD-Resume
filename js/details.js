@@ -65,32 +65,19 @@ var socialMedia = [["Github", githubURL], ["Bitbucket", bitbucketURL], ["Website
 	["Skype", skypeAccount]];
 
 // Education list
-var education = [["University of Queensland", "Bachelor of Engineering (Software Engineering)", "Graduate July, 2014"],
-	["Summer University", "Summer Program", "June-July 2013"],["Tianjin University", "Research", "June-July 2012"],
-	["Chinese University of Hong Kong", "Exchange Student", "September-December 2011"],
-	["Beijing University of Internation Relations", "Language course", "July-August"]];
+var education = [["South Hamptom Institute of Technology", "Bachelor of Computers", "Graduate July, 2014"]];
 
 // Employment list
-var employment = [["Westpac Banking Group", "Software Engineering Intern", "November 2013 - February 2014"],
-	["APS Mining", "Test Engineering Intern", "December 2012 - November 2013"],
-	["Keays Software", "Software Engineering Intern", "April 2012 - November 2013"],
-	["Google Australia", "Student Ambassador", "January 2013 - November 2013"],
-	["Wali Information Technology", "IT Intern", "January 2012 - February 2012"]];
+var employment = [["Prestige Worldwide", "Beat Lab Technician", "November 2013 - Present"]];
 
 // Volunteering list
-var volunteering = [["Mentor", "Coder Dojo Brisbane", "July - September 2013"],
-	["Director of IT", "Australia China Youth Association (National)", "January - September 2013"],
-	["Rescue Referee", "RoboCup Junior Australia", "August 2012"]];	
+var volunteering = [["Volunteer", "Voluntation", "November 2013 - Present"]];	
 
 // Awards list
-var awards = [["HSK Level 5", "Hanban Institute", "December 2013"],
-	["Certificate of Achievement", "ACM South Pacific Regional Programming Contest", "2013"],
-	["Dean's Commendation", "The University of Queensland", "2011 and 2012"]];
+var awards = [["Mad Coder", "Programmer Institute", "December 2013"]];
 
 // Membership list
-var membership = [["Australian Computer Society", "Associate Member"],
-	["Engineers Australia", "Student Member"],
-	["Institute of Electrical and Electronics Engineers", "Student Member"]];
+var membership = [["Some Society", "Pizza Box Opener"]];
 
 // Skills list
 var skillsLanguages = [["Proficient", "C/C++ Java Python"],
