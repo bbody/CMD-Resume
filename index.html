@@ -35,8 +35,6 @@
 
             if (commandList[0] == "help") {
                 term.echo(commandMap.getKeys());
-            } else if (commandList[0] == "splash"){
-              term.echo(commandFunctionMap["splash"]);
             } else if (commandList[0] == "man"){
                 if (commandList[1] == undefined){
                     term.echo ("man: No command entered.");
@@ -90,31 +88,15 @@
                         term.echo(mess);
                     });
 
-            } else if (commandList[0] == "education"){
+            } else if (commandFunctionMap[commandList[0]] != undefined){
                 if (commandList[1] == "-top"){
-                    term.echo(commandFunctionMap["education -top"]);
+                    term.echo(commandFunctionMap[commandList[0] + " -top"])    
                 } else {
-                    term.echo(commandFunctionMap["education"]);
+                    term.echo(commandFunctionMap[commandList[0]]);
                 }
-            } else if (commandList[0] == "employment"){
-                if (commandList[1] == "-top"){
-                    term.echo(commandFunctionMap["employment -top"]);
-                } else {
-                    term.echo(commandFunctionMap["employment"]);
-                }
-            } else if (commandList[0] == "volunteering"){
-                if (commandList[1] == "-top"){
-                    term.echo(commandFunctionMap["volunteering -top"]);
-                } else {
-                    term.echo(commandFunctionMap["volunteering"]);
-                }
-            } else if (commandList[0] == "awards"){
-                term.echo(commandFunctionMap["awards"]);
-            } else if (commandList[0] == "memberships"){
-                term.echo(commandFunctionMap["memberships"]);
-            } else if (commandList[0] == "pgpkey"){
-                term.echo(commandFunctionMap["pgpkey"]);
-            } else if (commandList[0] == "skills"){
+                
+            }
+            else if (commandList[0] == "skills"){
                 if (commandList[1] != undefined){
                     var fullCommand = commandList[0] + " " + commandList[1];
                     if (fullCommand in commandFunctionMap){
