@@ -161,9 +161,6 @@ resume.commandLineParse = function(input){
         return resume.commandMap.getCommandList();
     } else if (rootCommand.is("man")){
         return resume.runMan(stemCommand);
-    } else if (rootCommand.is("github")){
-        resume.getGithub();
-        return resume.githubCache;
     } else if (rootCommand.is("skills")){
         if (stemCommand){
             var fullCommand = rootCommand + " " + stemCommand;
@@ -209,6 +206,7 @@ resume.initVariables = function(){
 
     // Github
     this.commandMap["github"] = "list Github repositories.";
+    this.commandFunctionMap["github"] = resume.getGithub;
 
     // Name
     this.commandMap["name"] = "owner of the résumé.";
