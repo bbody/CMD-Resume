@@ -161,3 +161,7 @@ function getTop(array){
 function social() {
     
 }
+
+function updateTitle(){
+    document.title = name + "'s Résumé";
+}

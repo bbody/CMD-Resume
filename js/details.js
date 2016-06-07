@@ -92,6 +92,6 @@ var skillsConcepts = [["Proficient", "Kanban Agile"],
 	["Experienced", "Functional Testing"],
 	["Familiar", "Functional Programming"]];
 
-var publicPGPkey = `
-YOUR PGP KEY HERE
-`;
+var publicPGPkey = "\n"
+  + "YOUR PGP KEY HERE\n"
+  + "";
