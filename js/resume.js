@@ -31,6 +31,43 @@ function getAll(result, array){
     return result;
 }
 
+// Return colour
+function setFormat(string, color = null, bold = false, italic = false, backgroundColor = null){
+    var result = "[[";
+    if (bold){
+        result += "b"
+    }
+    if (italic){
+        result += "i"
+    }
+    if (color != null){
+        if (bold || italic){
+            result += ";";
+        }
+        result += color;
+    }
+    if (backgroundColor != null){
+        if (bold || italic || color != null){
+            result += ";";
+        }
+        result += backgroundColor;
+    } else {
+        if (bold || italic || color != null){
+            result += ";";
+        }
+        
+        result += "#000";    
+    }
+
+    result += "]";
+    result += string;
+    result += "]";
+
+    console.log(result);
+
+    return result;
+}
+
 // Map skills
 function getRequired(skillList){
     var result = [];
@@ -194,7 +231,7 @@ CMDResume.init = function(){
     // Command Line Settings
     this.settings =
     {
-        greetings: CMDResume.splash,
+        greetings: CMDResume.getSplash(),
         onBlur: function() {
             // prevent loosing focus
             return false;
@@ -212,14 +249,27 @@ CMDResume.init = function(){
     this.settings);
 };
 
+CMDResume.getSplash = function(){
+    var welcome = "";
+    // Splash screen
+    if (this.hasSplash){
+        welcome = splash;    
+    }
+
+    welcome += "Welcome to " + name + "'s résumé.\n";
+    welcome += "Type ";
+    welcome += setFormat("help", "white", true);
+    welcome +=" for commands\n"
+
+    return welcome;
+};
+
 // Initialize variables
 CMDResume.initVariables = function(){
-    // Splash screen
-    this.splash = splash;
-    this.splash += "Welcome to " + name + "'s résumé.\n";
-    this.splash += "Type [[b;#ffffff;#000]help] for commands\n"
+    this.hasSplash = false;
+    
     this.commandMap["splash"] = "print the welcome screen.";
-    this.commandFunctionMap["splash"] = this.splash;
+    this.commandFunctionMap["splash"] = this.getSplash();
 
     // Clear screen
     this.commandMap["clear"] = "clear command history from screen.";
@@ -325,7 +375,3 @@ CMDResume.commandMap.getCommandList = function (){
     return commands;
 };
 
-//---------- Initialize ----------\\
-function initCMDResume(){
-
-}
