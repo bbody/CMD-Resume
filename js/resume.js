@@ -55,9 +55,7 @@ function setFormat(string, color, bold, italic, backgroundColor){
         result += "i";
     }
     if (color != null){
-        if (bold || italic){
-            result += ";";
-        }
+        result += ";";
         result += color;
     }
     if (backgroundColor != null){
@@ -84,6 +82,14 @@ function setTitle(string){
 }
 
 function setCommand(string){
+    return setFormat(string, "white", false, true);
+}
+
+function setName(string){
+    return setFormat(string, "green", true);
+}
+
+function setPGP(string){
     return setFormat(string, "white", false, true);
 }
 
@@ -125,22 +131,22 @@ CMDResume.commandFunctionMap = {};
 CMDResume.githubCache = "";
 
 // Get the Github information
-CMDResume.getGithub = function(results){
+CMDResume.getGithub = function(){
+    console.log("CAlling");
     if (this.githubCache == ""){
-        var mess = "Repositories:\n";
+        console.log("Cache");
+        var mess = setTitle("Repositories:");
         var list = [];
-        var githubFullUrl = 'https://api.github.com/users/' + githubUsername + '/repos?callback=?';
-        $.getJSON(githubFullUrl, function(response){
+        //var githubFullUrl = ;
+        $.getJSON('https://api.github.com/users/' + githubUsername + '/repos?callback=?', function(response){
             var repos = response.data;
 
             $(repos).each(function() {
                 if (this != undefined){
-                    var message = this.name;
+                    var message = "\n" + setName(this.name);
                     if ((this.description != undefined) && (this.description.length > 0)){
                             message += " - " + this.description;
                         }
-
-                    message += "\n";
 
                     if (this.name != (githubUsername.toLowerCase()+'.github.com')) { //
                         if (!showForks && (this.fork == false)){
@@ -154,18 +160,19 @@ CMDResume.getGithub = function(results){
                 } else {
                     console.log(repos.meta);
                     if (data.meta.status == '403'){
-                        mess += "Too many requests";
+                        mess += "Too many requests.";
                     } else {
                        mess += "No repositories found.";
                    }
                }
             });
+            console.log(mess);
             CMDResume.githubCache = mess;
             return CMDResume.githubCache;
         });
     }
 
-    return this.githubCache;
+    return CMDResume.githubCache;
 };
 
 // Open up a linked (resume) in a new window
@@ -192,10 +199,11 @@ CMDResume.hasSocialMedia = function(){
 
 // Return a list of skills in a table
 CMDResume.getSkillTable = function(){
-    var result = "\t\t\t|\tProficient\t|\tExperienced\t|\tFamiliar\n";
-    result += "Languages\t|" + getRequired(skillsLanguages).join().replaceAll(",","\t|\t") + "\n";
-    result += "Tools\t|" + getRequired(skillsTools).join().replaceAll(",","\t|\t") + "\n";
-    result += "Concepts\t|" + getRequired(skillsConcepts).join().replaceAll(",","\t|\t");
+    var result = setTitle("Skills:\n");
+    result += "           |\tProficient\t|\tExperienced\t|\tFamiliar\n";
+    result += "Languages  |\t" + getRequired(skillsLanguages).join().replaceAll(",","\t|\t") + "\n";
+    result += "Tools      |\t" + getRequired(skillsTools).join().replaceAll(",","\t|\t") + "\n";
+    result += "Concepts   |\t" + getRequired(skillsConcepts).join().replaceAll(",","\t|\t");
 
     return result;
 };
@@ -215,12 +223,13 @@ CMDResume.updateTitle = function(){
 
 // Run man command
 CMDResume.runMan = function(command){
+    console.log(this.commandFunctionMap[command]);
     if (!command){
-        return "man: No command entered.";
-    } else if (commandFunctionMap[command] != undefined){
-        return command + " - " + commandMap[command];
+        return setCommand("man:") + " No command entered.";
+    } else if (this.commandMap[command] != undefined){
+        return setCommand(command) + " - " + this.commandMap[command] ;
     } else {
-        return "man: `" + command + "` is an unknown command.";
+        return setCommand("man:") + " `" + command + "` is an unknown command.";
     }
 };
 
@@ -237,6 +246,7 @@ CMDResume.runCommand = function(command, top){
     var response = this.commandFunctionMap[formattedCommand];
 
     if ($.isFunction(response)){
+        console.log(response);
         return response();
     } else {
         return response;
@@ -294,10 +304,12 @@ CMDResume.init = function(tag){
         completion: CMDResume.commandMap.getKeys()
 
     };
+
     // Pre-call Github
     if (isNotEmpty(githubUsername)){
         this.getGithub();
     }
+
     // Setup Terminal
     $(tag).terminal(function(command, term) {
         term.echo(CMDResume.commandLineParse(command) + "\n");
@@ -312,7 +324,7 @@ CMDResume.getSplash = function(){
         welcome = splash;
     }
     if (isNotEmpty(name)){
-        welcome += "Welcome to " + name + "'s résumé.\n";
+        welcome += "Welcome to " + setName(name) + "'s résumé.\n";
     } else {
         welcome += "Welcome to my résumé.\n";
     }
@@ -332,61 +344,68 @@ CMDResume.setCommand = function(command, information, method, data){
 CMDResume.setArrayCommand = function(command, information, data){
     if (isNotEmptyArray(data)){
         this.commandMap[command] = information + " [-top]";
-        this.commandFunctionMap[command] = getAll(command.capitalizeFirstLetter() + ":\n", data);
+        this.commandFunctionMap[command] = getAll(setTitle(command.capitalizeFirstLetter() + ":") + "\n", data);
         this.commandFunctionMap[command + " -top"] = getTop(data);
     }
 };
 
 // Initialize variables
 CMDResume.initVariables = function(){
-    this.commandMap.splash = "print the welcome screen.";
-    this.commandFunctionMap.splash = this.getSplash();
+    // Help
+    this.commandMap["help"] = "lists help for all the commands";
 
+    // Man pages
+    this.commandMap.man = "describes what each command does";
+    
     // Clear screen
-    this.commandMap.clear = "clear command history from screen.";
+    this.commandMap.clear = "clear command history from screen";
 
-    // Github
-    this.setCommand("github", "list Github repositories.", this.getGithub, githubUsername);
+    // Splash screen
+    this.setCommand("splash", "print the welcome screen", this.getSplash, this.getSplash());
+
 
     // Name
-    this.setCommand("name", "owner of the résumé.", name, name);
-
-    // PDF
-    this.setCommand("pdf", "pdf version of the résumé.", this.pdf, pdfLink);
+    this.setCommand("name", "owner of the résumé", setName(name), name);
 
     // Looking for
-    this.setCommand("lookingfor", "looking for.", lookingfor, lookingfor);
+    this.setCommand("lookingfor", "looking for", setName(lookingfor), lookingfor);
 
     // Location
-    this.setCommand("location", "current location.", loc, loc);
+    this.setCommand("location", "current location", setName(loc), loc);
 
-    // PGP Key
-    this.setCommand("pgpkey", "my public PGP key.", publicPGPkey, publicPGPkey);
-
+    // PDF
+    this.setCommand("pdf", "pdf version of the résumé", this.pdf, pdfLink);
 
     // Education
-    this.setArrayCommand("education", "education history.", education);
+    this.setArrayCommand("education", "education history", education);
 
     // Employment
-    this.setArrayCommand("employment", "employment history.", employment);
+    this.setArrayCommand("employment", "employment history", employment);
 
     // Volunteering
-    this.setArrayCommand("volunteering", "volunteering history.", volunteering);
+    this.setArrayCommand("volunteering", "volunteering history", volunteering);
 
     // Awards
-    this.setArrayCommand("awards", "awards obtained.", awards);
+    this.setArrayCommand("awards", "awards obtained", awards);
 
     // Memberships
-    this.setArrayCommand("membership", "membership obtained.", membership);
+    this.setArrayCommand("membership", "membership obtained", membership);
+
+    // Github
+    this.setCommand("github", "list Github repositories", this.getGithub, githubUsername);
+    
+    // Skills
+    this.initSkills();
 
     // Social Media
     if (this.hasSocialMedia()){
-        this.commandMap.socialmedia = "Social Media profiles.";
+        this.commandMap.socialmedia = "Social Media profiles";
         this.commandFunctionMap.socialmedia = this.getSocialMedia();
     }
 
-    // Skills
-    this.initSkills();
+    // PGP Key
+    this.setCommand("pgpkey", "public PGP key", setPGP(publicPGPkey), publicPGPkey);
+
 };
 
 CMDResume.initSkills = function(){
@@ -394,19 +413,19 @@ CMDResume.initSkills = function(){
         var skillSubCategories = "";
         // Skills - languages
         if (isNotEmptyArray(skillsLanguages)){
-            this.commandFunctionMap["skills -l"] = getAll("Languages:\n", skillsLanguages);
+            this.commandFunctionMap["skills -l"] = getAll(setTitle("Languages:") +"\n", skillsLanguages);
             this.commandFunctionMap["skills -languages"] = this.commandFunctionMap["skills -l"];
             skillSubCategories += "[-languages|l]";
         }
         // Skills -technologies
         if (isNotEmptyArray(skillsTools)){
-            this.commandFunctionMap["skills -t"] = getAll("Tools:\n", skillsTools);
+            this.commandFunctionMap["skills -t"] = getAll(setTitle("Tools:") + "\n", skillsTools);
             this.commandFunctionMap["skills -tools"] = this.commandFunctionMap["skills -t"];
             skillSubCategories += "[-tools|t]";
         }
         // Skills - concepts
         if (isNotEmptyArray(skillsConcepts)){
-            this.commandFunctionMap["skills -c"] = getAll("Concepts:\n", skillsConcepts);
+            this.commandFunctionMap["skills -c"] = getAll(setTitle("Concepts:") + "\n", skillsConcepts);
             this.commandFunctionMap["skills -concepts"] = this.commandFunctionMap["skills -c"];
             skillSubCategories += "[-concepts|c]";
         }
