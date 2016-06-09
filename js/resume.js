@@ -16,6 +16,14 @@ String.prototype.is = function(comparison){
     return ("" + this) === comparison;
 };
 
+String.prototype.capitalizeFirstLetter = function(){
+    var temp = this.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+        return letter.toUpperCase();
+    });
+
+    return temp;
+}
+
 //---------- General helper functions ----------\\
 
 // Get the first item in the array
@@ -26,7 +34,7 @@ function getTop(array){
 // Get everything in the array and add to result
 function getAll(result, array){ 
     array.map( function(item) {
-        result += (item.join()).replaceAll(",","\t") + "\n";
+        result += (item.join()).replaceAll(",","\t");
     });
     return result;
 }
@@ -63,9 +71,15 @@ function setFormat(string, color = null, bold = false, italic = false, backgroun
     result += string;
     result += "]";
 
-    console.log(result);
-
     return result;
+}
+
+function setTitle(string){
+    return setFormat(string, "red", true);
+}
+
+function setCommand(string){
+    return setFormat(string, "white", false, true);
 }
 
 // Map skills
@@ -78,6 +92,22 @@ function getRequired(skillList){
     });
     return result;
 }
+
+function isNotEmpty(string){
+    if (string == undefined || string == null || string.length == 0){
+        return false;
+    } else {
+        return true;
+    }
+};
+
+function isNotEmptyArray(array){
+    if (array == null || array.length == 0){
+        return false;
+    } else {
+        return true;
+    }
+};
 
 //---------- Resume Code ----------\\
 var CMDResume = {};
@@ -94,7 +124,8 @@ CMDResume.getGithub = function(results){
     if (this.githubCache == ""){
         var mess = "Repositories:\n";
         var list = [];
-        $.getJSON('https://api.github.com/users/'+githubUsername+'/repos?callback=?', function(response){
+        var githubFullUrl = 'https://api.github.com/users/' + githubUsername + '/repos?callback=?';
+        $.getJSON(githubFullUrl, function(response){
             var repos = response.data;
 
             $(repos).each(function() {
@@ -140,13 +171,18 @@ CMDResume.pdf = function(){
 
 // Return social media information
 CMDResume.getSocialMedia = function(){
-    var result = "Social Media:\n";
+    var result = setTitle("Social Media:");
     socialMedia.map(function(item){
-        if (item[1].length > 0){
-            result += item[0] + " - " + item[1] + "\n";
+        if (isNotEmpty(item[1])){
+            result += "\n";
+            result += item[0] + " - " + item[1];
         }
     });
     return result;
+}
+
+CMDResume.hasSocialMedia = function(){
+    return isNotEmptyArray(socialMedia);
 }
 
 // Return a list of skills in a table
@@ -154,14 +190,22 @@ CMDResume.getSkillTable = function(){
     var result = "\t\t\t|\tProficient\t|\tExperienced\t|\tFamiliar\n";
     result += "Languages\t|" + getRequired(skillsLanguages).join().replaceAll(",","\t|\t") + "\n";
     result += "Tools\t|" + getRequired(skillsTools).join().replaceAll(",","\t|\t") + "\n";
-    result += "Concepts\t|" + getRequired(skillsConcepts).join().replaceAll(",","\t|\t") + "\n";
+    result += "Concepts\t|" + getRequired(skillsConcepts).join().replaceAll(",","\t|\t");
 
     return result;
 }
 
+CMDResume.hasSkillTable = function(){
+    return isNotEmptyArray(skillsLanguages) 
+        || isNotEmptyArray(skillsTools) 
+        || isNotEmptyArray(skillsConcepts);
+}
+
 // Update page title to Resume owners name
 CMDResume.updateTitle = function(){
-    document.title = name + "'s Résumé";
+    if (isNotEmpty(name)){
+        document.title = name + "'s Résumé";
+    }
 }
 
 // Run man command
@@ -183,7 +227,13 @@ CMDResume.runCommand = function(command, top = false){
         formattedCommand += " -top";
     }
 
-    return this.commandFunctionMap[formattedCommand];
+    var response = this.commandFunctionMap[formattedCommand];
+
+    if ($.isFunction(response)){
+        return response();
+    } else {
+        return response;
+    }
 };
 
 // Parse command line
@@ -223,7 +273,7 @@ CMDResume.commandLineParse = function(input){
 };
 
 // Initialize class
-CMDResume.init = function(){
+CMDResume.init = function(tag){
     // Update page title
     this.updateTitle();
     this.initVariables();
@@ -231,7 +281,7 @@ CMDResume.init = function(){
     // Command Line Settings
     this.settings =
     {
-        greetings: CMDResume.getSplash(),
+        greetings: CMDResume.getSplash() + "\n",
         onBlur: function() {
             // prevent loosing focus
             return false;
@@ -241,10 +291,13 @@ CMDResume.init = function(){
     };
 
     // Pre-call Github
-    this.getGithub();
+    if (isNotEmpty(githubUsername)){
+        this.getGithub();    
+    }
+    
 
-    $('body').terminal(function(command, term) {
-        term.echo(CMDResume.commandLineParse(command));
+    $(tag).terminal(function(command, term) {
+        term.echo(CMDResume.commandLineParse(command) + "\n");
     }, 
     this.settings);
 };
@@ -255,13 +308,34 @@ CMDResume.getSplash = function(){
     if (this.hasSplash){
         welcome = splash;    
     }
-
-    welcome += "Welcome to " + name + "'s résumé.\n";
+    
+    if (isNotEmpty(name)){
+        welcome += "Welcome to " + name + "'s résumé.\n";
+    } else {
+        welcome += "Welcome to my résumé.\n";
+    }
+    
     welcome += "Type ";
-    welcome += setFormat("help", "white", true);
-    welcome +=" for commands\n"
+    welcome += setCommand("help");
+    welcome +=" for commands"
 
     return welcome;
+};
+
+CMDResume.setCommand = function(command, information, method, data){
+
+        if (isNotEmpty(data)){
+            this.commandMap[command] = information;
+            this.commandFunctionMap[command] = method;
+        }
+};
+
+CMDResume.setArrayCommand = function(command, information, data){
+    if (isNotEmptyArray(data)){
+        this.commandMap[command] = information + " [-top]";
+        this.commandFunctionMap[command] = getAll(command.capitalizeFirstLetter() + ":\n", data);
+        this.commandFunctionMap[command + " -top"] = getTop(data);
+    }
 };
 
 // Initialize variables
@@ -275,72 +349,79 @@ CMDResume.initVariables = function(){
     this.commandMap["clear"] = "clear command history from screen.";
 
     // Github
-    this.commandMap["github"] = "list Github repositories.";
-    this.commandFunctionMap["github"] = this.getGithub;
+    this.setCommand("github", "list Github repositories.", this.getGithub, githubUsername);
 
     // Name
-    this.commandMap["name"] = "owner of the résumé.";
-    this.commandFunctionMap["name"] = name;
+    this.setCommand("name", "owner of the résumé.", name, name);
 
     // PDF
-    this.commandMap["pdf"] = "pdf version of the resume.";
-    this.commandFunctionMap["pdf"] = this.pdf;
+    this.setCommand("pdf", "pdf version of the résumé.", this.pdf, pdfLink);
 
     // Looking for
-    this.commandMap["lookingfor"] = "looking for.";
-    this.commandFunctionMap["lookingfor"] = lookingfor;
+    this.setCommand("lookingfor", "looking for.", lookingfor, lookingfor);
 
     // Location
-    this.commandMap["location"] = "current location.";
-    this.commandFunctionMap["location"] = loc;
-
-    // Education
-    this.commandMap["education"] = "education history. [-top]";
-    this.commandFunctionMap["education -top"] = getTop(education);
-    this.commandFunctionMap["education"] = getAll("Education:\n", education);
-
-    // Employment
-    this.commandMap["employment"] = "employment history. [-top]";
-    this.commandFunctionMap["employment -top"] = getTop(employment);
-    this.commandFunctionMap["employment"] = getAll("Employment:\n", employment);
-
-    // Volunteering
-    this.commandMap["volunteering"] = "volunteering history. [-top]";
-    this.commandFunctionMap["volunteering -top"] = getTop(volunteering);
-    this.commandFunctionMap["volunteering"] = getAll("Volunteering:\n", volunteering);
-
-    // Awards
-    this.commandMap["awards"] = "awards obtained.";
-    this.commandFunctionMap["awards"] = getAll("Awards:\n", awards);
-
-    // Memberships
-    this.commandMap["membership"] = "membership obtained.";
-    this.commandFunctionMap["membership"] = getAll("Professional membership:\n", membership);
+    this.setCommand("location", "current location.", loc, loc);
 
     // PGP Key
-    this.commandMap["pgpkey"] = "my public PGP key.";
-    this.commandFunctionMap["pgpkey"] = publicPGPkey;
+    this.setCommand("pgpkey", "my public PGP key.", publicPGPkey, publicPGPkey);
+
+
+    // Education
+    this.setArrayCommand("education", "education history.", education);
+
+    // Employment
+    this.setArrayCommand("employment", "employment history.", employment);
+
+    // Volunteering
+    this.setArrayCommand("volunteering", "volunteering history.", volunteering);
+
+    // Awards
+    this.setArrayCommand("awards", "awards obtained.", awards);
+
+    // Memberships
+    this.setArrayCommand("membership", "membership obtained.", membership);
 
     // Social Media
-    this.commandMap["socialmedia"] = "Social Media profiles.";
-    this.commandFunctionMap["socialmedia"] = this.getSocialMedia();
+    if (this.hasSocialMedia()){
+        this.commandMap["socialmedia"] = "Social Media profiles.";
+        this.commandFunctionMap["socialmedia"] = this.getSocialMedia();
+    }
 
     // Skills
-    this.commandMap["skills"] = "skills obtained. [-languages|l][-tools|t][-concepts|c]";
-    this.commandFunctionMap["skills"] = this.getSkillTable();
-
-    // Skills - languages
-    this.commandFunctionMap["skills -l"] = getAll("Languages:\n", skillsLanguages);
-    this.commandFunctionMap["skills -languages"] = this.commandFunctionMap["skills -l"];
-    
-    // Skills -technologies
-    this.commandFunctionMap["skills -t"] = getAll("Tools:\n", skillsTools);
-    this.commandFunctionMap["skills -tools"] = this.commandFunctionMap["skills -t"];
-
-    // Skills - concepts
-    this.commandFunctionMap["skills -c"] = getAll("Concepts:\n", skillsConcepts);
-    this.commandFunctionMap["skills -concepts"] = this.commandFunctionMap["skills -c"];
+    this.initSkills();
 };
+
+CMDResume.initSkills = function(){
+    if (this.hasSkillTable()){
+        var skillSubCategories = "";
+        
+        // Skills - languages
+        if (isNotEmptyArray(skillsLanguages)){
+            this.commandFunctionMap["skills -l"] = getAll("Languages:\n", skillsLanguages);
+            this.commandFunctionMap["skills -languages"] = this.commandFunctionMap["skills -l"];
+            skillSubCategories += "[-languages|l]";
+        }
+        
+        // Skills -technologies
+        if (isNotEmptyArray(skillsTools)){
+            this.commandFunctionMap["skills -t"] = getAll("Tools:\n", skillsTools);
+            this.commandFunctionMap["skills -tools"] = this.commandFunctionMap["skills -t"];
+            skillSubCategories += "[-tools|t]";
+        }
+
+        // Skills - concepts
+        if (isNotEmptyArray(skillsConcepts)){
+            this.commandFunctionMap["skills -c"] = getAll("Concepts:\n", skillsConcepts);
+            this.commandFunctionMap["skills -concepts"] = this.commandFunctionMap["skills -c"];
+            skillSubCategories += "[-concepts|c]"
+        }
+
+        // Skills in total
+        this.commandMap["skills"] = "skills obtained. " + skillSubCategories;
+        this.commandFunctionMap["skills"] = this.getSkillTable();
+    }
+}
 
 //---------- Object extra functions ----------\\
 
@@ -365,12 +446,15 @@ CMDResume.commandMap.getKeys = function(){
 
 // Get key list of the command map
 CMDResume.commandMap.getCommandList = function (){
-    var commands = "Available Commands:\n";
-    for(var key in this) {
+    var commands = setTitle("Available Commands:");
 
+    for(var key in this) {
+        
         if( typeof this[key] !== 'function') {
-            commands += key + " - " + this[key] + "\n";
+            commands += "\n";
+            commands += setCommand(key) + " - " + this[key];
         }
+        
     }
     return commands;
 };
