@@ -5,8 +5,9 @@ String.prototype.replaceAll = function(search, replace)
 {
     //if replace is null, return original string otherwise it will
     //replace search string with 'undefined'.
-    if(!replace) 
+    if (!replace){
         return this;
+    }
 
     return this.replace(new RegExp('[' + search + ']', 'g'), replace);
 };
@@ -22,7 +23,7 @@ String.prototype.capitalizeFirstLetter = function(){
     });
 
     return temp;
-}
+};
 
 //---------- General helper functions ----------\\
 
@@ -32,7 +33,7 @@ function getTop(array){
 }
 
 // Get everything in the array and add to result
-function getAll(result, array){ 
+function getAll(result, array){
     array.map( function(item) {
         result += (item.join()).replaceAll(",","\t");
     });
@@ -40,13 +41,18 @@ function getAll(result, array){
 }
 
 // Return colour
-function setFormat(string, color = null, bold = false, italic = false, backgroundColor = null){
+function setFormat(string, color, bold, italic, backgroundColor){
+    color = typeof color !== 'undefined' ? color: null;
+    bold = typeof bold !== 'undefined' ? bold: false;
+    italic = typeof italic !== 'undefined' ? italic: false;
+    backgroundColor = typeof backgroundColor !== 'undefined' ? backgroundColor: null;
+
     var result = "[[";
     if (bold){
-        result += "b"
+        result += "b";
     }
     if (italic){
-        result += "i"
+        result += "i";
     }
     if (color != null){
         if (bold || italic){
@@ -63,8 +69,7 @@ function setFormat(string, color = null, bold = false, italic = false, backgroun
         if (bold || italic || color != null){
             result += ";";
         }
-        
-        result += "#000";    
+        result += "#000";
     }
 
     result += "]";
@@ -99,7 +104,7 @@ function isNotEmpty(string){
     } else {
         return true;
     }
-};
+}
 
 function isNotEmptyArray(array){
     if (array == null || array.length == 0){
@@ -107,7 +112,7 @@ function isNotEmptyArray(array){
     } else {
         return true;
     }
-};
+}
 
 //---------- Resume Code ----------\\
 var CMDResume = {};
@@ -149,9 +154,9 @@ CMDResume.getGithub = function(results){
                 } else {
                     console.log(repos.meta);
                     if (data.meta.status == '403'){
-                        mess += "Too many requests"
+                        mess += "Too many requests";
                     } else {
-                       mess += "No repositories found."
+                       mess += "No repositories found.";
                    }
                }
             });
@@ -167,7 +172,7 @@ CMDResume.getGithub = function(results){
 CMDResume.pdf = function(){
     window.open(pdfLink);
     return "Hint: May need to allow pop-ups.";
-}
+};
 
 // Return social media information
 CMDResume.getSocialMedia = function(){
@@ -179,34 +184,34 @@ CMDResume.getSocialMedia = function(){
         }
     });
     return result;
-}
+};
 
 CMDResume.hasSocialMedia = function(){
     return isNotEmptyArray(socialMedia);
-}
+};
 
 // Return a list of skills in a table
-CMDResume.getSkillTable = function(){ 
+CMDResume.getSkillTable = function(){
     var result = "\t\t\t|\tProficient\t|\tExperienced\t|\tFamiliar\n";
     result += "Languages\t|" + getRequired(skillsLanguages).join().replaceAll(",","\t|\t") + "\n";
     result += "Tools\t|" + getRequired(skillsTools).join().replaceAll(",","\t|\t") + "\n";
     result += "Concepts\t|" + getRequired(skillsConcepts).join().replaceAll(",","\t|\t");
 
     return result;
-}
+};
 
 CMDResume.hasSkillTable = function(){
-    return isNotEmptyArray(skillsLanguages) 
-        || isNotEmptyArray(skillsTools) 
+    return isNotEmptyArray(skillsLanguages)
+        || isNotEmptyArray(skillsTools)
         || isNotEmptyArray(skillsConcepts);
-}
+};
 
 // Update page title to Resume owners name
 CMDResume.updateTitle = function(){
     if (isNotEmpty(name)){
         document.title = name + "'s Résumé";
     }
-}
+};
 
 // Run man command
 CMDResume.runMan = function(command){
@@ -220,9 +225,11 @@ CMDResume.runMan = function(command){
 };
 
 // Run the command
-CMDResume.runCommand = function(command, top = false){
+CMDResume.runCommand = function(command, top){
     var formattedCommand = command;
-    
+
+    // Set Top up
+    top = typeof top !== 'undefined' ? top: false;
     if (top){
         formattedCommand += " -top";
     }
@@ -239,7 +246,7 @@ CMDResume.runCommand = function(command, top = false){
 // Parse command line
 CMDResume.commandLineParse = function(input){
     var commandList = input.toLowerCase().split(" ");
-    
+
     // Command sections
     var rootCommand = commandList[0] != undefined ? commandList[0] : false;
     var stemCommand = commandList[1] != undefined && commandList[1].length > 0 ? commandList[1] : false;
@@ -260,7 +267,7 @@ CMDResume.commandLineParse = function(input){
             return this.commandFunctionMap[rootCommand];
         }
     } else if (this.commandFunctionMap.hasCommand(rootCommand)){
-        return this.runCommand(rootCommand, stemCommand == "-top");   
+        return this.runCommand(rootCommand, stemCommand == "-top");
     } else {
         if (rootCommand.length > 0){
             return "`" + rootCommand + "` is an unknown command.";
@@ -268,8 +275,6 @@ CMDResume.commandLineParse = function(input){
             return "No command entered.";
         }
     }
-
-    return "";
 };
 
 // Initialize class
@@ -289,16 +294,14 @@ CMDResume.init = function(tag){
         completion: CMDResume.commandMap.getKeys()
 
     };
-
     // Pre-call Github
     if (isNotEmpty(githubUsername)){
-        this.getGithub();    
+        this.getGithub();
     }
-    
-
+    // Setup Terminal
     $(tag).terminal(function(command, term) {
         term.echo(CMDResume.commandLineParse(command) + "\n");
-    }, 
+    },
     this.settings);
 };
 
@@ -306,24 +309,20 @@ CMDResume.getSplash = function(){
     var welcome = "";
     // Splash screen
     if (this.hasSplash){
-        welcome = splash;    
+        welcome = splash;
     }
-    
     if (isNotEmpty(name)){
         welcome += "Welcome to " + name + "'s résumé.\n";
     } else {
         welcome += "Welcome to my résumé.\n";
     }
-    
     welcome += "Type ";
     welcome += setCommand("help");
-    welcome +=" for commands"
-
+    welcome +=" for commands";
     return welcome;
 };
 
 CMDResume.setCommand = function(command, information, method, data){
-
         if (isNotEmpty(data)){
             this.commandMap[command] = information;
             this.commandFunctionMap[command] = method;
@@ -341,12 +340,11 @@ CMDResume.setArrayCommand = function(command, information, data){
 // Initialize variables
 CMDResume.initVariables = function(){
     this.hasSplash = false;
-    
-    this.commandMap["splash"] = "print the welcome screen.";
-    this.commandFunctionMap["splash"] = this.getSplash();
+    this.commandMap.splash = "print the welcome screen.";
+    this.commandFunctionMap.splash = this.getSplash();
 
     // Clear screen
-    this.commandMap["clear"] = "clear command history from screen.";
+    this.commandMap.clear = "clear command history from screen.";
 
     // Github
     this.setCommand("github", "list Github repositories.", this.getGithub, githubUsername);
@@ -384,8 +382,8 @@ CMDResume.initVariables = function(){
 
     // Social Media
     if (this.hasSocialMedia()){
-        this.commandMap["socialmedia"] = "Social Media profiles.";
-        this.commandFunctionMap["socialmedia"] = this.getSocialMedia();
+        this.commandMap.socialmedia = "Social Media profiles.";
+        this.commandFunctionMap.socialmedia = this.getSocialMedia();
     }
 
     // Skills
@@ -395,33 +393,29 @@ CMDResume.initVariables = function(){
 CMDResume.initSkills = function(){
     if (this.hasSkillTable()){
         var skillSubCategories = "";
-        
         // Skills - languages
         if (isNotEmptyArray(skillsLanguages)){
             this.commandFunctionMap["skills -l"] = getAll("Languages:\n", skillsLanguages);
             this.commandFunctionMap["skills -languages"] = this.commandFunctionMap["skills -l"];
             skillSubCategories += "[-languages|l]";
         }
-        
         // Skills -technologies
         if (isNotEmptyArray(skillsTools)){
             this.commandFunctionMap["skills -t"] = getAll("Tools:\n", skillsTools);
             this.commandFunctionMap["skills -tools"] = this.commandFunctionMap["skills -t"];
             skillSubCategories += "[-tools|t]";
         }
-
         // Skills - concepts
         if (isNotEmptyArray(skillsConcepts)){
             this.commandFunctionMap["skills -c"] = getAll("Concepts:\n", skillsConcepts);
             this.commandFunctionMap["skills -concepts"] = this.commandFunctionMap["skills -c"];
-            skillSubCategories += "[-concepts|c]"
+            skillSubCategories += "[-concepts|c]";
         }
-
         // Skills in total
         this.commandMap["skills"] = "skills obtained. " + skillSubCategories;
         this.commandFunctionMap["skills"] = this.getSkillTable();
     }
-}
+};
 
 //---------- Object extra functions ----------\\
 
@@ -440,22 +434,17 @@ CMDResume.commandMap.getKeys = function(){
     $.map(this, function(element,index) {
         command.push(index);
     });
-
     return command;
-}; 
+};
 
 // Get key list of the command map
 CMDResume.commandMap.getCommandList = function (){
     var commands = setTitle("Available Commands:");
-
-    for(var key in this) {
-        
+    for (var key in this) {
         if( typeof this[key] !== 'function') {
             commands += "\n";
             commands += setCommand(key) + " - " + this[key];
         }
-        
     }
     return commands;
 };
-
