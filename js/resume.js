@@ -308,7 +308,7 @@ CMDResume.init = function(tag){
 CMDResume.getSplash = function(){
     var welcome = "";
     // Splash screen
-    if (this.hasSplash){
+    if (hasSplash){
         welcome = splash;
     }
     if (isNotEmpty(name)){
@@ -339,7 +339,6 @@ CMDResume.setArrayCommand = function(command, information, data){
 
 // Initialize variables
 CMDResume.initVariables = function(){
-    this.hasSplash = false;
     this.commandMap.splash = "print the welcome screen.";
     this.commandFunctionMap.splash = this.getSplash();
 
