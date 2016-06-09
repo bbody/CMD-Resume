@@ -24,7 +24,6 @@ CMD-Resume is a Javascript based command line for demonstrating your resume. [He
         CMDResume.init('body');      
     });
 ```
-6. Deploy to website
 
 ## Road Map
 - Version 1
