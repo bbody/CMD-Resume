@@ -16,7 +16,7 @@ CMD-Resume is a Javascript based command line for demonstrating your resume. [He
 2. Include jQuery Terminal
 3. Download *details.js* and *resume.js*
 4. Update details.js
-	1. Update ASCII text ([Multiline string convertor](http://www.valkrysa.com/experiments/multi-line-string-generator/)), remember to escape any special characters
+	1. Convert ASCII art using ([Multiline JavaScript Converter](https://www.brendonbody.com/MultilineJavaScriptConverter/))
 	2. Update detail variables
 5. Add the below code snippet:
 ```javascript
