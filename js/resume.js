@@ -22,10 +22,22 @@ function getTop(array){
 
 // Get everything in the array and add to result
 function getAll(title, array){
-    var result = title;
+    if (!isNotEmptyArray(array)){
+        return "";
+    }
+
+    var result = "";
+
+    if (isNotEmpty(title)){
+        result += setTitle(title.capitalizeFirstLetter() + ":") + "\n";    
+    }
+    
     array.map( function(item) {
         result += item.join("\t");
-        result += "\n";
+
+        if (array[array.length - 1] !== item){
+            result += "\n";
+        }
     });
     return result;
 }
@@ -328,7 +340,7 @@ CMDResume.setCommand = function(command, information, method, data){
 CMDResume.setArrayCommand = function(command, information, data){
     if (isNotEmptyArray(data)){
         this.commandMap[command] = information + " [-top]";
-        this.commandFunctionMap[command] = getAll(setTitle(command.capitalizeFirstLetter() + ":"), data);
+        this.commandFunctionMap[command] = getAll(command, data);
         this.commandFunctionMap[command + " -top"] = getTop(data);
     }
 };
@@ -397,19 +409,19 @@ CMDResume.initSkills = function(){
         var skillSubCategories = "";
         // Skills - languages
         if (isNotEmptyArray(skillsLanguages)){
-            this.commandFunctionMap["skills -l"] = getAll(setTitle("Languages:"), skillsLanguages);
+            this.commandFunctionMap["skills -l"] = getAll("languages", skillsLanguages);
             this.commandFunctionMap["skills -languages"] = this.commandFunctionMap["skills -l"];
             skillSubCategories += "[-languages|l]";
         }
         // Skills -technologies
         if (isNotEmptyArray(skillsTools)){
-            this.commandFunctionMap["skills -t"] = getAll(setTitle("Tools:"), skillsTools);
+            this.commandFunctionMap["skills -t"] = getAll("tools", skillsTools);
             this.commandFunctionMap["skills -tools"] = this.commandFunctionMap["skills -t"];
             skillSubCategories += "[-tools|t]";
         }
         // Skills - concepts
         if (isNotEmptyArray(skillsConcepts)){
-            this.commandFunctionMap["skills -c"] = getAll(setTitle("Concepts:"), skillsConcepts);
+            this.commandFunctionMap["skills -c"] = getAll("concepts", skillsConcepts);
             this.commandFunctionMap["skills -concepts"] = this.commandFunctionMap["skills -c"];
             skillSubCategories += "[-concepts|c]";
         }

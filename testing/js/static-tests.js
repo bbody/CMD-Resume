@@ -28,8 +28,12 @@ QUnit.test( "Test 'getTop' function", function( assert ) {
 });
 
 QUnit.test("Test 'getAll' function", function(assert){
-  //assert.deepEqual(getAll("Title", [["a", "b", "c"],["d", "e", "f"],["g", "h", "i"]]), "Title\na\tb\tc\nd\te\tf\ng\th\ti");
-  assert.deepEqual(getAll("Title\n", [["a", "b", "c"],["d", "e", "f"],["g", "h", "i"]]), "Title\na\tb\tc\nd\te\tf\ng\th\ti");
+  // TODO: Handle different styles when implemented
+
+  assert.deepEqual(getAll("Title", [["a", "b", "c"],["d", "e", "f"],["g", "h", "i"]]), "[[b;red;#000]Title:]\na\tb\tc\nd\te\tf\ng\th\ti");
+  assert.deepEqual(getAll("Title", [["a", "b", "c"]]), "[[b;red;#000]Title:]\na\tb\tc");
+  assert.deepEqual(getAll("Title", []), "");
+  assert.deepEqual(getAll("", [["a", "b", "c"]]), "a\tb\tc");
 });
 
 QUnit.test("Test 'setFormat' function", function(assert){
