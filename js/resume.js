@@ -1,17 +1,5 @@
 //---------- String helper functions ----------\\
 
-// Replace any occurances of a string with substring
-String.prototype.replaceAll = function(search, replace)
-{
-    //if replace is null, return original string otherwise it will
-    //replace search string with 'undefined'.
-    if (!replace){
-        return this;
-    }
-
-    return this.replace(new RegExp('[' + search + ']', 'g'), replace);
-};
-
 // String comparison for better readability
 String.prototype.is = function(comparison){
     return ("" + this) === comparison;
@@ -29,13 +17,13 @@ String.prototype.capitalizeFirstLetter = function(){
 
 // Get the first item in the array
 function getTop(array){
-    return (array[0].join()).replaceAll(",","\t");
+    return array[0].join("\t");
 }
 
 // Get everything in the array and add to result
 function getAll(result, array){
     array.map( function(item) {
-        result += (item.join()).replaceAll(",","\t");
+        result += item.join("\t");
     });
     return result;
 }
@@ -201,9 +189,9 @@ CMDResume.hasSocialMedia = function(){
 CMDResume.getSkillTable = function(){
     var result = setTitle("Skills:\n");
     result += "           |\tProficient\t|\tExperienced\t|\tFamiliar\n";
-    result += "Languages  |\t" + getRequired(skillsLanguages).join().replaceAll(",","\t|\t") + "\n";
-    result += "Tools      |\t" + getRequired(skillsTools).join().replaceAll(",","\t|\t") + "\n";
-    result += "Concepts   |\t" + getRequired(skillsConcepts).join().replaceAll(",","\t|\t");
+    result += "Languages  |\t" + getRequired(skillsLanguages).join("\t|\t") + "\n";
+    result += "Tools      |\t" + getRequired(skillsTools).join("\t|\t") + "\n";
+    result += "Concepts   |\t" + getRequired(skillsConcepts).join("\t|\t");
 
     return result;
 };
