@@ -61,7 +61,7 @@ var socialMedia = [["Github", githubURL], ["Bitbucket", bitbucketURL], ["Website
 	["Skype", skypeAccount]];
 
 // Education list
-var education = [["South Hamptom Institute of Technology", "Bachelor of Computers", "Graduate July, 2014"]];
+var education = [["South Hamptom Institute of Technology", "Master of Computers", "Graduate July, 2014"], ["School of Hard Knocks", "Bachelor of Life", "Graduate November, 2008"]];
 
 // Employment list
 var employment = [["Prestige Worldwide", "Beat Lab Technician", "November 2013 - Present"]];
