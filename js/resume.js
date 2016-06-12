@@ -18,7 +18,7 @@ String.prototype.is = function(comparison){
 };
 
 String.prototype.capitalizeFirstLetter = function(){
-    var temp = this.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+    var temp = this.replace(/\b[a-z]/g, function(letter) {
         return letter.toUpperCase();
     });
 
