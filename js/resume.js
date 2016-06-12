@@ -178,7 +178,7 @@ CMDResume.getGithub = function(){
 // Open up a linked (resume) in a new window
 CMDResume.pdf = function(){
     window.open(pdfLink);
-    return "Hint: May need to allow pop-ups.";
+    return pdfLink + "\nHint: May need to allow pop-ups.";
 };
 
 // Return social media information
