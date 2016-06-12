@@ -321,7 +321,7 @@ CMDResume.getSplash = function(){
     var welcome = "";
     // Splash screen
     if (hasSplash){
-        welcome = splash;
+        welcome = splash + "\n";
     }
     if (isNotEmpty(name)){
         welcome += "Welcome to " + setName(name) + "'s résumé.\n";
