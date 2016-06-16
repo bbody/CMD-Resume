@@ -17,7 +17,11 @@ String.prototype.capitalizeFirstLetter = function(){
 
 // Get the first item in the array
 function getTop(array){
-    return array[0].join("\t");
+    if (typeof array[0] === "string"){
+        return array[0]
+    } else {
+        return array[0].join("\t");
+    }
 }
 
 // Get everything in the array and add to result

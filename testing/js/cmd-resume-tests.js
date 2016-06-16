@@ -125,3 +125,81 @@ QUnit.test("Test education -top", function(assert){
 	assert.deepEqual(this.cmdResume.runCommand("education -top"), "South Hamptom Institute of Technology\tMaster of Computers\tGraduate July, 2014");
 });
 
+QUnit.test("Test employment", function(assert){
+	// Add test when name is null after variables
+	// TODO: Handle different styles when implemented
+	assert.deepEqual(this.cmdResume.runCommand("employment"), "[[b;red;#000]Employment:]\nPrestige Worldwide\tBeat Lab Technician\tNovember 2013 - Present");
+});
+
+QUnit.test("Test employment -top", function(assert){
+	// Add test when name is null after variables
+	// TODO: Handle different styles when implemented
+	assert.deepEqual(this.cmdResume.runCommand("employment -top"), "Prestige Worldwide\tBeat Lab Technician\tNovember 2013 - Present");
+});
+
+QUnit.test("Test volunteering", function(assert){
+	// Add test when name is null after variables
+	// TODO: Handle different styles when implemented
+	assert.deepEqual(this.cmdResume.runCommand("volunteering"), "[[b;red;#000]Volunteering:]\nVolunteer\tVoluntation\tNovember 2013 - Present");
+});
+
+QUnit.test("Test volunteering -top", function(assert){
+	// Add test when name is null after variables
+	// TODO: Handle different styles when implemented
+	assert.deepEqual(this.cmdResume.runCommand("volunteering -top"), "Volunteer\tVoluntation\tNovember 2013 - Present");
+});
+
+QUnit.test("Test awards", function(assert){
+	// Add test when name is null after variables
+	// TODO: Handle different styles when implemented
+	assert.deepEqual(this.cmdResume.runCommand("awards"), "[[b;red;#000]Awards:]\nMad Coder\tProgrammer Institute\tDecember 2013");
+});
+
+QUnit.test("Test awards -top", function(assert){
+	// Add test when name is null after variables
+	// TODO: Handle different styles when implemented
+	assert.deepEqual(this.cmdResume.runCommand("awards -top"), "Mad Coder\tProgrammer Institute\tDecember 2013");
+});
+
+QUnit.test("Test membership", function(assert){
+	// Add test when name is null after variables
+	// TODO: Handle different styles when implemented
+	assert.deepEqual(this.cmdResume.runCommand("membership"), "[[b;red;#000]Membership:]\nSome Society\tPizza Box Opener");
+});
+
+QUnit.test("Test membership -top", function(assert){
+	// Add test when name is null after variables
+	// TODO: Handle different styles when implemented
+	assert.deepEqual(this.cmdResume.runCommand("membership -top"), "Some Society\tPizza Box Opener");
+});
+
+QUnit.test("Test skills", function(assert){
+	// Add test when name is null after variables
+	// TODO: Handle different styles when implemented
+	// TODO: Rewrite with new table formatting
+	assert.deepEqual(this.cmdResume.runCommand("skills"), "[[b;red;#000]Skills:\n]           |\tProficient\t|\tExperienced\t|\tFamiliar\nLanguages  |\tC/C++ Java Python\t|\tC# .NET\t|\tPHP Javascript Bash\nTools      |\tGit Wordpress\t|\tAndroid Github\t|\tTCP/IP SVN\nConcepts   |\tKanban Agile\t|\tFunctional Testing\t|\tFunctional Programming");
+});
+
+QUnit.test("Test skills languages", function(assert){
+	// Add test when name is null after variables
+	// TODO: Handle different styles when implemented
+	var expected = "[[b;red;#000]Languages:]\nProficient\tC/C++ Java Python\nExperienced\tC# .NET\nFamiliar\tPHP Javascript Bash";
+	assert.deepEqual(this.cmdResume.runCommand("skills -l"), expected);
+	assert.deepEqual(this.cmdResume.runCommand("skills -languages"), expected);
+});
+
+QUnit.test("Test skills tools", function(assert){
+	// Add test when name is null after variables
+	// TODO: Handle different styles when implemented
+	var expected = "[[b;red;#000]Tools:]\nProficient\tGit Wordpress\nExperienced\tAndroid Github\nFamiliar\tTCP/IP SVN";
+	assert.deepEqual(this.cmdResume.runCommand("skills -t"), expected);
+	assert.deepEqual(this.cmdResume.runCommand("skills -tools"), expected);
+});
+
+QUnit.test("Test skills concepts", function(assert){
+	// Add test when name is null after variables
+	// TODO: Handle different styles when implemented
+	var expected = "[[b;red;#000]Concepts:]\nProficient\tKanban Agile\nExperienced\tFunctional Testing\nFamiliar\tFunctional Programming";
+	assert.deepEqual(this.cmdResume.runCommand("skills -c"), expected);
+	assert.deepEqual(this.cmdResume.runCommand("skills -concepts"), expected);
+});

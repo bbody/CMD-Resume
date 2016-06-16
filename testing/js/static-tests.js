@@ -24,7 +24,7 @@ QUnit.test( "Test String 'capitalizeFirstLetter' function", function( assert ) {
 
 QUnit.test( "Test 'getTop' function", function( assert ) {
   assert.deepEqual(getTop(["a", "b", "c", "d"]), "a");
-  assert.deepEqual(getTop([["a1", "a2"], "b", "c", "d"]), ["a1", "a2"]);
+  assert.deepEqual(getTop([["a1", "a2"], "b", "c", "d"]), "a1\ta2");
 });
 
 QUnit.test("Test 'getAll' function", function(assert){
