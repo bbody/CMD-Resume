@@ -6,7 +6,7 @@ String.prototype.is = function(comparison){
 };
 
 String.prototype.capitalizeFirstLetter = function(){
-    var temp = this.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+    var temp = this.replace(/\b[a-z]/g, function(letter) {
         return letter.toUpperCase();
     });
 
@@ -17,13 +17,31 @@ String.prototype.capitalizeFirstLetter = function(){
 
 // Get the first item in the array
 function getTop(array){
-    return array[0].join("\t");
+    if (typeof array[0] === "string"){
+        return array[0]
+    } else {
+        return array[0].join("\t");
+    }
 }
 
 // Get everything in the array and add to result
-function getAll(result, array){
+function getAll(title, array){
+    if (!isNotEmptyArray(array)){
+        return "";
+    }
+
+    var result = "";
+
+    if (isNotEmpty(title)){
+        result += setTitle(title.capitalizeFirstLetter() + ":") + "\n";    
+    }
+    
     array.map( function(item) {
         result += item.join("\t");
+
+        if (array[array.length - 1] !== item){
+            result += "\n";
+        }
     });
     return result;
 }
@@ -82,7 +100,7 @@ function setPGP(string){
 }
 
 // Map skills
-function getRequired(skillList){
+function getSkills(skillList){
     var result = [];
     var i = 0;
     skillList.map(function(item){
@@ -120,9 +138,7 @@ CMDResume.githubCache = "";
 
 // Get the Github information
 CMDResume.getGithub = function(){
-    console.log("CAlling");
     if (this.githubCache == ""){
-        console.log("Cache");
         var mess = setTitle("Repositories:");
         var list = [];
         //var githubFullUrl = ;
@@ -146,7 +162,6 @@ CMDResume.getGithub = function(){
                         }
                     }
                 } else {
-                    console.log(repos.meta);
                     if (data.meta.status == '403'){
                         mess += "Too many requests.";
                     } else {
@@ -154,7 +169,6 @@ CMDResume.getGithub = function(){
                    }
                }
             });
-            console.log(mess);
             CMDResume.githubCache = mess;
             return CMDResume.githubCache;
         });
@@ -189,9 +203,9 @@ CMDResume.hasSocialMedia = function(){
 CMDResume.getSkillTable = function(){
     var result = setTitle("Skills:\n");
     result += "           |\tProficient\t|\tExperienced\t|\tFamiliar\n";
-    result += "Languages  |\t" + getRequired(skillsLanguages).join("\t|\t") + "\n";
-    result += "Tools      |\t" + getRequired(skillsTools).join("\t|\t") + "\n";
-    result += "Concepts   |\t" + getRequired(skillsConcepts).join("\t|\t");
+    result += "Languages  |\t" + getSkills(skillsLanguages).join("\t|\t") + "\n";
+    result += "Tools      |\t" + getSkills(skillsTools).join("\t|\t") + "\n";
+    result += "Concepts   |\t" + getSkills(skillsConcepts).join("\t|\t");
 
     return result;
 };
@@ -211,7 +225,6 @@ CMDResume.updateTitle = function(){
 
 // Run man command
 CMDResume.runMan = function(command){
-    console.log(this.commandFunctionMap[command]);
     if (!command){
         return setCommand("man:") + " No command entered.";
     } else if (this.commandMap[command] != undefined){
@@ -234,7 +247,6 @@ CMDResume.runCommand = function(command, top){
     var response = this.commandFunctionMap[formattedCommand];
 
     if ($.isFunction(response)){
-        console.log(response);
         return response();
     } else {
         return response;
@@ -332,7 +344,7 @@ CMDResume.setCommand = function(command, information, method, data){
 CMDResume.setArrayCommand = function(command, information, data){
     if (isNotEmptyArray(data)){
         this.commandMap[command] = information + " [-top]";
-        this.commandFunctionMap[command] = getAll(setTitle(command.capitalizeFirstLetter() + ":") + "\n", data);
+        this.commandFunctionMap[command] = getAll(command, data);
         this.commandFunctionMap[command + " -top"] = getTop(data);
     }
 };
@@ -401,19 +413,19 @@ CMDResume.initSkills = function(){
         var skillSubCategories = "";
         // Skills - languages
         if (isNotEmptyArray(skillsLanguages)){
-            this.commandFunctionMap["skills -l"] = getAll(setTitle("Languages:") +"\n", skillsLanguages);
+            this.commandFunctionMap["skills -l"] = getAll("languages", skillsLanguages);
             this.commandFunctionMap["skills -languages"] = this.commandFunctionMap["skills -l"];
             skillSubCategories += "[-languages|l]";
         }
         // Skills -technologies
         if (isNotEmptyArray(skillsTools)){
-            this.commandFunctionMap["skills -t"] = getAll(setTitle("Tools:") + "\n", skillsTools);
+            this.commandFunctionMap["skills -t"] = getAll("tools", skillsTools);
             this.commandFunctionMap["skills -tools"] = this.commandFunctionMap["skills -t"];
             skillSubCategories += "[-tools|t]";
         }
         // Skills - concepts
         if (isNotEmptyArray(skillsConcepts)){
-            this.commandFunctionMap["skills -c"] = getAll(setTitle("Concepts:") + "\n", skillsConcepts);
+            this.commandFunctionMap["skills -c"] = getAll("concepts", skillsConcepts);
             this.commandFunctionMap["skills -concepts"] = this.commandFunctionMap["skills -c"];
             skillSubCategories += "[-concepts|c]";
         }
