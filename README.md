@@ -26,10 +26,10 @@ CMD-Resume is a Javascript based command line for demonstrating your resume. [He
 ```
 
 ## Road Map
-- Version 1
+- ~~Version 1~~
 	- ~~Add colouring~~
-	- Test cases
-	- ASCII Art Convertor
+	- ~~Test cases~~
+	- ~~ASCII Art Convertor~~
 
 - Version 2
 	- JSON call to get details
