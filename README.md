@@ -14,7 +14,7 @@ CMD-Resume is a Javascript based command line for demonstrating your resume. [He
 ### Steps
 1. Include jQuery
 2. Include jQuery Terminal
-3. Download *details.js* and *resume.js* ([Download v1 here](https://github.com/bbody/CMD-Resume/releases/tag/v1.0))
+3. Download *details.js* and *resume.js* ([Download v1 here](https://github.com/bbody/CMD-Resume/releases/tag/v1.0.0))
 4. Update details.js
 	1. Convert ASCII art using ([Multiline JavaScript Converter](https://www.brendonbody.com/MultilineJavaScriptConverter/))
 	2. Update detail variables
