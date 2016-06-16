@@ -17,7 +17,7 @@ String.prototype.capitalizeFirstLetter = function(){
 
 // Get the first item in the array
 function getTop(array){
-    return array[0];
+    return array[0].join("\t");
 }
 
 // Get everything in the array and add to result

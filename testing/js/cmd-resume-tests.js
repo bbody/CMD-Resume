@@ -113,3 +113,15 @@ QUnit.test("Test pdf", function(assert){
 });
 
 
+QUnit.test("Test education", function(assert){
+	// Add test when name is null after variables
+	// TODO: Handle different styles when implemented
+	assert.deepEqual(this.cmdResume.runCommand("education"), "[[b;red;#000]Education:]\nSouth Hamptom Institute of Technology\tMaster of Computers\tGraduate July, 2014\nSchool of Hard Knocks\tBachelor of Life\tGraduate November, 2008");
+});
+
+QUnit.test("Test education -top", function(assert){
+	// Add test when name is null after variables
+	// TODO: Handle different styles when implemented
+	assert.deepEqual(this.cmdResume.runCommand("education -top"), "South Hamptom Institute of Technology\tMaster of Computers\tGraduate July, 2014");
+});
+
