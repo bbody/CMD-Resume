@@ -127,7 +127,55 @@ function isNotEmptyArray(array){
 }
 
 //---------- Resume Code ----------\\
-var CMDResume = {};
+var CMDResume = new function(){
+    var self = this;
+
+    // Initialize class
+    self.init = function(tag, repository, options){
+        
+        $.getJSON(repository, function(data){
+            self.data = data;
+            self.processDetails(data);
+            
+            // Update page title
+            self.updateTitle();
+
+            self.initVariables(data);
+            console.log(data);
+
+            if (options.showForks){
+                self.showForks = options.showForks === false ? false : true;
+            } else {
+                self.showForks = true;
+            }
+
+            // Command Line Settings
+            self.settings =
+            {
+                greetings: self.getSplash() + "\n",
+                onBlur: function() {
+                    // prevent loosing focus
+                    return false;
+                },
+                completion: CMDResume.commandMap.getKeys()
+
+            };
+
+            // console.log(this.githubUsername);
+
+            // Pre-call Github
+            if (isNotEmpty(CMDResume.githubUsername)){
+                CMDResume.getGithub();
+            }
+
+            // Setup Terminal
+            $(tag).terminal(function(command, term) {
+                term.echo(CMDResume.commandLineParse(command) + "\n");
+            },
+            CMDResume.settings);
+        });
+    };
+};
 
 // Command Storage
 CMDResume.commandMap = {};
@@ -142,7 +190,7 @@ CMDResume.getGithub = function(){
         var mess = setTitle("Repositories:");
         var list = [];
         //var githubFullUrl = ;
-        $.getJSON('https://api.github.com/users/' + githubUsername + '/repos?callback=?', function(response){
+        $.getJSON('https://api.github.com/users/' + CMDResume.githubUsername + '/repos?callback=?', function(response){
             var repos = response.data;
 
             $(repos).each(function() {
@@ -152,11 +200,11 @@ CMDResume.getGithub = function(){
                             message += " - " + this.description;
                         }
 
-                    if (this.name != (githubUsername.toLowerCase()+'.github.com')) { //
-                        if (!showForks && (this.fork == false)){
+                    if (this.name != (CMDResume.githubUsername.toLowerCase()+'.github.com')) { //
+                        if (!this.showForks && (this.fork == false)){
                             list.push(message);
                             mess += message;
-                        } else if (showForks){
+                        } else if (this.showForks){
                             list.push(message);
                             mess += message;
                         }
@@ -183,15 +231,17 @@ CMDResume.pdf = function(){
     return pdfLink + "\nHint: May need to allow pop-ups.";
 };
 
+
+
 // Return social media information
 CMDResume.getSocialMedia = function(){
     var result = setTitle("Social Media:");
-    socialMedia.map(function(item){
-        if (isNotEmpty(item[1])){
-            result += "\n";
-            result += item[0] + " - " + item[1];
-        }
+    
+    $(this.profiles).each(function(){
+        result += "\n";
+        result += this.network + " - " + this.url;
     });
+
     return result;
 };
 
@@ -218,8 +268,8 @@ CMDResume.hasSkillTable = function(){
 
 // Update page title to Resume owners name
 CMDResume.updateTitle = function(){
-    if (isNotEmpty(name)){
-        document.title = name + "'s Résumé";
+    if (isNotEmpty(this.name)){
+        document.title = this.name + "'s Résumé";
     }
 };
 
@@ -287,35 +337,90 @@ CMDResume.commandLineParse = function(input){
     }
 };
 
-// Initialize class
-CMDResume.init = function(tag){
-    // Update page title
-    this.updateTitle();
-    this.initVariables();
 
-    // Command Line Settings
-    this.settings =
-    {
-        greetings: CMDResume.getSplash() + "\n",
-        onBlur: function() {
-            // prevent loosing focus
+function getDate(startDate, endDate){
+    return endDate ? startDate + " - " + endDate : startDate + " - Present";
+}
+
+function getFullDegree(studyType, area){
+    return studyType ? studyType + " of " + area : area;
+}
+
+CMDResume.getEducation = function(top){
+    top = top ? top : false;
+
+    var result = "";
+    $.each(CMDResume.data.education, function(index, value){
+        if (!top){
+            result += "\n";
+        }
+
+        result += value.institution + "\t";
+        result += getFullDegree(value.studyType, value.area) + "\t";
+        result += getDate(value.startDate, value.endDate);
+
+        // break;
+        if (top && index === 0){
             return false;
-        },
-        completion: CMDResume.commandMap.getKeys()
+        }
+    });
 
-    };
-
-    // Pre-call Github
-    if (isNotEmpty(githubUsername)){
-        this.getGithub();
-    }
-
-    // Setup Terminal
-    $(tag).terminal(function(command, term) {
-        term.echo(CMDResume.commandLineParse(command) + "\n");
-    },
-    this.settings);
+    return result;
 };
+
+CMDResume.getEmployment = function(top){
+    top = top ? top : false;
+
+    var result = "";
+    $.each(CMDResume.data.work, function(index, value){
+        if (!top){
+            result += "\n";
+        }
+
+        result += value.company + "\t";
+        result += value.position + "\t";
+        result += getDate(value.startDate, value.endDate);
+
+        // break;
+        if (top && index === 0){
+            return false;
+        }
+    });
+
+    return result;
+};
+
+CMDResume.processSocialMedia = function(data){
+    this.profiles = [];
+
+    $.each(data, function(key, value){
+        if (value.network.toLowerCase() === "github"){
+            CMDResume.githubUsername = value.username;
+            console.log(value.username);
+        } else if (value.network.toLowerCase() === "email"){
+            value.url = value.url.split(":")[1];
+        }
+        CMDResume.profiles.push({network: value.network, url: value.url});
+    });
+};
+
+CMDResume.processDetails = function(data){
+    // Name
+    this.name = data.basics.name;
+
+    // Location
+    this.loc = data.basics.location.city + (data.basics.location.region 
+        ? ", " + data.basics.location.region : "") + ", " + data.basics.location.countryCode;
+    
+    // About
+    this.about = data.basics.label;
+
+    CMDResume.processSocialMedia(data.basics.profiles);
+
+    
+};
+
+
 
 CMDResume.getSplash = function(){
     var welcome = "";
@@ -323,8 +428,8 @@ CMDResume.getSplash = function(){
     if (hasSplash){
         welcome = splash + "\n";
     }
-    if (isNotEmpty(name)){
-        welcome += "Welcome to " + setName(name) + "'s résumé.\n";
+    if (isNotEmpty(this.name)){
+        welcome += "Welcome to " + setName(this.name) + "'s résumé.\n";
     } else {
         welcome += "Welcome to my résumé.\n";
     }
@@ -349,6 +454,13 @@ CMDResume.setArrayCommand = function(command, information, data){
     }
 };
 
+CMDResume.setToppedCommand = function(command, information, functionPointer){
+    var loweredCommand = command.toLowerCase();
+    this.commandMap[loweredCommand] = information + " [-top]";
+    this.commandFunctionMap[loweredCommand] = setTitle(command) + functionPointer();
+    this.commandFunctionMap[loweredCommand + " -top"] = functionPointer();
+};
+
 // Initialize variables
 CMDResume.initVariables = function(){
     // Help
@@ -363,9 +475,11 @@ CMDResume.initVariables = function(){
     // Splash screen
     this.setCommand("splash", "print the welcome screen", this.getSplash, this.getSplash());
 
-
     // Name
-    this.setCommand("name", "owner of the résumé", setName(name), name);
+    this.setCommand("name", "owner of the résumé", setName(this.data.basics.name), this.data.basics.name);
+
+    // About
+    this.setCommand("about", "about me", setName(this.data.basics.about), this.data.basics.about);
 
     // Looking for
     this.setCommand("lookingfor", "looking for", setName(lookingfor), lookingfor);
@@ -377,10 +491,10 @@ CMDResume.initVariables = function(){
     this.setCommand("pdf", "pdf version of the résumé", this.pdf, pdfLink);
 
     // Education
-    this.setArrayCommand("education", "education history", education);
+    this.setToppedCommand("Education", "education history", this.getEducation);
 
     // Employment
-    this.setArrayCommand("employment", "employment history", employment);
+    this.setToppedCommand("Employment", "employment history", this.getEmployment);
 
     // Volunteering
     this.setArrayCommand("volunteering", "volunteering history", volunteering);
@@ -392,7 +506,7 @@ CMDResume.initVariables = function(){
     this.setArrayCommand("membership", "membership obtained", membership);
 
     // Github
-    this.setCommand("github", "list Github repositories", this.getGithub, githubUsername);
+    this.setCommand("github", "list Github repositories", this.getGithub, this.githubUsername);
     
     // Skills
     this.initSkills();
