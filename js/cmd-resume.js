@@ -15,7 +15,7 @@
 		    }
 		};
 
-		// Splash
+		// Default Splash Screen
 		var splash = ""
 		+ "                 _________________\n"
 		+ "                /                /|\n"
@@ -227,7 +227,6 @@
 		};
 
 		self.init = function(options){
-			self.data.cmd_resume.splash = self.data.cmd_resume.splash ? self.data.cmd_resume.splash : splash;
 			self.initVariables();
 			self.initCommands();
 			self.initSettings();
@@ -616,6 +615,12 @@
 
 		// Initialize variables
 		self.initVariables = function(){
+			if (!self.data.cmd_resume){
+				self.data.cmd_resume = {};
+			}
+
+			self.data.cmd_resume.splash = self.data.cmd_resume.splash ? self.data.cmd_resume.splash : splash;
+
 			$(self.data.basics.profiles).each(function(){
 				if (this.network.toLowerCase() === "github"){
 					self.data.githubCache = "";
@@ -649,11 +654,15 @@
 			});
 		};
 
+		self.getSplash = function(){
+			return self.commands.splash ? self.processCommand(self.commands.splash) : "Type " + "help".setCommand() + " for commands";
+		}
+
 		self.initSettings = function(){
 			self.commandList = self.getCommandList();
 
 			self.settings = {
-	            greetings: (self.commands.splash ? self.processCommand(self.commands.splash) : "Type " + "help".setCommand() + " for commands"),
+	            greetings: self.getSplash(),
 	            onBlur: function() {
 	                // Prevent loosing focus
 	                return false;
