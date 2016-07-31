@@ -1,9 +1,12 @@
+/*globals jQuery:false */
 (function($){
 	"use strict";
 
 	$.fn.CMDResume = function(endpoint, options){
 		// Get element
 		var element = $(this);
+
+		options = options ? options : {};
 
 		// Update HTML title
 		var updateTitle = function(name){
@@ -12,12 +15,92 @@
 		    }
 		};
 
+		// Splash
+		var splash = ""
+		+ "                 _________________\n"
+		+ "                /                /|\n"
+		+ "               /                / |\n"
+		+ "              /________________/ /|\n"
+		+ "           ###|      ____      |//|\n"
+		+ "          #   |     /   /|     |/.|\n"
+		+ "         #  __|___ /   /.|     |  |_______________\n"
+		+ "        #  /      /   //||     |  /              /|                  ___\n"
+		+ "       #  /      /___// ||     | /              / |                 / \\ \\\n"
+		+ "       # /______/!   || ||_____|/              /  |                /   \\ \\\n"
+		+ "       #| . . .  !   || ||                    /  _________________/     \\ \\\n"
+		+ "       #|  . .   !   || //      ________     /  /\\________________  {   /  }\n"
+		+ "       /|   .    !   ||//~~~~~~/   0000/    /  / / ______________  {   /  /\n"
+		+ "      / |        !   |'/      /9  0000/    /  / / /             / {   /  /\n"
+		+ "     / #\\________!___|/      /9  0000/    /  / / /_____________/___  /  /\n"
+		+ "    / #     /_____\\/        /9  0000/    /  / / /_  /\\_____________\\/  /\n"
+		+ "   / #                      ``^^^^^^    /   \\ \\ . ./ / ____________   /\n"
+		+ "  +=#==================================/     \\ \\ ./ / /.  .  .  \\ /  /\n"
+		+ "  |#                                   |      \\ \\/ / /___________/  /\n"
+		+ "  #                                    |_______\\__/________________/\n"
+		+ "  |                                    |               |  |  / /       \n"
+		+ "  |                                    |               |  | / /       \n"
+		+ "  |                                    |       ________|  |/ /________       \n"
+		+ "  |                                    |      /_______/    \\_________/\\       \n"
+		+ "  |                                    |     /        /  /           \\ )       \n"
+		+ "  |                                    |    /OO^^^^^^/  / /^^^^^^^^^OO\\)       \n"
+		+ "  |                                    |            /  / /        \n"
+		+ "  |                                    |           /  / /\n"
+		+ "  |                                    |          /___\\/\n"
+		+ "  |hectoras                            |           oo\n"
+		+ "  |____________________________________|\n";
+
+		var styles = {
+			title: {
+                color: "red",
+                bold: true
+            },
+            command: {
+            	color: "white",
+            	bold: false,
+            	italic: true
+            },
+            pgp: {
+            	color: "white",
+            	bold: false,
+            	italic: true
+            },
+            name: {
+            	color: "green",
+            	bold: true
+            }
+		};
+
+		var initStyles = function(){
+			$.map(options, function(value, key){
+				if (styles[key]){
+					if (value.color){
+						styles[key].color = value.color;
+					}
+
+					if (value.bold){
+						styles[key].bold = value.bold;
+					}
+
+					if (value.italic){
+						styles[key].italic = value.italic;
+					}
+
+					if (value.backgroundColor){
+						styles[key].backgroundColor = value.backgroundColor;
+					}
+				}
+			});
+		};
+
+		initStyles();
+
 		// Update color
-		String.prototype.setFormat = function(color, bold, italic, backgroundColor){
-		    color = typeof color !== 'undefined' ? color: null;
-		    bold = typeof bold !== 'undefined' ? bold: false;
-		    italic = typeof italic !== 'undefined' ? italic: false;
-		    backgroundColor = typeof backgroundColor !== 'undefined' ? backgroundColor: null;
+		String.prototype.setFormat = function(type){
+			var style = styles[type];
+		    var color = style.color ? style.color : null;
+		    var bold = style.bold ? style.bold : false;
+		    var italic = style.italic ? style.italic : false;
+		    var backgroundColor = style.backgroundColor ? style.backgroundColor : null;
 
 		    var result = "[[";
 		    if (bold){
@@ -51,22 +134,22 @@
 
 		// Title formatter
 		String.prototype.setTitle = function(){
-		    return this.setFormat("red", true);
+		    return this.setFormat("title");
 		};
 
 		// Command formatter
 		String.prototype.setCommand = function(){
-		    return this.setFormat("white", false, true);
+		    return this.setFormat("command");
 		};
 
 		// Name formatter
 		String.prototype.setName = function(){
-		    return this.setFormat("green", true);
+		    return this.setFormat("name");
 		};
 
 		// PGP formatter
 		String.prototype.setPGP = function(){
-			return this.setFormat("white", false, true);
+			return this.setFormat("pgp");
 		};
 
 		// Format date
@@ -144,11 +227,13 @@
 		};
 
 		self.init = function(options){
+			self.data.cmd_resume.splash = self.data.cmd_resume.splash ? self.data.cmd_resume.splash : splash;
 			self.initVariables();
 			self.initCommands();
 			self.initSettings();
 			self.initHTMLTitle();
 			self.initTerminal();
+			self.showForks = options.showForks === true || options.showForks === "true" ? true : false;
 		};
 
 		// Parse command line
@@ -159,7 +244,7 @@
 		    var rootCommand = commandList[0] !== undefined ? commandList[0] : false;
 		    var stemCommand = commandList[1] !== undefined && commandList[1].length > 0 ? commandList[1] : false;
 		    var command = self.commands[rootCommand];
-		    if (rootCommand == "man"){
+		    if (rootCommand === "man"){
 		    	return self.commands.man.handler(stemCommand);
 		    } else if (command){
 		    	var top = stemCommand === "-top" ? true : false;
@@ -174,11 +259,11 @@
 		};
 
 		self.processCommand = function(command, top){
-			// console.log(self.commandProcessor);
-			// console.log(command.type);
 			var result = "";
 
-			if (!top && command.type !== self.commandProcessor.system){
+			if (!top && 
+				command.type !== self.commandProcessor.system &&
+				command !== self.commands.splash){
 				result += command.title.setTitle();
 			}
 
@@ -190,18 +275,26 @@
 		
 		// Get the Github information
 		self.getGithub = function(){
-		        if (!self.data.githubCache){
+	        if (!self.data.githubCache){
 		        $.getJSON('https://api.github.com/users/' + self.data.basics.githubUsername + '/repos?callback=?', function(response){
 		            var repos = response.data;
+		            var first = true;
+		            $.each(repos, function(key, value) {
+		            	if (value && 
+		            		(value.name !== (self.data.basics.githubUsername.toLowerCase() + '.github.com')) &&
+		            		(self.showForks === value.fork || !value.fork)){
+		            		var repoCache = "";
 
-		            $(repos).each(function() {
-		            	if (this && (this.name !== (self.data.basics.githubUsername.toLowerCase() + '.github.com'))){
-		            		var repoCache = "\n";
+		            		if (!first){
+		            			repoCache += "\n";
+		            		} else {
+		            			first = false;
+		            		}
 
-			            	repoCache += this.name.setName();
+			            	repoCache += value.name.setName();
 
-			            	if (this.description){
-			            		repoCache += " - " + this.description;
+			            	if (value.description){
+			            		repoCache += " - " + value.description;
 			            	}
 			            	
 			            	self.data.githubCache += repoCache;
@@ -243,7 +336,7 @@
 				    } else if (self.hasCommand(command)){
 				        return command.setCommand() + " - " + self.commands[command].description;
 				    } else {
-				        return "man:".setCommand() + " `" + command + "` is an unknown command.";
+				        return "man".setCommand() + ": " + command.setCommand() + " is an unknown command.";
 				    }
 				},
 				description: "describes what each command does"
@@ -541,6 +634,7 @@
 						type: self.commandProcessor.calculated,
 						data: self.data.githubCache,
 						handler: function(data){
+							console.log(data.length);
 							if (data){
 								return data;
 							} else {
@@ -559,9 +653,9 @@
 			self.commandList = self.getCommandList();
 
 			self.settings = {
-	            greetings: (null ? self.processCommand(self.commands.splash) : "Something"),
+	            greetings: (self.commands.splash ? self.processCommand(self.commands.splash) : "Type " + "help".setCommand() + " for commands"),
 	            onBlur: function() {
-	                // prevent loosing focus
+	                // Prevent loosing focus
 	                return false;
 	            },
 	            completion: self.commandList

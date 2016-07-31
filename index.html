@@ -26,7 +26,27 @@
         $(document).ready(function() {
             // CMDResume.start('body', 'details.json', {showForks: true});
             // $.CMDResume('details.json', {showForks: true});
-            $("body").CMDResume("details.json", {showForks: true, title: "pink"});
+            var settings = {
+                showForks: false,
+                title: {
+                    color: "white",
+                    bold: false,
+                    italic: true
+                },
+                command: {
+                    color: "green",
+                    bold: true,
+                    italic: false,
+                    backgroundColor: "pink"
+                },
+                pgp: {
+
+                },
+                name: {
+                    color: "purple"
+                }
+            };
+            $("body").CMDResume("details.json", settings);
 
         });
     </script>

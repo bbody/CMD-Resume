@@ -202,7 +202,6 @@
     }
   ],
   "cmd_resume":{
-    "splash": "fdsdfsdfsdfsfds",
     "pgpkey": "YOUR PGP KEY HERE"
   }
 }
