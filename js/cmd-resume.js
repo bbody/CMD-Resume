@@ -2,20 +2,17 @@
 	"use strict";
 
 	$.fn.CMDResume = function(endpoint, options){
-		// String comparison for better readability
-		String.prototype.is = function(comparison){
-		    return ("" + this) === comparison;
+		// Get element
+		var element = $(this);
+
+		// Update HTML title
+		var updateTitle = function(name){
+		    if (name){
+		        document.title = name + "'s Résumé";
+		    }
 		};
 
-		String.prototype.capitalizeFirstLetter = function(){
-		    var temp = this.replace(/\b[a-z]/g, function(letter) {
-		        return letter.toUpperCase();
-		    });
-
-		    return temp;
-		};
-
-		// Return colour
+		// Update color
 		String.prototype.setFormat = function(color, bold, italic, backgroundColor){
 		    color = typeof color !== 'undefined' ? color: null;
 		    bold = typeof bold !== 'undefined' ? bold: false;
@@ -52,44 +49,37 @@
 		    return result;
 		};
 
-		var updateTitle = function(name){
-		    if (name){
-		        document.title = name + "'s Résumé";
-		    }
-		};
-
+		// Title formatter
 		String.prototype.setTitle = function(){
 		    return this.setFormat("red", true);
 		};
 
+		// Command formatter
 		String.prototype.setCommand = function(){
 		    return this.setFormat("white", false, true);
 		};
 
+		// Name formatter
 		String.prototype.setName = function(){
 		    return this.setFormat("green", true);
 		};
 
+		// PGP formatter
 		String.prototype.setPGP = function(){
 			return this.setFormat("white", false, true);
 		};
 
-		function isNotEmpty(string){
-		    if (string === undefined || string === null || string.length === 0){
-		        return false;
-		    } else {
-		        return true;
-		    }
-		}
-
+		// Format date
 		function getDate(startDate, endDate){
 		    return endDate ? startDate + " - " + endDate : startDate + " - Present";
 		}
 
+		// Get degree name
 		function getFullDegree(studyType, area){
 		    return studyType ? studyType + " of " + area : area;
 		}
 
+		// Build URL based on social media username
 		function buildUrl(network, username){
 			network = network.toLowerCase();
 			if (network === "twitter"){
@@ -101,56 +91,17 @@
 			}
 		}
 
-		// Get current 
-		var element = $(this);
-		var self = {};
-
-		self.commandFunctionMap = {
-			hasCommand: function(command){
-			    if (command === "hasCommand"){
-			        return false;
-			    } else {
-			        return this[command] !== undefined;
-			    }
-			}
+		// Command handlers
+		var basicHandlerFunction = function(command){
+			return "\n" + command.data;
 		};
 
-		self.commandMap = {
-			getKeys: function(){ // Get list of functions from command map
-			    var commands = [];
-			    $.map(this, function(element,index) {
-			        commands.push(index);
-			    });
-			    return commands;
-			},
-			getCommandList: function (){ // Get key list of the command map
-			    var commands = "Available Commands:".setTitle();
-			    for (var key in this) {
-			        if( typeof this[key] !== 'function') {
-			            commands += "\n";
-			            commands += key.setCommand() + " - " + this[key];
-			        }
-			    }
-			    return commands;
-			}
-		};
-
-		self.initTerminal = function(){
-			element.terminal(function(command, term) {
-                term.echo(self.commandLineParse(command) + "\n");
-            }, self.settings);
-		};
-
-		self.init = function(options){
-			self.initTerminal();
-			//self.initVariables();
+		var systemHandlerFunction = function(command){
+			return command.handler(command.data);
 		};
 
 		var arrayHandlerFunction = function(command, top){
 			var result = "";
-			if (!top){
-				result += command.title.setTitle();
-			}
 
 		    $.each(command.data, function(index, value){
 		        if (!top){
@@ -171,9 +122,34 @@
 		};
 
 		var calculatedHandlerFunction = function(command){
-			return command.handler(command.data);
+			return "\n" + command.handler(command.data);
 		};
 
+		
+		var self = {};
+
+		self.commands = {};
+
+		self.commandProcessor = {
+			basic: basicHandlerFunction,
+			array: arrayHandlerFunction,
+			calculated: calculatedHandlerFunction,
+			system: systemHandlerFunction
+		};
+
+		self.initTerminal = function(){
+			element.terminal(function(command, term) {
+                term.echo(self.commandLineParse(command) + "\n");
+            }, self.settings);
+		};
+
+		self.init = function(options){
+			self.initVariables();
+			self.initCommands();
+			self.initSettings();
+			self.initHTMLTitle();
+			self.initTerminal();
+		};
 
 		// Parse command line
 		self.commandLineParse = function(input){
@@ -182,29 +158,12 @@
 		    // Command sections
 		    var rootCommand = commandList[0] !== undefined ? commandList[0] : false;
 		    var stemCommand = commandList[1] !== undefined && commandList[1].length > 0 ? commandList[1] : false;
-
-		    if (rootCommand === "help"){
-		        return self.commands.system.help.handler();
-		    } else if (rootCommand === "man"){
-		        return self.commands.system.man.handler(stemCommand);
-		    } else if (self.commands.arrays[rootCommand]) {
-		    	var top = stemCommand && stemCommand === "-top";
-		    	return arrayHandlerFunction(self.commands.arrays[rootCommand], top);
-		    } else if (self.commands.basic[rootCommand]){
-		    	return self.commands.basic[rootCommand].title.setTitle() + "\n" + self.commands.basic[rootCommand].data;
-		    } else if (self.commands.calculated[rootCommand]){
-		    	return self.commands.calculated[rootCommand].title.setTitle() + "\n" + calculatedHandlerFunction(self.commands.calculated[rootCommand]);
-		    // } else if (rootCommand.is("skills")){
-		    //     if (stemCommand){
-		    //         var fullCommand = rootCommand + " " + stemCommand;
-		    //         if (fullCommand in this.commandFunctionMap){
-		    //             return this.commandFunctionMap[fullCommand];
-		    //         } else {
-		    //             return "Warning: Invalid arguments";
-		    //         }
-		    //     } else {
-		    //         return this.commandFunctionMap[rootCommand];
-		    //     }
+		    var command = self.commands[rootCommand];
+		    if (rootCommand == "man"){
+		    	return self.commands.man.handler(stemCommand);
+		    } else if (command){
+		    	var top = stemCommand === "-top" ? true : false;
+		    	return self.processCommand(command, top);
 		    } else {
 		        if (rootCommand.length > 0){
 		            return rootCommand.setCommand() + " is an unknown command.";
@@ -212,14 +171,26 @@
 		            return "No command entered.";
 		        }
 		    }
+		};
 
-		    return input;
+		self.processCommand = function(command, top){
+			// console.log(self.commandProcessor);
+			// console.log(command.type);
+			var result = "";
+
+			if (!top && command.type !== self.commandProcessor.system){
+				result += command.title.setTitle();
+			}
+
+			result += command.type(command, top);
+
+			return result;
 		};
 
 		
 		// Get the Github information
 		self.getGithub = function(){
-		        if (self.data.githubCache){
+		        if (!self.data.githubCache){
 		        $.getJSON('https://api.github.com/users/' + self.data.basics.githubUsername + '/repos?callback=?', function(response){
 		            var repos = response.data;
 
@@ -232,11 +203,8 @@
 			            	if (this.description){
 			            		repoCache += " - " + this.description;
 			            	}
-
-			            	console.log(repoCache);
 			            	
 			            	self.data.githubCache += repoCache;
-			            	console.log(self.data.githubCache);
 		            	}
 		            });
 		            return self.data.githubCache;
@@ -246,28 +214,12 @@
 		    return self.data.githubCache;
 		};
 
-		self.setToppedCommand = function(command, information, functionPointer){
-		    var loweredCommand = command.toLowerCase();
-		    self.commandMap[loweredCommand] = information + " [-top]";
-		    self.commandFunctionMap[loweredCommand] = command.setTitle() + functionPointer();
-		    self.commandFunctionMap[loweredCommand + " -top"] = functionPointer();
-		};
-		
-		self.setCommand = function(command, information, method, data){
-	        if (isNotEmpty(data)){
-	            this.commandMap[command] = information;
-	            this.commandFunctionMap[command] = method;
-	        }
-		};
-
 		// Get list of commands for autocomplete
 		self.getCommandList = function(){
 			var commands = [];
 
 			$.map(self.commands, function(value, key) {
-		        $.map(value, function(value, key) {
-			        commands.push(key);
-			    });
+		        commands.push(key);
 		    });
 
 			return commands;
@@ -278,68 +230,18 @@
 		};
 
 		self.getCategory = function(command){
-			var category = "";
-			$.map(self.commands, function(parentValue, parentKey) {
-		        $.map(parentValue, function(value, key) {
-		        	if (command === key){
-		        		category = parentKey;
-		        		return false;
-		        	}
-			    });
-		    });
-
-			return category;
+			return self.commands[command].type;
 		};
 
-		// Initialize variables
-		self.initVariables = function(){
-			self.commands = {
-				system:{},
-				basic:{},
-				calculated:{},
-				arrays:{}
-			};
-
-			$(self.data.basics.profiles).each(function(){
-				if (this.network.toLowerCase() === "github"){
-					self.data.githubCache = "";
-					if (this.username){
-						self.data.basics.githubUsername = this.username;
-					} else if (this.url){
-						// TODO: Parse
-						self.data.basics.githubUsername = this.url;
-					}
-					
-
-					self.getGithub();
-
-					self.commands.calculated.github = {
-						title: "Github Repositories",
-						data: self.data.githubCache,
-						handler: function(data){
-							if (data){
-								return data;
-							} else {
-								return self.getGithub();
-							}
-						},
-						description: "list Github repositories"
-					};
-					//
-					//self.initGithub();
-				} else if (this.network.toLowerCase() === "cmd-resume-pdf"){
-					self.data.basics.pdfLink = this.url;
-				}
-			});
-
-			
-			self.commands.system.man = {
+		self.initCommands = function(){
+			self.commands.man = {
 				title: "man".setCommand(),
+				type: self.commandProcessor.system,
 				handler: function(command){
 					if (!command){
 				        return "man:".setCommand() + " No command entered.";
 				    } else if (self.hasCommand(command)){
-				        return command.setCommand() + " - " + self.commands[self.getCategory(command)][command].description;
+				        return command.setCommand() + " - " + self.commands[command].description;
 				    } else {
 				        return "man:".setCommand() + " `" + command + "` is an unknown command.";
 				    }
@@ -347,37 +249,38 @@
 				description: "describes what each command does"
 			};
 
-			self.commands.system.help = {
+			self.commands.help = {
 				title: "Help",
+				type: self.commandProcessor.system,
 				handler: function(){
 					var commands = "Available Commands:".setTitle();
 					$.map(self.commands, function(value, key) {
-				        $.map(value, function(value, key) {
-				        	commands += "\n";
-				            commands += key.setCommand() + " - " + value.description;
-					    });
+				        commands += "\n";
+			            commands += key.setCommand() + " - " + value.description;
 				    });
 				    return commands;
 				},
 				description: "lists help for all the commands"
 			};
 
-			self.commands.system.clear = {
+			self.commands.clear = {
 				description: "clear command history from screen"
 			};
 
 			if (self.data.basics.name){
-				self.commands.basic.name = {
+				self.commands.name = {
 					title: "Name",
 					data: self.data.basics.name,
+					type: self.commandProcessor.basic,
 					description: "owner of the résumé"
 				};
 			}
 
 			if (self.data.cmd_resume && self.data.cmd_resume.pgpkey){
-				self.commands.calculated.pgpkey = {
+				self.commands.pgpkey = {
 					title: "PGP Key",
 					data: self.data.cmd_resume.pgpkey,
+					type: self.commandProcessor.calculated,
 					handler: function(data){
 						return data.setPGP();
 					},
@@ -386,17 +289,19 @@
 			}
 
 			if (self.data.basics.summary){
-				self.commands.basic.about = {
+				self.commands.about = {
 					title: "About",
 					data: self.data.basics.summary,
+					type: self.commandProcessor.basic,
 					description: "about me"
 				};
 			}
 
 			if (self.data.basics.pdfLink){
-				self.commands.calculated.pdf = {
+				self.commands.pdf = {
 					title: "Resume PDF",
 					data: self.data.basics.pdfLink,
+					type: self.commandProcessor.calculated,
 					handler: function(data){
 						window.open(data);
 						return data + "\nHint: May need to allow pop-ups.";
@@ -406,9 +311,10 @@
 			}
 
 			if (self.data.basics.location){
-				self.commands.calculated.location = {
+				self.commands.location = {
 					title: "Location",
 					data: self.data.basics.location,
+					type: self.commandProcessor.calculated,
 					handler: function(data){
 						return data.city + (data.region ? ", " + data.region : "") + ", " + data.countryCode;
 					},
@@ -417,9 +323,10 @@
 			}
 
 			if (self.data.basics.label){
-				self.commands.calculated.lookingfor = {
+				self.commands.lookingfor = {
 					title: "Looking For",
 					data: self.data.basics.label,
+					type: self.commandProcessor.calculated,
 					handler: function(data){
 						return data + " positions";
 					},
@@ -428,26 +335,31 @@
 			}
 
 			if (self.data.basics.profiles){
-				self.commands.calculated.socialmedia = {
+				self.commands.socialmedia = {
 					title: "Social Media",
 					data: self.data.basics.profiles,
+					type: self.commandProcessor.calculated,
 					handler: function(data){
 						var result = "";
-						$(data).each(function(){
-							if (this.network && this.network !== "cmd-resume-pdf"){
-					        	if (this.url){
-					        		result += "\n";
-					        		result += this.network + " - " + this.url;
-					        	} else if (this.username){
+						$.each(data, function(key, value){
+							if (value.network && value.network !== "cmd-resume-pdf"){
+								if (key !== 0){
+									result += "\n";
+								}
+
+					        	if (value.url){
+					        		result += value.network + " - " + value.url;
+					        	} else if (value.username){
 					        		var url = "";
 
-					        		url = buildUrl(this.network, this.username);
+					        		url = buildUrl(value.network, value.username);
 
 					        		if (url){
-					        			result += "\n";
-					        			result += this.network + " - " + url;
+					        			result += value.network + " - " + url;
 					        		}
 					        	}
+
+					        	
 					    	}
 					    });
 					    return result;
@@ -456,9 +368,33 @@
 				};
 			}
 
+			if (self.data.skills && self.data.skills.length > 0){
+				self.commands.skills = {
+					title: "Skills",
+					type: self.commandProcessor.calculated,
+					data: self.data.skills,
+					handler: function(data){
+						var result = "";
+
+						$.each(data, function(key, value){
+							result += value.level;
+							result += " in ";
+							result += value.name;
+							if (key !== data.length - 1){
+								result += "\n";
+							}
+						});
+
+						return result;
+					},
+					description: "skills obtained"
+				};
+			}
+
 			if (self.data.cmd_resume && self.data.cmd_resume.splash){
-				self.commands.calculated.splash = {
+				self.commands.splash = {
 					title: "Splash Screen",
+					type: self.commandProcessor.calculated,
 					data: self.data.cmd_resume.splash,
 					handler: function(data){
 						var results = "";
@@ -484,9 +420,10 @@
 			}
 
 			if (self.data.education && self.data.education.length > 0){
-				self.commands.arrays.education = {
+				self.commands.education = {
 					title: "Education",
 					data: self.data.education,
+					type: self.commandProcessor.array,
 					handlers:{
 						organisation: function(value){
 							return value.institution;
@@ -503,9 +440,10 @@
 			}
 
 			if (self.data.work && self.data.work.length > 0){
-				self.commands.arrays.employment = {
+				self.commands.employment = {
 					title: "Employment",
 					data: self.data.work,
+					type: self.commandProcessor.array,
 					handlers:{
 						organisation: function(value){
 							return value.company;
@@ -522,8 +460,9 @@
 			}
 
 			if (self.data.volunteer && self.data.volunteer.length > 0){
-				self.commands.arrays.volunteering = {
+				self.commands.volunteering = {
 					title: "Volunteering",
+					type: self.commandProcessor.array,
 					data: self.data.volunteer,
 					handlers:{
 						organisation: function(value){
@@ -541,8 +480,9 @@
 			}
 
 			if (self.data.awards && self.data.awards.length > 0){
-				self.commands.arrays.awards = {
+				self.commands.awards = {
 					title: "Awards",
+					type: self.commandProcessor.array,
 					data: self.data.awards,
 					handlers:{
 						organisation: function(value){
@@ -559,9 +499,10 @@
 				};
 			}
 
-			if (self.data.publications && self.data.awards.publications > 0){
-				self.commands.arrays.publications = {
+			if (self.data.publications && self.data.publications.length > 0){
+				self.commands.publications = {
 					title: "Publications",
+					type: self.commandProcessor.array,
 					data: self.data.publications,
 					handlers:{
 						organisation: function(value){
@@ -578,25 +519,61 @@
 				};
 			}
 
+		};
+
+		// Initialize variables
+		self.initVariables = function(){
+			$(self.data.basics.profiles).each(function(){
+				if (this.network.toLowerCase() === "github"){
+					self.data.githubCache = "";
+					if (this.username){
+						self.data.basics.githubUsername = this.username;
+					} else if (this.url){
+						// TODO: Parse
+						self.data.basics.githubUsername = this.url;
+					}
+					
+
+					self.getGithub();
+
+					self.commands.github = {
+						title: "Github Repositories",
+						type: self.commandProcessor.calculated,
+						data: self.data.githubCache,
+						handler: function(data){
+							if (data){
+								return data;
+							} else {
+								return self.getGithub();
+							}
+						},
+						description: "list Github repositories"
+					};
+				} else if (this.network.toLowerCase() === "cmd-resume-pdf"){
+					self.data.basics.pdfLink = this.url;
+				}
+			});
+		};
+
+		self.initSettings = function(){
 			self.commandList = self.getCommandList();
 
 			self.settings = {
-	            greetings: (self.commands.calculated.splash ? self.commands.calculated.splash.handler(self.commands.calculated.splash.data) : "Something"),
+	            greetings: (null ? self.processCommand(self.commands.splash) : "Something"),
 	            onBlur: function() {
 	                // prevent loosing focus
 	                return false;
 	            },
 	            completion: self.commandList
 	        };
+		};
 
-	        updateTitle(self.data.basics.name);
+		self.initHTMLTitle = function(){
+			updateTitle(self.data.basics.name);
 		};
 
 		$.getJSON(endpoint, function(data){
 			self.data = data;
-
-			self.initVariables();
-
 			self.init(options);
 		});
 	};
