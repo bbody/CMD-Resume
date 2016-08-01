@@ -6,7 +6,7 @@
 		// Get element
 		var element = $(this);
 
-		options = options ? options : {};
+		options = options || {};
 
 		// Update HTML title
 		var updateTitle = function(name){
@@ -14,40 +14,6 @@
 		        document.title = name + "'s Résumé";
 		    }
 		};
-
-		// Default Splash Screen
-		var splash = ""
-		+ "                 _________________\n"
-		+ "                /                /|\n"
-		+ "               /                / |\n"
-		+ "              /________________/ /|\n"
-		+ "           ###|      ____      |//|\n"
-		+ "          #   |     /   /|     |/.|\n"
-		+ "         #  __|___ /   /.|     |  |_______________\n"
-		+ "        #  /      /   //||     |  /              /|                  ___\n"
-		+ "       #  /      /___// ||     | /              / |                 / \\ \\\n"
-		+ "       # /______/!   || ||_____|/              /  |                /   \\ \\\n"
-		+ "       #| . . .  !   || ||                    /  _________________/     \\ \\\n"
-		+ "       #|  . .   !   || //      ________     /  /\\________________  {   /  }\n"
-		+ "       /|   .    !   ||//~~~~~~/   0000/    /  / / ______________  {   /  /\n"
-		+ "      / |        !   |'/      /9  0000/    /  / / /             / {   /  /\n"
-		+ "     / #\\________!___|/      /9  0000/    /  / / /_____________/___  /  /\n"
-		+ "    / #     /_____\\/        /9  0000/    /  / / /_  /\\_____________\\/  /\n"
-		+ "   / #                      ``^^^^^^    /   \\ \\ . ./ / ____________   /\n"
-		+ "  +=#==================================/     \\ \\ ./ / /.  .  .  \\ /  /\n"
-		+ "  |#                                   |      \\ \\/ / /___________/  /\n"
-		+ "  #                                    |_______\\__/________________/\n"
-		+ "  |                                    |               |  |  / /       \n"
-		+ "  |                                    |               |  | / /       \n"
-		+ "  |                                    |       ________|  |/ /________       \n"
-		+ "  |                                    |      /_______/    \\_________/\\       \n"
-		+ "  |                                    |     /        /  /           \\ )       \n"
-		+ "  |                                    |    /OO^^^^^^/  / /^^^^^^^^^OO\\)       \n"
-		+ "  |                                    |            /  / /        \n"
-		+ "  |                                    |           /  / /\n"
-		+ "  |                                    |          /___\\/\n"
-		+ "  |hectoras                            |           oo\n"
-		+ "  |____________________________________|\n";
 
 		var styles = {
 			title: {
@@ -261,8 +227,7 @@
 			var result = "";
 
 			if (!top && 
-				command.type !== self.commandProcessor.system &&
-				command !== self.commands.splash){
+				command.type !== self.commandProcessor.system){
 				result += command.title.setTitle();
 			}
 
@@ -275,7 +240,9 @@
 		// Get the Github information
 		self.getGithub = function(){
 	        if (!self.data.githubCache){
-		        $.getJSON('https://api.github.com/users/' + self.data.basics.githubUsername + '/repos?callback=?', function(response){
+	        	var githubAPIURI = 'https://api.github.com/users/' + 
+	        		self.data.basics.githubUsername + '/repos?callback=?';
+		        $.getJSON(githubAPIURI, function(response){
 		            var repos = response.data;
 		            var first = true;
 		            $.each(repos, function(key, value) {
@@ -333,9 +300,12 @@
 					if (!command){
 				        return "man:".setCommand() + " No command entered.";
 				    } else if (self.hasCommand(command)){
-				        return command.setCommand() + " - " + self.commands[command].description;
+				        return command.setCommand() + " - " + 
+				        self.commands[command].description;
 				    } else {
-				        return "man".setCommand() + ": " + command.setCommand() + " is an unknown command.";
+				        return "man".setCommand() + 
+				        ": " + command.setCommand() + 
+				        " is an unknown command.";
 				    }
 				},
 				description: "describes what each command does"
@@ -408,7 +378,9 @@
 					data: self.data.basics.location,
 					type: self.commandProcessor.calculated,
 					handler: function(data){
-						return data.city + (data.region ? ", " + data.region : "") + ", " + data.countryCode;
+						return data.city + 
+							(data.region ? ", " + data.region : "") + 
+							", " + data.countryCode;
 					},
 					description: "current location"
 				};
@@ -434,12 +406,16 @@
 					handler: function(data){
 						var result = "";
 						$.each(data, function(key, value){
-							if (value.network && value.network !== "cmd-resume-pdf"){
+							if (value.network && 
+								value.network !== "cmd-resume-pdf"){
 								if (key !== 0){
 									result += "\n";
 								}
 
-					        	if (value.url){
+								if (value.network.toLowerCase() === "email"){
+									result += value.network + " - " + 
+										value.url.split(":")[1];
+								} else if (value.url){
 					        		result += value.network + " - " + value.url;
 					        	} else if (value.username){
 					        		var url = "";
@@ -483,33 +459,34 @@
 				};
 			}
 
-			if (self.data.cmd_resume && self.data.cmd_resume.splash){
-				self.commands.splash = {
-					title: "Splash Screen",
-					type: self.commandProcessor.calculated,
-					data: self.data.cmd_resume.splash,
-					handler: function(data){
+			self.commands.splash = {
+				title: "Splash Screen",
+				type: self.commandProcessor.system,
+				handler: function(){
+					var results = "";
+
+					if (self.data.cmd_resume.splash){
 						var results = "";
-						if (data){
-							results += data;
-							results += "\n\n";
+						if (self.data.cmd_resume.splash){
+							results += self.data.cmd_resume.splash;
+							results += "\n";
 						}
+					}
 
-						if (self.data.basics.name){
-					        results += "Welcome to " + self.data.basics.name.setName() + "'s résumé.\n";
-					    } else {
-					        results += "Welcome to my résumé.\n";
-					    }
+					if (self.data.basics.name){
+				        results += "Welcome to " + 
+				        	self.data.basics.name.setName() + 
+				        	"'s résumé.\n";
+				    } else {
+				        results += "Welcome to my résumé.\n";
+				    }
 
-					    results += "Type ";
-					    results += "help".setCommand();
-					    results +=" for commands";
+				    results += "\nType " + "help".setCommand() + " for commands";
 
-						return results;
-					},
-					description: "print the welcome screen"
-				};
-			}
+					return results;
+				},
+				description: "print the welcome screen"
+			};
 
 			if (self.data.education && self.data.education.length > 0){
 				self.commands.education = {
@@ -619,8 +596,6 @@
 				self.data.cmd_resume = {};
 			}
 
-			self.data.cmd_resume.splash = self.data.cmd_resume.splash ? self.data.cmd_resume.splash : splash;
-
 			$(self.data.basics.profiles).each(function(){
 				if (this.network.toLowerCase() === "github"){
 					self.data.githubCache = "";
@@ -654,15 +629,11 @@
 			});
 		};
 
-		self.getSplash = function(){
-			return self.commands.splash ? self.processCommand(self.commands.splash) : "Type " + "help".setCommand() + " for commands";
-		}
-
 		self.initSettings = function(){
 			self.commandList = self.getCommandList();
 
 			self.settings = {
-	            greetings: self.getSplash(),
+	            greetings: self.commands.splash.handler(),
 	            onBlur: function() {
 	                // Prevent loosing focus
 	                return false;
