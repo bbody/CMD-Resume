@@ -296,6 +296,7 @@
 		self.initCommands = function(){
 			self.commands.man = {
 				title: "man".setCommand(),
+				description: "describes what each command does",
 				type: self.commandProcessor.system,
 				handler: function(command){
 					if (!command){
@@ -308,12 +309,12 @@
 				        ": " + command.setCommand() + 
 				        " is an unknown command.";
 				    }
-				},
-				description: "describes what each command does"
+				}
 			};
 
 			self.commands.help = {
 				title: "Help",
+				description: "lists help for all the commands",
 				type: self.commandProcessor.system,
 				handler: function(){
 					var commands = "Available Commands:".setTitle();
@@ -322,8 +323,7 @@
 			            commands += key.setCommand() + " - " + value.description;
 				    });
 				    return commands;
-				},
-				description: "lists help for all the commands"
+				}
 			};
 
 			self.commands.clear = {
@@ -333,75 +333,76 @@
 			if (self.data.basics.name){
 				self.commands.name = {
 					title: "Name",
+					description: "owner of the résumé",
 					data: self.data.basics.name,
-					type: self.commandProcessor.basic,
-					description: "owner of the résumé"
+					type: self.commandProcessor.basic
 				};
 			}
 
 			if (self.data.cmd_resume && self.data.cmd_resume.pgpkey){
 				self.commands.pgpkey = {
 					title: "PGP Key",
+					description: "public PGP key",
 					data: self.data.cmd_resume.pgpkey,
 					type: self.commandProcessor.calculated,
 					handler: function(data){
 						return data.setPGP();
-					},
-					description: "public PGP key"
+					}
 				};
 			}
 
 			if (self.data.basics.summary){
 				self.commands.about = {
 					title: "About",
+					description: "about me",
 					data: self.data.basics.summary,
-					type: self.commandProcessor.basic,
-					description: "about me"
+					type: self.commandProcessor.basic
 				};
 			}
 
 			if (self.data.basics.pdfLink){
 				self.commands.pdf = {
 					title: "Resume PDF",
+					description: "pdf version of the résumé",
 					data: self.data.basics.pdfLink,
 					type: self.commandProcessor.calculated,
 					handler: function(data){
 						window.open(data);
 						return data + "\nHint: May need to allow pop-ups.";
-					},
-					description: "pdf version of the résumé"
+					}
 				};
 			}
 
 			if (self.data.basics.location){
 				self.commands.location = {
 					title: "Location",
+					description: "current location",
 					data: self.data.basics.location,
 					type: self.commandProcessor.calculated,
 					handler: function(data){
 						return data.city + 
 							(data.region ? ", " + data.region : "") + 
 							", " + data.countryCode;
-					},
-					description: "current location"
+					}
 				};
 			}
 
 			if (self.data.basics.label){
 				self.commands.lookingfor = {
 					title: "Looking For",
+					description: "looking for what kind of position",
 					data: self.data.basics.label,
 					type: self.commandProcessor.calculated,
 					handler: function(data){
 						return data + " positions";
-					},
-					description: "looking for what kind of position"
+					}
 				};
 			}
 
 			if (self.data.basics.profiles){
 				self.commands.socialmedia = {
 					title: "Social Media",
+					description: "social media profiles",
 					data: self.data.basics.profiles,
 					type: self.commandProcessor.calculated,
 					handler: function(data){
@@ -431,14 +432,14 @@
 					    	}
 					    });
 					    return result;
-					},
-					description: "social media profiles"
+					}
 				};
 			}
 
 			if (self.data.skills && self.data.skills.length > 0){
 				self.commands.skills = {
 					title: "Skills",
+					description: "skills obtained",
 					type: self.commandProcessor.calculated,
 					data: self.data.skills,
 					handler: function(data){
@@ -454,13 +455,13 @@
 						});
 
 						return result;
-					},
-					description: "skills obtained"
+					}
 				};
 			}
 
 			self.commands.splash = {
 				title: "Splash Screen",
+				description: "print the welcome screen",
 				type: self.commandProcessor.system,
 				handler: function(){
 					var results = "";
@@ -483,13 +484,13 @@
 				    results += "\nType " + "help".setCommand() + " for commands";
 
 					return results;
-				},
-				description: "print the welcome screen"
+				}
 			};
 
 			if (self.data.education && self.data.education.length > 0){
 				self.commands.education = {
 					title: "Education",
+					description: "education history",
 					data: self.data.education,
 					type: self.commandProcessor.array,
 					handlers:{
@@ -502,14 +503,14 @@
 						date: function(value){
 							return getDate(value.startDate, value.endDate);
 						}
-					},
-					description: "education history"
+					}
 				};
 			}
 
 			if (self.data.work && self.data.work.length > 0){
 				self.commands.employment = {
 					title: "Employment",
+					description: "employment history",
 					data: self.data.work,
 					type: self.commandProcessor.array,
 					handlers:{
@@ -522,14 +523,14 @@
 						date: function(value){
 							return getDate(value.startDate, value.endDate);
 						}
-					},
-					description: "employment history"
+					}
 				};
 			}
 
 			if (self.data.volunteer && self.data.volunteer.length > 0){
 				self.commands.volunteering = {
 					title: "Volunteering",
+					description: "volunteering history",
 					type: self.commandProcessor.array,
 					data: self.data.volunteer,
 					handlers:{
@@ -542,14 +543,14 @@
 						date: function(value){
 							return getDate(value.startDate, value.endDate);
 						}
-					},
-					description: "volunteering history"
+					}
 				};
 			}
 
 			if (self.data.awards && self.data.awards.length > 0){
 				self.commands.awards = {
 					title: "Awards",
+					description: "awards obtained",
 					type: self.commandProcessor.array,
 					data: self.data.awards,
 					handlers:{
@@ -562,14 +563,14 @@
 						date: function(value){
 							return value.date;
 						}
-					},
-					description: "awards obtained"
+					}
 				};
 			}
 
 			if (self.data.publications && self.data.publications.length > 0){
 				self.commands.publications = {
 					title: "Publications",
+					description: "publications produced",
 					type: self.commandProcessor.array,
 					data: self.data.publications,
 					handlers:{
@@ -582,8 +583,7 @@
 						date: function(value){
 							return value.releaseDate;
 						}
-					},
-					description: "publications produced"
+					}
 				};
 			}
 
@@ -610,6 +610,7 @@
 
 					self.commands.github = {
 						title: "Github Repositories",
+						description: "list Github repositories",
 						type: self.commandProcessor.calculated,
 						data: self.data.githubCache,
 						handler: function(data){
@@ -619,10 +620,9 @@
 							} else {
 								return self.getGithub();
 							}
-						},
-						description: "list Github repositories"
+						}
 					};
-				} else if (this.network.toLowerCase() === "Resume"){
+				} else if (this.network.toLowerCase() === "resume"){
 					self.data.basics.pdfLink = this.url;
 				}
 			});
