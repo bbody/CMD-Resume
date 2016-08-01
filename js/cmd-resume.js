@@ -43,11 +43,11 @@
 						styles[key].color = value.color;
 					}
 
-					if (value.bold){
+					if (typeof value.bold !== 'undefined' && value.bold !== null ){
 						styles[key].bold = value.bold;
 					}
 
-					if (value.italic){
+					if (typeof value.italic !== 'undefined' && value.italic !== null ){
 						styles[key].italic = value.italic;
 					}
 
@@ -63,7 +63,7 @@
 		// Update color
 		String.prototype.setFormat = function(type){
 			var style = styles[type];
-		    var color = style.color ? style.color : null;
+		    var color = style.color ? style.color : "#000";
 		    var bold = style.bold ? style.bold : false;
 		    var italic = style.italic ? style.italic : false;
 		    var backgroundColor = style.backgroundColor ? style.backgroundColor : null;
