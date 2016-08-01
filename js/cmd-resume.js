@@ -198,7 +198,8 @@
 			self.initSettings();
 			self.initHTMLTitle();
 			self.initTerminal();
-			self.showForks = options.showForks === true || options.showForks === "true" ? true : false;
+			self.showForks = options.showForks === true || 
+				options.showForks === "true" ? true : false;
 		};
 
 		// Parse command line
@@ -406,8 +407,7 @@
 					handler: function(data){
 						var result = "";
 						$.each(data, function(key, value){
-							if (value.network && 
-								value.network !== "cmd-resume-pdf"){
+							if (value.network){
 								if (key !== 0){
 									result += "\n";
 								}
@@ -622,7 +622,7 @@
 						},
 						description: "list Github repositories"
 					};
-				} else if (this.network.toLowerCase() === "cmd-resume-pdf"){
+				} else if (this.network.toLowerCase() === "Resume"){
 					self.data.basics.pdfLink = this.url;
 				}
 			});
