@@ -466,7 +466,6 @@
 					var results = "";
 
 					if (self.data.cmd_resume.splash){
-						var results = "";
 						if (self.data.cmd_resume.splash){
 							results += self.data.cmd_resume.splash;
 							results += "\n";
