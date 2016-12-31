@@ -29,6 +29,6 @@
     "download": "http://code.jquery.com/#color",
     "dependencies": {
         "jquery": ">=1.5",
-        "jquery.terminal": ""
+        "jquery.terminal": "=0.11.4"
     }
 }
