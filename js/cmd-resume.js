@@ -2,11 +2,17 @@
 (function($){
 	"use strict";
 
-	$.fn.CMDResume = function(endpoint, options){
+	$.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
 		// Get element
 		var element = $(this);
 
 		options = options || {};
+		
+		if (!options){
+			if ((typeof secondaryEndpoint) !== "string"){
+				options = secondaryEndpoint;
+			}
+		}
 
 		// Update HTML title
 		var updateTitle = function(name){
@@ -187,7 +193,7 @@
 		};
 
 		self.initTerminal = function(){
-			element.terminal(function(command, term) {
+			self.term = element.terminal(function(command, term) {
                 term.echo(self.commandLineParse(command) + "\n");
             }, self.settings);
 		};
@@ -267,11 +273,17 @@
 			            	self.data.githubCache += repoCache;
 		            	}
 		            });
-		            return self.data.githubCache;
+
+		            self.commands.github = {
+						title: "Github Repositories",
+						description: "list Github repositories",
+						type: self.commandProcessor.basic,
+						data: self.data.githubCache
+					};
+
+					self.commandList.push("github");
 		        });
 		    }
-
-		    return self.data.githubCache;
 		};
 
 		// Get list of commands for autocomplete
@@ -587,6 +599,66 @@
 				};
 			}
 
+			if (self.data.languages && self.data.languages.length > 0){
+				self.commands.languages = {
+					title: "Languages",
+					description: "languages",
+					type: self.commandProcessor.array,
+					data: self.data.languages,
+					handlers:{
+						organisation: function(value){
+							return value.language;
+						},
+						title: function(value){
+							return value.fluency;
+						},
+						date: function(value){
+							return "";
+						}
+					}
+				};
+			}
+
+			if (self.data.interests && self.data.interests.length > 0){
+				self.commands.interests = {
+					title: "Interests",
+					description: "interests",
+					type: self.commandProcessor.array,
+					data: self.data.interests,
+					handlers:{
+						organisation: function(value){
+							return value.name + ":";
+						},
+						title: function(value){
+							return value.keywords.join(", ");
+						},
+						date: function(value){
+							return "";
+						}
+					}
+				};
+			}
+
+			if (self.data.references && self.data.references.length > 0){
+				self.commands.references = {
+					title: "References",
+					description: "references",
+					type: self.commandProcessor.array,
+					data: self.data.references,
+					handlers:{
+						organisation: function(value){
+							return (value.name).setName() + ":";
+						},
+						title: function(value){
+							return "\n" + value.reference;
+						},
+						date: function(value){
+							return "";
+						}
+					}
+				};
+			}
+
 		};
 
 		// Initialize variables
@@ -596,7 +668,7 @@
 			}
 
 			$(self.data.basics.profiles).each(function(){
-				if (this.network.toLowerCase() === "github"){
+				if (!self.data.basics.githubUsername && this.network.toLowerCase() === "github"){
 					self.data.githubCache = "";
 					if (this.username){
 						self.data.basics.githubUsername = this.username;
@@ -604,28 +676,14 @@
 						// TODO: Parse
 						self.data.basics.githubUsername = this.url;
 					}
-					
-
-					self.getGithub();
-
-					self.commands.github = {
-						title: "Github Repositories",
-						description: "list Github repositories",
-						type: self.commandProcessor.calculated,
-						data: self.data.githubCache,
-						handler: function(data){
-							console.log(data.length);
-							if (data){
-								return data;
-							} else {
-								return self.getGithub();
-							}
-						}
-					};
 				} else if (this.network.toLowerCase() === "resume"){
 					self.data.basics.pdfLink = this.url;
 				}
 			});
+
+			if (self.data.basics.githubUsername){
+				self.getGithub();
+			}
 		};
 
 		self.initSettings = function(){
@@ -645,9 +703,42 @@
 			updateTitle(self.data.basics.name);
 		};
 
-		$.getJSON(endpoint, function(data){
-			self.data = data;
-			self.init(options);
+		$.getJSON(primaryEndpoint, function(response){
+			self.data = response;
+
+			if (!secondaryEndpoint){
+				self.init(options);
+			}
+
+			$.getJSON(secondaryEndpoint, function(response){
+				self.data.pgpkey = response.pgpkey;
+
+				if (self.data.pgpkey && self.data.pgpkey.length > 0){
+					self.commands.pgpkey = {
+						title: "PGP Key",
+						description: "print PGP key",
+						type: self.commandProcessor.calculated,
+						handler: function(){
+							var results = "";
+
+							for (var i = 0; i < self.data.pgpkey.length; i++){
+								results += self.data.pgpkey[i];
+								if (i !== self.data.pgpkey.length - 1){
+									results += "\n";
+								}
+							}
+							return results.setPGP();
+						}
+					};
+				}
+
+				if (response.github){
+					self.data.basics.githubUsername = response.github;
+					self.data.githubCache = "";
+				}
+
+				self.init(options);
+			});
 		});
 	};
 }(jQuery));
