@@ -448,7 +448,7 @@
 				};
 			}
 
-			if (self.data.skills && self.data.skills.length > 0){
+			if (self.data.skills){
 				self.commands.skills = {
 					title: "Skills",
 					description: "skills obtained",
@@ -499,7 +499,7 @@
 				}
 			};
 
-			if (self.data.education && self.data.education.length > 0){
+			if (self.data.education){
 				self.commands.education = {
 					title: "Education",
 					description: "education history",
@@ -519,7 +519,7 @@
 				};
 			}
 
-			if (self.data.work && self.data.work.length > 0){
+			if (self.data.work){
 				self.commands.employment = {
 					title: "Employment",
 					description: "employment history",
@@ -539,7 +539,7 @@
 				};
 			}
 
-			if (self.data.volunteer && self.data.volunteer.length > 0){
+			if (self.data.volunteer){
 				self.commands.volunteering = {
 					title: "Volunteering",
 					description: "volunteering history",
@@ -559,7 +559,7 @@
 				};
 			}
 
-			if (self.data.awards && self.data.awards.length > 0){
+			if (self.data.awards){
 				self.commands.awards = {
 					title: "Awards",
 					description: "awards obtained",
@@ -579,7 +579,7 @@
 				};
 			}
 
-			if (self.data.publications && self.data.publications.length > 0){
+			if (self.data.publications){
 				self.commands.publications = {
 					title: "Publications",
 					description: "publications produced",
@@ -599,7 +599,7 @@
 				};
 			}
 
-			if (self.data.languages && self.data.languages.length > 0){
+			if (self.data.languages){
 				self.commands.languages = {
 					title: "Languages",
 					description: "languages",
@@ -619,7 +619,7 @@
 				};
 			}
 
-			if (self.data.interests && self.data.interests.length > 0){
+			if (self.data.interests){
 				self.commands.interests = {
 					title: "Interests",
 					description: "interests",
@@ -639,7 +639,7 @@
 				};
 			}
 
-			if (self.data.references && self.data.references.length > 0){
+			if (self.data.references){
 				self.commands.references = {
 					title: "References",
 					description: "references",
@@ -713,7 +713,7 @@
 			$.getJSON(secondaryEndpoint, function(response){
 				self.data.pgpkey = response.pgpkey;
 
-				if (self.data.pgpkey && self.data.pgpkey.length > 0){
+				if (self.data.pgpkey){
 					self.commands.pgpkey = {
 						title: "PGP Key",
 						description: "print PGP key",
