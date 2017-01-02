@@ -435,9 +435,8 @@ var calculatedHandlerFunction = function(command){
 								} else if (value.url){
 					        		result += value.network + " - " + value.url;
 					        	} else if (value.username){
-					        		var url = "";
 
-					        		url = buildUrl(value.network, value.username);
+					        		var url = buildUrl(value.network, value.username) || "";
 
 					        		if (url){
 					        			result += value.network + " - " + url;
