@@ -1,3 +1,147 @@
+// Update HTML title
+var updateTitle = function(name){
+    if (name){
+        document.title = name + "'s Résumé";
+    }
+};
+
+
+// Update color
+String.prototype.setFormat = function(type){
+	var style = styles[type];
+    var color = style.color ? style.color : "#000";
+    var bold = style.bold ? style.bold : false;
+    var italic = style.italic ? style.italic : false;
+    var backgroundColor = style.backgroundColor ? style.backgroundColor : null;
+
+    var result = "[[";
+    if (bold){
+        result += "b";
+    }
+    if (italic){
+        result += "i";
+    }
+    if (color !== null){
+        result += ";";
+        result += color;
+    }
+    if (backgroundColor !== null){
+        if (bold || italic || color !== null){
+            result += ";";
+        }
+        result += backgroundColor;
+    } else {
+        if (bold || italic || color !== null){
+            result += ";";
+        }
+        result += "#000";
+    }
+
+    result += "]";
+    result += this;
+    result += "]";
+
+    return result;
+};
+
+// Title formatter
+String.prototype.setTitle = function(){
+    return this.setFormat("title");
+};
+
+// Command formatter
+String.prototype.setCommand = function(){
+    return this.setFormat("command");
+};
+
+// Name formatter
+String.prototype.setName = function(){
+    return this.setFormat("name");
+};
+
+// PGP formatter
+String.prototype.setPGP = function(){
+	return this.setFormat("pgp");
+};
+
+// Format date
+function getDate(startDate, endDate){
+    return endDate ? startDate + " - " + endDate : startDate + " - Present";
+}
+
+// Get degree name
+function getFullDegree(studyType, area){
+    return studyType ? studyType + " of " + area : area;
+}
+
+// Build URL based on social media username
+function buildUrl(network, username){
+	network = network.toLowerCase();
+	if (network === "twitter"){
+		return "https://www.twitter.com/" + username;
+	} else if (network === "github"){
+		return "https://www.github.com/" + username;
+	} else {
+		return "";
+	}
+}
+
+// Command handlers
+var basicHandlerFunction = function(command){
+	return "\n" + command.data;
+};
+
+var systemHandlerFunction = function(command){
+	return command.handler(command.data);
+};
+
+var arrayHandlerFunction = function(command, top){
+	var result = "";
+
+    $.each(command.data, function(index, value){
+        if (!top){
+            result += "\n";
+        }
+
+        result += command.handlers.organisation(value) + "\t";
+        result += command.handlers.title(value) + "\t";
+        result += command.handlers.date(value);
+
+        // break;
+        if (top && index === 0){
+            return false;
+        }
+    });
+
+	return result;
+};
+
+var initStyles = function(options){
+	$.map(options, function(value, key){
+		if (styles[key]){
+			if (value.color){
+				styles[key].color = value.color;
+			}
+
+			if (typeof value.bold !== 'undefined' && value.bold !== null ){
+				styles[key].bold = value.bold;
+			}
+
+			if (typeof value.italic !== 'undefined' && value.italic !== null ){
+				styles[key].italic = value.italic;
+			}
+
+			if (value.backgroundColor){
+				styles[key].backgroundColor = value.backgroundColor;
+			}
+		}
+	});
+};
+
+var calculatedHandlerFunction = function(command){
+	return "\n" + command.handler(command.data);
+};
+
 /*globals jQuery:false */
 (function($){
 	"use strict";
@@ -14,13 +158,7 @@
 			}
 		}
 
-		// Update HTML title
-		var updateTitle = function(name){
-		    if (name){
-		        document.title = name + "'s Résumé";
-		    }
-		};
-
+		
 		var styles = {
 			title: {
                 color: "red",
@@ -42,145 +180,8 @@
             }
 		};
 
-		var initStyles = function(){
-			$.map(options, function(value, key){
-				if (styles[key]){
-					if (value.color){
-						styles[key].color = value.color;
-					}
+		initStyles(options);
 
-					if (typeof value.bold !== 'undefined' && value.bold !== null ){
-						styles[key].bold = value.bold;
-					}
-
-					if (typeof value.italic !== 'undefined' && value.italic !== null ){
-						styles[key].italic = value.italic;
-					}
-
-					if (value.backgroundColor){
-						styles[key].backgroundColor = value.backgroundColor;
-					}
-				}
-			});
-		};
-
-		initStyles();
-
-		// Update color
-		String.prototype.setFormat = function(type){
-			var style = styles[type];
-		    var color = style.color ? style.color : "#000";
-		    var bold = style.bold ? style.bold : false;
-		    var italic = style.italic ? style.italic : false;
-		    var backgroundColor = style.backgroundColor ? style.backgroundColor : null;
-
-		    var result = "[[";
-		    if (bold){
-		        result += "b";
-		    }
-		    if (italic){
-		        result += "i";
-		    }
-		    if (color !== null){
-		        result += ";";
-		        result += color;
-		    }
-		    if (backgroundColor !== null){
-		        if (bold || italic || color !== null){
-		            result += ";";
-		        }
-		        result += backgroundColor;
-		    } else {
-		        if (bold || italic || color !== null){
-		            result += ";";
-		        }
-		        result += "#000";
-		    }
-
-		    result += "]";
-		    result += this;
-		    result += "]";
-
-		    return result;
-		};
-
-		// Title formatter
-		String.prototype.setTitle = function(){
-		    return this.setFormat("title");
-		};
-
-		// Command formatter
-		String.prototype.setCommand = function(){
-		    return this.setFormat("command");
-		};
-
-		// Name formatter
-		String.prototype.setName = function(){
-		    return this.setFormat("name");
-		};
-
-		// PGP formatter
-		String.prototype.setPGP = function(){
-			return this.setFormat("pgp");
-		};
-
-		// Format date
-		function getDate(startDate, endDate){
-		    return endDate ? startDate + " - " + endDate : startDate + " - Present";
-		}
-
-		// Get degree name
-		function getFullDegree(studyType, area){
-		    return studyType ? studyType + " of " + area : area;
-		}
-
-		// Build URL based on social media username
-		function buildUrl(network, username){
-			network = network.toLowerCase();
-			if (network === "twitter"){
-				return "https://www.twitter.com/" + username;
-			} else if (network === "github"){
-				return "https://www.github.com/" + username;
-			} else {
-				return "";
-			}
-		}
-
-		// Command handlers
-		var basicHandlerFunction = function(command){
-			return "\n" + command.data;
-		};
-
-		var systemHandlerFunction = function(command){
-			return command.handler(command.data);
-		};
-
-		var arrayHandlerFunction = function(command, top){
-			var result = "";
-
-		    $.each(command.data, function(index, value){
-		        if (!top){
-		            result += "\n";
-		        }
-
-		        result += command.handlers.organisation(value) + "\t";
-		        result += command.handlers.title(value) + "\t";
-		        result += command.handlers.date(value);
-
-		        // break;
-		        if (top && index === 0){
-		            return false;
-		        }
-		    });
-
-			return result;
-		};
-
-		var calculatedHandlerFunction = function(command){
-			return "\n" + command.handler(command.data);
-		};
-
-		
 		var self = {};
 
 		self.commands = {};
