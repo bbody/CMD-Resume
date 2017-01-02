@@ -1,3 +1,5 @@
+"use strict";
+
 // Default styles for displaying text
 var defaultStyles = {
 	standard: {
@@ -673,9 +675,6 @@ var initStyles = function(defaultStyles, options){
 						},
 						title: function(value){
 							return value.fluency;
-						},
-						date: function(value){
-							return "";
 						}
 					}
 				};
@@ -693,9 +692,6 @@ var initStyles = function(defaultStyles, options){
 						},
 						title: function(value){
 							return value.keywords.join(", ");
-						},
-						date: function(value){
-							return "";
 						}
 					}
 				};
@@ -713,9 +709,6 @@ var initStyles = function(defaultStyles, options){
 						},
 						title: function(value){
 							return "\n" + value.reference;
-						},
-						date: function(value){
-							return "";
 						}
 					}
 				};
