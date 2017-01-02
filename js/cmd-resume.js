@@ -2,6 +2,8 @@
 var updateTitle = function(name){
     if (name){
         document.title = name + "'s Résumé";
+    } else {
+    	document.title = "Command Line Résumé";
     }
 };
 
@@ -152,6 +154,7 @@ var calculatedHandlerFunction = function(command){
 
 		options = options || {};
 		
+		// If there are no options, this might mean the second variable is options
 		if (!options){
 			if ((typeof secondaryEndpoint) !== "string"){
 				options = secondaryEndpoint;
