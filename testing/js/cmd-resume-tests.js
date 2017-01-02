@@ -36,11 +36,6 @@ QUnit.test("Title changed with an undefined name", function(assert){
 	assert.equal(document.title, "Command Line Résumé");
 });
 
-QUnit.test("Title changed with an undefined name", function(assert){
-	updateTitle(undefined);
-	assert.equal(document.title, "Command Line Résumé");
-});
-
 QUnit.module( "Static tests", {
   beforeEach: function() {
     // prepare something for all following tests
