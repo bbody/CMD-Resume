@@ -50,6 +50,36 @@ QUnit.module( "Static tests", {
   }
 });
 
+QUnit.test("Wrap formatting", function(assert){
+	var result = wrappedFormatting("style", "text");
+	assert.equal(result, "[[style]text]");
+});
+
+QUnit.test("Wrap formatting without style", function(assert){
+	var result = wrappedFormatting("", "text");
+	assert.equal(result, "[[]text]");
+});
+
+QUnit.test("Wrap formatting without text", function(assert){
+	var result = wrappedFormatting("style", "");
+	assert.equal(result, "[[style]]");
+});
+
+QUnit.test("Wrap formatting with null style", function(assert){
+	var result = wrappedFormatting(null, "text");
+	assert.equal(result, "[[]text]");
+});
+
+QUnit.test("Wrap formatting with null text", function(assert){
+	var result = wrappedFormatting("style", null);
+	assert.equal(result, "[[style]]");
+});
+
+QUnit.test("Wrap formatting with null style and text", function(assert){
+	var result = wrappedFormatting();
+	assert.equal(result, "");
+});
+
 QUnit.test("Title test setFormat", function(assert){
 	var result = "Hello World".setFormat("title");
 	assert.equal(result, "[[b;red;#000]Hello World]");

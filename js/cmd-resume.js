@@ -36,8 +36,16 @@ var updateTitle = function(name){
     }
 };
 
-// Wrap 
+// Wrap around styling
 var wrappedFormatting = function(style, content){
+	// Check if both variables are null/empty
+	if (!style && !content){
+		return "";
+	}
+
+	style = style ? style : "";
+	content = content ? content : "";
+
 	return "[[" + style + "]" + content + "]";
 };
 
@@ -191,7 +199,7 @@ var arrayHandlerFunction = function(command, top){
 // Intiate styles with custom added options
 var initStyles = function(defaultStyles, options){
 	var styles = jQuery.extend(true, {}, defaultStyles);
-	
+
 	jQuery.map(options, function(value, key){
 		if (defaultStyles[key]){
 			if (value.color){
