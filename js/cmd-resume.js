@@ -121,7 +121,7 @@ var systemHandlerFunction = function(command){
 var arrayHandlerFunction = function(command, top){
 	var result = "";
 
-    $.each(command.data, function(index, value){
+    jQuery.each(command.data, function(index, value){
         if (!top){
             result += "\n";
         }
