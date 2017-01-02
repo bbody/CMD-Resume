@@ -240,7 +240,7 @@ var initStyles = function(defaultStyles, options){
 			}
 		}
 
-		initStyles(defaultStyles, options);
+		defaultStyles = initStyles(defaultStyles, options);
 
 		var self = {};
 
