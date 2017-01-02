@@ -1,3 +1,24 @@
+var styles = {
+	title: {
+        color: "red",
+        bold: true
+    },
+    command: {
+    	color: "white",
+    	bold: false,
+    	italic: true
+    },
+    pgp: {
+    	color: "white",
+    	bold: false,
+    	italic: true
+    },
+    name: {
+    	color: "green",
+    	bold: true
+    }
+};
+
 // Update HTML title
 var updateTitle = function(name){
     if (name){
@@ -160,28 +181,6 @@ var calculatedHandlerFunction = function(command){
 				options = secondaryEndpoint;
 			}
 		}
-
-		
-		var styles = {
-			title: {
-                color: "red",
-                bold: true
-            },
-            command: {
-            	color: "white",
-            	bold: false,
-            	italic: true
-            },
-            pgp: {
-            	color: "white",
-            	bold: false,
-            	italic: true
-            },
-            name: {
-            	color: "green",
-            	bold: true
-            }
-		};
 
 		initStyles(options);
 
@@ -464,6 +463,8 @@ var calculatedHandlerFunction = function(command){
 							result += value.level;
 							result += " in ";
 							result += value.name;
+
+							// Make sure not the last entry (to avoid putting in a newline)
 							if (key !== data.length - 1){
 								result += "\n";
 							}
