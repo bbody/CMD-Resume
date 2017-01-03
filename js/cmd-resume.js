@@ -231,7 +231,6 @@ var initStyles = function(defaultStyles, options){
 
 /*globals jQuery:false */
 (function($){
-	"use strict";
 
 	$.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
 		// Get element
@@ -318,14 +317,14 @@ var initStyles = function(defaultStyles, options){
 	        if (!self.data.githubCache){
 	        	var githubAPIURI = 'https://api.github.com/users/' + 
 	        		self.data.basics.githubUsername + '/repos?callback=?';
-        		var ownRepoName = self.data.basics.githubUsername.toLowerCase() 
-        			+ '.github.com';
+        		var ownRepo = self.data.basics.githubUsername.toLowerCase() +
+        			'.github.com';
 		        $.getJSON(githubAPIURI, function(response){
 		            var repos = response.data;
 		            var first = true;
 		            $.each(repos, function(key, value) {
 
-		            	if (value && (value.name !== ownRepoName) &&
+		            	if (value && (value.name !== ownRepo) &&
 		            		(self.showForks === value.fork || !value.fork)){
 		            		var repoCache = "";
 
@@ -403,7 +402,7 @@ var initStyles = function(defaultStyles, options){
 					var commands = "Available Commands:".setTitle();
 					$.map(self.commands, function(value, key) {
 				        commands += "\n";
-			            commands += key.setCommand()
+			            commands += key.setCommand();
 			            commands += " - ";
 			            commands += value.description;
 				    });
@@ -570,7 +569,7 @@ var initStyles = function(defaultStyles, options){
 				        results += "Welcome to my résumé.\n";
 				    }
 
-				    results += "\nType "
+				    results += "\nType ";
 				    results += "help".setCommand();
 				    results += " for commands";
 
@@ -738,8 +737,8 @@ var initStyles = function(defaultStyles, options){
 			}
 
 			$(self.data.basics.profiles).each(function(){
-				if (!self.data.basics.githubUsername
-					&& this.network.toLowerCase() === "github"){
+				if (!self.data.basics.githubUsername && 
+					this.network.toLowerCase() === "github"){
 					self.data.githubCache = "";
 					if (this.username){
 						self.data.basics.githubUsername = this.username;
