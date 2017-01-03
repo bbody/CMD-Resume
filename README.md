@@ -39,3 +39,9 @@ CMD-Resume is a Javascript based command line for demonstrating your resume. [He
 	$("body").CMDResume("uri/path/to/json-resume.json", "uri/path/to/cmd-resume-custom-data.json", settings);
 ```
 8. Upload to website
+
+## Bugs and suggestions
+If you find any bugs or have any suggestions on how to improve CMD Resume please post in the [Github issues](https://github.com/bbody/CMD-Resume/issues).
+
+## How to contribute
+If you wish to contribute feel free to fork the repository, make changes and submit a pull request. Please also write test cases with it. If you wish to work on existing issues please check out the [Github issues](https://github.com/bbody/CMD-Resume/issues).
