@@ -204,6 +204,7 @@ var arrayHandlerFunction = function(command, top){
 
 // Intiate styles with custom added options
 var initStyles = function(defaultStyles, options){
+	// Copy the object
 	var styles = jQuery.extend(true, {}, defaultStyles);
 
 	jQuery.map(options, function(value, key){

@@ -664,3 +664,5 @@ QUnit.test("Override some styles", function(assert){
 
 	assert.deepEqual(result, expectedResult);
 });
+
+
