@@ -53,11 +53,13 @@ var wrappedFormatting = function(style, content){
 
 // Update color
 String.prototype.setFormat = function(type){
-	var style = defaultStyles[type] ? defaultStyles[type] : defaultStyles.standard;
+	var style = defaultStyles[type] ? 
+		defaultStyles[type] : defaultStyles.standard;
     var color = style.color ? style.color : defaultStyles.standard.color;
     var bold = style.bold ? style.bold : defaultStyles.standard.bold;
     var italic = style.italic ? style.italic : defaultStyles.standard.italic;
-    var backgroundColor = style.backgroundColor ? style.backgroundColor : defaultStyles.standard.backgroundColor;
+    var backgroundColor = style.backgroundColor ? 
+    	style.backgroundColor : defaultStyles.standard.backgroundColor;
 
     var result = "";
     if (bold){
@@ -107,7 +109,8 @@ String.prototype.setPGP = function(){
 
 // Format date
 function getDate(startDate, endDate){
-    return endDate ? startDate + " - " + endDate : startDate ? startDate + " - Present" : "";
+    return endDate ? startDate + " - " + endDate : startDate ? 
+    	startDate + " - Present" : "";
 }
 
 // Get degree name
@@ -160,7 +163,8 @@ var arrayHandlerFunction = function(command, top){
 	var result = "";
 
 	if (!command.handlers || 
-		(!command.handlers.title && !command.handlers.organisation && !command.handlers.date)){
+		(!command.handlers.title && !command.handlers.organisation && 
+			!command.handlers.date)){
 		return result;
 	}
 
@@ -235,7 +239,7 @@ var initStyles = function(defaultStyles, options){
 
 		options = options || {};
 		
-		// If there are no options, this might mean the second variable is options
+		// If there are no options, use second variable as options
 		if (!options){
 			if ((typeof secondaryEndpoint) !== "string"){
 				options = secondaryEndpoint;
@@ -276,8 +280,10 @@ var initStyles = function(defaultStyles, options){
 		    var commandList = input.toLowerCase().split(" ");
 
 		    // Command sections
-		    var rootCommand = commandList[0] !== undefined ? commandList[0] : false;
-		    var stemCommand = commandList[1] !== undefined && commandList[1].length > 0 ? commandList[1] : false;
+		    var rootCommand = commandList[0] !== undefined ? 
+		    	commandList[0] : false;
+		    var stemCommand = commandList[1] !== undefined && 
+		    	commandList[1].length > 0 ? commandList[1] : false;
 		    var command = self.commands[rootCommand];
 		    if (rootCommand === "man"){
 		    	return self.commands.man.handler(stemCommand);
@@ -312,12 +318,14 @@ var initStyles = function(defaultStyles, options){
 	        if (!self.data.githubCache){
 	        	var githubAPIURI = 'https://api.github.com/users/' + 
 	        		self.data.basics.githubUsername + '/repos?callback=?';
+        		var ownRepoName = self.data.basics.githubUsername.toLowerCase() 
+        			+ '.github.com';
 		        $.getJSON(githubAPIURI, function(response){
 		            var repos = response.data;
 		            var first = true;
 		            $.each(repos, function(key, value) {
-		            	if (value && 
-		            		(value.name !== (self.data.basics.githubUsername.toLowerCase() + '.github.com')) &&
+
+		            	if (value && (value.name !== ownRepoName) &&
 		            		(self.showForks === value.fork || !value.fork)){
 		            		var repoCache = "";
 
@@ -395,7 +403,9 @@ var initStyles = function(defaultStyles, options){
 					var commands = "Available Commands:".setTitle();
 					$.map(self.commands, function(value, key) {
 				        commands += "\n";
-			            commands += key.setCommand() + " - " + value.description;
+			            commands += key.setCommand()
+			            commands += " - ";
+			            commands += value.description;
 				    });
 				    return commands;
 				}
@@ -495,7 +505,10 @@ var initStyles = function(defaultStyles, options){
 					        		result += value.network + " - " + value.url;
 					        	} else if (value.username){
 
-					        		var url = buildUrl(value.network, value.username) || "";
+					        		var url = "";
+
+					        		url = buildUrl(value.network, 
+					        			value.username);
 
 					        		if (url){
 					        			result += value.network + " - " + url;
@@ -524,7 +537,7 @@ var initStyles = function(defaultStyles, options){
 							result += " in ";
 							result += value.name;
 
-							// Make sure not the last entry (to avoid putting in a newline)
+							// Make sure not the last entry
 							if (key !== data.length - 1){
 								result += "\n";
 							}
@@ -557,7 +570,9 @@ var initStyles = function(defaultStyles, options){
 				        results += "Welcome to my résumé.\n";
 				    }
 
-				    results += "\nType " + "help".setCommand() + " for commands";
+				    results += "\nType "
+				    results += "help".setCommand();
+				    results += " for commands";
 
 					return results;
 				}
@@ -723,7 +738,8 @@ var initStyles = function(defaultStyles, options){
 			}
 
 			$(self.data.basics.profiles).each(function(){
-				if (!self.data.basics.githubUsername && this.network.toLowerCase() === "github"){
+				if (!self.data.basics.githubUsername
+					&& this.network.toLowerCase() === "github"){
 					self.data.githubCache = "";
 					if (this.username){
 						self.data.basics.githubUsername = this.username;
