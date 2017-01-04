@@ -295,20 +295,24 @@ var getGithub = function(uri, username, showForks, callback){
 	var ownRepo = username.toLowerCase() + '.github.com';
 
     jQuery.getJSON(uri + '?callback=?', function(response){
-        var repos = response.data;
-
-        jQuery.each(repos, function(key, value) {
-
-        	if (value &&
-        		(value.name !== ownRepo) &&
-        		(showForks === value.fork || !value.fork)){
-        		result.push(value);
-        	}
-        });
-
         // Run callback
-        callback(result);
+        callback(filterGithubFork(response.data, ownRepo, showForks));
     });
+};
+
+// Go through Github array (Split to make testing easier)
+var filterGithubFork = function(repos, ownRepo, showForks){
+	var result = [];
+
+	jQuery.each(repos, function(key, value) {
+    	if (value &&
+    		(value.name !== ownRepo) &&
+    		(showForks === value.fork || !value.fork)){
+    		result.push(value);
+    	}
+    });
+
+    return result;
 };
 
 // Format Github response

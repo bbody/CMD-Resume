@@ -702,8 +702,23 @@ QUnit.test("Github username", function(assert){
 	assert.equal(getGithubUri(), "");
 });
 
-QUnit.test("Github without fork", function(assert){
-	getGithub("responses/github.json", "test", true, function(result){
-		assert.equal(result.length, 3);
+QUnit.test("Github without forks", function(assert){
+	assert.expect(1);
+
+	jQuery.getJSON('responses/github.json', function(response){
+		var result = filterGithubFork(response, "test.github.com", false);
+		console.log(result);
+		assert.equal(result.length, 4);
 	});
 });
+
+QUnit.test("Github with forks", function(assert){
+	assert.expect(1);
+
+	jQuery.getJSON('responses/github.json', function(response){
+		var result = filterGithubFork(response, "test.github.com", true);
+		console.log(result);
+		assert.equal(result.length, 5);
+	});
+});
+
