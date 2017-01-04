@@ -695,3 +695,15 @@ QUnit.test("Override some styles", function(assert){
 });
 
 
+QUnit.test("Github username", function(assert){
+	assert.equal(getGithubUri("test"), "https://api.github.com/users/test/repos");
+	assert.equal(getGithubUri(""), "");
+	assert.equal(getGithubUri(null), "");
+	assert.equal(getGithubUri(), "");
+});
+
+QUnit.test("Github without fork", function(assert){
+	getGithub("responses/github.json", "test", true, function(result){
+		assert.equal(result.length, 3);
+	});
+});

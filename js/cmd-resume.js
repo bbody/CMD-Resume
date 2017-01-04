@@ -278,42 +278,54 @@ var initStyles = function(defaultStyles, options){
 	return styles;
 };
 
+// Get Github URI based on username
+var getGithubUri = function(username){
+	// Return empty is username is empty
+	if (!username){
+		return "";
+	}
+
+	return 'https://api.github.com/users/' + username + '/repos';
+};
+
 // Get the Github information
-var getGithub = function(username, showForks, callback){
-	var result = "";
-	var githubAPIURI = 'https://api.github.com/users/' + username + 
-		'/repos?callback=?';
-	var ownRepo = username.toLowerCase() +
-		'.github.com';
-    jQuery.getJSON(githubAPIURI, function(response){
+var getGithub = function(uri, username, showForks, callback){
+	var result = [];
+	
+	var ownRepo = username.toLowerCase() + '.github.com';
+
+    jQuery.getJSON(uri + '?callback=?', function(response){
         var repos = response.data;
-        var first = true;
+
         jQuery.each(repos, function(key, value) {
 
-        	if (value && (value.name !== ownRepo) &&
+        	if (value &&
+        		(value.name !== ownRepo) &&
         		(showForks === value.fork || !value.fork)){
-        		var repoCache = "";
-
-        		if (!first){
-        			repoCache += "\n";
-        		} else {
-        			first = false;
-        		}
-
-            	repoCache += value.name.setName();
-
-            	if (value.description){
-            		repoCache += " - " + value.description;
-            	}
-            	
-            	result += repoCache;
+        		result.push(value);
         	}
         });
 
         // Run callback
-
         callback(result);
     });
+};
+
+// Format Github response
+var formatGithub = function(repository, first){
+	var repoCache = "";
+
+	if (!first){
+		repoCache += "\n";
+	}
+
+	repoCache += repository.name.setName();
+
+	if (repository.description){
+		repoCache += " - " + repository.description;
+	}
+	
+	return repoCache;
 };
 
 /*globals jQuery:false */
@@ -798,13 +810,18 @@ var getGithub = function(username, showForks, callback){
 			});
 
 			if (self.data.basics.githubUsername){
-				getGithub(self.data.basics.githubUsername, self.showForks, 
+				getGithub(getGithubUri(self.data.basics.githubUsername), self.data.basics.githubUsername, self.showForks, 
 					function(result){
+						var formattedString = "";
+						$.each(result, function(key, value){
+							formattedString += formatGithub(value, key === 0);
+						})
+
 						self.commands.github = {
 							title: "Github Repositories",
 							description: "list Github repositories",
 							type: self.commandProcessor.basic,
-							data: result
+							data: formattedString
 						};
 
 						self.commandList.push("github");
@@ -861,6 +878,10 @@ var getGithub = function(username, showForks, callback){
 				if (response.github){
 					self.data.basics.githubUsername = response.github;
 					self.data.githubCache = "";
+				}
+
+				if (response.splash){
+					self.data.splash = response.splash;
 				}
 
 				self.init(options);
