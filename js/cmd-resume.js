@@ -230,6 +230,44 @@ var initStyles = function(defaultStyles, options){
 	return styles;
 };
 
+// Get the Github information
+var getGithub = function(username, showForks, callback){
+	var result = "";
+	var githubAPIURI = 'https://api.github.com/users/' + username + 
+		'/repos?callback=?';
+	var ownRepo = username.toLowerCase() +
+		'.github.com';
+    $.getJSON(githubAPIURI, function(response){
+        var repos = response.data;
+        var first = true;
+        $.each(repos, function(key, value) {
+
+        	if (value && (value.name !== ownRepo) &&
+        		(showForks === value.fork || !value.fork)){
+        		var repoCache = "";
+
+        		if (!first){
+        			repoCache += "\n";
+        		} else {
+        			first = false;
+        		}
+
+            	repoCache += value.name.setName();
+
+            	if (value.description){
+            		repoCache += " - " + value.description;
+            	}
+            	
+            	result += repoCache;
+        	}
+        });
+
+        // Run callback
+
+        callback(result);
+    });
+};
+
 /*globals jQuery:false */
 (function($){
 
@@ -265,14 +303,18 @@ var initStyles = function(defaultStyles, options){
             }, self.settings);
 		};
 
+		self.initGithubForks = function(){
+			self.showForks = options.showForks === true || 
+				options.showForks === "true" ? true : false;
+		};
+
 		self.init = function(options){
 			self.initVariables();
 			self.initCommands();
 			self.initSettings();
 			self.initHTMLTitle();
 			self.initTerminal();
-			self.showForks = options.showForks === true || 
-				options.showForks === "true" ? true : false;
+			self.initGithubForks();
 		};
 
 		// Parse command line
@@ -310,51 +352,6 @@ var initStyles = function(defaultStyles, options){
 			result += command.type(command, top);
 
 			return result;
-		};
-
-		
-		// Get the Github information
-		self.getGithub = function(){
-	        if (!self.data.githubCache){
-	        	var githubAPIURI = 'https://api.github.com/users/' + 
-	        		self.data.basics.githubUsername + '/repos?callback=?';
-        		var ownRepo = self.data.basics.githubUsername.toLowerCase() +
-        			'.github.com';
-		        $.getJSON(githubAPIURI, function(response){
-		            var repos = response.data;
-		            var first = true;
-		            $.each(repos, function(key, value) {
-
-		            	if (value && (value.name !== ownRepo) &&
-		            		(self.showForks === value.fork || !value.fork)){
-		            		var repoCache = "";
-
-		            		if (!first){
-		            			repoCache += "\n";
-		            		} else {
-		            			first = false;
-		            		}
-
-			            	repoCache += value.name.setName();
-
-			            	if (value.description){
-			            		repoCache += " - " + value.description;
-			            	}
-			            	
-			            	self.data.githubCache += repoCache;
-		            	}
-		            });
-
-		            self.commands.github = {
-						title: "Github Repositories",
-						description: "list Github repositories",
-						type: self.commandProcessor.basic,
-						data: self.data.githubCache
-					};
-
-					self.commandList.push("github");
-		        });
-		    }
 		};
 
 		// Get list of commands for autocomplete
@@ -753,7 +750,17 @@ var initStyles = function(defaultStyles, options){
 			});
 
 			if (self.data.basics.githubUsername){
-				self.getGithub();
+				getGithub(self.data.basics.githubUsername, self.showForks, 
+					function(result){
+						self.commands.github = {
+							title: "Github Repositories",
+							description: "list Github repositories",
+							type: self.commandProcessor.basic,
+							data: result
+						};
+
+						self.commandList.push("github");
+				});
 			}
 		};
 
