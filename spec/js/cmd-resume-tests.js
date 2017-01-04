@@ -45,6 +45,35 @@ QUnit.module( "Static tests", {
   }
 });
 
+QUnit.test("Named color is valid", function(assert){
+	assert.ok(isValidNamedColor("white"));
+	assert.ok(isValidNamedColor("black"));
+	assert.notOk(isValidNamedColor("test"));
+	assert.notOk(isValidNamedColor(""));
+	assert.notOk(isValidNamedColor(null));
+	assert.notOk(isValidNamedColor());
+	assert.notOk(isValidNamedColor("#000"));
+});
+
+QUnit.test("Hex color is valid", function(assert){
+	assert.ok(isValidHexColor("#FFF"));
+	assert.ok(isValidHexColor("#000"));
+	assert.notOk(isValidHexColor("test"));
+	assert.notOk(isValidHexColor(""));
+	assert.notOk(isValidHexColor(null));
+	assert.notOk(isValidHexColor());
+	assert.notOk(isValidHexColor("white"));
+});
+
+QUnit.test("Color is valid", function(assert){
+	assert.ok(isValidColor("#FFF"));
+	assert.ok(isValidColor("white"));
+	assert.notOk(isValidColor("test"));
+	assert.notOk(isValidColor(""));
+	assert.notOk(isValidColor(null));
+	assert.notOk(isValidColor());
+});
+
 QUnit.test("Wrap formatting", function(assert){
 	var result = wrappedFormatting("style", "text");
 	assert.equal(result, "[[style]text]");

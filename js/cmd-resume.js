@@ -123,12 +123,12 @@ var isValidColor = function(color){
 // Checks if the colors name is a valid HTML color name
 var isValidNamedColor = function(color){
 	// Leverages the jQuery Terminal color array
-	return jQuery.inArray(color, jQuery.terminal.color_names) > 0;
+	return jQuery.inArray(color, jQuery.terminal.color_names) >= 0;
 };
 
 // Checks whether the number is of the correct format to be a color
 var isValidHexColor = function(color){
-	if (color.charAt(0) !== "#"){
+	if (!color || color.charAt(0) !== "#"){
 		return false;
 	} else {
 		// Remove one length to account for #
