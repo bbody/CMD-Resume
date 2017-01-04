@@ -237,10 +237,10 @@ var getGithub = function(username, showForks, callback){
 		'/repos?callback=?';
 	var ownRepo = username.toLowerCase() +
 		'.github.com';
-    $.getJSON(githubAPIURI, function(response){
+    jQuery.getJSON(githubAPIURI, function(response){
         var repos = response.data;
         var first = true;
-        $.each(repos, function(key, value) {
+        jQuery.each(repos, function(key, value) {
 
         	if (value && (value.name !== ownRepo) &&
         		(showForks === value.fork || !value.fork)){
@@ -303,7 +303,7 @@ var getGithub = function(username, showForks, callback){
             }, self.settings);
 		};
 
-		self.initGithubForks = function(){
+		self.initGithubForks = function(options){
 			self.showForks = options.showForks === true || 
 				options.showForks === "true" ? true : false;
 		};
@@ -314,7 +314,7 @@ var getGithub = function(username, showForks, callback){
 			self.initSettings();
 			self.initHTMLTitle();
 			self.initTerminal();
-			self.initGithubForks();
+			self.initGithubForks(options);
 		};
 
 		// Parse command line
