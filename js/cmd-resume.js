@@ -62,26 +62,34 @@ String.prototype.setFormat = function(type){
     	style.backgroundColor : defaultStyles.standard.backgroundColor;
 
     var result = "";
+
     if (bold){
         result += "b";
     }
+
     if (italic){
         result += "i";
     }
-    if (color !== null){
+
+    if (color && isValidColor(color)){
         result += ";";
         result += color;
+    } else {
+    	// Set to null, if the color is not valid
+    	color = null;
     }
-    if (backgroundColor !== null){
-        if (bold || italic || color !== null){
+
+    if (backgroundColor && isValidColor(backgroundColor)){
+        if (bold || italic || color){
             result += ";";
         }
         result += backgroundColor;
     } else {
-        if (bold || italic || color !== null){
-            result += ";";
-        }
-        result += "#000";
+        result += !bold ? ";" : "";
+        result += !italic ? ";" : "";
+        result += !color ? ";" : "";
+
+        result += defaultStyles.standard.backgroundColor;
     }
 
     return wrappedFormatting(result, this);
@@ -106,6 +114,12 @@ String.prototype.setName = function(){
 String.prototype.setPGP = function(){
 	return this.setFormat("pgp");
 };
+
+// Check if a valid color
+var isValidColor = function(color){
+	// Leverages the jQuery Terminal color array
+	return jQuery.inArray(color, jQuery.terminal.color_names) > 0;
+}
 
 // Format date
 function getDate(startDate, endDate){
