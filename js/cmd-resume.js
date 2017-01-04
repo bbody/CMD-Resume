@@ -128,6 +128,7 @@ var isValidNamedColor = function(color){
 
 // Checks whether the number is of the correct format to be a color
 var isValidHexColor = function(color){
+	// Check first digit is #
 	if (!color || color.charAt(0) !== "#"){
 		return false;
 	} else {
