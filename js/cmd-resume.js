@@ -163,7 +163,7 @@ var getDate = function(startDate, endDate){
 // Get degree name
 var getFullDegree = function(studyType, area){
     return area ? studyType + " of " + area : studyType ? studyType : "";
-}
+};
 
 // Build URL based on social media username
 var buildUrl = function(network, username){
@@ -175,7 +175,7 @@ var buildUrl = function(network, username){
 	} else {
 		return "";
 	}
-}
+};
 
 // Basic command handlers
 var basicHandlerFunction = function(command){
