@@ -155,18 +155,18 @@ var isValidHexColor = function(color){
 };
 
 // Format date
-function getDate(startDate, endDate){
+var getDate = function(startDate, endDate){
     return endDate ? startDate + " - " + endDate : startDate ? 
     	startDate + " - Present" : "";
-}
+};
 
 // Get degree name
-function getFullDegree(studyType, area){
+var getFullDegree = function(studyType, area){
     return area ? studyType + " of " + area : studyType ? studyType : "";
 }
 
 // Build URL based on social media username
-function buildUrl(network, username){
+var buildUrl = function(network, username){
 	network = network.toLowerCase();
 	if (network === "twitter"){
 		return "https://www.twitter.com/" + username;
