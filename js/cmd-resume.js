@@ -117,7 +117,7 @@ String.prototype.setPGP = function(){
 
 // Check if a valid color
 var isValidColor = function(color){
-	return isValidNamedColor(color) || isValidHexColor(color);
+	return isValidHexColor(color) || isValidNamedColor(color);
 };
 
 // Checks if the colors name is a valid HTML color name
