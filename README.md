@@ -47,7 +47,7 @@ If you find any bugs or have any suggestions on how to improve CMD Resume please
 If you wish to contribute feel free to fork the repository, make changes and submit a pull request. Please also write test cases with it. If you wish to work on existing issues please check out the [Github issues](https://github.com/bbody/CMD-Resume/issues).
 
 ## Roadmap
-- Unit testing
+- Comprehensive Unit testing
 - Schema for extra variables
 - Skills table styling
 - Add to jQuery library files
