@@ -292,8 +292,6 @@ var getGithubUri = function(username){
 
 // Get the Github information
 var getGithub = function(uri, username, showForks, callback){
-	var result = [];
-	
 	var ownRepo = username.toLowerCase() + '.github.com';
 
     jQuery.getJSON(uri + '?callback=?', function(response){
@@ -820,7 +818,7 @@ var formatGithub = function(repository, first){
 						var formattedString = "";
 						$.each(result, function(key, value){
 							formattedString += formatGithub(value, key === 0);
-						})
+						});
 
 						self.commands.github = {
 							title: "Github Repositories",
