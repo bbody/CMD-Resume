@@ -1,5 +1,7 @@
 "use strict";
 
+/*globals jQuery:false */
+
 // Default styles for displaying text
 var defaultStyles = {
 	standard: {
@@ -332,7 +334,6 @@ var formatGithub = function(repository, first){
 	return repoCache;
 };
 
-/*globals jQuery:false */
 (function($){
 
 	$.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
