@@ -119,42 +119,11 @@ String.prototype.setPGP = function(){
 
 // Check if a valid color
 var isValidColor = function(color){
-	return isValidHexColor(color) || isValidNamedColor(color);
-};
-
-// Checks if the colors name is a valid HTML color name
-var isValidNamedColor = function(color){
-	// Leverages the jQuery Terminal color array
-	return jQuery.inArray(color, jQuery.terminal.color_names) >= 0;
-};
-
-// Checks whether the number is of the correct format to be a color
-var isValidHexColor = function(color){
-	// Check first digit is #
-	if (!color || color.charAt(0) !== "#"){
+	if (!color){
 		return false;
-	} else {
-		// Remove one length to account for #
-		color = color.substring(1);
-
-		// Put to lowercase
-		color = color.toLowerCase();
-
-		// Ensure code code is between 3-6 digits
-		if (color.length >= 3 && color.length <= 6){
-			for (var i = 0; i < color.length; i++){
-				// Check if between a and f, as well as 0 to 9
-				if (!((color.charAt(i) >= "a" && color.charAt(i) <= "f") ||
-					(color.charAt(i) >= "0" && color.charAt(i) <= "9"))){
-					return false;
-				}
-			}
-
-			return true;		
-		} else {
-			return false;
-		}
 	}
+
+	return jQuery.terminal.valid_color(color);
 };
 
 // Format date
