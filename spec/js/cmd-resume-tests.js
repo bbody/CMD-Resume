@@ -45,26 +45,6 @@ QUnit.module( "Static tests", {
   }
 });
 
-QUnit.test("Named color is valid", function(assert){
-	assert.ok(isValidNamedColor("white"));
-	assert.ok(isValidNamedColor("black"));
-	assert.notOk(isValidNamedColor("test"));
-	assert.notOk(isValidNamedColor(""));
-	assert.notOk(isValidNamedColor(null));
-	assert.notOk(isValidNamedColor());
-	assert.notOk(isValidNamedColor("#000"));
-});
-
-QUnit.test("Hex color is valid", function(assert){
-	assert.ok(isValidHexColor("#FFF"));
-	assert.ok(isValidHexColor("#000"));
-	assert.notOk(isValidHexColor("test"));
-	assert.notOk(isValidHexColor(""));
-	assert.notOk(isValidHexColor(null));
-	assert.notOk(isValidHexColor());
-	assert.notOk(isValidHexColor("white"));
-});
-
 QUnit.test("Color is valid", function(assert){
 	assert.ok(isValidColor("#FFF"));
 	assert.ok(isValidColor("white"));
@@ -707,7 +687,6 @@ QUnit.test("Github without forks", function(assert){
 
 	jQuery.getJSON('responses/github.json', function(response){
 		var result = filterGithubFork(response, "test.github.com", false);
-		console.log(result);
 		assert.equal(result.length, 4);
 	});
 });
@@ -717,7 +696,6 @@ QUnit.test("Github with forks", function(assert){
 
 	jQuery.getJSON('responses/github.json', function(response){
 		var result = filterGithubFork(response, "test.github.com", true);
-		console.log(result);
 		assert.equal(result.length, 5);
 	});
 });
