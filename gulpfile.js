@@ -18,7 +18,7 @@ gulp.task('default', ['develop']);
 gulp.task('develop', ['watch', 'serve'])
 
 // Build the project
-gulp.task('build', ['jshint', 'test', 'compile:js', 'copy:html', 'compile:json', 'copy:icon']);
+gulp.task('build', ['jshint', 'test', 'compile:js', 'copy:html', 'copy:json', 'copy:icon']);
 
 // Build then deploy to Github Pages
 gulp.task('deploy', ['build', 'gh-pages']);
