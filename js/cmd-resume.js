@@ -1,4 +1,15 @@
-var styles = {
+"use strict";
+
+/*globals jQuery:false */
+
+// Default styles for displaying text
+var defaultStyles = {
+	standard: {
+		color: "white",
+		bold: false,
+		italic: false,
+		backgroundColor: "#000"
+	},
 	title: {
         color: "red",
         bold: true
@@ -21,6 +32,7 @@ var styles = {
 
 // Update HTML title
 var updateTitle = function(name){
+	// Check if a name exists, if not make title default
     if (name){
         document.title = name + "'s Résumé";
     } else {
@@ -28,43 +40,61 @@ var updateTitle = function(name){
     }
 };
 
+// Wrap around styling
+var wrappedFormatting = function(style, content){
+	// Check if both variables are null/empty
+	if (!style && !content){
+		return "";
+	}
+
+	style = style ? style : "";
+	content = content ? content : "";
+
+	return "[[" + style + "]" + content + "]";
+};
 
 // Update color
 String.prototype.setFormat = function(type){
-	var style = styles[type];
-    var color = style.color ? style.color : "#000";
-    var bold = style.bold ? style.bold : false;
-    var italic = style.italic ? style.italic : false;
-    var backgroundColor = style.backgroundColor ? style.backgroundColor : null;
+	var style = defaultStyles[type] ? 
+		defaultStyles[type] : defaultStyles.standard;
+    var color = style.color ? style.color : defaultStyles.standard.color;
+    var bold = style.bold ? style.bold : defaultStyles.standard.bold;
+    var italic = style.italic ? style.italic : defaultStyles.standard.italic;
+    var backgroundColor = style.backgroundColor ? 
+    	style.backgroundColor : defaultStyles.standard.backgroundColor;
 
-    var result = "[[";
+    var result = "";
+
     if (bold){
         result += "b";
     }
+
     if (italic){
         result += "i";
     }
-    if (color !== null){
+
+    if (color && isValidColor(color)){
         result += ";";
         result += color;
+    } else {
+    	// Set to null, if the color is not valid
+    	color = null;
     }
-    if (backgroundColor !== null){
-        if (bold || italic || color !== null){
+
+    if (backgroundColor && isValidColor(backgroundColor)){
+        if (bold || italic || color){
             result += ";";
         }
         result += backgroundColor;
     } else {
-        if (bold || italic || color !== null){
-            result += ";";
-        }
-        result += "#000";
+        result += !bold ? ";" : "";
+        result += !italic ? ";" : "";
+        result += !color ? ";" : "";
+
+        result += defaultStyles.standard.backgroundColor;
     }
 
-    result += "]";
-    result += this;
-    result += "]";
-
-    return result;
+    return wrappedFormatting(result, this);
 };
 
 // Title formatter
@@ -87,18 +117,28 @@ String.prototype.setPGP = function(){
 	return this.setFormat("pgp");
 };
 
+// Check if a valid color
+var isValidColor = function(color){
+	if (!color){
+		return false;
+	}
+
+	return jQuery.terminal.valid_color(color);
+};
+
 // Format date
-function getDate(startDate, endDate){
-    return endDate ? startDate + " - " + endDate : startDate + " - Present";
-}
+var getDate = function(startDate, endDate){
+    return endDate ? startDate + " - " + endDate : startDate ? 
+    	startDate + " - Present" : "";
+};
 
 // Get degree name
-function getFullDegree(studyType, area){
-    return studyType ? studyType + " of " + area : area;
-}
+var getFullDegree = function(studyType, area){
+    return area ? studyType + " of " + area : studyType ? studyType : "";
+};
 
 // Build URL based on social media username
-function buildUrl(network, username){
+var buildUrl = function(network, username){
 	network = network.toLowerCase();
 	if (network === "twitter"){
 		return "https://www.twitter.com/" + username;
@@ -107,28 +147,70 @@ function buildUrl(network, username){
 	} else {
 		return "";
 	}
-}
+};
 
-// Command handlers
+// Basic command handlers
 var basicHandlerFunction = function(command){
-	return "\n" + command.data;
+	var result = "\n";
+	result += command ? command.data ? command.data : "" : "";
+
+	return result;
 };
 
+// System commmand handler
 var systemHandlerFunction = function(command){
-	return command.handler(command.data);
+	if (command){
+		if (command.handler){
+			return command.handler(command.data);
+		} else if (command.data){
+			return command.data;
+		} else {
+			return "";
+		}
+	} else {
+		return "";
+	}
 };
 
+// Calculated command handler
+var calculatedHandlerFunction = function(command){
+	return "\n" + systemHandlerFunction(command);
+};
+
+// Array function handler
 var arrayHandlerFunction = function(command, top){
 	var result = "";
 
-    $.each(command.data, function(index, value){
+	if (!command.handlers || 
+		(!command.handlers.title && !command.handlers.organisation && 
+			!command.handlers.date)){
+		return result;
+	}
+
+    jQuery.each(command.data, function(index, value){
         if (!top){
             result += "\n";
         }
 
-        result += command.handlers.organisation(value) + "\t";
-        result += command.handlers.title(value) + "\t";
-        result += command.handlers.date(value);
+        if (command.handlers.organisation){
+        	if (!command.handlers.title && !command.handlers.date){
+        		result += command.handlers.organisation(value);	
+        	} else {
+        		result += command.handlers.organisation(value) + "\t";
+        	}
+        }
+
+        if (command.handlers.title){
+        	if (!command.handlers.date){
+        		result += command.handlers.title(value);	
+        	} else {
+        		result += command.handlers.title(value) + "\t";
+        	}
+        }
+        
+        if (command.handlers.date){
+        	result += command.handlers.date(value);
+        }
 
         // break;
         if (top && index === 0){
@@ -139,9 +221,13 @@ var arrayHandlerFunction = function(command, top){
 	return result;
 };
 
-var initStyles = function(options){
-	$.map(options, function(value, key){
-		if (styles[key]){
+// Intiate styles with custom added options
+var initStyles = function(defaultStyles, options){
+	// Copy the object
+	var styles = jQuery.extend(true, {}, defaultStyles);
+
+	jQuery.map(options, function(value, key){
+		if (defaultStyles[key]){
 			if (value.color){
 				styles[key].color = value.color;
 			}
@@ -159,30 +245,78 @@ var initStyles = function(options){
 			}
 		}
 	});
+
+	return styles;
 };
 
-var calculatedHandlerFunction = function(command){
-	return "\n" + command.handler(command.data);
+// Get Github URI based on username
+var getGithubUri = function(username){
+	// Return empty is username is empty
+	if (!username){
+		return "";
+	}
+
+	return 'https://api.github.com/users/' + username + '/repos';
 };
 
-/*globals jQuery:false */
+// Get the Github information
+var getGithub = function(uri, username, showForks, callback){
+	var ownRepo = username.toLowerCase() + '.github.com';
+
+    jQuery.getJSON(uri + '?callback=?', function(response){
+        // Run callback
+        callback(filterGithubFork(response.data, ownRepo, showForks));
+    });
+};
+
+// Go through Github array (Split to make testing easier)
+var filterGithubFork = function(repos, ownRepo, showForks){
+	var result = [];
+
+	jQuery.each(repos, function(key, value) {
+    	if (value &&
+    		(value.name !== ownRepo) &&
+    		(showForks === value.fork || !value.fork)){
+    		result.push(value);
+    	}
+    });
+
+    return result;
+};
+
+// Format Github response
+var formatGithub = function(repository, first){
+	var repoCache = "";
+
+	if (!first){
+		repoCache += "\n";
+	}
+
+	repoCache += repository.name.setName();
+
+	if (repository.description){
+		repoCache += " - " + repository.description;
+	}
+	
+	return repoCache;
+};
+
 (function($){
-	"use strict";
 
 	$.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
 		// Get element
-		var element = $(this);
+		var element = this;
 
 		options = options || {};
 		
-		// If there are no options, this might mean the second variable is options
+		// If there are no options, use second variable as options
 		if (!options){
 			if ((typeof secondaryEndpoint) !== "string"){
 				options = secondaryEndpoint;
 			}
 		}
 
-		initStyles(options);
+		defaultStyles = initStyles(defaultStyles, options);
 
 		var self = {};
 
@@ -201,14 +335,18 @@ var calculatedHandlerFunction = function(command){
             }, self.settings);
 		};
 
+		self.initGithubForks = function(options){
+			self.showForks = options.showForks === true || 
+				options.showForks === "true" ? true : false;
+		};
+
 		self.init = function(options){
 			self.initVariables();
 			self.initCommands();
 			self.initSettings();
 			self.initHTMLTitle();
 			self.initTerminal();
-			self.showForks = options.showForks === true || 
-				options.showForks === "true" ? true : false;
+			self.initGithubForks(options);
 		};
 
 		// Parse command line
@@ -216,8 +354,10 @@ var calculatedHandlerFunction = function(command){
 		    var commandList = input.toLowerCase().split(" ");
 
 		    // Command sections
-		    var rootCommand = commandList[0] !== undefined ? commandList[0] : false;
-		    var stemCommand = commandList[1] !== undefined && commandList[1].length > 0 ? commandList[1] : false;
+		    var rootCommand = commandList[0] !== undefined ? 
+		    	commandList[0] : false;
+		    var stemCommand = commandList[1] !== undefined && 
+		    	commandList[1].length > 0 ? commandList[1] : false;
 		    var command = self.commands[rootCommand];
 		    if (rootCommand === "man"){
 		    	return self.commands.man.handler(stemCommand);
@@ -244,49 +384,6 @@ var calculatedHandlerFunction = function(command){
 			result += command.type(command, top);
 
 			return result;
-		};
-
-		
-		// Get the Github information
-		self.getGithub = function(){
-	        if (!self.data.githubCache){
-	        	var githubAPIURI = 'https://api.github.com/users/' + 
-	        		self.data.basics.githubUsername + '/repos?callback=?';
-		        $.getJSON(githubAPIURI, function(response){
-		            var repos = response.data;
-		            var first = true;
-		            $.each(repos, function(key, value) {
-		            	if (value && 
-		            		(value.name !== (self.data.basics.githubUsername.toLowerCase() + '.github.com')) &&
-		            		(self.showForks === value.fork || !value.fork)){
-		            		var repoCache = "";
-
-		            		if (!first){
-		            			repoCache += "\n";
-		            		} else {
-		            			first = false;
-		            		}
-
-			            	repoCache += value.name.setName();
-
-			            	if (value.description){
-			            		repoCache += " - " + value.description;
-			            	}
-			            	
-			            	self.data.githubCache += repoCache;
-		            	}
-		            });
-
-		            self.commands.github = {
-						title: "Github Repositories",
-						description: "list Github repositories",
-						type: self.commandProcessor.basic,
-						data: self.data.githubCache
-					};
-
-					self.commandList.push("github");
-		        });
-		    }
 		};
 
 		// Get list of commands for autocomplete
@@ -335,7 +432,9 @@ var calculatedHandlerFunction = function(command){
 					var commands = "Available Commands:".setTitle();
 					$.map(self.commands, function(value, key) {
 				        commands += "\n";
-			            commands += key.setCommand() + " - " + value.description;
+			            commands += key.setCommand();
+			            commands += " - ";
+			            commands += value.description;
 				    });
 				    return commands;
 				}
@@ -430,12 +529,15 @@ var calculatedHandlerFunction = function(command){
 
 								if (value.network.toLowerCase() === "email"){
 									result += value.network + " - " + 
-										value.url.split(":")[1];
+										value.url.split(":").charAt(1);
 								} else if (value.url){
 					        		result += value.network + " - " + value.url;
 					        	} else if (value.username){
 
-					        		var url = buildUrl(value.network, value.username) || "";
+					        		var url = "";
+
+					        		url = buildUrl(value.network, 
+					        			value.username);
 
 					        		if (url){
 					        			result += value.network + " - " + url;
@@ -464,7 +566,7 @@ var calculatedHandlerFunction = function(command){
 							result += " in ";
 							result += value.name;
 
-							// Make sure not the last entry (to avoid putting in a newline)
+							// Make sure not the last entry
 							if (key !== data.length - 1){
 								result += "\n";
 							}
@@ -497,7 +599,9 @@ var calculatedHandlerFunction = function(command){
 				        results += "Welcome to my résumé.\n";
 				    }
 
-				    results += "\nType " + "help".setCommand() + " for commands";
+				    results += "\nType ";
+				    results += "help".setCommand();
+				    results += " for commands";
 
 					return results;
 				}
@@ -615,9 +719,6 @@ var calculatedHandlerFunction = function(command){
 						},
 						title: function(value){
 							return value.fluency;
-						},
-						date: function(value){
-							return "";
 						}
 					}
 				};
@@ -635,9 +736,6 @@ var calculatedHandlerFunction = function(command){
 						},
 						title: function(value){
 							return value.keywords.join(", ");
-						},
-						date: function(value){
-							return "";
 						}
 					}
 				};
@@ -655,9 +753,6 @@ var calculatedHandlerFunction = function(command){
 						},
 						title: function(value){
 							return "\n" + value.reference;
-						},
-						date: function(value){
-							return "";
 						}
 					}
 				};
@@ -672,7 +767,8 @@ var calculatedHandlerFunction = function(command){
 			}
 
 			$(self.data.basics.profiles).each(function(){
-				if (!self.data.basics.githubUsername && this.network.toLowerCase() === "github"){
+				if (!self.data.basics.githubUsername && 
+					this.network.toLowerCase() === "github"){
 					self.data.githubCache = "";
 					if (this.username){
 						self.data.basics.githubUsername = this.username;
@@ -686,7 +782,23 @@ var calculatedHandlerFunction = function(command){
 			});
 
 			if (self.data.basics.githubUsername){
-				self.getGithub();
+				getGithub(getGithubUri(self.data.basics.githubUsername), self.data.basics.githubUsername, self.showForks, 
+					function(result){
+						var formattedString = "";
+						
+						$.each(result, function(key, value){
+							formattedString += formatGithub(value, key === 0);
+						});
+
+						self.commands.github = {
+							title: "Github Repositories",
+							description: "list Github repositories",
+							type: self.commandProcessor.basic,
+							data: formattedString
+						};
+
+						self.commandList.push("github");
+				});
 			}
 		};
 
@@ -739,6 +851,10 @@ var calculatedHandlerFunction = function(command){
 				if (response.github){
 					self.data.basics.githubUsername = response.github;
 					self.data.githubCache = "";
+				}
+
+				if (response.splash){
+					self.data.splash = response.splash;
 				}
 
 				self.init(options);

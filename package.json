@@ -1,0 +1,49 @@
+{
+  "name": "cmd-resume",
+  "title": "CMD Resume",
+  "description": "jQuery plugin for showing a resume within a web based terminal emulator.",
+  "keywords": [
+    "jquery-plugin",
+    "ecosystem:jquery"
+  ],
+  "version": "3.0.0",
+  "author": {
+    "name": "Brendon Body",
+    "url": "https://github.com/bbody"
+  },
+  "maintainers": [
+    {
+      "name": "Brendon Body",
+      "url": "https://github.com/bbody"
+    }
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/bbody/CMD-Resume/blob/master/LICENSE"
+    }
+  ],
+  "bugs": "https://github.com/bbody/CMD-Resume/issues",
+  "homepage": "https://github.com/bbody/CMD-Resume/",
+  "repository": "https://github.com/bbody/CMD-Resume/",
+  "download": "https://github.com/bbody/CMD-Resume/releases",
+  "dependencies": {
+    "jquery": ">=1.5",
+    "jquery.terminal": "=0.11.4"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-gh-pages": "^0.5.4",
+    "gulp-inject": "^4.2.0",
+    "gulp-inject-string": "^1.1.0",
+    "gulp-jshint": "^2.0.4",
+    "gulp-qunit": "^1.5.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.0",
+    "gulp-util": "^3.0.8",
+    "gulp-webserver": "^0.9.1",
+    "jshint": "^2.9.4",
+    "jshint-stylish": "^2.2.1",
+    "pump": "^1.0.2"
+  }
+}
