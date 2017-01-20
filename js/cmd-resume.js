@@ -785,6 +785,7 @@ var formatGithub = function(repository, first){
 				getGithub(getGithubUri(self.data.basics.githubUsername), self.data.basics.githubUsername, self.showForks, 
 					function(result){
 						var formattedString = "";
+						
 						$.each(result, function(key, value){
 							formattedString += formatGithub(value, key === 0);
 						});
