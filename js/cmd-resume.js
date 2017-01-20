@@ -305,7 +305,7 @@ var formatGithub = function(repository, first){
 
 	$.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
 		// Get element
-		var element = $(this);
+		var element = this;
 
 		options = options || {};
 		
