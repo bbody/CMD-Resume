@@ -77,6 +77,15 @@ gulp.task('serve:development', function() {
     }));
 });
 
+gulp.task('serve:test', function() {
+  gulp.src('./')
+    .pipe(webserver({
+      livereload: true,
+      open: "spec/",
+      fallback: 'spec/index.html'
+    }));
+});
+
 gulp.task('serve:staging', function() {
   gulp.src('./dist')
     .pipe(webserver({
