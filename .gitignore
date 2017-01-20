@@ -37,3 +37,7 @@ Temporary Items
 CHANGELOG
 terminal.jquery.json
 /css
+
+/.publish
+/dist
+/node_modules
