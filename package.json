@@ -28,11 +28,13 @@
   "repository": "https://github.com/bbody/CMD-Resume/",
   "download": "https://github.com/bbody/CMD-Resume/releases",
   "dependencies": {
+    "del": "^2.2.2",
     "jquery": ">=1.5",
     "jquery.terminal": "=0.11.4"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
+    "gulp-exec": "^2.1.3",
     "gulp-gh-pages": "^0.5.4",
     "gulp-inject": "^4.2.0",
     "gulp-inject-string": "^1.1.0",
@@ -42,6 +44,7 @@
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.8",
     "gulp-webserver": "^0.9.1",
+    "gulp-zip": "^3.2.0",
     "jshint": "^2.9.4",
     "jshint-stylish": "^2.2.1",
     "pump": "^1.0.2"

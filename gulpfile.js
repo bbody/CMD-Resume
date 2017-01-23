@@ -9,7 +9,11 @@ var gulp   = require('gulp'),
 	ghPages = require('gulp-gh-pages'),
 	rename = require('gulp-rename'),
     inject = require('gulp-inject-string'),
-    webserver = require('gulp-webserver');
+    webserver = require('gulp-webserver'),
+    fs = require('fs'),
+    del = require('del'),
+    zip = require('gulp-zip'),
+    exec = require('gulp-exec');
 
 // Default Gulp task is develop
 gulp.task('default', ['develop']);
@@ -109,3 +113,48 @@ gulp.task('gh-pages', function() {
   return gulp.src(['dist/**/*', 'dist/*'])
     .pipe(ghPages());
 });
+
+gulp.task('version', function(){
+	return getVersion();
+});
+
+gulp.task('npm:patch', function(){
+	exec("npm version patch");
+	return getVersion();
+});
+
+gulp.task('npm:major', function(){
+	exec("npm version major");
+	return getVersion();
+});
+
+gulp.task('npm:minor', function(){
+	exec("npm version patch");
+	return getVersion();
+});
+
+gulp.task('release', function(){
+	var versionInfo = '/* v' + getVersion() + ' of CMD Resume by Brendon Body */';
+
+  	gulp.src('js/cmd-resume.js')
+  		.pipe(uglify())
+  		.pipe(rename("cmd-resume.min.js"))
+  		.pipe(inject.prepend(versionInfo))
+  		.pipe(gulp.dest('release'));
+
+  	gulp.src('js/cmd-resume.js')
+  		.pipe(inject.prepend(versionInfo))
+    	.pipe(gulp.dest('release'));
+
+	gulp.src('release/*.js')
+        .pipe(zip('release-v' + getVersion() +'.zip'))
+        .pipe(gulp.dest('dist'));
+
+    // del(['release/*', 'release']);
+    return del(['release']);
+});
+
+function getVersion(){
+	var json = JSON.parse(fs.readFileSync('./package.json'));
+	return json.version;
+}

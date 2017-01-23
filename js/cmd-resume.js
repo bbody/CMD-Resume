@@ -302,7 +302,6 @@ var formatGithub = function(repository, first){
 
 (function($){
 	"use strict";
-	
 	$.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
 		// Get element
 		var element = this;
