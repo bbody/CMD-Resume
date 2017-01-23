@@ -149,9 +149,6 @@ gulp.task('release', function(){
 	gulp.src('release/*.js')
         .pipe(zip('release-v' + getVersion() +'.zip'))
         .pipe(gulp.dest('dist'));
-
-    // del(['release/*', 'release']);
-    return del(['release']);
 });
 
 function getVersion(){
