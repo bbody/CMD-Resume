@@ -119,18 +119,15 @@ gulp.task('version', function(){
 });
 
 gulp.task('npm:patch', function(){
-	exec("npm version patch");
-	return getVersion();
+	return exec("npm version patch");
 });
 
 gulp.task('npm:major', function(){
-	exec("npm version major");
-	return getVersion();
+	return exec("npm version major");
 });
 
 gulp.task('npm:minor', function(){
-	exec("npm version patch");
-	return getVersion();
+	return exec("npm version patch");
 });
 
 gulp.task('release', function(){
