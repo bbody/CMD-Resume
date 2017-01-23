@@ -40,4 +40,5 @@ terminal.jquery.json
 
 /.publish
 /dist
+/release
 /node_modules
