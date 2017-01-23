@@ -118,18 +118,6 @@ gulp.task('version', function(){
 	return getVersion();
 });
 
-gulp.task('npm:patch', function(){
-	return exec("npm version patch");
-});
-
-gulp.task('npm:major', function(){
-	return exec("npm version major");
-});
-
-gulp.task('npm:minor', function(){
-	return exec("npm version patch");
-});
-
 gulp.task('release', function(){
 	var versionInfo = '/* v' + getVersion() + ' of CMD Resume by Brendon Body */';
 
