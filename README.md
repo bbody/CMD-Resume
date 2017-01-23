@@ -55,7 +55,7 @@ If you wish to contribute feel free to fork the repository, make changes and sub
 - Skills table styling
 - Add to jQuery library files
 - Deployment script
-- Rationalization of \n usage
+- Rationalization of `\n` usage
 - General code quality improvements
 - Validations for custom styles
 

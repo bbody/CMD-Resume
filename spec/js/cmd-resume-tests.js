@@ -1142,3 +1142,32 @@ QUnit.test("Github with forks", function(assert){
 	var result = filterGithubFork(self.response, "test.github.com", true);
 	assert.equal(result.length, 5);
 });
+
+QUnit.module( "Helper function tests", {
+  beforeEach: function() {
+    // prepare something for all following tests
+    self.settings = {
+        showForks: false,
+        title: {
+            color: "white",
+            bold: false,
+            italic: true
+        },
+        command: {
+            color: "green",
+            bold: true,
+            italic: false,
+            backgroundColor: "pink"
+        },
+        name: {
+            color: "purple"
+        }
+    };
+
+    $("#console").CMDResume("responses/details.json", "responses/extra-details.json", settings);
+  },
+  afterEach: function() {
+    // clean up after each test
+    
+  }
+});

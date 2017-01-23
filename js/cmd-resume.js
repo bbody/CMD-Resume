@@ -1,6 +1,5 @@
-"use strict";
-
 /*globals jQuery:false */
+/*jslint browser:true */
 
 // Default styles for displaying text
 var defaultStyles = {
@@ -302,7 +301,8 @@ var formatGithub = function(repository, first){
 };
 
 (function($){
-
+	"use strict";
+	
 	$.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
 		// Get element
 		var element = this;
