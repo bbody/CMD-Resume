@@ -21,7 +21,7 @@ CMD-Resume is a Javascript based command line for demonstrating your resume. [He
 7. Initialize CMD Resume. **Note:** Settings and CMD Resume custom data are both optional variables 
 
 
-    ```
+    ```javascript
 	var settings = {
         showForks: false, // For Github
         title: {
