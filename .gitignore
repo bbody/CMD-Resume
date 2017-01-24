@@ -39,6 +39,5 @@ terminal.jquery.json
 /css
 
 /.publish
-/dist
 /release
 /node_modules

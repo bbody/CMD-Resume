@@ -120,18 +120,25 @@ gulp.task('version', function(){
 
 gulp.task('release', function(){
 	var versionInfo = '/* v' + getVersion() + ' of CMD Resume by Brendon Body */';
-
+	
   	gulp.src('js/cmd-resume.js')
   		.pipe(uglify())
   		.pipe(rename("cmd-resume.min.js"))
+  		.pipe(inject.prepend("\"use strict\";"))
+  		.pipe(inject.prepend("(function($){"))
   		.pipe(inject.prepend(versionInfo))
-  		.pipe(gulp.dest('release'));
+  		.pipe(inject.append("}(jQuery));"))
+  		.pipe(gulp.dest('dist'));
 
   	gulp.src('js/cmd-resume.js')
-  		.pipe(inject.prepend(versionInfo))
-    	.pipe(gulp.dest('release'));
+		.pipe(inject.prepend("\n\"use strict\";\n\n"))
+  		.pipe(inject.afterEach("\n", "	"))
+  		.pipe(inject.prepend("(function($){"))
+  		.pipe(inject.prepend(versionInfo + "\n\n"))
+  		.pipe(inject.append("\n}(jQuery));"))
+    	.pipe(gulp.dest('dist'));
 
-	gulp.src('release/*.js')
+	gulp.src('dist/*.js')
         .pipe(zip('release-v' + getVersion() +'.zip'))
         .pipe(gulp.dest('dist'));
 });
