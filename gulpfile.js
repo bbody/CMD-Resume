@@ -113,7 +113,7 @@ gulp.task('version', function(){
 });
 
 gulp.task('compile:release:minified', function(){
-	return gulp.src('js/cmd-resume.js')
+	return gulp.src(['js/cmd-resume.js', 'js/helper-functions.js'])
   		.pipe(uglify())
   		.pipe(rename("cmd-resume.min.js"))
   		.pipe(inject.prepend("\"use strict\";"))
@@ -124,7 +124,7 @@ gulp.task('compile:release:minified', function(){
 });
 
 gulp.task('compile:release', function(){
-	return gulp.src('js/cmd-resume.js')
+	return gulp.src(['js/cmd-resume.js', 'js/helper-functions.js'])
 		.pipe(inject.prepend("\n\"use strict\";\n\n"))
   		.pipe(inject.afterEach("\n", "	"))
   		.pipe(inject.prepend("(function($){"))
@@ -134,7 +134,7 @@ gulp.task('compile:release', function(){
 });
 
 gulp.task('compile:development', function(){
-	return gulp.src('js/cmd-resume.js')
+	return gulp.src(['js/cmd-resume.js', 'js/helper-functions.js'])
 		.pipe(inject.prepend("\n\"use strict\";\n\n"))
   		.pipe(inject.afterEach("\n", "	"))
   		.pipe(inject.prepend("(function($){"))
@@ -144,7 +144,7 @@ gulp.task('compile:development', function(){
 });
 
 gulp.task('compile:gh-pages', function(){
-	return gulp.src('js/cmd-resume.js')
+	return gulp.src(['js/cmd-resume.js', 'js/helper-functions.js'])
 		.pipe(inject.prepend("\n\"use strict\";\n\n"))
   		.pipe(inject.afterEach("\n", "	"))
   		.pipe(inject.prepend("(function($){"))
