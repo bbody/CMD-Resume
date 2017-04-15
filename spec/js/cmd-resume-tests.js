@@ -1,4 +1,4 @@
-QUnit.module( "Helper function tests", {
+QUnit.module( "Plugin tests", {
   beforeEach: function() {
     // prepare something for all following tests
     self.settings = {
@@ -29,7 +29,7 @@ QUnit.module( "Helper function tests", {
 
 QUnit.test( "Test name", function( assert ) {
 	// Add test when name is null after variables
-	// TODO: Handle different styles when implemented
+	// TODO: Handle different styles when implemente
 	assert.equal(this.cmdResume.runCommand("name"), "[[b;green;#000]John Doe]");
 });
 
