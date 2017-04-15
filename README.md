@@ -18,7 +18,27 @@ CMD-Resume is a Javascript based command line for demonstrating your resume. [He
 4. Download *cmd-resume.js* ([Download v3 here](https://github.com/bbody/CMD-Resume/releases/latest))
 5. Create a [JSON Resume](https://jsonresume.org/) file and upload to a remote directory or add to your website project
 6. [Optional] Create a custom CMD Resume data file ([Schema here]()) and upload to a remote directory or add to your website project
-7. Initialize CMD Resume. **Note:** Settings and CMD Resume custom data are both optional variables 
+7. Initialize CMD Resume. **Note:** Settings and CMD Resume custom data are both optional variables
+```javascript
+	var settings = {
+        showForks: false, // For Github
+        title: {
+            color: "white",
+            bold: false,
+            italic: true
+        },
+        command: {
+            color: "green",
+            bold: true,
+            italic: false,
+            backgroundColor: "pink"
+        },
+        name: {
+            color: "purple"
+        }
+    };
+	$("body").CMDResume("uri/path/to/json-resume.json", "uri/path/to/cmd-resume-custom-data.json", settings);
+```
 8. Upload to website
 
 ## Bugs and suggestions
@@ -31,8 +51,8 @@ If you wish to contribute feel free to fork the repository, make changes and sub
 - Comprehensive Unit testing
 - Schema for extra variables
 - Skills table styling
-- Add to jQuery library files
+- ~Add to jQuery library files~
 - Deployment script
-- Rationalization of `\n` usage
-- General code quality improvements
+- ~Rationalization of `\n` usage~
+- ~General code quality improvements~
 - Validations for custom styles
