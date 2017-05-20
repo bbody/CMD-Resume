@@ -42,3 +42,4 @@ terminal.jquery.json
 /dist
 /release
 /node_modules
+/tmp
