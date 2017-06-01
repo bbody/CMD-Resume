@@ -1,6 +1,6 @@
 # Optional Information
 
-Outside of the [JSON Resume](https://jsonresume.org/) specifications some additional data can be provided
+Outside of the [JSON Resume](https://jsonresume.org/) specifications some additional data can be provided.
 
 ## Properties
 
