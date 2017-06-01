@@ -49,7 +49,7 @@ If you wish to contribute feel free to fork the repository, make changes and sub
 
 ## Roadmap
 - Comprehensive Unit testing
-- Schema for extra variables
+- ~Schema for extra variables~
 - Skills table styling
 - ~Add to jQuery library files~
 - Deployment script
