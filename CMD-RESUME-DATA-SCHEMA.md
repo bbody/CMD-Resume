@@ -9,6 +9,7 @@ Outside of the [JSON Resume](https://jsonresume.org/) specifications some additi
 - pdf: A link to a PDF resume (string, optional) - will overwrite the social media profile resume (If it exists)
 - splash: A ASCII splash screen split into lines (array[string], optional)
 
+[Example file](https://github.com/bbody/CMD-Resume/blob/master/responses/extra-details.json), or below:
 
 ```json
 {
