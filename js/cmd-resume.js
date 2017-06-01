@@ -29,31 +29,66 @@ var defaultStyles = {
     }
 };
 
+var CONSTANTS = {
+	NEW_LINE: "\n",
+	SEMI_COLON: ";",
+	EMPTY: "",
+	TAB: "\t",
+	COLON: ":",
+	COMA: ", ",
+	DASH: " - "
+};
+
+var StyleEnum = {
+	STANDARD: 0,
+	TITLE: 1,
+	COMMAND: 2,
+	NAME: 3,
+	PGP: 4,
+	toString: function(styleEnumValue){
+		switch(styleEnumValue){
+			case StyleEnum.TITLE:
+				return "title";
+			case StyleEnum.COMMAND:
+				return "command";
+			case StyleEnum.NAME:
+				return "name";
+			case StyleEnum.PGP:
+				return "pgp";
+			case StyleEnum.STANDARD:
+				return "standard";
+		}
+	}
+};
+
+// Check if something is undefined or null
+var isUndefinedOrNull = function(value){
+	return typeof value === 'undefined' || value === null;
+}
+
 // Update HTML title
 var updateTitle = function(name){
 	// Check if a name exists, if not make title default
-    if (name){
-        document.title = name + "'s Résumé";
-    } else {
-    	document.title = "Command Line Résumé";
-    }
+    document.title = name ? name + "'s Résumé" : "Command Line Résumé";
 };
 
 // Wrap around styling
 var wrappedFormatting = function(style, content){
-	// Check if both variables are null/empty
-	if (!style && !content){
-		return "";
+	// Check if content null, then ignore
+	if (!content){
+		return CONSTANTS.EMPTY;
 	}
 
-	style = style ? style : "";
-	content = content ? content : "";
+	// Blank out style in case of undefined
+	style = style ? style : CONSTANTS.EMPTY;
 
 	return "[[" + style + "]" + content + "]";
 };
 
 // Update color
-String.prototype.setFormat = function(type){
+String.prototype.setFormat = function(styleEnumValue){
+	var type = StyleEnum.toString(styleEnumValue);
+
 	var style = defaultStyles[type] ? 
 		defaultStyles[type] : defaultStyles.standard;
     var color = style.color ? style.color : defaultStyles.standard.color;
@@ -62,7 +97,7 @@ String.prototype.setFormat = function(type){
     var backgroundColor = style.backgroundColor ? 
     	style.backgroundColor : defaultStyles.standard.backgroundColor;
 
-    var result = "";
+    var result = CONSTANTS.EMPTY;
 
     if (bold){
         result += "b";
@@ -73,7 +108,7 @@ String.prototype.setFormat = function(type){
     }
 
     if (color && isValidColor(color)){
-        result += ";";
+        result += CONSTANTS.SEMI_COLON;
         result += color;
     } else {
     	// Set to null, if the color is not valid
@@ -82,13 +117,13 @@ String.prototype.setFormat = function(type){
 
     if (backgroundColor && isValidColor(backgroundColor)){
         if (bold || italic || color){
-            result += ";";
+            result += CONSTANTS.SEMI_COLON;
         }
         result += backgroundColor;
     } else {
-        result += !bold ? ";" : "";
-        result += !italic ? ";" : "";
-        result += !color ? ";" : "";
+        result += bold ? CONSTANTS.EMPTY : CONSTANTS.SEMI_COLON;
+        result += italic ? CONSTANTS.EMPTY : CONSTANTS.SEMI_COLON;
+        result += color ? CONSTANTS.EMPTY : CONSTANTS.SEMI_COLON;
 
         result += defaultStyles.standard.backgroundColor;
     }
@@ -98,42 +133,41 @@ String.prototype.setFormat = function(type){
 
 // Title formatter
 String.prototype.setTitle = function(){
-    return this.setFormat("title");
+    return this.setFormat(StyleEnum.TITLE);
 };
 
 // Command formatter
 String.prototype.setCommand = function(){
-    return this.setFormat("command");
+    return this.setFormat(StyleEnum.COMMAND);
 };
 
 // Name formatter
 String.prototype.setName = function(){
-    return this.setFormat("name");
+    return this.setFormat(StyleEnum.NAME);
 };
 
 // PGP formatter
 String.prototype.setPGP = function(){
-	return this.setFormat("pgp");
+	return this.setFormat(StyleEnum.PGP);
 };
 
 // Check if a valid color
 var isValidColor = function(color){
-	if (!color){
-		return false;
-	}
+	if (!color) return false;
 
-	return jQuery.terminal.valid_color(color);
+	return $.terminal.valid_color(color);
 };
 
 // Format date
 var getDate = function(startDate, endDate){
-    return endDate ? startDate + " - " + endDate : startDate ? 
-    	startDate + " - Present" : "";
+    return endDate ? startDate + CONSTANTS.DASH + endDate : startDate ? 
+    	startDate + " - Present" : CONSTANTS.EMPTY;
 };
 
 // Get degree name
 var getFullDegree = function(studyType, area){
-    return area ? studyType + " of " + area : studyType ? studyType : "";
+    return area ? studyType + " of " + area : studyType ? studyType 
+    : CONSTANTS.EMPTY;
 };
 
 // Build URL based on social media username
@@ -144,14 +178,16 @@ var buildUrl = function(network, username){
 	} else if (network === "github"){
 		return "https://www.github.com/" + username;
 	} else {
-		return "";
+		return CONSTANTS.EMPTY;
 	}
 };
 
 // Basic command handlers
 var basicHandlerFunction = function(command){
-	var result = "\n";
-	result += command ? command.data ? command.data : "" : "";
+	var result = CONSTANTS.NEW_LINE;
+
+	result += command ? (command.data ? command.data : CONSTANTS.EMPTY) 
+	: CONSTANTS.EMPTY;
 
 	return result;
 };
@@ -164,21 +200,21 @@ var systemHandlerFunction = function(command){
 		} else if (command.data){
 			return command.data;
 		} else {
-			return "";
+			return CONSTANTS.EMPTY;
 		}
 	} else {
-		return "";
+		return CONSTANTS.EMPTY;
 	}
 };
 
 // Calculated command handler
 var calculatedHandlerFunction = function(command){
-	return "\n" + systemHandlerFunction(command);
+	return CONSTANTS.NEW_LINE + systemHandlerFunction(command);
 };
 
 // Array function handler
 var arrayHandlerFunction = function(command, top){
-	var result = "";
+	var result = CONSTANTS.EMPTY;
 
 	if (!command.handlers || 
 		(!command.handlers.title && !command.handlers.organisation && 
@@ -186,16 +222,16 @@ var arrayHandlerFunction = function(command, top){
 		return result;
 	}
 
-    jQuery.each(command.data, function(index, value){
+    command.data.forEach(function(value){
         if (!top){
-            result += "\n";
+            result += CONSTANTS.NsEW_LINE;
         }
 
         if (command.handlers.organisation){
         	if (!command.handlers.title && !command.handlers.date){
         		result += command.handlers.organisation(value);	
         	} else {
-        		result += command.handlers.organisation(value) + "\t";
+        		result += command.handlers.organisation(value) + CONSTANTS.TAB;
         	}
         }
 
@@ -203,7 +239,7 @@ var arrayHandlerFunction = function(command, top){
         	if (!command.handlers.date){
         		result += command.handlers.title(value);	
         	} else {
-        		result += command.handlers.title(value) + "\t";
+        		result += command.handlers.title(value) + CONSTANTS.TAB;
         	}
         }
         
@@ -211,8 +247,9 @@ var arrayHandlerFunction = function(command, top){
         	result += command.handlers.date(value);
         }
 
+        // Break after the first command
         // break;
-        if (top && index === 0){
+        if (top){
             return false;
         }
     });
@@ -223,19 +260,21 @@ var arrayHandlerFunction = function(command, top){
 // Intiate styles with custom added options
 var initStyles = function(defaultStyles, options){
 	// Copy the object
-	var styles = jQuery.extend(true, {}, defaultStyles);
+	var styles = $.extend(true, {}, defaultStyles);
 
-	jQuery.map(options, function(value, key){
+	for (var key in options){
+		var value = options[key];
+
 		if (defaultStyles[key]){
 			if (value.color){
 				styles[key].color = value.color;
 			}
 
-			if (typeof value.bold !== 'undefined' && value.bold !== null ){
+			if (!isUndefinedOrNull(value.bold)){
 				styles[key].bold = value.bold;
 			}
 
-			if (typeof value.italic !== 'undefined' && value.italic !== null ){
+			if (!isUndefinedOrNull(value.italic)){
 				styles[key].italic = value.italic;
 			}
 
@@ -243,7 +282,7 @@ var initStyles = function(defaultStyles, options){
 				styles[key].backgroundColor = value.backgroundColor;
 			}
 		}
-	});
+	}
 
 	return styles;
 };
@@ -251,9 +290,7 @@ var initStyles = function(defaultStyles, options){
 // Get Github URI based on username
 var getGithubUri = function(username){
 	// Return empty is username is empty
-	if (!username){
-		return "";
-	}
+	if (!username) return CONSTANTS.EMPTY;
 
 	return 'https://api.github.com/users/' + username + '/repos';
 };
@@ -262,8 +299,11 @@ var getGithubUri = function(username){
 var getGithub = function(uri, username, showForks, callback){
 	var ownRepo = username.toLowerCase() + '.github.com';
 
-    jQuery.getJSON(uri + '?callback=?', function(response){
-        // Run callback
+    $.getJSON(uri + '?callback=?', function(response){
+        // Run callback'
+        if (!response || !response.meta || !response.meta.status || 
+        	response.meta.status !== 200) return;
+
         callback(filterGithubFork(response.data, ownRepo, showForks));
     });
 };
@@ -272,8 +312,8 @@ var getGithub = function(uri, username, showForks, callback){
 var filterGithubFork = function(repos, ownRepo, showForks){
 	var result = [];
 
-	jQuery.each(repos, function(key, value) {
-    	if (value &&
+	repos.forEach(function(value) {
+    	if (value && 
     		(value.name !== ownRepo) &&
     		(showForks === value.fork || !value.fork)){
     		result.push(value);
@@ -285,16 +325,16 @@ var filterGithubFork = function(repos, ownRepo, showForks){
 
 // Format Github response
 var formatGithub = function(repository, first){
-	var repoCache = "";
+	var repoCache = CONSTANTS.EMPTY;
 
 	if (!first){
-		repoCache += "\n";
+		repoCache += CONSTANTS.NEW_LINE;
 	}
 
 	repoCache += repository.name.setName();
 
 	if (repository.description){
-		repoCache += " - " + repository.description;
+		repoCache += CONSTANTS.DASH + repository.description;
 	}
 	
 	return repoCache;
@@ -330,22 +370,21 @@ var formatGithub = function(repository, first){
 
 		self.initTerminal = function(){
 			self.term = element.terminal(function(command, term) {
-                term.echo(self.commandLineParse(command) + "\n");
+                term.echo(self.commandLineParse(command) + CONSTANTS.NEW_LINE);
             }, self.settings);
 		};
 
 		self.initGithubForks = function(options){
-			self.showForks = options.showForks === true || 
-				options.showForks === "true" ? true : false;
+			self.showForks = options.showForks || options.showForks === "true";
 		};
 
 		self.init = function(options){
+			self.initGithubForks(options);
 			self.initVariables();
 			self.initCommands();
 			self.initSettings();
 			self.initHTMLTitle();
 			self.initTerminal();
-			self.initGithubForks(options);
 		};
 
 		// Parse command line
@@ -353,9 +392,9 @@ var formatGithub = function(repository, first){
 		    var commandList = input.toLowerCase().split(" ");
 
 		    // Command sections
-		    var rootCommand = commandList[0] !== undefined ? 
+		    var rootCommand = !isUndefinedOrNull(commandList[0]) ? 
 		    	commandList[0] : false;
-		    var stemCommand = commandList[1] !== undefined && 
+		    var stemCommand = !isUndefinedOrNull(commandList[1]) && 
 		    	commandList[1].length > 0 ? commandList[1] : false;
 		    var command = self.commands[rootCommand];
 		    if (rootCommand === "man"){
@@ -373,7 +412,7 @@ var formatGithub = function(repository, first){
 		};
 
 		self.processCommand = function(command, top){
-			var result = "";
+			var result = CONSTANTS.EMPTY;
 
 			if (!top && 
 				command.type !== self.commandProcessor.system){
@@ -413,7 +452,7 @@ var formatGithub = function(repository, first){
 					if (!command){
 				        return "man:".setCommand() + " No command entered.";
 				    } else if (self.hasCommand(command)){
-				        return command.setCommand() + " - " + 
+				        return command.setCommand() + CONSTANTS.DASH + 
 				        self.commands[command].description;
 				    } else {
 				        return "man".setCommand() + 
@@ -430,9 +469,9 @@ var formatGithub = function(repository, first){
 				handler: function(){
 					var commands = "Available Commands:".setTitle();
 					$.map(self.commands, function(value, key) {
-				        commands += "\n";
+				        commands += CONSTANTS.NEW_LINE;
 			            commands += key.setCommand();
-			            commands += " - ";
+			            commands += CONSTANTS.DASH;
 			            commands += value.description;
 				    });
 				    return commands;
@@ -481,7 +520,8 @@ var formatGithub = function(repository, first){
 					type: self.commandProcessor.calculated,
 					handler: function(data){
 						window.open(data);
-						return data + "\nHint: May need to allow pop-ups.";
+						return data + CONSTANTS.NEW_LINE 
+						+ "Hint: May need to allow pop-ups.";
 					}
 				};
 			}
@@ -494,8 +534,9 @@ var formatGithub = function(repository, first){
 					type: self.commandProcessor.calculated,
 					handler: function(data){
 						return data.city + 
-							(data.region ? ", " + data.region : "") + 
-							", " + data.countryCode;
+							(data.region ? CONSTANTS.COMA + data.region : 
+								CONSTANTS.EMPTY) + CONSTANTS.COMA +
+								data.countryCode;
 					}
 				};
 			}
@@ -519,31 +560,31 @@ var formatGithub = function(repository, first){
 					data: self.data.basics.profiles,
 					type: self.commandProcessor.calculated,
 					handler: function(data){
-						var result = "";
-						$.each(data, function(key, value){
+						var result = CONSTANTS.EMPTY;
+						data.forEach(function(value, index){
 							if (value.network){
-								if (key !== 0){
-									result += "\n";
+								if (index !== 0){
+									result += CONSTANTS.NEW_LINE;
 								}
 
 								if (value.network.toLowerCase() === "email"){
-									result += value.network + " - " + 
-										value.url.split(":").charAt(1);
+									result += value.network + 
+									CONSTANTS.DASH + 
+									value.url.split(CONSTANTS.COLON).charAt(1);
 								} else if (value.url){
-					        		result += value.network + " - " + value.url;
+					        		result += value.network + CONSTANTS.DASH + 
+					        		value.url;
 					        	} else if (value.username){
-
-					        		var url = "";
+					        		var url = CONSTANTS.EMPTY;
 
 					        		url = buildUrl(value.network, 
 					        			value.username);
 
 					        		if (url){
-					        			result += value.network + " - " + url;
+					        			result += value.network + 
+					        			CONSTANTS.DASH + url;
 					        		}
 					        	}
-
-					        	
 					    	}
 					    });
 					    return result;
@@ -558,16 +599,16 @@ var formatGithub = function(repository, first){
 					type: self.commandProcessor.calculated,
 					data: self.data.skills,
 					handler: function(data){
-						var result = "";
+						var result = CONSTANTS.EMPTY;
 
-						$.each(data, function(key, value){
+						data.forEach(function(value, index){
 							result += value.level;
 							result += " in ";
 							result += value.name;
 
 							// Make sure not the last entry
-							if (key !== data.length - 1){
-								result += "\n";
+							if (index !== data.length - 1){
+								result += CONSTANTS.NEW_LINE;
 							}
 						});
 
@@ -581,24 +622,26 @@ var formatGithub = function(repository, first){
 				description: "print the welcome screen",
 				type: self.commandProcessor.system,
 				handler: function(){
-					var results = "";
+					var results = CONSTANTS.EMPTY;
 
 					if (self.data.cmd_resume.splash){
 						if (self.data.cmd_resume.splash){
 							results += self.data.cmd_resume.splash;
-							results += "\n";
+							results += CONSTANTS.NEW_LINE;
 						}
 					}
 
 					if (self.data.basics.name){
 				        results += "Welcome to " + 
 				        	self.data.basics.name.setName() + 
-				        	"'s résumé.\n";
+				        	"'s résumé.";
 				    } else {
-				        results += "Welcome to my résumé.\n";
+				        results += "Welcome to my résumé.";
 				    }
 
-				    results += "\nType ";
+				    results += CONSTANTS.NEW_LINE;
+				    results += CONSTANTS.NEW_LINE;
+				    results += "Type ";
 				    results += "help".setCommand();
 				    results += " for commands";
 
@@ -731,10 +774,10 @@ var formatGithub = function(repository, first){
 					data: self.data.interests,
 					handlers:{
 						organisation: function(value){
-							return value.name + ":";
+							return value.name + CONSTANTS.COLON;
 						},
 						title: function(value){
-							return value.keywords.join(", ");
+							return value.keywords.join(CONSTANTS.COMA);
 						}
 					}
 				};
@@ -748,10 +791,10 @@ var formatGithub = function(repository, first){
 					data: self.data.references,
 					handlers:{
 						organisation: function(value){
-							return (value.name).setName() + ":";
+							return (value.name).setName() + CONSTANTS.COLON;
 						},
 						title: function(value){
-							return "\n" + value.reference;
+							return CONSTANTS.NEW_LINE + value.reference;
 						}
 					}
 				};
@@ -765,27 +808,29 @@ var formatGithub = function(repository, first){
 				self.data.cmd_resume = {};
 			}
 
-			$(self.data.basics.profiles).each(function(){
+			self.data.basics.profiles.forEach(function(value){
 				if (!self.data.basics.githubUsername && 
-					this.network.toLowerCase() === "github"){
-					self.data.githubCache = "";
-					if (this.username){
-						self.data.basics.githubUsername = this.username;
-					} else if (this.url){
+					value.network.toLowerCase() === "github"){
+					if (value.username){
+						self.data.basics.githubUsername = value.username;
+					} else if (value.url){
 						// TODO: Parse
-						self.data.basics.githubUsername = this.url;
+						self.data.basics.githubUsername = value.url;
 					}
-				} else if (this.network.toLowerCase() === "resume"){
-					self.data.basics.pdfLink = this.url;
+				} else if (value.network.toLowerCase() === "resume"){
+					self.data.basics.pdfLink = value.url;
 				}
 			});
 
 			if (self.data.basics.githubUsername){
 				getGithub(getGithubUri(self.data.basics.githubUsername), self.data.basics.githubUsername, self.showForks, 
 					function(result){
-						var formattedString = "";
+						// In the case of too many requests bail
+						if (isUndefinedOrNull(result.length)) return;
+
+						var formattedString = CONSTANTS.EMPTY;
 						
-						$.each(result, function(key, value){
+						result.forEach(function(value, key){
 							formattedString += formatGithub(value, key === 0);
 						});
 
@@ -834,12 +879,12 @@ var formatGithub = function(repository, first){
 						description: "print PGP key",
 						type: self.commandProcessor.calculated,
 						handler: function(){
-							var results = "";
+							var results = CONSTANTS.EMPTY;
 
 							for (var i = 0; i < self.data.pgpkey.length; i++){
 								results += self.data.pgpkey[i];
 								if (i !== self.data.pgpkey.length - 1){
-									results += "\n";
+									results += CONSTANTS.NEW_LINE;
 								}
 							}
 							return results.setPGP();
@@ -849,7 +894,7 @@ var formatGithub = function(repository, first){
 
 				if (response.github){
 					self.data.basics.githubUsername = response.github;
-					self.data.githubCache = "";
+					self.data.githubCache = CONSTANTS.EMPTY;
 				}
 
 				if (response.splash){
