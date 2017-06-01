@@ -64,7 +64,7 @@ var StyleEnum = {
 // Check if something is undefined or null
 var isUndefinedOrNull = function(value){
 	return typeof value === 'undefined' || value === null;
-}
+};
 
 // Update HTML title
 var updateTitle = function(name){
@@ -520,8 +520,8 @@ var formatGithub = function(repository, first){
 					type: self.commandProcessor.calculated,
 					handler: function(data){
 						window.open(data);
-						return data + CONSTANTS.NEW_LINE 
-						+ "Hint: May need to allow pop-ups.";
+						return data + CONSTANTS.NEW_LINE + 
+						"Hint: May need to allow pop-ups.";
 					}
 				};
 			}
