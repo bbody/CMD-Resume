@@ -13,7 +13,8 @@ var gulp   = require('gulp'),
     fs = require('fs'),
     del = require('del'),
     zip = require('gulp-zip'),
-    exec = require('gulp-exec');
+    exec = require('gulp-exec'),
+    concat = require('gulp-concat');
 
 // Default Gulp task is develop
 gulp.task('default', ['develop']);
@@ -57,17 +58,6 @@ gulp.task('watch', function() {
 gulp.task('qunit-test', function() {
     return gulp.src('./spec/index.html')
         .pipe(qunit());
-});
-
-// Minify and uglify JavaScript files
-gulp.task('compile:js', function (cb) {
-  pump([
-        gulp.src('js/*.js'),
-        uglify(),
-        gulp.dest('tmp/js')
-    ],
-    cb
-  );
 });
 
 // Copy HTML across (Also inject Github ribbon)
@@ -120,44 +110,19 @@ gulp.task('version', function(){
 });
 
 gulp.task('compile:release:minified', function(){
-	return gulp.src(['js/cmd-resume.js', 'js/helper-functions.js'])
-  		.pipe(uglify())
-  		.pipe(rename("cmd-resume.min.js"))
-  		.pipe(inject.prepend("\"use strict\";"))
-  		.pipe(inject.prepend("(function($){"))
-  		.pipe(inject.prepend(getVersionString()))
-  		.pipe(inject.append("}(jQuery));"))
-  		.pipe(gulp.dest('dist'));
+  return compiledCode('dist', false, true, true);
 });
 
 gulp.task('compile:release', function(){
-	return gulp.src(['js/cmd-resume.js', 'js/helper-functions.js'])
-		.pipe(inject.prepend("\n\"use strict\";\n\n"))
-  		.pipe(inject.afterEach("\n", "	"))
-  		.pipe(inject.prepend("(function($){"))
-  		.pipe(inject.prepend(getVersionString() + "\n\n"))
-  		.pipe(inject.append("\n}(jQuery));"))
-    	.pipe(gulp.dest('dist'));
+  return compiledCode('dist', false, false, true);
 });
 
 gulp.task('compile:development', function(){
-	return gulp.src(['js/cmd-resume.js', 'js/helper-functions.js'])
-		.pipe(inject.prepend("\n\"use strict\";\n\n"))
-  		.pipe(inject.afterEach("\n", "	"))
-  		.pipe(inject.prepend("(function($){"))
-  		.pipe(inject.prepend(getVersionString() + "\n\n"))
-  		.pipe(inject.append("\n}(jQuery));"))
-    	.pipe(gulp.dest('dist/js'));
+  return compiledCode('tmp/js', true, false, false);
 });
 
 gulp.task('compile:gh-pages', function(){
-	return gulp.src(['js/cmd-resume.js', 'js/helper-functions.js'])
-		.pipe(inject.prepend("\n\"use strict\";\n\n"))
-  		.pipe(inject.afterEach("\n", "	"))
-  		.pipe(inject.prepend("(function($){"))
-  		.pipe(inject.prepend(getVersionString() + "\n\n"))
-  		.pipe(inject.append("\n}(jQuery));"))
-    	.pipe(gulp.dest('tmp/js'));
+  return compiledCode('tmp/js', true, false, false);
 });
 
 gulp.task('zip', function(){
@@ -174,4 +139,28 @@ function getVersionString(){
 function getVersion(){
 	var json = JSON.parse(fs.readFileSync('./package.json'));
 	return json.version;
+}
+
+function compiledCode(destination, lint, minified, versioned){
+  var stream =  gulp.src(['js/helper-functions.js', 'js/cmd-resume.js'])
+    .pipe(concat(minified ? 'cmd-resume.min.js' : 'cmd-resume.js'));
+
+  if (lint){
+    stream.pipe(inject.prepend("\n\"use strict\";\n\n/*globals jQuery:false */\n/*jslint browser:true */\n\n"))
+  }
+
+  stream.pipe(inject.prepend("(function($){"))
+    .pipe(inject.afterEach("\n", "  "))
+    .pipe(inject.append("\n}(jQuery));"));
+    
+
+  if (versioned){
+    stream.pipe(inject.prepend(getVersionString() + "\n"));
+  }
+
+  if (minified){
+    stream.pipe(uglify());
+  }
+
+  return stream.pipe(gulp.dest(destination));
 }
