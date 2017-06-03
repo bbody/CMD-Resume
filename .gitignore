@@ -40,5 +40,8 @@ terminal.jquery.json
 /css
 
 /.publish
-/tmp
+
+/dist
+/release
 /node_modules
+/tmp

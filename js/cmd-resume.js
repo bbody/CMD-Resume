@@ -455,7 +455,6 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
 				}
 			};
 		}
-
 	};
 
 	// Initialize variables
@@ -548,7 +547,7 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
 					}
 				};
 			}
-
+                
 			if (response.github){
 				self.data.basics.githubUsername = response.github;
 				self.data.githubCache = CONSTANTS.EMPTY;
