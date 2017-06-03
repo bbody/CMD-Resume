@@ -21,6 +21,7 @@ Icon
 .Trashes
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
+npm-debug.log
 
 # Directories potentially created on remote AFP share
 .AppleDB
@@ -39,6 +40,7 @@ terminal.jquery.json
 /css
 
 /.publish
+
 /dist
 /release
 /node_modules
