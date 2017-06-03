@@ -58,7 +58,7 @@ QUnit.test("Wrap formatting", function(assert){
 	var result = wrappedFormatting("style", "text");
 	assert.equal(result, "[[style]text]");
 });
-
+ 
 QUnit.test("Wrap formatting without style", function(assert){
 	var result = wrappedFormatting("", "text");
 	assert.equal(result, "[[]text]");
@@ -66,7 +66,7 @@ QUnit.test("Wrap formatting without style", function(assert){
 
 QUnit.test("Wrap formatting without text", function(assert){
 	var result = wrappedFormatting("style", "");
-	assert.equal(result, "[[style]]");
+	assert.equal(result, "");
 });
 
 QUnit.test("Wrap formatting with null style", function(assert){
@@ -76,7 +76,7 @@ QUnit.test("Wrap formatting with null style", function(assert){
 
 QUnit.test("Wrap formatting with null text", function(assert){
 	var result = wrappedFormatting("style", null);
-	assert.equal(result, "[[style]]");
+	assert.equal(result, "");
 });
 
 QUnit.test("Wrap formatting with null style and text", function(assert){
@@ -85,7 +85,7 @@ QUnit.test("Wrap formatting with null style and text", function(assert){
 });
 
 QUnit.test("Title test setFormat", function(assert){
-	var result = "Hello World".setFormat("title");
+	var result = "Hello World".setFormat(StyleEnum.TITLE);
 	assert.equal(result, "[[b;red;#000]Hello World]");
 });
 
@@ -95,7 +95,7 @@ QUnit.test("Title test format", function(assert){
 });
 
 QUnit.test("Command test setFormat", function(assert){
-	var result = "Hello World".setFormat("command");
+	var result = "Hello World".setFormat(StyleEnum.COMMAND);
 	assert.equal(result, "[[i;white;#000]Hello World]");
 });
 
@@ -105,7 +105,7 @@ QUnit.test("Command test format", function(assert){
 });
 
 QUnit.test("Name test setFormat", function(assert){
-	var result = "Hello World".setFormat("name");
+	var result = "Hello World".setFormat(StyleEnum.NAME);
 	assert.equal(result, "[[b;green;#000]Hello World]");
 });
 
@@ -116,7 +116,7 @@ QUnit.test("Name test format", function(assert){
 
 
 QUnit.test("PGP test setFormat", function(assert){
-	var result = "Hello World".setFormat("pgp");
+	var result = "Hello World".setFormat(StyleEnum.PGP);
 	assert.equal(result, "[[i;white;#000]Hello World]");
 });
 
