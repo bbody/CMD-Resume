@@ -1,6 +1,3 @@
-/*globals jQuery:false */
-/*jslint browser:true */
-
 // Default styles for displaying text
 var defaultStyles = {
     standard: {
@@ -88,7 +85,6 @@ var wrappedFormatting = function(style, content){
 // Update color
 String.prototype.setFormat = function(styleEnumValue){
     var type = StyleEnum.toString(styleEnumValue);
-
     var style = defaultStyles[type] ? 
         defaultStyles[type] : defaultStyles.standard;
     var color = style.color ? style.color : defaultStyles.standard.color;
@@ -222,9 +218,9 @@ var arrayHandlerFunction = function(command, top){
         return result;
     }
 
-    command.data.forEach(function(value){
+    command.data.some(function(value){
         if (!top){
-            result += CONSTANTS.NsEW_LINE;
+            result += CONSTANTS.NEW_LINE;
         }
 
         if (command.handlers.organisation){
@@ -248,10 +244,7 @@ var arrayHandlerFunction = function(command, top){
         }
 
         // Break after the first command
-        // break;
-        if (top){
-            return false;
-        }
+        return top;
     });
 
     return result;
