@@ -26,9 +26,9 @@ gulp.task('develop', ['watch', 'build', 'serve']);
 gulp.task('test', ['watch', 'build', 'serve:test']);
 
 // Build the project
-gulp.task('build', ['jshint', 'qunit-test', 'compile:development', 'copy:html', 'copy:json', 'copy:icon']);
+gulp.task('build', ['jshint:development', 'qunit-test', 'compile:development', 'copy:html', 'copy:json', 'copy:icon']);
 
-gulp.task('build-gh-pages', ['jshint', 'qunit-test', 'compile:gh-pages', 'copy:html', 'copy:json', 'copy:icon']);
+gulp.task('build-gh-pages', ['jshint:development', 'qunit-test', 'compile:gh-pages', 'copy:html', 'copy:json', 'copy:icon']);
 
 // Build then deploy to Github Pages
 gulp.task('deploy', ['build-gh-pages', 'gh-pages']);
@@ -43,15 +43,15 @@ gulp.task('test:e2e', function() {
 });
 
 // JSHint the JavaScript files
-gulp.task('jshint', function() {
-  return gulp.src('js/*.js')
+gulp.task('jshint:development', function() {
+  return gulp.src('./tmp/js/cmd-resume.js')
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
 // Watch important files
 gulp.task('watch', function() {
-  gulp.watch(['js/*.js', 'index.html', 'spec/index.html', 'spec/js/*.js'], ['jshint', 'qunit-test']);
+  gulp.watch(['js/*.js', 'index.html', 'spec/index.html', 'spec/js/*.js'], ['jshint:development', 'qunit-test']);
 });
 
 // Run Qunit Tests

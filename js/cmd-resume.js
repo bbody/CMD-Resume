@@ -482,22 +482,22 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
 				self.data.basics.githubUsername, self.showForks, 
 				function(result){
 					// In the case of too many requests bail
-					if (isUndefinedOrNull(result.length)) return;
+					if (!isUndefinedOrNull(result.length)){
+						var formattedString = CONSTANTS.EMPTY;
+						
+						result.forEach(function(value, key){
+							formattedString += formatGithub(value, key === 0);
+						});
 
-					var formattedString = CONSTANTS.EMPTY;
-					
-					result.forEach(function(value, key){
-						formattedString += formatGithub(value, key === 0);
-					});
+						self.commands.github = {
+							title: "Github Repositories",
+							description: "list Github repositories",
+							type: self.commandProcessor.basic,
+							data: formattedString
+						};
 
-					self.commands.github = {
-						title: "Github Repositories",
-						description: "list Github repositories",
-						type: self.commandProcessor.basic,
-						data: formattedString
-					};
-
-					self.commandList.push("github");
+						self.commandList.push("github");
+					}
 			});
 		}
 	};

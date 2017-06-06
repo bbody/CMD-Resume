@@ -60,7 +60,7 @@ var StyleEnum = {
 
 // Check if something is undefined or null
 var isUndefinedOrNull = function(value){
-    return typeof value === 'undefined' || value === null;
+    return typeof value === "undefined" || value === null;
 };
 
 // Update HTML title
@@ -80,6 +80,15 @@ var wrappedFormatting = function(style, content){
     style = style ? style : CONSTANTS.EMPTY;
 
     return "[[" + style + "]" + content + "]";
+};
+
+// Check if a valid color
+var isValidColor = function(color){
+    if (color){
+        return $.terminal.valid_color(color);
+    } else {
+        return false;
+    }
 };
 
 // Update color
@@ -145,13 +154,6 @@ String.prototype.setName = function(){
 // PGP formatter
 String.prototype.setPGP = function(){
     return this.setFormat(StyleEnum.PGP);
-};
-
-// Check if a valid color
-var isValidColor = function(color){
-    if (!color) return false;
-
-    return $.terminal.valid_color(color);
 };
 
 // Format date
@@ -255,9 +257,7 @@ var initStyles = function(defaultStyles, options){
     // Copy the object
     var styles = $.extend(true, {}, defaultStyles);
 
-    for (var key in options){
-        var value = options[key];
-
+    $.each(options, function(key, value){
         if (defaultStyles[key]){
             if (value.color){
                 styles[key].color = value.color;
@@ -275,7 +275,7 @@ var initStyles = function(defaultStyles, options){
                 styles[key].backgroundColor = value.backgroundColor;
             }
         }
-    }
+    });
 
     return styles;
 };
@@ -283,22 +283,11 @@ var initStyles = function(defaultStyles, options){
 // Get Github URI based on username
 var getGithubUri = function(username){
     // Return empty is username is empty
-    if (!username) return CONSTANTS.EMPTY;
-
-    return 'https://api.github.com/users/' + username + '/repos';
-};
-
-// Get the Github information
-var getGithub = function(uri, username, showForks, callback){
-    var ownRepo = username.toLowerCase() + '.github.com';
-
-    $.getJSON(uri + '?callback=?', function(response){
-        // Run callback'
-        if (!response || !response.meta || !response.meta.status || 
-            response.meta.status !== 200) return;
-
-        callback(filterGithubFork(response.data, ownRepo, showForks));
-    });
+    if (username){
+        return "https://api.github.com/users/" + username + "/repos";
+    } else {
+        return CONSTANTS.EMPTY;
+    }
 };
 
 // Go through Github array (Split to make testing easier)
@@ -314,6 +303,19 @@ var filterGithubFork = function(repos, ownRepo, showForks){
     });
 
     return result;
+};
+
+// Get the Github information
+var getGithub = function(uri, username, showForks, callback){
+    var ownRepo = username.toLowerCase() + ".github.com";
+
+    $.getJSON(uri + "?callback=?", function(response){
+        // Run callback
+        if (response && response.meta && response.meta.status && 
+            response.meta.status === 200){
+            callback(filterGithubFork(response.data, ownRepo, showForks));
+        }
+    });
 };
 
 // Format Github response
