@@ -54,7 +54,7 @@ If you wish to contribute feel free to fork the repository, make changes and sub
 - ~Schema for extra variables~
 - Skills table styling
 - ~Add to jQuery library files~
-- Deployment script
+- ~Deployment script~
 - ~Rationalization of `\n` usage~
 - ~General code quality improvements~
-- Validations for custom styles
+- ~Validations for custom styles~
