@@ -26,7 +26,7 @@ gulp.task('develop', ['watch', 'build', 'serve']);
 gulp.task('test', ['watch', 'build', 'serve:test']);
 
 // Build the project
-gulp.task('build', ['jshint:development', 'qunit-test', 'compile:development', 'copy:html', 'copy:json', 'copy:icon']);
+gulp.task('build', ['qunit-test', 'compile:development', 'jshint:development', 'copy:html', 'copy:json', 'copy:icon']);
 
 gulp.task('build-gh-pages', ['jshint:development', 'qunit-test', 'compile:gh-pages', 'copy:html', 'copy:json', 'copy:icon']);
 
