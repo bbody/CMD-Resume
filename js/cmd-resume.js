@@ -1,12 +1,12 @@
-$.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
+$.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options) {
 	// Get element
 	var element = this;
 
 	options = options || {};
-	
+
 	// If there are no options, use second variable as options
-	if (!options){
-		if ((typeof secondaryEndpoint) !== "string"){
+	if (!options) {
+		if ((typeof secondaryEndpoint) !== "string") {
 			options = secondaryEndpoint;
 		}
 	}
@@ -24,17 +24,17 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
 		system: systemHandlerFunction
 	};
 
-	self.initTerminal = function(){
+	self.initTerminal = function() {
 		self.term = element.terminal(function(command, term) {
-            term.echo(self.commandLineParse(command) + CONSTANTS.NEW_LINE);
-        }, self.settings);
+			term.echo(self.commandLineParse(command) + CONSTANTS.NEW_LINE);
+		}, self.settings);
 	};
 
-	self.initGithubForks = function(options){
+	self.initGithubForks = function(options) {
 		self.showForks = options.showForks || options.showForks === "true";
 	};
 
-	self.init = function(options){
+	self.init = function(options) {
 		self.initGithubForks(options);
 		self.initVariables();
 		self.initCommands();
@@ -44,34 +44,34 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
 	};
 
 	// Parse command line
-	self.commandLineParse = function(input){
-	    var commandList = input.toLowerCase().split(" ");
+	self.commandLineParse = function(input) {
+		var commandList = input.toLowerCase().split(CONSTANTS.SPACE);
 
-	    // Command sections
-	    var rootCommand = !isUndefinedOrNull(commandList[0]) ? 
-	    	commandList[0] : false;
-	    var stemCommand = !isUndefinedOrNull(commandList[1]) && 
-	    	commandList[1].length > 0 ? commandList[1] : false;
-	    var command = self.commands[rootCommand];
-	    if (rootCommand === "man"){
-	    	return self.commands.man.handler(stemCommand);
-	    } else if (command){
-	    	var top = stemCommand === "-top" ? true : false;
-	    	return self.processCommand(command, top);
-	    } else {
-	        if (rootCommand.length > 0){
-	            return rootCommand.setCommand() + " is an unknown command.";
-	        } else {
-	            return "No command entered.";
-	        }
-	    }
+		// Command sections
+		var rootCommand = !isUndefinedOrNull(commandList[0]) ?
+			commandList[0] : false;
+		var stemCommand = !isUndefinedOrNull(commandList[1]) &&
+			commandList[1].length > 0 ? commandList[1] : false;
+		var command = self.commands[rootCommand];
+		if (rootCommand === "man") {
+			return self.commands.man.handler(stemCommand);
+		} else if (command) {
+			var top = stemCommand === "-top" ? true : false;
+			return self.processCommand(command, top);
+		} else {
+			if (rootCommand.length > 0) {
+				return rootCommand.setCommand() + " is an unknown command.";
+			} else {
+				return "No command entered.";
+			}
+		}
 	};
 
-	self.processCommand = function(command, top){
+	self.processCommand = function(command, top) {
 		var result = CONSTANTS.EMPTY;
 
-		if (!top && 
-			command.type !== self.commandProcessor.system){
+		if (!top &&
+			command.type !== self.commandProcessor.system) {
 			result += command.title.setTitle();
 		}
 
@@ -81,40 +81,40 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
 	};
 
 	// Get list of commands for autocomplete
-	self.getCommandList = function(){
+	self.getCommandList = function() {
 		var commands = [];
 
 		$.map(self.commands, function(value, key) {
-	        commands.push(key);
-	    });
+			commands.push(key);
+		});
 
 		return commands;
 	};
 
-	self.hasCommand = function(command){
+	self.hasCommand = function(command) {
 		return self.commandList.indexOf(command) >= 0;
 	};
 
-	self.getCategory = function(command){
+	self.getCategory = function(command) {
 		return self.commands[command].type;
 	};
 
-	self.initCommands = function(){
+	self.initCommands = function() {
 		self.commands.man = {
 			title: "man".setCommand(),
 			description: "describes what each command does",
 			type: self.commandProcessor.system,
-			handler: function(command){
-				if (!command){
-			        return "man:".setCommand() + " No command entered.";
-			    } else if (self.hasCommand(command)){
-			        return command.setCommand() + CONSTANTS.DASH + 
-			        self.commands[command].description;
-			    } else {
-			        return "man".setCommand() + 
-			        ": " + command.setCommand() + 
-			        " is an unknown command.";
-			    }
+			handler: function(command) {
+				if (!command) {
+					return "man:".setCommand() + " No command entered.";
+				} else if (self.hasCommand(command)) {
+					return command.setCommand() + CONSTANTS.DASH +
+					self.commands[command].description;
+				} else {
+					return "man".setCommand() +
+					": " + command.setCommand() +
+					" is an unknown command.";
+				}
 			}
 		};
 
@@ -122,15 +122,15 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
 			title: "Help",
 			description: "lists help for all the commands",
 			type: self.commandProcessor.system,
-			handler: function(){
+			handler: function() {
 				var commands = "Available Commands:".setTitle();
 				$.map(self.commands, function(value, key) {
-			        commands += CONSTANTS.NEW_LINE;
-		            commands += key.setCommand();
-		            commands += CONSTANTS.DASH;
-		            commands += value.description;
-			    });
-			    return commands;
+					commands += CONSTANTS.NEW_LINE;
+					commands += key.setCommand();
+					commands += CONSTANTS.DASH;
+					commands += value.description;
+				});
+				return commands;
 			}
 		};
 
@@ -138,7 +138,7 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
 			description: "clear command history from screen"
 		};
 
-		if (self.data.basics.name){
+		if (self.data.basics.name) {
 			self.commands.name = {
 				title: "Name",
 				description: "owner of the résumé",
@@ -147,19 +147,19 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
 			};
 		}
 
-		if (self.data.cmd_resume && self.data.cmd_resume.pgpkey){
+		if (self.data.cmdResume && self.data.cmdResume.pgpkey) {
 			self.commands.pgpkey = {
 				title: "PGP Key",
 				description: "public PGP key",
-				data: self.data.cmd_resume.pgpkey,
+				data: self.data.cmdResume.pgpkey,
 				type: self.commandProcessor.calculated,
-				handler: function(data){
+				handler: function(data) {
 					return data.setPGP();
 				}
 			};
 		}
 
-		if (self.data.basics.summary){
+		if (self.data.basics.summary) {
 			self.commands.about = {
 				title: "About",
 				description: "about me",
@@ -168,106 +168,104 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
 			};
 		}
 
-		if (self.data.basics.pdfLink){
+		if (self.data.basics.pdfLink) {
 			self.commands.pdf = {
 				title: "Resume PDF",
 				description: "pdf version of the résumé",
 				data: self.data.basics.pdfLink,
 				type: self.commandProcessor.calculated,
-				handler: function(data){
+				handler: function(data) {
 					window.open(data);
-					return data + CONSTANTS.NEW_LINE + 
+					return data + CONSTANTS.NEW_LINE +
 					"Hint: May need to allow pop-ups.";
 				}
 			};
 		}
 
-		if (self.data.basics.location){
+		if (self.data.basics.location) {
 			self.commands.location = {
 				title: "Location",
 				description: "current location",
 				data: self.data.basics.location,
 				type: self.commandProcessor.calculated,
-				handler: function(data){
-					return data.city + 
-						(data.region ? CONSTANTS.COMA + data.region : 
+				handler: function(data) {
+					return data.city +
+						(data.region ? CONSTANTS.COMA + data.region :
 							CONSTANTS.EMPTY) + CONSTANTS.COMA +
 							data.countryCode;
 				}
 			};
 		}
 
-		if (self.data.basics.label){
+		if (self.data.basics.label) {
 			self.commands.lookingfor = {
 				title: "Looking For",
 				description: "looking for what kind of position",
 				data: self.data.basics.label,
 				type: self.commandProcessor.calculated,
-				handler: function(data){
+				handler: function(data) {
 					return data + " positions";
 				}
 			};
 		}
 
-		if (self.data.basics.profiles){
+		if (self.data.basics.profiles) {
 			self.commands.socialmedia = {
 				title: "Social Media",
 				description: "social media profiles",
 				data: self.data.basics.profiles,
 				type: self.commandProcessor.calculated,
-				handler: function(data){
+				handler: function(data) {
 					var result = CONSTANTS.EMPTY;
-					data.forEach(function(value, index){
-						if (value.network){
-							if (index !== 0){
+					data.forEach(function(value, index) {
+						if (value.network) {
+							if (index !== 0) {
 								result += CONSTANTS.NEW_LINE;
 							}
 
-							if (value.network.toLowerCase() === "email"){
-								result += value.network + 
-								CONSTANTS.DASH + 
+							if (value.network.toLowerCase() === "email") {
+								result += value.network +
+								CONSTANTS.DASH +
 								value.url.split(CONSTANTS.COLON).charAt(1);
-							} else if (value.url){
-				        		result += value.network + CONSTANTS.DASH + 
-				        		value.url;
-				        	} else if (value.username){
-				        		var url = CONSTANTS.EMPTY;
+							} else if (value.url) {
+								result += value.network + CONSTANTS.DASH +
+								value.url;
+							} else if (value.username) {
+								var url = CONSTANTS.EMPTY;
 
-				        		url = buildUrl(value.network, 
-				        			value.username);
+								url = buildUrl(value.network, value.username);
 
-				        		if (url){
-				        			result += value.network + 
-				        			CONSTANTS.DASH + url;
-				        		}
-				        	}
-				    	}
-				    });
-				    return result;
+								if (url) {
+									result += value.network +
+									CONSTANTS.DASH + url;
+								}
+							}
+						}
+					});
+					return result;
 				}
 			};
 		}
 
-		if (self.data.skills){
+		if (self.data.skills) {
 			self.commands.skills = {
 				title: "Skills",
 				description: "skills obtained",
 				type: self.commandProcessor.calculated,
 				data: self.data.skills,
-				handler: function(data){
+				handler: function(data) {
 					var result = CONSTANTS.EMPTY;
 
-					data.forEach(function(value, index){
+					data.forEach(function(value, index) {
 						result += value.level;
 						result += " in ";
 						result += value.name;
 
 						// Make sure not the last entry
-						if (index !== data.length - 1){
+						if (index !== data.length - 1) {
 							result += CONSTANTS.NEW_LINE;
 						}
 					});
-
 					return result;
 				}
 			};
@@ -277,179 +275,179 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
 			title: "Splash Screen",
 			description: "print the welcome screen",
 			type: self.commandProcessor.system,
-			handler: function(){
+			handler: function() {
 				var results = CONSTANTS.EMPTY;
 
-				if (self.data.cmd_resume.splash){
-					if (self.data.cmd_resume.splash){
-						results += self.data.cmd_resume.splash;
+				if (self.data.cmdResume.splash) {
+					if (self.data.cmdResume.splash) {
+						results += self.data.cmdResume.splash;
 						results += CONSTANTS.NEW_LINE;
 					}
 				}
 
-				if (self.data.basics.name){
-			        results += "Welcome to " + 
-			        	self.data.basics.name.setName() + 
-			        	"'s résumé.";
-			    } else {
-			        results += "Welcome to my résumé.";
-			    }
+				if (self.data.basics.name) {
+					results += "Welcome to " +
+						self.data.basics.name.setName() +
+						"'s résumé.";
+				} else {
+					results += "Welcome to my résumé.";
+				}
 
-			    results += CONSTANTS.NEW_LINE;
-			    results += CONSTANTS.NEW_LINE;
-			    results += "Type ";
-			    results += "help".setCommand();
-			    results += " for commands";
+				results += CONSTANTS.NEW_LINE;
+				results += CONSTANTS.NEW_LINE;
+				results += "Type ";
+				results += "help".setCommand();
+				results += " for commands";
 
 				return results;
 			}
 		};
 
-		if (self.data.education){
+		if (self.data.education) {
 			self.commands.education = {
 				title: "Education",
 				description: "education history",
 				data: self.data.education,
 				type: self.commandProcessor.array,
-				handlers:{
-					organisation: function(value){
+				handlers: {
+					organisation: function(value) {
 						return value.institution;
 					},
-					title: function(value){
+					title: function(value) {
 						return getFullDegree(value.studyType, value.area);
 					},
-					date: function(value){
+					date: function(value) {
 						return getDate(value.startDate, value.endDate);
 					}
 				}
 			};
 		}
 
-		if (self.data.work){
+		if (self.data.work) {
 			self.commands.employment = {
 				title: "Employment",
 				description: "employment history",
 				data: self.data.work,
 				type: self.commandProcessor.array,
-				handlers:{
-					organisation: function(value){
+				handlers: {
+					organisation: function(value) {
 						return value.company;
 					},
-					title: function(value){
+					title: function(value) {
 						return value.position;
 					},
-					date: function(value){
+					date: function(value) {
 						return getDate(value.startDate, value.endDate);
 					}
 				}
 			};
 		}
 
-		if (self.data.volunteer){
+		if (self.data.volunteer) {
 			self.commands.volunteering = {
 				title: "Volunteering",
 				description: "volunteering history",
 				type: self.commandProcessor.array,
 				data: self.data.volunteer,
-				handlers:{
-					organisation: function(value){
+				handlers: {
+					organisation: function(value) {
 						return value.organization;
 					},
-					title: function(value){
+					title: function(value) {
 						return value.position;
 					},
-					date: function(value){
+					date: function(value) {
 						return getDate(value.startDate, value.endDate);
 					}
 				}
 			};
 		}
 
-		if (self.data.awards){
+		if (self.data.awards) {
 			self.commands.awards = {
 				title: "Awards",
 				description: "awards obtained",
 				type: self.commandProcessor.array,
 				data: self.data.awards,
-				handlers:{
-					organisation: function(value){
+				handlers: {
+					organisation: function(value) {
 						return value.awarder;
 					},
-					title: function(value){
+					title: function(value) {
 						return value.title;
 					},
-					date: function(value){
+					date: function(value) {
 						return value.date;
 					}
 				}
 			};
 		}
 
-		if (self.data.publications){
+		if (self.data.publications) {
 			self.commands.publications = {
 				title: "Publications",
 				description: "publications produced",
 				type: self.commandProcessor.array,
 				data: self.data.publications,
-				handlers:{
-					organisation: function(value){
+				handlers: {
+					organisation: function(value) {
 						return value.publisher;
 					},
-					title: function(value){
+					title: function(value) {
 						return value.name;
 					},
-					date: function(value){
+					date: function(value) {
 						return value.releaseDate;
 					}
 				}
 			};
 		}
 
-		if (self.data.languages){
+		if (self.data.languages) {
 			self.commands.languages = {
 				title: "Languages",
 				description: "languages",
 				type: self.commandProcessor.array,
 				data: self.data.languages,
-				handlers:{
-					organisation: function(value){
+				handlers: {
+					organisation: function(value) {
 						return value.language;
 					},
-					title: function(value){
+					title: function(value) {
 						return value.fluency;
 					}
 				}
 			};
 		}
 
-		if (self.data.interests){
+		if (self.data.interests) {
 			self.commands.interests = {
 				title: "Interests",
 				description: "interests",
 				type: self.commandProcessor.array,
 				data: self.data.interests,
-				handlers:{
-					organisation: function(value){
+				handlers: {
+					organisation: function(value) {
 						return value.name + CONSTANTS.COLON;
 					},
-					title: function(value){
+					title: function(value) {
 						return value.keywords.join(CONSTANTS.COMA);
 					}
 				}
 			};
 		}
 
-		if (self.data.references){
+		if (self.data.references) {
 			self.commands.references = {
 				title: "References",
 				description: "references",
 				type: self.commandProcessor.array,
 				data: self.data.references,
-				handlers:{
-					organisation: function(value){
+				handlers: {
+					organisation: function(value) {
 						return (value.name).setName() + CONSTANTS.COLON;
 					},
-					title: function(value){
+					title: function(value) {
 						return CONSTANTS.NEW_LINE + value.reference;
 					}
 				}
@@ -458,34 +456,31 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
 	};
 
 	// Initialize variables
-	self.initVariables = function(){
-		if (!self.data.cmd_resume){
-			self.data.cmd_resume = {};
-		}
+	self.initVariables = function() {
+		self.data.cmdResume = {};
 
-		self.data.basics.profiles.forEach(function(value){
-			if (!self.data.basics.githubUsername && 
-				value.network.toLowerCase() === "github"){
-				if (value.username){
+		self.data.basics.profiles.forEach(function(value) {
+			if (!self.data.basics.githubUsername &&
+				value.network.toLowerCase() === "github") {
+				if (value.username) {
 					self.data.basics.githubUsername = value.username;
-				} else if (value.url){
-					// TODO: Parse
+				} else if (value.url) {
 					self.data.basics.githubUsername = value.url;
 				}
-			} else if (value.network.toLowerCase() === "resume"){
+			} else if (value.network.toLowerCase() === "resume") {
 				self.data.basics.pdfLink = value.url;
 			}
 		});
 
-		if (self.data.basics.githubUsername){
-			getGithub(getGithubUri(self.data.basics.githubUsername), 
-				self.data.basics.githubUsername, self.showForks, 
-				function(result){
+		if (self.data.basics.githubUsername) {
+			getGithub(getGithubUri(self.data.basics.githubUsername),
+				self.data.basics.githubUsername, self.showForks,
+				function(result) {
 					// In the case of too many requests bail
-					if (!isUndefinedOrNull(result.length)){
+					if (!isUndefinedOrNull(result.length)) {
 						var formattedString = CONSTANTS.EMPTY;
-						
-						result.forEach(function(value, key){
+
+						result.forEach(function(value, key) {
 							formattedString += formatGithub(value, key === 0);
 						});
 
@@ -498,48 +493,48 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
 
 						self.commandList.push("github");
 					}
-			});
+				});
 		}
 	};
 
-	self.initSettings = function(){
+	self.initSettings = function() {
 		self.commandList = self.getCommandList();
 
 		self.settings = {
-            greetings: self.commands.splash.handler(),
-            onBlur: function() {
-                // Prevent loosing focus
-                return false;
-            },
-            completion: self.commandList
-        };
+			greetings: self.commands.splash.handler(),
+			onBlur: function() {
+				// Prevent loosing focus
+				return false;
+			},
+			completion: self.commandList
+		};
 	};
 
-	self.initHTMLTitle = function(){
+	self.initHTMLTitle = function() {
 		updateTitle(self.data.basics.name);
 	};
 
-	$.getJSON(primaryEndpoint, function(response){
+	$.getJSON(primaryEndpoint, function(response) {
 		self.data = response;
 
-		if (!secondaryEndpoint){
+		if (!secondaryEndpoint) {
 			self.init(options);
 		}
 
-		$.getJSON(secondaryEndpoint, function(response){
+		$.getJSON(secondaryEndpoint, function(response) {
 			self.data.pgpkey = response.pgpkey;
 
-			if (self.data.pgpkey){
+			if (self.data.pgpkey) {
 				self.commands.pgpkey = {
 					title: "PGP Key",
 					description: "print PGP key",
 					type: self.commandProcessor.calculated,
-					handler: function(){
+					handler: function() {
 						var results = CONSTANTS.EMPTY;
 
-						for (var i = 0; i < self.data.pgpkey.length; i++){
+						for (var i = 0; i < self.data.pgpkey.length; i++) {
 							results += self.data.pgpkey[i];
-							if (i !== self.data.pgpkey.length - 1){
+							if (i !== self.data.pgpkey.length - 1) {
 								results += CONSTANTS.NEW_LINE;
 							}
 						}
@@ -547,13 +542,13 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options){
 					}
 				};
 			}
-                
-			if (response.github){
+
+			if (response.github) {
 				self.data.basics.githubUsername = response.github;
 				self.data.githubCache = CONSTANTS.EMPTY;
 			}
 
-			if (response.splash){
+			if (response.splash) {
 				self.data.splash = response.splash;
 			}
 
