@@ -14,7 +14,8 @@ var gulp   = require('gulp'),
     del = require('del'),
     zip = require('gulp-zip'),
     exec = require('gulp-exec'),
-    concat = require('gulp-concat');
+    concat = require('gulp-concat'),
+    jscs = require('gulp-jscs');
 
 // Default Gulp task is develop
 gulp.task('default', ['develop']);
@@ -26,9 +27,9 @@ gulp.task('develop', ['watch', 'build', 'serve']);
 gulp.task('test', ['watch', 'build', 'serve:test']);
 
 // Build the project
-gulp.task('build', ['qunit-test', 'compile:development', 'jshint:development', 'copy:html', 'copy:json', 'copy:icon']);
+gulp.task('build', ['jscs:development', 'qunit-test', 'compile:development', 'jshint:development', 'copy:html', 'copy:json', 'copy:icon']);
 
-gulp.task('build-gh-pages', ['jshint:development', 'qunit-test', 'compile:gh-pages', 'copy:html', 'copy:json', 'copy:icon']);
+gulp.task('build-gh-pages', ['jscs:development', 'jshint:development', 'qunit-test', 'compile:gh-pages', 'copy:html', 'copy:json', 'copy:icon']);
 
 // Build then deploy to Github Pages
 gulp.task('deploy', ['build-gh-pages', 'gh-pages']);
@@ -47,6 +48,13 @@ gulp.task('jshint:development', function() {
   return gulp.src('./tmp/js/cmd-resume.js')
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'));
+});
+
+gulp.task('jscs:development', function(){
+  return gulp.src(['js/helper-functions.js', 'js/cmd-resume.js'])
+    .pipe(jscs())
+    .pipe(jscs.reporter())
+    .pipe(jscs.reporter('fail'));
 });
 
 // Watch important files
