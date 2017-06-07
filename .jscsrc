@@ -1,0 +1,8 @@
+{
+	"preset": "jquery",
+	"preset": "google",
+	"validateIndentation": "\t",
+	"validateQuoteMarks": "\"",
+	"maximumLineLength": 80,
+	"requireSemicolons": true
+}
