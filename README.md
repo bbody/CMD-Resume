@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/bbody/CMD-Resume.svg?branch=master)](https://travis-ci.org/bbody/CMD-Resume)
 # CMD Resume
 ## Description
 CMD-Resume is a Javascript based command line for demonstrating your resume. [Here](https://www.brendonbody.com/CMD-Resume/) is an example of a resume in a command line.

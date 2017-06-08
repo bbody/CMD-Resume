@@ -45,6 +45,23 @@ QUnit.module( "Helper function tests", {
   }
 });
 
+QUnit.test("Only undefined and null are true", function(assert){
+	assert.notOk(isUndefinedOrNull(""));
+	assert.notOk(isUndefinedOrNull([]));
+	assert.notOk(isUndefinedOrNull({}));
+	assert.ok(isUndefinedOrNull(null));
+	assert.ok(isUndefinedOrNull(undefined));
+});
+
+QUnit.test("Ensure StyleEnum produces the correct text", function(assert){
+	assert.equal(StyleEnum.toString(StyleEnum.STANDARD), "standard");
+	assert.equal(StyleEnum.toString(StyleEnum.TITLE), "title");
+	assert.equal(StyleEnum.toString(StyleEnum.COMMAND), "command");
+	assert.equal(StyleEnum.toString(StyleEnum.NAME), "name");
+	assert.equal(StyleEnum.toString(StyleEnum.PGP), "pgp");
+	assert.equal(StyleEnum.toString(-100), "");
+});
+
 QUnit.test("Color is valid", function(assert){
 	assert.ok(isValidColor("#FFF"));
 	assert.ok(isValidColor("white"));
@@ -52,6 +69,19 @@ QUnit.test("Color is valid", function(assert){
 	assert.notOk(isValidColor(""));
 	assert.notOk(isValidColor(null));
 	assert.notOk(isValidColor());
+});
+
+QUnit.test("Facebook", function(assert){
+	assert.equal(buildUrl("TWITTER", "test"), "https://www.twitter.com/test");
+	assert.equal(buildUrl("Facebook", "test"), "https://www.facebook.com/test");
+	assert.equal(buildUrl("github", "test"), "https://www.github.com/test");
+	assert.equal(buildUrl("linkedin", "test"), "https://www.linkedin.com/in/test");
+	assert.equal(buildUrl("reddit", "test"), "https://www.reddit.com/user/test");
+	assert.equal(buildUrl("hackernews", "test"), "https://news.ycombinator.com/user?id=test");
+	assert.equal(buildUrl("myspace", "test"), "");
+	assert.equal(buildUrl("", "test"), "");
+	assert.equal(buildUrl(null, "test"), "");
+	assert.equal(buildUrl(undefined, "test"), "");
 });
 
 QUnit.test("Wrap formatting", function(assert){
@@ -1113,7 +1143,7 @@ QUnit.module( "Helper function tests", {
 	    "size": 120,
 	    "stargazers_count": 0,
 	    "watchers_count": 0,
-	    "language": "Matlab",
+	     "language": "Matlab",
 	    "has_issues": true,
 	    "has_downloads": true,
 	    "has_wiki": true,
@@ -1127,6 +1157,8 @@ QUnit.module( "Helper function tests", {
 	    "default_branch": "master"
 	  }
 	];
+
+
   },
   afterEach: function() {
     // clean up after each test
@@ -1141,4 +1173,77 @@ QUnit.test("Github without forks", function(assert){
 QUnit.test("Github with forks", function(assert){
 	var result = filterGithubFork(self.response, "test.github.com", true);
 	assert.equal(result.length, 5);
+});
+
+QUnit.test("Github formatting", function(assert){
+	assert.equal(formatGithub(self.response[0], true), "[[b;green;#000]HelloWorld] - Create hello world");
+	assert.equal(formatGithub(self.response[0], false), "\n[[b;green;#000]HelloWorld] - Create hello world");
+	assert.equal(formatGithub(self.response[0]), "\n[[b;green;#000]HelloWorld] - Create hello world");
+	assert.equal(formatGithub("", true), "");
+	assert.equal(formatGithub(null, true), "");
+	assert.equal(formatGithub({}, true), "");
+});
+
+QUnit.module( "Helper function tests", {
+  beforeEach: function() {
+    self.xhr = sinon.useFakeXMLHttpRequest();
+    self.requests = [];
+    self.xhr.onCreate = function (req) { requests.push(req); };
+  },
+  afterEach: function() {
+    self.xhr.restore();
+  }
+});
+
+QUnit.test("URL is handed to XHR call", function(assert){
+
+	getGithub("http://localhost:8000/spec/responses/github_response.json", "test", false, sinon.spy());
+
+
+	assert.equal(self.requests.length, 1);
+    assert.notEqual(self.requests[0].url.indexOf("http://localhost:8000/spec/responses/github_response.json"), -1);
+});
+
+QUnit.module( "Helper function tests", {
+  beforeEach: function() {
+    self.server = sinon.fakeServer.create();
+  },
+  afterEach: function() {
+    self.server.restore();
+  }
+});
+
+QUnit.test("XHR call handles correct return", function(assert){
+
+	var callback = sinon.spy();
+
+    // Reply with a github response
+    self.server.respondWith("GET", "/somewhere",
+                       [200, { "Content-Type": "application/json" },
+                        JSON.stringify(self.response)]);
+    getGithub("/somewhere", "test", false, callback);
+    self.server.respond();
+
+    assert.ok(callback.calledOnce);
+});
+
+QUnit.test("XHR call handles no return", function(assert){
+	var callback = sinon.spy();
+
+    getGithub("/somewhere", "test", false, callback);
+    
+    assert.equal(callback.callCount, 0);
+});
+
+QUnit.test("XHR call handles non-successful result", function(assert){
+	var callback = sinon.spy();
+
+    // Reply with an empty response
+    self.server.respondWith("GET", "/somewhere",
+                       [200, { "Content-Type": "application/json" },
+                        JSON.stringify([])]);
+    getGithub("/somewhere", "test", false, callback);
+    self.server.respond();
+    
+    assert.equal(callback.callCount, 0);
 });

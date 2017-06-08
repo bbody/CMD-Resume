@@ -1,0 +1,41 @@
+language: node_js
+node_js:
+- '8'
+before_script:
+- npm install -g gulp-cli
+script:
+- gulp build
+cache:
+  directories:
+  - node_modules
+env:
+- CXX=g++-4.8 CC=gcc-4.8
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
+before_deploy:
+- gulp release
+- gulp build-gh-pages
+deploy:
+  - provider: releases
+    skip_cleanup: true
+    api_key: $GITHUB_TOKEN
+    file:
+      - "./dist/cmd-resume.js"
+      - "./dist/cmd-resume.min.js"
+    on:
+      repo: bbody/CMD-Resume
+      tags: true
+      branch: master
+  - provider: pages
+    skip_cleanup: true
+    local_dir: ./tmp
+    github_token: $GITHUB_TOKEN
+    target_branch: gh-pages
+    fqdn: cmd-resume.bbody.io
+    repo: bbody/CMD-Resume
+    on:
+      branch: master

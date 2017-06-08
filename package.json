@@ -7,7 +7,7 @@
     "jquery-plugin",
     "ecosystem:jquery"
   ],
-  "version": "3.0.3",
+  "version": "3.0.7",
   "author": {
     "name": "Brendon Body",
     "url": "https://github.com/bbody"
@@ -49,12 +49,12 @@
     "gulp-util": "^3.0.8",
     "gulp-webdriver": "^2.0.3",
     "gulp-webserver": "^0.9.1",
-    "gulp-zip": "^3.2.0",
     "jshint": "^2.9.4",
     "jshint-stylish": "^2.2.1",
     "pump": "^1.0.2",
     "qunitjs": "^2.1.1",
     "selenium-webdriver": "^3.0.1",
+    "sinon": "^2.3.2",
     "wdio": "^0.3.3",
     "wdio-mocha-framework": "^0.5.8",
     "webdriverio": "^4.6.2"

@@ -55,6 +55,8 @@ var StyleEnum = {
 				return "pgp";
 			case StyleEnum.STANDARD:
 				return "standard";
+			default:
+				return "";
 		}
 	}
 };
@@ -86,6 +88,7 @@ var wrappedFormatting = function(style, content) {
 // Check if a valid color
 var isValidColor = function(color) {
 	if (color) {
+		// Disable style checking on external function
 		// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 		return $.terminal.valid_color(color);
 		// jscs:enable
@@ -173,13 +176,25 @@ var getFullDegree = function(studyType, area) {
 
 // Build URL based on social media username
 var buildUrl = function(network, username) {
-	network = network.toLowerCase();
-	if (network === "twitter") {
-		return "https://www.twitter.com/" + username;
-	} else if (network === "github") {
-		return "https://www.github.com/" + username;
-	} else {
+	if (!network) {
 		return CONSTANTS.EMPTY;
+	}
+
+	switch (network.toLowerCase()){
+		case "twitter":
+			return "https://www.twitter.com/" + username;
+		case "github":
+			return "https://www.github.com/" + username;
+		case "linkedin":
+			return "https://www.linkedin.com/in/" + username;
+		case "facebook":
+			return "https://www.facebook.com/" + username;
+		case "reddit":
+			return "https://www.reddit.com/user/" + username;
+		case "hackernews":
+			return "https://news.ycombinator.com/user?id=" + username;
+		default:
+			return CONSTANTS.EMPTY;
 	}
 };
 
@@ -312,11 +327,10 @@ var filterGithubFork = function(repos, ownRepo, showForks) {
 var getGithub = function(uri, username, showForks, callback) {
 	var ownRepo = username.toLowerCase() + ".github.com";
 
-	$.getJSON(uri + "?callback=?", function(response) {
+	$.getJSON(uri, function(response) {
 		// Run callback
-		if (response && response.meta && response.meta.status &&
-			response.meta.status === 200) {
-			callback(filterGithubFork(response.data, ownRepo, showForks));
+		if (response && response.length > 0) {
+			callback(filterGithubFork(response, ownRepo, showForks));
 		}
 	});
 };
@@ -324,6 +338,10 @@ var getGithub = function(uri, username, showForks, callback) {
 // Format Github response
 var formatGithub = function(repository, first) {
 	var repoCache = CONSTANTS.EMPTY;
+
+	if (!repository || !repository.name) {
+		return repoCache;
+	}
 
 	if (!first) {
 		repoCache += CONSTANTS.NEW_LINE;

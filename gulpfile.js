@@ -12,7 +12,6 @@ var gulp   = require('gulp'),
     webserver = require('gulp-webserver'),
     fs = require('fs'),
     del = require('del'),
-    zip = require('gulp-zip'),
     exec = require('gulp-exec'),
     concat = require('gulp-concat'),
     jscs = require('gulp-jscs');
@@ -29,7 +28,7 @@ gulp.task('test', ['watch', 'build', 'serve:test']);
 // Build the project
 gulp.task('build', ['jscs:development', 'qunit-test', 'compile:development', 'jshint:development', 'copy:html', 'copy:json', 'copy:icon']);
 
-gulp.task('build-gh-pages', ['jscs:development', 'jshint:development', 'qunit-test', 'compile:gh-pages', 'copy:html', 'copy:json', 'copy:icon']);
+gulp.task('build-gh-pages', ['compile:gh-pages', 'copy:html', 'copy:json', 'copy:icon']);
 
 // Build then deploy to Github Pages
 gulp.task('deploy', ['build-gh-pages', 'gh-pages']);
@@ -37,7 +36,7 @@ gulp.task('deploy', ['build-gh-pages', 'gh-pages']);
 // Serve the development copy
 gulp.task('serve', ['serve:development']);
 
-gulp.task('release', ['jscs', 'compile:release:minified', 'compile:release', 'zip']);
+gulp.task('release', ['compile:release:minified', 'compile:release']);
 
 gulp.task('test:e2e', function() {
     return gulp.src('wdio.conf.js').pipe(webdriver());
@@ -47,7 +46,8 @@ gulp.task('test:e2e', function() {
 gulp.task('jshint:development', function() {
   return gulp.src('./tmp/js/cmd-resume.js')
     .pipe(jshint())
-    .pipe(jshint.reporter('jshint-stylish'));
+    .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('jscs:development', function(){
@@ -61,7 +61,6 @@ gulp.task('jscs', function(){
   return gulp.src('dist/cmd-resume.js')
     .pipe(jscs({fix: true}))
     .pipe(jscs.reporter())
-    .pipe(jscs.reporter('fail'))
     .pipe(gulp.dest('tmp'));
 });
 
@@ -126,11 +125,11 @@ gulp.task('version', function(){
 });
 
 gulp.task('compile:release:minified', function(){
-  return compiledCode('dist', false, true, true);
+  return compiledCode('./dist', false, true, true);
 });
 
 gulp.task('compile:release', function(){
-  return compiledCode('dist', false, false, true);
+  return compiledCode('./dist', false, false, true);
 });
 
 gulp.task('compile:development', function(){
@@ -139,12 +138,6 @@ gulp.task('compile:development', function(){
 
 gulp.task('compile:gh-pages', function(){
   return compiledCode('tmp/js', true, false, false);
-});
-
-gulp.task('zip', function(){
-	return gulp.src('dist/*.js')
-        .pipe(zip('release-v' + getVersion() +'.zip'))
-        .pipe(gulp.dest('dist'));
 });
 
 function getVersionString(){
@@ -165,7 +158,7 @@ function compiledCode(destination, lint, minified, versioned){
     stream.pipe(inject.prepend("\n\"use strict\";\n\n/*globals jQuery:false */\n/*jslint browser:true */\n\n"))
   }
 
-  stream.pipe(inject.prepend("(function($){"))
+  stream.pipe(inject.prepend(";(function($){"))
     .pipe(inject.afterEach("\n", "  "))
     .pipe(inject.append("\n}(jQuery));"));
     
