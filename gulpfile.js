@@ -37,7 +37,7 @@ gulp.task('deploy', ['build-gh-pages', 'gh-pages']);
 // Serve the development copy
 gulp.task('serve', ['serve:development']);
 
-gulp.task('release', ['compile:release:minified', 'compile:release', 'zip']);
+gulp.task('release', ['jscs', 'compile:release:minified', 'compile:release', 'zip']);
 
 gulp.task('test:e2e', function() {
     return gulp.src('wdio.conf.js').pipe(webdriver());
@@ -55,6 +55,14 @@ gulp.task('jscs:development', function(){
     .pipe(jscs())
     .pipe(jscs.reporter())
     .pipe(jscs.reporter('fail'));
+});
+
+gulp.task('jscs', function(){
+  return gulp.src('dist/cmd-resume.js')
+    .pipe(jscs({fix: true}))
+    .pipe(jscs.reporter())
+    .pipe(jscs.reporter('fail'))
+    .pipe(gulp.dest('tmp'));
 });
 
 // Watch important files
