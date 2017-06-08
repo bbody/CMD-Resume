@@ -45,6 +45,23 @@ QUnit.module( "Helper function tests", {
   }
 });
 
+QUnit.test("Only undefined and null are true", function(assert){
+	assert.notOk(isUndefinedOrNull(""));
+	assert.notOk(isUndefinedOrNull([]));
+	assert.notOk(isUndefinedOrNull({}));
+	assert.ok(isUndefinedOrNull(null));
+	assert.ok(isUndefinedOrNull(undefined));
+});
+
+QUnit.test("Ensure StyleEnum produces the correct text", function(assert){
+	assert.equal(StyleEnum.toString(StyleEnum.STANDARD), "standard");
+	assert.equal(StyleEnum.toString(StyleEnum.TITLE), "title");
+	assert.equal(StyleEnum.toString(StyleEnum.COMMAND), "command");
+	assert.equal(StyleEnum.toString(StyleEnum.NAME), "name");
+	assert.equal(StyleEnum.toString(StyleEnum.PGP), "pgp");
+	assert.equal(StyleEnum.toString(-100), "");
+});
+
 QUnit.test("Color is valid", function(assert){
 	assert.ok(isValidColor("#FFF"));
 	assert.ok(isValidColor("white"));
@@ -1127,6 +1144,8 @@ QUnit.module( "Helper function tests", {
 	    "default_branch": "master"
 	  }
 	];
+
+
   },
   afterEach: function() {
     // clean up after each test
@@ -1141,4 +1160,85 @@ QUnit.test("Github without forks", function(assert){
 QUnit.test("Github with forks", function(assert){
 	var result = filterGithubFork(self.response, "test.github.com", true);
 	assert.equal(result.length, 5);
+});
+
+QUnit.test("Github formatting", function(assert){
+	assert.equal(formatGithub(self.response[0], true), "[[b;green;#000]HelloWorld] - Create hello world");
+	assert.equal(formatGithub(self.response[0], false), "\n[[b;green;#000]HelloWorld] - Create hello world");
+	assert.equal(formatGithub(self.response[0]), "\n[[b;green;#000]HelloWorld] - Create hello world");
+	assert.equal(formatGithub("", true), "");
+	assert.equal(formatGithub(null, true), "");
+	assert.equal(formatGithub({}, true), "");
+});
+
+var xhr, requests;
+
+QUnit.module( "Helper function tests", {
+  beforeEach: function() {
+    xhr = sinon.useFakeXMLHttpRequest();
+    requests = [];
+    xhr.onCreate = function (req) { requests.push(req); };
+  },
+  afterEach: function() {
+    xhr.restore();
+  }
+});
+
+QUnit.test("URL is handed to XHR call", function(assert){
+
+	getGithub("http://localhost:8000/spec/responses/github_response.json", "test", false, sinon.spy());
+
+
+	assert.equal(requests.length, 1);
+    assert.notEqual(requests[0].url.indexOf("http://localhost:8000/spec/responses/github_response.json"), -1);
+});
+
+var server;
+
+QUnit.module( "Helper function tests", {
+  beforeEach: function() {
+    server = sinon.fakeServer.create();
+  },
+  afterEach: function() {
+    server.restore();
+  }
+});
+
+QUnit.test("XHR call handles correct return", function(assert){
+
+	var callback = sinon.spy();
+	debugger;
+    getGithub("http://localhost:8000/spec/responses/github_response.json", "test", false, callback);
+
+    // This is part of the FakeXMLHttpRequest API
+    xhr.respond(
+        200,
+        { "Content-Type": "application/json" },
+        JSON.stringify([{}])
+    );
+    
+    assert.ok(callback.calledOnce);
+});
+
+QUnit.test("XHR call handles no return", function(assert){
+	getGithub("http://localhost:8000/spec/responses/github_response.json", "test", false, sinon.spy());
+
+
+	assert.equal(requests.length, 1);
+    assert.notEqual(requests[0].url.indexOf("http://localhost:8000/spec/responses/github_response.json"), -1);
+});
+
+QUnit.test("XHR call handles non-successful result", function(assert){
+	var callback = sinon.spy();
+
+    getGithub("http://localhost:8000/spec/responses/github_response.json", "test", false, callback);
+
+    // This is part of the FakeXMLHttpRequest API
+    server.requests[0].respond(
+        500,
+        { "Content-Type": "application/json" },
+        JSON.stringify([{}])
+    );
+    debugger;
+    assert.ok(callback.not.to.have.been.called);
 });
