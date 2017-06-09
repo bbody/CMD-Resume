@@ -47,7 +47,8 @@ gulp.task('test:e2e', function() {
 gulp.task('jshint:development', function() {
   return gulp.src('./tmp/js/cmd-resume.js')
     .pipe(jshint())
-    .pipe(jshint.reporter('jshint-stylish'));
+    .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('jscs:development', function(){
