@@ -1,18 +1,30 @@
 language: node_js
 node_js:
-  - "8"
+- '8'
 before_script:
-  - npm install -g gulp-cli
+- npm install -g gulp-cli
 script:
-  - gulp build
+- gulp build
+- gulp build
 cache:
   directories:
-    - "node_modules"
+  - node_modules
 env:
-  - CXX=g++-4.8 CC=gcc-4.8
+- CXX=g++-4.8 CC=gcc-4.8
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r-test
+    - ubuntu-toolchain-r-test
     packages:
-      - g++-4.8
+    - g++-4.8
+before_deploy: gulp release
+deploy:
+  provider: releases
+  api_key:
+    secure: GITHUB_API_KEY
+  file:
+    - "./dist/*.zip"
+    - "./dist/*.js"
+  on:
+    repo: bbody/CMD-Resume
+    tags: true
