@@ -127,11 +127,11 @@ gulp.task('version', function(){
 });
 
 gulp.task('compile:release:minified', function(){
-  return compiledCode('dist', false, true, true);
+  return compiledCode('./dist', false, true, true);
 });
 
 gulp.task('compile:release', function(){
-  return compiledCode('dist', false, false, true);
+  return compiledCode('./dist', false, false, true);
 });
 
 gulp.task('compile:development', function(){
@@ -143,9 +143,9 @@ gulp.task('compile:gh-pages', function(){
 });
 
 gulp.task('zip', function(){
-	return gulp.src('dist/*.js')
+	return gulp.src('./dist/*.js')
         .pipe(zip('release.zip'))
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('./dist'));
 });
 
 function getVersionString(){
