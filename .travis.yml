@@ -31,3 +31,4 @@ deploy:
   branches:
     only:
       - master
+      - gh-pages
