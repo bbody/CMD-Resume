@@ -28,7 +28,5 @@ deploy:
     - "./dist/release.zip"
   on:
     repo: bbody/CMD-Resume
-  branches:
-    only:
-      - master
-      - gh-pages
+    tags: true
+    all_branches: true
