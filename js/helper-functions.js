@@ -180,7 +180,7 @@ var buildUrl = function(network, username) {
 		return CONSTANTS.EMPTY;
 	}
 
-	switch(network.toLowerCase()){
+	switch (network.toLowerCase()){
 		case "twitter":
 			return "https://www.twitter.com/" + username;
 		case "github":
