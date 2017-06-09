@@ -144,7 +144,7 @@ gulp.task('compile:gh-pages', function(){
 
 gulp.task('zip', function(){
 	return gulp.src('dist/*.js')
-        .pipe(zip('release-v' + getVersion() +'.zip'))
+        .pipe(zip('release.zip'))
         .pipe(gulp.dest('dist'));
 });
 
