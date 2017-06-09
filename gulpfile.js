@@ -166,7 +166,7 @@ function compiledCode(destination, lint, minified, versioned){
     stream.pipe(inject.prepend("\n\"use strict\";\n\n/*globals jQuery:false */\n/*jslint browser:true */\n\n"))
   }
 
-  stream.pipe(inject.prepend("(function($){"))
+  stream.pipe(inject.prepend(";(function($){"))
     .pipe(inject.afterEach("\n", "  "))
     .pipe(inject.append("\n}(jQuery));"));
     

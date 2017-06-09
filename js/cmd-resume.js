@@ -147,11 +147,11 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options) {
 			};
 		}
 
-		if (self.data.cmdResume && self.data.cmdResume.pgpkey) {
+		if (self.data.commands && self.data.commands.pgpkey) {
 			self.commands.pgpkey = {
 				title: "PGP Key",
 				description: "public PGP key",
-				data: self.data.cmdResume.pgpkey,
+				data: self.data.commands.pgpkey,
 				type: self.commandProcessor.calculated,
 				handler: function(data) {
 					return data.setPGP();
@@ -278,9 +278,9 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options) {
 			handler: function() {
 				var results = CONSTANTS.EMPTY;
 
-				if (self.data.cmdResume.splash) {
-					if (self.data.cmdResume.splash) {
-						results += self.data.cmdResume.splash;
+				if (self.data.commands.splash) {
+					if (self.data.commands.splash) {
+						results += self.data.commands.splash;
 						results += CONSTANTS.NEW_LINE;
 					}
 				}
@@ -457,7 +457,7 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options) {
 
 	// Initialize variables
 	self.initVariables = function() {
-		self.data.cmdResume = {};
+		self.data.commands = {};
 
 		self.data.basics.profiles.forEach(function(value) {
 			if (!self.data.basics.githubUsername &&

@@ -55,6 +55,8 @@ var StyleEnum = {
 				return "pgp";
 			case StyleEnum.STANDARD:
 				return "standard";
+			default:
+				return "";
 		}
 	}
 };
@@ -86,6 +88,7 @@ var wrappedFormatting = function(style, content) {
 // Check if a valid color
 var isValidColor = function(color) {
 	if (color) {
+		// Disable style checking on external function
 		// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 		return $.terminal.valid_color(color);
 		// jscs:enable
@@ -312,11 +315,10 @@ var filterGithubFork = function(repos, ownRepo, showForks) {
 var getGithub = function(uri, username, showForks, callback) {
 	var ownRepo = username.toLowerCase() + ".github.com";
 
-	$.getJSON(uri + "?callback=?", function(response) {
+	$.getJSON(uri, function(response) {
 		// Run callback
-		if (response && response.meta && response.meta.status &&
-			response.meta.status === 200) {
-			callback(filterGithubFork(response.data, ownRepo, showForks));
+		if (response && response.length > 0) {
+			callback(filterGithubFork(response, ownRepo, showForks));
 		}
 	});
 };
@@ -324,6 +326,10 @@ var getGithub = function(uri, username, showForks, callback) {
 // Format Github response
 var formatGithub = function(repository, first) {
 	var repoCache = CONSTANTS.EMPTY;
+
+	if (!repository || !repository.name) {
+		return repoCache;
+	}
 
 	if (!first) {
 		repoCache += CONSTANTS.NEW_LINE;
