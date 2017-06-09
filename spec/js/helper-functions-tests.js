@@ -71,6 +71,19 @@ QUnit.test("Color is valid", function(assert){
 	assert.notOk(isValidColor());
 });
 
+QUnit.test("Facebook", function(assert){
+	assert.equal(buildUrl("TWITTER", "test"), "https://www.twitter.com/test");
+	assert.equal(buildUrl("Facebook", "test"), "https://www.facebook.com/test");
+	assert.equal(buildUrl("github", "test"), "https://www.github.com/test");
+	assert.equal(buildUrl("linkedin", "test"), "https://www.linkedin.com/in/test");
+	assert.equal(buildUrl("reddit", "test"), "https://www.reddit.com/user/test");
+	assert.equal(buildUrl("hackernews", "test"), "https://news.ycombinator.com/user?id=test");
+	assert.equal(buildUrl("myspace", "test"), "");
+	assert.equal(buildUrl("", "test"), "");
+	assert.equal(buildUrl(null, "test"), "");
+	assert.equal(buildUrl(undefined, "test"), "");
+});
+
 QUnit.test("Wrap formatting", function(assert){
 	var result = wrappedFormatting("style", "text");
 	assert.equal(result, "[[style]text]");
