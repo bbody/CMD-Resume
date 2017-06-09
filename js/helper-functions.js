@@ -315,11 +315,10 @@ var filterGithubFork = function(repos, ownRepo, showForks) {
 var getGithub = function(uri, username, showForks, callback) {
 	var ownRepo = username.toLowerCase() + ".github.com";
 
-	$.getJSON(uri + "?callback=?", function(response) {
+	$.getJSON(uri, function(response) {
 		// Run callback
-		if (response && response.meta && response.meta.status &&
-			response.meta.status === 200) {
-			callback(filterGithubFork(response.data, ownRepo, showForks));
+		if (response && response.length > 0) {
+			callback(filterGithubFork(response, ownRepo, showForks));
 		}
 	});
 };

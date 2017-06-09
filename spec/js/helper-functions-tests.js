@@ -1130,7 +1130,7 @@ QUnit.module( "Helper function tests", {
 	    "size": 120,
 	    "stargazers_count": 0,
 	    "watchers_count": 0,
-	    "language": "Matlab",
+	     "language": "Matlab",
 	    "has_issues": true,
 	    "has_downloads": true,
 	    "has_wiki": true,
@@ -1171,16 +1171,14 @@ QUnit.test("Github formatting", function(assert){
 	assert.equal(formatGithub({}, true), "");
 });
 
-var xhr, requests;
-
 QUnit.module( "Helper function tests", {
   beforeEach: function() {
-    xhr = sinon.useFakeXMLHttpRequest();
-    requests = [];
-    xhr.onCreate = function (req) { requests.push(req); };
+    self.xhr = sinon.useFakeXMLHttpRequest();
+    self.requests = [];
+    self.xhr.onCreate = function (req) { requests.push(req); };
   },
   afterEach: function() {
-    xhr.restore();
+    self.xhr.restore();
   }
 });
 
@@ -1189,56 +1187,50 @@ QUnit.test("URL is handed to XHR call", function(assert){
 	getGithub("http://localhost:8000/spec/responses/github_response.json", "test", false, sinon.spy());
 
 
-	assert.equal(requests.length, 1);
-    assert.notEqual(requests[0].url.indexOf("http://localhost:8000/spec/responses/github_response.json"), -1);
+	assert.equal(self.requests.length, 1);
+    assert.notEqual(self.requests[0].url.indexOf("http://localhost:8000/spec/responses/github_response.json"), -1);
 });
-
-var server;
 
 QUnit.module( "Helper function tests", {
   beforeEach: function() {
-    server = sinon.fakeServer.create();
+    self.server = sinon.fakeServer.create();
   },
   afterEach: function() {
-    server.restore();
+    self.server.restore();
   }
 });
 
 QUnit.test("XHR call handles correct return", function(assert){
 
 	var callback = sinon.spy();
-	debugger;
-    getGithub("http://localhost:8000/spec/responses/github_response.json", "test", false, callback);
 
-    // This is part of the FakeXMLHttpRequest API
-    xhr.respond(
-        200,
-        { "Content-Type": "application/json" },
-        JSON.stringify([{}])
-    );
-    
+    // Reply with a github response
+    self.server.respondWith("GET", "/somewhere",
+                       [200, { "Content-Type": "application/json" },
+                        JSON.stringify(self.response)]);
+    getGithub("/somewhere", "test", false, callback);
+    self.server.respond();
+
     assert.ok(callback.calledOnce);
 });
 
 QUnit.test("XHR call handles no return", function(assert){
-	getGithub("http://localhost:8000/spec/responses/github_response.json", "test", false, sinon.spy());
+	var callback = sinon.spy();
 
-
-	assert.equal(requests.length, 1);
-    assert.notEqual(requests[0].url.indexOf("http://localhost:8000/spec/responses/github_response.json"), -1);
+    getGithub("/somewhere", "test", false, callback);
+    
+    assert.equal(callback.callCount, 0);
 });
 
 QUnit.test("XHR call handles non-successful result", function(assert){
 	var callback = sinon.spy();
 
-    getGithub("http://localhost:8000/spec/responses/github_response.json", "test", false, callback);
-
-    // This is part of the FakeXMLHttpRequest API
-    server.requests[0].respond(
-        500,
-        { "Content-Type": "application/json" },
-        JSON.stringify([{}])
-    );
-    debugger;
-    assert.ok(callback.not.to.have.been.called);
+    // Reply with an empty response
+    self.server.respondWith("GET", "/somewhere",
+                       [200, { "Content-Type": "application/json" },
+                        JSON.stringify([])]);
+    getGithub("/somewhere", "test", false, callback);
+    self.server.respond();
+    
+    assert.equal(callback.callCount, 0);
 });
