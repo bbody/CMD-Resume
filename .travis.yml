@@ -5,7 +5,6 @@ before_script:
 - npm install -g gulp-cli
 script:
 - gulp build
-- gulp build
 cache:
   directories:
   - node_modules
@@ -24,8 +23,8 @@ deploy:
   api_key:
     secure: ZdjK+Ha7d/wRoOoq8H+WAefe+VT4/wd0yVuiSBJxz6Rf2krgDUjTDKYwZm9uWqi+iK+4BhubgDdWml9CZhzoQ3FvNh5W8CXBPOzMmSxzWIt1M+dGmNuCC/ypvqd9VxpFmJnAp6Z7id1m7i4uvXeQ27k/F2J0legguTM1HaNAxJ7rjQQUFXDefEXb7MY/+u8BLghEWHK2ahenZu4arllK/t+lsFJUQtV59rqqNZ2kLIonVqajQhr2JyMCZilkcuX9IsvwidZyNShlEaK+F5C8kSXujwWAVCDjbc3XxbMu3q8p+ZAYXVKq9msoVBYhp1nGDEPzBXlX7xBKCfJSu8QZXR9j/OCf3N/UdFR2Q5aqrFbLVyzaLfTl+kKMNXj3HGsDWx11lHRSAw6b46QHmmuPXOQwKlObW8nG/MedGCLt+xXDkeVNjlM5g0Wf5pd74M6xQBNxeXCE/jc8XDs2C9ebbqFrPxxqpS4uebkNylINU7lViYYasK6JtBqjG4g+4QLk0ND5VNlZZkiEZCgMw8qxLIwE/z/2mui9hIQVycRMZGLrHtVFJMWpE2uUa4/gPH7bYG0XYWuyJhCEkvhXF58dcJ694Z5Q2KhcfAW+XSpBQs8pQ+bXxpNn+8RYBO30pfe5grhPGV3giNJ9BZVQ+sVh1GdIMIOGT3gyoN7DiKi3HF8=
   file:
-    - "./dist/release.zip"
     - "./dist/cmd-resume.js"
     - "./dist/cmd-resume.min.js"
+    - "./dist/release.zip"
   on:
     repo: bbody/CMD-Resume
