@@ -25,7 +25,6 @@ deploy:
   file:
     - "./dist/cmd-resume.js"
     - "./dist/cmd-resume.min.js"
-    - "./dist/release.zip"
   on:
     repo: bbody/CMD-Resume
     tags: true
