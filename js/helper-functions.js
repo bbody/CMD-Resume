@@ -176,13 +176,25 @@ var getFullDegree = function(studyType, area) {
 
 // Build URL based on social media username
 var buildUrl = function(network, username) {
-	network = network.toLowerCase();
-	if (network === "twitter") {
-		return "https://www.twitter.com/" + username;
-	} else if (network === "github") {
-		return "https://www.github.com/" + username;
-	} else {
+	if (!network) {
 		return CONSTANTS.EMPTY;
+	}
+
+	switch(network.toLowerCase()){
+		case "twitter":
+			return "https://www.twitter.com/" + username;
+		case "github":
+			return "https://www.github.com/" + username;
+		case "linkedin":
+			return "https://www.linkedin.com/in/" + username;
+		case "facebook":
+			return "https://www.facebook.com/" + username;
+		case "reddit":
+			return "https://www.reddit.com/user/" + username;
+		case "hackernews":
+			return "https://news.ycombinator.com/user?id=" + username;
+		default:
+			return CONSTANTS.EMPTY;
 	}
 };
 
