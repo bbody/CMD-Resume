@@ -327,7 +327,7 @@ var getGithub = function(uri, username, showForks, callback) {
 var formatGithub = function(repository, first) {
 	var repoCache = CONSTANTS.EMPTY;
 
-	if (!repository || !repository.name){
+	if (!repository || !repository.name) {
 		return repoCache;
 	}
 
