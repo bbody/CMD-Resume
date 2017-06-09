@@ -12,7 +12,6 @@ var gulp   = require('gulp'),
     webserver = require('gulp-webserver'),
     fs = require('fs'),
     del = require('del'),
-    zip = require('gulp-zip'),
     exec = require('gulp-exec'),
     concat = require('gulp-concat'),
     jscs = require('gulp-jscs');
@@ -37,7 +36,7 @@ gulp.task('deploy', ['build-gh-pages', 'gh-pages']);
 // Serve the development copy
 gulp.task('serve', ['serve:development']);
 
-gulp.task('release', ['jscs', 'compile:release:minified', 'compile:release', 'zip']);
+gulp.task('release', ['jscs', 'compile:release:minified', 'compile:release']);
 
 gulp.task('test:e2e', function() {
     return gulp.src('wdio.conf.js').pipe(webdriver());
@@ -140,12 +139,6 @@ gulp.task('compile:development', function(){
 
 gulp.task('compile:gh-pages', function(){
   return compiledCode('tmp/js', true, false, false);
-});
-
-gulp.task('zip', function(){
-	return gulp.src('./dist/*.js')
-        .pipe(zip('release.zip'))
-        .pipe(gulp.dest('./dist'));
 });
 
 function getVersionString(){
