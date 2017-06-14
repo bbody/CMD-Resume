@@ -125,19 +125,19 @@ gulp.task('version', function(){
 });
 
 gulp.task('compile:release:minified', function(){
-  return compiledCode('./dist', false, true, true);
+  return compiledCode('./dist', true, true);
 });
 
 gulp.task('compile:release', function(){
-  return compiledCode('./dist', false, false, true);
+  return compiledCode('./dist', false, true);
 });
 
 gulp.task('compile:development', function(){
-  return compiledCode('tmp/js', true, false, false);
+  return compiledCode('tmp/js', false, false);
 });
 
 gulp.task('compile:gh-pages', function(){
-  return compiledCode('tmp/js', true, false, false);
+  return compiledCode('tmp/js', false, false);
 });
 
 function getVersionString(){
@@ -150,15 +150,11 @@ function getVersion(){
 	return json.version;
 }
 
-function compiledCode(destination, lint, minified, versioned){
+function compiledCode(destination, minified, versioned){
   var stream =  gulp.src(['js/helper-functions.js', 'js/cmd-resume.js'])
     .pipe(concat(minified ? 'cmd-resume.min.js' : 'cmd-resume.js'));
 
-  if (lint){
-    stream.pipe(inject.prepend("\n\"use strict\";\n\n/*globals jQuery:false */\n/*jslint browser:true */\n\n"))
-  }
-
-  stream.pipe(inject.prepend(";(function($){"))
+  stream.pipe(inject.prepend(";(function($){\n\"use strict\";\n\n"))
     .pipe(inject.afterEach("\n", "  "))
     .pipe(inject.append("\n}(jQuery));"));
     
