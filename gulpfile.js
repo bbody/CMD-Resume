@@ -155,7 +155,7 @@ function compiledCode(destination, lint, minified, versioned){
     .pipe(concat(minified ? 'cmd-resume.min.js' : 'cmd-resume.js'));
 
   if (lint){
-    stream.pipe(inject.prepend("\n\"use strict\";\n\n/*globals jQuery:false */\n/*jslint browser:true */\n\n"))
+    stream.pipe(inject.prepend("\n\"use strict\";\n\n"))
   }
 
   stream.pipe(inject.prepend(";(function($){"))
