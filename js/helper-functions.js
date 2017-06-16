@@ -99,6 +99,12 @@ var isValidColor = function(color) {
 
 // Update color
 String.prototype.setFormat = function(styleEnumValue) {
+	var result = CONSTANTS.EMPTY;
+
+	if (this.length === 0) {
+		return result;
+	}
+
 	var type = StyleEnum.toString(styleEnumValue);
 	var style = defaultStyles[type] ?
 		defaultStyles[type] : defaultStyles.standard;
@@ -107,8 +113,6 @@ String.prototype.setFormat = function(styleEnumValue) {
 	var italic = style.italic ? style.italic : defaultStyles.standard.italic;
 	var backgroundColor = style.backgroundColor ?
 		style.backgroundColor : defaultStyles.standard.backgroundColor;
-
-	var result = CONSTANTS.EMPTY;
 
 	if (bold) {
 		result += "b";
@@ -176,7 +180,7 @@ var getFullDegree = function(studyType, area) {
 
 // Build URL based on social media username
 var buildUrl = function(network, username) {
-	if (!network) {
+	if (!network || !username) {
 		return CONSTANTS.EMPTY;
 	}
 

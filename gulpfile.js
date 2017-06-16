@@ -14,7 +14,8 @@ var gulp   = require('gulp'),
     del = require('del'),
     exec = require('gulp-exec'),
     concat = require('gulp-concat'),
-    jscs = require('gulp-jscs');
+    jscs = require('gulp-jscs'),
+    Server = require('karma').Server;
 
 // Default Gulp task is develop
 gulp.task('default', ['develop']);
@@ -112,6 +113,13 @@ gulp.task('serve:test', function() {
       open: "spec/",
       fallback: 'spec/index.html'
     }));
+});
+
+gulp.task('testing', function(done){
+  return new Server({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done).start();
 });
 
 // Push dist to Github Pages
