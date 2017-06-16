@@ -419,7 +419,7 @@ describe('Calculated command handler', function(){
 
   it('Returns without any organisation with top', function(){
     var command = {
-      data: self.data,
+      data: this.data,
       handlers:{
         title: function(value){
           return value.title
@@ -435,7 +435,7 @@ describe('Calculated command handler', function(){
 
   it('Returns without any title', function(){
     var command = {
-      data: self.data,
+      data: this.data,
       handlers:{
         organisation: function(value){
           return value.organisation;
@@ -451,7 +451,7 @@ describe('Calculated command handler', function(){
 
   it('Returns without any title with top', function(){
     var command = {
-      data: self.data,
+      data: this.data,
       handlers:{
         organisation: function(value){
           return value.organisation;
@@ -467,7 +467,7 @@ describe('Calculated command handler', function(){
 
   it('Returns without any date', function(){
     var command = {
-      data: self.data,
+      data: this.data,
       handlers:{
         title: function(value){
           return value.title
@@ -483,7 +483,7 @@ describe('Calculated command handler', function(){
 
   it('Returns without any date with top', function(){
     var command = {
-      data: self.data,
+      data: this.data,
       handlers:{
         organisation: function(value){
           return value.organisation;
@@ -499,7 +499,7 @@ describe('Calculated command handler', function(){
 
   it('Returns with only date', function(){
     var command = {
-      data: self.data,
+      data: this.data,
       handlers:{
         date: function(value){
           return value.date;
@@ -512,7 +512,7 @@ describe('Calculated command handler', function(){
 
   it('Returns with only date with top', function(){
     var command = {
-      data: self.data,
+      data: this.data,
       handlers:{
         date: function(value){
           return value.date;
@@ -525,7 +525,7 @@ describe('Calculated command handler', function(){
 
   it('Returns with only organisation', function(){
     var command = {
-      data: self.data,
+      data: this.data,
       handlers:{
         organisation: function(value){
           return value.organisation;
@@ -538,7 +538,7 @@ describe('Calculated command handler', function(){
 
   it('Returns with only organisation with top', function(){
     var command = {
-      data: self.data,
+      data: this.data,
       handlers:{
         organisation: function(value){
           return value.organisation;
@@ -551,7 +551,7 @@ describe('Calculated command handler', function(){
 
   it('Returns with only title', function(){
     var command = {
-      data: self.data,
+      data: this.data,
       handlers:{
         title: function(value){
           return value.title;
@@ -559,12 +559,12 @@ describe('Calculated command handler', function(){
       }
     };
 
-    expect(arrayHandlerFunction(command)).toBe('arrayHandlerFunction(command)');
+    expect(arrayHandlerFunction(command)).toBe('\nTitle 1\nTitle 2');
   });
 
   it('Returns with only title with top', function(){
     var command = {
-      data: self.data,
+      data: this.data,
       handlers:{
         title: function(value){
           return value.title;
@@ -573,5 +573,117 @@ describe('Calculated command handler', function(){
     };
 
     expect(arrayHandlerFunction(command, true)).toBe('Title 1');
+  });
+});
+
+describe('Styles', function(){
+  beforeEach(function(){
+    this.defaultStyles = {
+      standard: {
+        color: "white",
+        bold: false,
+        italic: false,
+        backgroundColor: "#000"
+      },
+      title: {
+            color: "red",
+            bold: true
+        },
+        command: {
+          color: "white",
+          bold: false,
+          italic: true
+        },
+        pgp: {
+          color: "white",
+          bold: false,
+          italic: true
+        },
+        name: {
+          color: "green",
+          bold: true
+        }
+    };
+  });
+
+  it('Completely overrides styles', function(){
+    var options = {
+      standard: {
+        color: "red",
+        bold: true,
+        italic: true,
+        backgroundColor: "blue"
+      },
+      title: {
+            color: "purple",
+            bold: false
+        },
+        command: {
+          color: "black",
+          bold: true,
+          italic: false
+        },
+        pgp: {
+          color: "red",
+          bold: true,
+          italic: false
+        },
+        name: {
+          color: "red",
+          bold: false
+        }
+    };
+
+    expect(initStyles(this.defaultStyles, options)).toEqual(options);
+  });
+
+  it('Doesn\'t override any styles', function(){
+    expect(initStyles(this.defaultStyles, {})).toEqual(this.defaultStyles);
+  });
+
+  it('Overrides some styles', function(){
+    var options = {
+      title: {
+            color: "purple"
+        },
+        command: {
+          bold: true
+        },
+        pgp: {
+          italic: false
+        },
+        name: {
+          backgroundColor: "blue"
+        }
+    };
+
+    var result = initStyles(this.defaultStyles, options)
+
+    var expectedResult = jQuery.extend(true, {}, this.defaultStyles);
+    expectedResult.title.color = "purple";
+    expectedResult.command.bold = true;
+    expectedResult.pgp.italic = false;
+    expectedResult.name.backgroundColor = "blue";
+
+    expect(result).toEqual(expectedResult);
+
+  })
+});
+
+describe('Github Uri generator', function(){
+  it('Produces a valid URI', function(){
+    expect(getGithubUri("test")).toBe('https://api.github.com/users/test/repos');
+  });
+
+  it('Handles a blank string', function(){
+    expect(getGithubUri("")).toBe('');
+  });
+
+  it('Handles null', function(){
+    expect(getGithubUri(null)).toBe('');
+  });
+
+  it('Handles undefined', function(){
+    expect(getGithubUri()).toBe('');
   });
 });
