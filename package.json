@@ -59,6 +59,7 @@
     "karma-coverage": "^1.1.1",
     "karma-firefox-launcher": "^1.0.1",
     "karma-jasmine": "^1.1.0",
+    "karma-jasmine-ajax": "^0.1.13",
     "karma-jquery": "^0.2.0",
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-safari-launcher": "^1.0.0",
