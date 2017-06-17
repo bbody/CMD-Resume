@@ -17,7 +17,7 @@ module.exports = function(config) {
     files: [
         'node_modules/jquery.terminal/js/jquery.terminal.js',
       'js/*.js',
-      'spec/js/*-spec.js'
+      'spec/js/cmd-resume-spec.js'
     ],
 
 

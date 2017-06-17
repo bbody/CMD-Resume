@@ -555,4 +555,8 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options) {
 			self.init(options);
 		});
 	});
+
+	this.CMDResume = self;
+
+	return this;
 };
