@@ -2,76 +2,75 @@
 // Generated on Fri Jun 16 2017 23:37:42 GMT+1000 (AEST)
 
 module.exports = function(config) {
-  config.set({
+	config.set({
 
-    // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
-
-
-    // frameworks to use
-    // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine-ajax','jasmine', 'jquery-3.1.1'],
+		// base path that will be used to resolve all patterns (eg. files, exclude)
+		basePath: '',
 
 
-    // list of files / patterns to load in the browser
-    files: [
-        'node_modules/jquery.terminal/js/jquery.terminal.js',
-      'js/*.js',
-      'spec/js/cmd-resume-spec.js'
-    ],
+		// frameworks to use
+		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
+		frameworks: ['jasmine-ajax', 'jasmine', 'jquery-3.1.1'],
 
 
-    // list of files to exclude
-    exclude: [
-    ],
+		// list of files / patterns to load in the browser
+		files: [
+			'node_modules/jquery.terminal/js/jquery.terminal.js',
+			'js/*.js',
+			'js/cmd-resume-spec.js'
+		],
 
 
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {
-        'js/*.js': ['coverage']
-    },
+		// list of files to exclude
+		exclude: [],
 
 
-    // test results reporter to use
-    // possible values: 'dots', 'progress'
-    // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'coverage'],
+		// preprocess matching files before serving them to the browser
+		// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+		preprocessors: {
+			'js/*.js': ['coverage']
+		},
 
 
-    // web server port
-    port: 9876,
+		// test results reporter to use
+		// possible values: 'dots', 'progress'
+		// available reporters: https://npmjs.org/browse/keyword/karma-reporter
+		reporters: ['progress', 'coverage'],
 
 
-    // enable / disable colors in the output (reporters and logs)
-    colors: true,
+		// web server port
+		port: 9876,
 
 
-    // level of logging
-    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
+		// enable / disable colors in the output (reporters and logs)
+		colors: true,
 
 
-    // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: true,
+		// level of logging
+		// possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+		logLevel: config.LOG_INFO,
 
 
-    // start these browsers
-    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS' /*, 'Chrome', 'Firefox', 'Safari'*/],
+		// enable / disable watching file and executing tests whenever any file changes
+		autoWatch: true,
 
 
-    // Continuous Integration mode
-    // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false,
+		// start these browsers
+		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+		browsers: ['PhantomJS' /*, 'Chrome', 'Firefox', 'Safari'*/ ],
 
-    // Concurrency level
-    // how many browser should be started simultaneous
-    concurrency: Infinity,
 
-    coverageReporter: {
-      type : 'html',
-      dir : 'coverage/'
-    }
-  })
+		// Continuous Integration mode
+		// if true, Karma captures browsers, runs the tests and exits
+		singleRun: false,
+
+		// Concurrency level
+		// how many browser should be started simultaneous
+		concurrency: Infinity,
+
+		coverageReporter: {
+			type: 'html',
+			dir: 'coverage/'
+		}
+	})
 }
