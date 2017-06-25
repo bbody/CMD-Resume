@@ -45,4 +45,6 @@ after_success:
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < coverage/lcov.info
   - npm install -g codecov
+  - istanbul cover jasmine-node --captureExceptions spec/
   - codecov
+  
