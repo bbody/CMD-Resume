@@ -30,6 +30,9 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+package-lock.json
+
+/coverage
 /examples/*
 /js/jquery*
 /js/dterm.js

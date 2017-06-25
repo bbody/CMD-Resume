@@ -3,7 +3,6 @@
 // Dependancies
 var gulp   = require('gulp'),
     jshint = require('gulp-jshint'),
-    qunit = require('gulp-qunit'),
     uglify = require('gulp-uglify'),
     pump = require('pump'),
     ghPages = require('gulp-gh-pages'),
@@ -14,7 +13,8 @@ var gulp   = require('gulp'),
     del = require('del'),
     exec = require('gulp-exec'),
     concat = require('gulp-concat'),
-    jscs = require('gulp-jscs');
+    jscs = require('gulp-jscs'),
+    Server = require('karma').Server;
 
 // Default Gulp task is develop
 gulp.task('default', ['develop']);
@@ -23,10 +23,10 @@ gulp.task('default', ['develop']);
 gulp.task('develop', ['watch', 'build', 'serve']);
 
 // Task for test
-gulp.task('test', ['watch', 'build', 'serve:test']);
+gulp.task('test', ['watch', 'build', 'test:karma']);
 
 // Build the project
-gulp.task('build', ['jscs:development', 'qunit-test', 'compile:development', 'jshint:development', 'copy:html', 'copy:json', 'copy:icon']);
+gulp.task('build', ['jscs:development', 'test:karma', 'compile:development', 'jshint:development', 'copy:html', 'copy:json', 'copy:icon']);
 
 gulp.task('build-gh-pages', ['compile:gh-pages', 'copy:html', 'copy:json', 'copy:icon']);
 
@@ -66,13 +66,7 @@ gulp.task('jscs', function(){
 
 // Watch important files
 gulp.task('watch', function() {
-  gulp.watch(['js/*.js', 'index.html', 'spec/index.html', 'spec/js/*.js'], ['jshint:development', 'qunit-test']);
-});
-
-// Run Qunit Tests
-gulp.task('qunit-test', function() {
-    return gulp.src('./spec/index.html')
-        .pipe(qunit());
+  gulp.watch(['js/*.js', 'index.html', 'spec/*.js', 'karma.conf.js'], ['jshint:development', 'test:karma']);
 });
 
 // Copy HTML across (Also inject Github ribbon)
@@ -104,14 +98,11 @@ gulp.task('serve:development', function() {
     }));
 });
 
-// Serve the Qunit test site
-gulp.task('serve:test', function() {
-  gulp.src('./')
-    .pipe(webserver({
-      livereload: true,
-      open: "spec/",
-      fallback: 'spec/index.html'
-    }));
+gulp.task('test:karma', function(done){
+  return new Server({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done).start();
 });
 
 // Push dist to Github Pages
