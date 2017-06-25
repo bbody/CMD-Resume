@@ -36,6 +36,7 @@
   "devDependencies": {
     "bluebird": "^3.5.0",
     "gulp": "^3.9.1",
+    "gulp-codeclimate-reporter": "^1.2.0",
     "gulp-concat": "^2.6.1",
     "gulp-concat-js": "^0.1.0",
     "gulp-exec": "^2.1.3",

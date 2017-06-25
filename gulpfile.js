@@ -23,7 +23,7 @@ gulp.task('default', ['develop']);
 gulp.task('develop', ['watch', 'build', 'serve']);
 
 // Task for test
-gulp.task('test', ['watch', 'build', 'test:karma']);
+gulp.task('test', ['watch', 'build', 'test:karma', 'coverage']);
 
 // Build the project
 gulp.task('build', ['jscs:development', 'test:karma', 'compile:development', 'jshint:development', 'copy:html', 'copy:json', 'copy:icon']);

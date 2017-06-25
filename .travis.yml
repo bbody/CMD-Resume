@@ -11,14 +11,16 @@ cache:
 env:
 - CXX=g++-4.8 CC=gcc-4.8
 addons:
-  apt:
+  - apt:
     sources:
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
+  - code_climate
 before_deploy:
 - gulp release
 - gulp build-gh-pages
+- npm install -g codecov
 deploy:
   - provider: releases
     skip_cleanup: true
@@ -39,3 +41,10 @@ deploy:
     repo: bbody/CMD-Resume
     on:
       branch: master
+after_success:
+  - npm install -g codeclimate-test-reporter
+  - codeclimate-test-reporter < coverage/lcov.info
+  - npm install -g codecov
+  - istanbul cover jasmine-node --captureExceptions spec/
+  - codecov
+  
