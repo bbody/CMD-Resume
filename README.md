@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/bbody/CMD-Resume.svg?branch=master)](https://travis-ci.org/bbody/CMD-Resume)
+[![codecov](https://codecov.io/gh/bbody/CMD-Resume/branch/master/graph/badge.svg)](https://codecov.io/gh/bbody/CMD-Resume)
 [![Code Climate](https://codeclimate.com/github/cloudfoundry/membrane.png)](https://codeclimate.com/github/bbody/CMD-Resume)
 
 # CMD Resume
