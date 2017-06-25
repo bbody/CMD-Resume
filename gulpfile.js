@@ -66,7 +66,7 @@ gulp.task('jscs', function(){
 
 // Watch important files
 gulp.task('watch', function() {
-  gulp.watch(['js/*.js', 'index.html', 'spec/*.js'], ['jshint:development', 'test:karma']);
+  gulp.watch(['js/*.js', 'index.html', 'spec/*.js', 'karma.conf.js'], ['jshint:development', 'test:karma']);
 });
 
 // Copy HTML across (Also inject Github ribbon)
