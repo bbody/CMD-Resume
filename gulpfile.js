@@ -14,8 +14,7 @@ var gulp   = require('gulp'),
     exec = require('gulp-exec'),
     concat = require('gulp-concat'),
     jscs = require('gulp-jscs'),
-    Server = require('karma').Server,
-    reporter = require('gulp-codeclimate-reporter');
+    Server = require('karma').Server;
 
 // Default Gulp task is develop
 gulp.task('default', ['develop']);
