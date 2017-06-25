@@ -16,8 +16,7 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
-  - code_climate:
-    repo_token: $CODE_CLIMATE_TOKEN
+  - code_climate
 before_deploy:
 - gulp release
 - gulp build-gh-pages
