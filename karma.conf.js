@@ -17,7 +17,8 @@ module.exports = function(config) {
 		files: [
 			'node_modules/jquery.terminal/js/jquery.terminal.js',
 			'js/*.js',
-			'js/cmd-resume-spec.js'
+			'spec/helping-functions-spec.js',
+			// 'spec/cmd-resume-spec.js'
 		],
 
 
@@ -57,7 +58,7 @@ module.exports = function(config) {
 
 		// start these browsers
 		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-		browsers: ['PhantomJS' /*, 'Chrome', 'Firefox', 'Safari'*/ ],
+		browsers: ['PhantomJS' /*,'Chrome', 'Firefox', 'Safari' */],
 
 
 		// Continuous Integration mode
