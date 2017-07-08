@@ -20,7 +20,7 @@ module.exports = function(config) {
 		logLevel: config.LOG_INFO,
 		autoWatch: true,
 		// Available browsers: https://npmjs.org/browse/keyword/karma-launcher
-		browsers: ['PhantomJS' /*,'Chrome', 'Firefox', 'Safari' */],
+		browsers: ['PhantomJS', 'ChromeHeadless' /*,'Chrome', 'Firefox', 'Safari' */],
 		singleRun: false,
 		concurrency: Infinity,
 		coverageReporter: {

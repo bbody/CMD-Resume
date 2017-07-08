@@ -80,7 +80,9 @@ gulp.task('serve', function() {
 
 // Source code checking
 gulp.task('source-check:development', ['jshint:development', 'jscs:development']);
+
 gulp.task('source-check:tools', ['jshint:tools', 'jscs:tools']);
+
 gulp.task('source-check:tests', ['jshint:tests', 'jscs:tests']);
 
 gulp.task('jshint:development', function() {
