@@ -1,0 +1,22 @@
+{
+	"browser": true,
+	"jquery": true,
+	"bitwise": true,
+	"curly": true,
+	"eqeqeq": true,
+	"forin": true,
+	"freeze": false, // Allow overriding of string library
+	"immed": true,
+	"latedef": true,
+	"newcap": true,
+	"noarg": true,
+	"noempty": true,
+	"nonew": false,
+	"plusplus": false,
+	"quotmark": true,
+	"undef": true,
+	"strict": false,
+	"trailing": true,
+	"unused": true,
+	"node": true
+}
