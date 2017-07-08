@@ -4,14 +4,9 @@
 var gulp   = require('gulp'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
-    pump = require('pump'),
-    ghPages = require('gulp-gh-pages'),
-    rename = require('gulp-rename'),
     inject = require('gulp-inject-string'),
     webserver = require('gulp-webserver'),
     fs = require('fs'),
-    del = require('del'),
-    exec = require('gulp-exec'),
     concat = require('gulp-concat'),
     jscs = require('gulp-jscs'),
     Server = require('karma').Server;
@@ -28,23 +23,26 @@ gulp.task('test', ['watch', 'build', 'test:karma', 'coverage']);
 // Build the project
 gulp.task('build', ['jscs:development', 'test:karma', 'compile:development', 'jshint:development', 'copy:html', 'copy:json', 'copy:icon']);
 
-gulp.task('build-gh-pages', ['compile:gh-pages', 'copy:html', 'copy:json', 'copy:icon']);
-
-// Build then deploy to Github Pages
-gulp.task('deploy', ['build-gh-pages', 'gh-pages']);
-
-// Serve the development copy
-gulp.task('serve', ['serve:development']);
-
 gulp.task('release', ['compile:release:minified', 'compile:release']);
 
-gulp.task('test:e2e', function() {
-    return gulp.src('wdio.conf.js').pipe(webdriver());
+// Watch important files
+gulp.task('watch', function() {
+  gulp.watch(['js/*.js', 'index.html', 'spec/*.js', 'karma.conf.js'], ['jshint:development', 'test:karma']);
 });
 
-// JSHint the JavaScript files
+// Serve the for development
+gulp.task('serve', function() {
+  gulp.src('./tmp/')
+    .pipe(webserver({
+      livereload: true,
+      open: true,
+      fallback: 'index.html'
+    }));
+});
+
+// Source code checking
 gulp.task('jshint:development', function() {
-  return gulp.src('./tmp/js/cmd-resume.js')
+  return gulp.src(['./tmp/js/cmd-resume.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
     .pipe(jshint.reporter('fail'));
@@ -58,15 +56,10 @@ gulp.task('jscs:development', function(){
 });
 
 gulp.task('jscs', function(){
-  return gulp.src('dist/cmd-resume.js')
+  return gulp.src(['dist/cmd-resume.js'])
     .pipe(jscs({fix: true}))
     .pipe(jscs.reporter())
     .pipe(gulp.dest('tmp'));
-});
-
-// Watch important files
-gulp.task('watch', function() {
-  gulp.watch(['js/*.js', 'index.html', 'spec/*.js', 'karma.conf.js'], ['jshint:development', 'test:karma']);
 });
 
 // Copy HTML across (Also inject Github ribbon)
@@ -88,33 +81,7 @@ gulp.task('copy:icon', function(){
 		.pipe(gulp.dest('tmp'));
 });
 
-// Serve the for development
-gulp.task('serve:development', function() {
-  gulp.src('./tmp/')
-    .pipe(webserver({
-      livereload: true,
-      open: true,
-      fallback: 'index.html'
-    }));
-});
-
-gulp.task('test:karma', function(done){
-  return new Server({
-    configFile: __dirname + '/karma.conf.js',
-    singleRun: true
-  }, done).start();
-});
-
-// Push dist to Github Pages
-gulp.task('gh-pages', function() {
-  return gulp.src(['tmp/**/*', 'tmp/*'])
-    .pipe(ghPages());
-});
-
-gulp.task('version', function(){
-	return getVersion();
-});
-
+// Compile JavaScript
 gulp.task('compile:release:minified', function(){
   return compiledCode('./dist', true, true);
 });
@@ -124,13 +91,22 @@ gulp.task('compile:release', function(){
 });
 
 gulp.task('compile:development', function(){
-  return compiledCode('tmp/js', false, false);
+  return compiledCode('./tmp/js', false, false);
 });
 
-gulp.task('compile:gh-pages', function(){
-  return compiledCode('tmp/js', false, false);
+// Testing
+gulp.task('test:karma', function(done){
+  return new Server({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done).start();
 });
 
+gulp.task('test:e2e', function() {
+    return gulp.src('wdio.conf.js').pipe(webdriver());
+});
+
+// Useful functions
 function getVersionString(){
 	var versionInfo = '/* v' + getVersion() + ' of CMD Resume by Brendon Body */';
 	return versionInfo;
