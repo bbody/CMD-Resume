@@ -173,3 +173,19 @@ gulp.task('test:karma', function(done) {
 gulp.task('test:e2e', function() {
 	// return gulp.src('wdio.conf.js').pipe(webdriver());
 });
+
+// Deployment
+
+gulp.task('build-gh-pages', ['compile:gh-pages', 'copy:html', 'copy:json', 'copy:icon']);
+
+gulp.task('deploy', ['build-gh-pages', 'gh-pages']);
+
+// Push dist to Github Pages
+gulp.task('gh-pages', function() {
+  return gulp.src(['tmp/**/*', 'tmp/*'])
+    .pipe(ghPages());
+});
+
+gulp.task('compile:gh-pages', function(){
+  return compiledCode('tmp/js', false, false);
+});
