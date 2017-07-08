@@ -2,9 +2,8 @@
 	"preset": "jquery",
 	"preset": "google",
 	"validateIndentation": "\t",
-	"validateQuoteMarks": "'",
+	"validateQuoteMarks": "\"",
 	"maximumLineLength": 80,
 	"requireSemicolons": true,
-	"disallowKeywordsInComments": true,
-	"disallowMultipleVarDecl": false
+	"disallowKeywordsInComments": true
 }
