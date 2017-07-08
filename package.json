@@ -65,7 +65,6 @@
     "karma-safari-launcher": "^1.0.0",
     "pump": "^1.0.2",
     "selenium-webdriver": "^3.0.1",
-    "sinon": "^2.3.2",
     "wdio": "^0.3.3",
     "wdio-mocha-framework": "^0.5.8",
     "webdriverio": "^4.6.2"
