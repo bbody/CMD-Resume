@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "bluebird": "^3.5.0",
+    "grunt": "^1.0.1",
     "gulp": "^3.9.1",
     "gulp-codeclimate-reporter": "^1.2.0",
     "gulp-concat": "^2.6.1",
