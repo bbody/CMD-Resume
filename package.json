@@ -29,9 +29,9 @@
   "repository": "https://github.com/bbody/CMD-Resume/",
   "download": "https://github.com/bbody/CMD-Resume/releases",
   "dependencies": {
-    "del": "^2.2.2",
+    "del": "^3.0.0",
     "jquery": ">=1.5",
-    "jquery.terminal": "=0.11.4"
+    "jquery.terminal": "=1.4.3"
   },
   "devDependencies": {
     "bluebird": "^3.5.0",
@@ -46,7 +46,7 @@
     "gulp-jscs": "^4.0.0",
     "gulp-jshint": "^2.0.4",
     "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^2.0.0",
+    "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.8",
     "gulp-webdriver": "^2.0.3",
     "gulp-webserver": "^0.9.1",
@@ -55,7 +55,7 @@
     "jshint": "^2.9.4",
     "jshint-stylish": "^2.2.1",
     "karma": "^1.7.0",
-    "karma-chrome-launcher": "^2.1.1",
+    "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.1",
     "karma-firefox-launcher": "^1.0.1",
     "karma-jasmine": "^1.1.0",

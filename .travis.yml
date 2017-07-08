@@ -1,6 +1,7 @@
 language: node_js
 node_js:
 - '8'
+dist: trusty
 before_script:
 - npm install -g gulp-cli
 script:
@@ -17,6 +18,7 @@ addons:
     packages:
     - g++-4.8
   - code_climate
+  - chrome: stable
 before_deploy:
 - gulp release
 - gulp build-gh-pages
