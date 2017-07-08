@@ -90,7 +90,7 @@ gulp.task('copy:icon', function(){
 
 // Serve the for development
 gulp.task('serve:development', function() {
-  gulp.src('./tmp')
+  gulp.src('./tmp/')
     .pipe(webserver({
       livereload: true,
       open: true,
