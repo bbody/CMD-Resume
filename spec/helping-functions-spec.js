@@ -5,7 +5,7 @@ describe("Page title", function() {
 
 	it("Title changed with name", function() {
 		updateTitle("John Doe");
-		expect(document.title).toBe("John Doe\"s Résumé");
+		expect(document.title).toBe("John Doe's Résumé");
 	});
 
 	it("Title changed without a name", function() {
