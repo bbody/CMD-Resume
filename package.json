@@ -55,7 +55,7 @@
     "jshint": "^2.9.4",
     "jshint-stylish": "^2.2.1",
     "karma": "^1.7.0",
-    "karma-chrome-launcher": "^2.1.1",
+    "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.1",
     "karma-firefox-launcher": "^1.0.1",
     "karma-jasmine": "^1.1.0",
