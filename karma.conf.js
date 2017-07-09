@@ -20,11 +20,13 @@ module.exports = function(config) {
 		logLevel: config.LOG_INFO,
 		autoWatch: true,
 		// Available browsers: https://npmjs.org/browse/keyword/karma-launcher
-		browsers: ['PhantomJS', 'CustomChromeHeadless' /*,'Chrome', 'Firefox', 'Safari' */],
+		browsers: ['PhantomJS', 'CustomChromeHeadless'
+			/*,'Chrome', 'Firefox', 'Safari' */],
 		customLaunchers: {
 			CustomChromeHeadless: {
 				base: 'ChromeHeadless',
-				flags: ['--disable-gpu', '--disable-translate', '--disable-extensions', '--remote-debugging-port=9223']
+				flags: ['--disable-gpu', '--disable-translate',
+				'--disable-extensions','--remote-debugging-port=9223']
 			}
 		},
 		singleRun: false,

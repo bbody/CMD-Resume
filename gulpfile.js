@@ -46,6 +46,17 @@ function compiledCode(destination, minified, versioned) {
 	return stream.pipe(gulp.dest(destination));
 }
 
+function copyHtml(destination, script, directory) {
+	// Ignoring length as the string has no logic and would be neater on one line
+	return gulp.src('index.html')
+		// jscs:disable maximumLineLength
+		.pipe(inject.after('<body>', '<a href="https://github.com/bbody/CMD-Resume"><img style="position: absolute; top: 0; right: 0; border: 0; z-index: 100;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>'))
+		// jscs:enable maximumLineLength
+		.pipe(inject.before('</head>', '<script type="text/javascript" src="' + directory + "cmd-resume.js" + '"></script>'))
+		.pipe(inject.before('</head>', '<script type="text/javascript" src="./js/' + script + '"></script>'))
+		.pipe(gulp.dest(destination));
+}
+
 // Default Gulp task is develop
 gulp.task('default', ['develop']);
 
@@ -129,12 +140,21 @@ gulp.task('jscs:tests', function() {
 
 // Copy HTML across (Also inject Github ribbon)
 gulp.task('copy:html', function() {
-	// Ignoring length as the string has no logic and would be neater on one line
-	return gulp.src('index.html')
-		// jscs:disable maximumLineLength
-		.pipe(inject.after('<body>', '<a href="https://github.com/bbody/CMD-Resume"><img style="position: absolute; top: 0; right: 0; border: 0; z-index: 100;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>'))
-		// jscs:enable maximumLineLength
-		.pipe(gulp.dest('tmp'));
+	return copyHtml('tmp', 'example-script.js', './js/');
+});
+
+gulp.task('copy:own-html', function() {
+	return copyHtml('tmp/me', 'own-script.js', '../js/');
+});
+
+gulp.task('copy:example-script', function() {
+	return gulp.src(['js/example-script.js'])
+				.pipe(gulp.dest('tmp/js'));
+});
+
+gulp.task('copy:own-script', function() {
+	return gulp.src(['js/own-script.js'])
+				.pipe(gulp.dest('tmp/me/js'));
 });
 
 // Copy JSON files to tmp
@@ -175,8 +195,7 @@ gulp.task('test:e2e', function() {
 });
 
 // Deployment
-
-gulp.task('build-gh-pages', ['compile:gh-pages', 'copy:html', 'copy:json', 'copy:icon']);
+gulp.task('build-gh-pages', ['compile:gh-pages', 'copy:html', 'copy:own-html', 'copy:json', 'copy:icon', 'copy:example-script', 'copy:own-script']);
 
 gulp.task('deploy', ['build-gh-pages', 'gh-pages']);
 
