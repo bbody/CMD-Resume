@@ -6,7 +6,8 @@ module.exports = function(config) {
 		frameworks: ['jasmine-ajax', 'jasmine', 'jquery-3.1.1'],
 		files: [
 			'node_modules/jquery.terminal/js/jquery.terminal.js',
-			'js/*.js',
+			'js/helper-functions.js',
+			'js/cmd-resume.js',
 			'spec/helping-functions-spec.js',
 			// 'spec/cmd-resume-spec.js'
 		],
