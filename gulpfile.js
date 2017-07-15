@@ -15,6 +15,8 @@ var TOOLS = ['karma.conf.js', 'gulpfile.js'];
 var TESTS = ['spec/*-spec.js'];
 var SOURCE = ['js/helper-functions.js', 'js/cmd-resume.js'];
 var OUTPUT = ['./tmp/js/cmd-resume.js'];
+var EXAMPLE_SCRIPT = 'example-script.js';
+var EXAMPLE_OWN_SCRIPT = 'own-script.js';
 
 // Useful functions
 function getVersion() {
@@ -141,11 +143,11 @@ gulp.task('jscs:tests', function() {
 
 // Copy HTML across (Also inject Github ribbon)
 gulp.task('copy:html', function() {
-	return copyHtml('tmp', 'example-script.js', './js/');
+	return copyHtml('tmp', EXAMPLE_SCRIPT, './js/examples');
 });
 
 gulp.task('copy:own-html', function() {
-	return copyHtml('tmp/me', 'own-script.js', '../js/');
+	return copyHtml('tmp/me', EXAMPLE_OWN_SCRIPT, '../js/examples');
 });
 
 gulp.task('copy:example-script', function() {
