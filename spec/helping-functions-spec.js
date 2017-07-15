@@ -1631,7 +1631,7 @@ describe("", function() {
 		getGithub("http://localhost:8000/spec/responses/github_response.json", "test", false, callback);
 
 		var request = jasmine.Ajax.requests.mostRecent();
-		request.respondWith({ status: 200, responseText: JSON.stringify(this.response) });
+		request.respondWith({status: 200, responseText: JSON.stringify(this.response)});
 
 		expect(callback).toHaveBeenCalled();
 	});
@@ -1641,7 +1641,7 @@ describe("", function() {
 		getGithub("http://localhost:8000/spec/responses/github_response.json", "test", false, callback);
 
 		var request = jasmine.Ajax.requests.mostRecent();
-		request.respondWith({ status: 200, responseText: JSON.stringify([]) });
+		request.respondWith({status: 200, responseText: JSON.stringify([])});
 
 		expect(callback).not.toHaveBeenCalled();
 	});

@@ -4,7 +4,7 @@
 
 # CMD Resume
 ## Description
-CMD-Resume is a Javascript based command line for demonstrating your resume. [Here](https://cmd-resume.bbody.io/) is an example of a resume in a command line.
+CMD-Resume is a Javascript based command line for demonstrating your resume. [Here](http://cmd-resume.bbody.io/) is an example of a resume in a command line.
 
 ![CMD Resume Screenshot](https://s3-ap-southeast-2.amazonaws.com/bbody-images/github/cmd-resume/cmd-resume.png
  "CMD Resume Screenshot")
@@ -51,7 +51,9 @@ $("body").CMDResume("uri/path/to/json-resume.json", "uri/path/to/cmd-resume-cust
 If you find any bugs or have any suggestions on how to improve CMD Resume please post in the [Github issues](https://github.com/bbody/CMD-Resume/issues).
 
 ## How to contribute
-If you wish to contribute feel free to fork the repository, make changes and submit a pull request. Please also write test cases with it. If you wish to work on existing issues please check out the [Github issues](https://github.com/bbody/CMD-Resume/issues).
+If you wish to work on existing issues please check out the [Github issues](https://github.com/bbody/CMD-Resume/issues).
+
+If you wish to contribute feel please read the [Contribution Guide](CONTRIBUTING.md).
 
 ## Roadmap
 - Comprehensive Unit testing
