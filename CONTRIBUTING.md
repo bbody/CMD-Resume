@@ -17,30 +17,30 @@ This guide assumes you are using a command line, if you want to use other tools 
 4. Run command `gulp`
 4. Make changes and write tests
 5. Ensure tests and source code checking passes
-6. Commit code (Using format of '[:emoticon:](https://github.com/slashsBin/styleguide-git-commit-message) Description of change')
+6. Commit code (Using format of '[:emoticon:](https://github.com/slashsBin/styleguide-git-commit-message) Description of change') by default :pencil: is prepended to any commit message without an emoticon (through [git hook](https://github.com/bbody/CMD-Resume/blob/master/hooks/prepend-commit-emoticon.sh)
 7. Create pull request into main branch
 
 ## Technologies
 Despite CMD-Resume being quite simple there are quite a few packages and tools which are used to develop, test, build and deploy.
 
 - Running
-    - [jQuery Terminal](http://terminal.jcubic.pl/)
-    - [jQuery Mousewheel](https://github.com/jquery/jquery-mousewheel)
-    - [jQuery](https://jquery.com/)
+    - [jQuery Terminal](http://terminal.jcubic.pl/) - required for getting a terminal inside web browser
+    - [jQuery Mousewheel](https://github.com/jquery/jquery-mousewheel) - optional for improving mousewheel functionality
+    - [jQuery](https://jquery.com/) - required for libraries and for core CMD-Resume functions
 - Dependency Management
-    - [NodeJS](https://nodejs.org/en/)
-    - [NPM](https://www.npmjs.com/)
+    - [NodeJS](https://nodejs.org/en/) - required for running NPM
+    - [NPM](https://www.npmjs.com/) - required for installing dependencies
 - Building
-    - [Gulp](http://gulpjs.com/)
-    - [Gulp Uglify](https://www.npmjs.com/package/gulp-uglify)
+    - [Gulp](http://gulpjs.com/) - required for running tasks for development and deployment
+    - [Gulp Uglify](https://www.npmjs.com/package/gulp-uglify) - used for minifying JavaScript code
 - Testing
-    - [Karma](https://karma-runner.github.io/)
-    - [Jasmine](https://jasmine.github.io/)
+    - [Karma](https://karma-runner.github.io/) - used for running unit testing across multiple browsers
+    - [Jasmine](https://jasmine.github.io/) - used for writing unit tests
     - [WebdriverIO](http://webdriver.io/)
-    - Web Browsers (Remote)
+    - Web Browsers (Remote) - browser launchers for running the tests on the build server
         - [PhantomJS](https://github.com/karma-runner/karma-phantomjs-launcher)
         - [Headless Chrome](https://developers.google.com/web/updates/2017/04/headless-chrome)
-    - Web Browsers (Local)
+    - Web Browsers (Local) - browser launchers for running the tests on local machine
         - [PhantomJS](https://github.com/karma-runner/karma-phantomjs-launcher)
         - [Headless Chrome](https://developers.google.com/web/updates/2017/04/headless-chrome)
         - [Chrome](https://github.com/karma-runner/karma-chrome-launcher)
@@ -49,13 +49,14 @@ Despite CMD-Resume being quite simple there are quite a few packages and tools w
         - [Internet Explorer](https://github.com/karma-runner/karma-ie-launcher) (Windows Only)
         - [Edge](https://github.com/karma-runner/karma-edge-launcher) (Windows Only)
 - Source Checking
-    - [JSHint](http://jshint.com/)
-    - [JSCS](http://jscs.info/)
-    - [Codecov](https://codecov.io/gh/bbody/CMD-Resume)
+    - [JSHint](http://jshint.com/) - used to pick up simple JavaScript problems which could lead to bugs (differs across code, tests and tooling)
+    - [JSCS](http://jscs.info/) - used to ensure code style is consistent (differs across code, tests and tooling)
+    - [Codecov](https://codecov.io/gh/bbody/CMD-Resume) - used to provide code coverage and code quality analysis
 - Deployment
-    - [Travis CI](https://travis-ci.org/)
-    - [Github Pages](https://pages.github.com/)
-    - [NPM Plugin](https://www.npmjs.com/package/cmd-resume)
-    - [Github Releases](https://help.github.com/articles/creating-releases/)
+    - [Travis CI](https://travis-ci.org/) - used to build, run tests and deploy code
+    - [Github Pages](https://pages.github.com/) - used to host example of CMD-Resume
+    - [Github Releases](https://help.github.com/articles/creating-releases/) - used to package CMD-Resume and host in releases on Github repository
+    - [NPM](https://www.npmjs.com/package/cmd-resume) - used to deploy new code to NPM repository
+    - [Yarn](https://yarnpkg.com) - used to deploy new code to NPM repository
 
 For more information a list of dependencies please check [package.json](https://github.com/bbody/CMD-Resume/blob/master/package.json).
