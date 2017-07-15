@@ -24,7 +24,8 @@ function getVersion() {
 }
 
 function getVersionString() {
-	var versionInfo = '/* v' + getVersion() + ' of CMD Resume by Brendon Body */';
+	var versionInfo = '/* v' + getVersion() +
+		' of CMD Resume by Brendon Body */';
 	return versionInfo;
 }
 
@@ -45,17 +46,6 @@ function compiledCode(destination, minified, versioned) {
 	}
 
 	return stream.pipe(gulp.dest(destination));
-}
-
-function copyHtml(destination, script, directory) {
-	// Ignoring length as the string has no logic and would be neater
-	return gulp.src('index.html')
-		// jscs:disable maximumLineLength
-		.pipe(inject.after('<body>', '<a href="https://github.com/bbody/CMD-Resume"><img style="position: absolute; top: 0; right: 0; border: 0; z-index: 100;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>'))
-		.pipe(inject.before('</head>', '<script type="text/javascript" src="' + directory + 'cmd-resume.js' + '"></script>'))
-		.pipe(inject.before('</head>', '<script type="text/javascript" src="./js/' + script + '"></script>'))
-		// jscs:enable maximumLineLength
-		.pipe(gulp.dest(destination));
 }
 
 // Default Gulp task is develop
@@ -164,7 +154,8 @@ gulp.task('copy:icon', function() {
 
 // Compile HTML
 gulp.task('compile:html', function() {
-   return gulp.src('index.jade')
+	// jscs:disable maximumLineLength
+	return gulp.src('index.jade')
 		.pipe(jade({
 			pretty: true,
 			locals: {
@@ -178,11 +169,13 @@ gulp.task('compile:html', function() {
 				favicon_directory: '.'
 			}
 		}))
-		.pipe(gulp.dest('./'))
+		.pipe(gulp.dest('./'));
+	// jscs:enable maximumLineLength
 });
 
 gulp.task('compile:html:example', function() {
-   return gulp.src('index.jade')
+	// jscs:disable maximumLineLength
+	return gulp.src('index.jade')
 		.pipe(jade({
 			pretty: true,
 			locals: {
@@ -196,11 +189,13 @@ gulp.task('compile:html:example', function() {
 				favicon_directory: '.'
 			}
 		}))
-		.pipe(gulp.dest('./tmp'))
+		.pipe(gulp.dest('./tmp'));
+	// jscs:enable maximumLineLength
 });
 
 gulp.task('compile:html:own-example', function() {
-   return gulp.src('index.jade')
+	// jscs:disable maximumLineLength
+	return gulp.src('index.jade')
 		.pipe(jade({
 			pretty: true,
 			locals: {
@@ -214,7 +209,8 @@ gulp.task('compile:html:own-example', function() {
 				favicon_directory: '..'
 			}
 		}))
-		.pipe(gulp.dest('./tmp/me'))
+		.pipe(gulp.dest('./tmp/me'));
+	// jscs:enable maximumLineLength
 });
 
 
@@ -244,8 +240,9 @@ gulp.task('test:e2e', function() {
 });
 
 // Deployment
-gulp.task('build-gh-pages', ['compile:gh-pages', 'compile:html:example', 'compile:html:own-example',
-	'copy:json', 'copy:icon', 'copy:example-script', 'copy:own-script']);
+gulp.task('build-gh-pages', ['compile:gh-pages', 'compile:html:example',
+	'compile:html:own-example', 'copy:json', 'copy:icon', 'copy:example-script',
+	'copy:own-script']);
 
 gulp.task('deploy', ['build-gh-pages', 'gh-pages']);
 
