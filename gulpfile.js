@@ -143,11 +143,11 @@ gulp.task('jscs:tests', function() {
 
 // Copy HTML across (Also inject Github ribbon)
 gulp.task('copy:html', function() {
-	return copyHtml('tmp', EXAMPLE_SCRIPT, './js/examples');
+	return copyHtml('tmp', EXAMPLE_SCRIPT, './js/examples/');
 });
 
 gulp.task('copy:own-html', function() {
-	return copyHtml('tmp/me', EXAMPLE_OWN_SCRIPT, '../js/examples');
+	return copyHtml('tmp/me', EXAMPLE_OWN_SCRIPT, '../js/examples/');
 });
 
 gulp.task('copy:example-script', function() {
