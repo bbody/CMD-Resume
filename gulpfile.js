@@ -147,16 +147,16 @@ gulp.task('copy:html', function() {
 });
 
 gulp.task('copy:own-html', function() {
-	return copyHtml('tmp/me', EXAMPLE_OWN_SCRIPT, '../js/examples/');
+	return copyHtml('tmp/me', EXAMPLE_OWN_SCRIPT, './js/examples/');
 });
 
 gulp.task('copy:example-script', function() {
-	return gulp.src(['js/example-script.js'])
+	return gulp.src(['js/examples/example-script.js'])
 				.pipe(gulp.dest('tmp/js'));
 });
 
 gulp.task('copy:own-script', function() {
-	return gulp.src(['js/own-script.js'])
+	return gulp.src(['js/examples/own-script.js'])
 				.pipe(gulp.dest('tmp/me/js'));
 });
 
