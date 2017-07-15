@@ -46,3 +46,5 @@ terminal.jquery.json
 /release
 /node_modules
 /tmp
+
+index.html

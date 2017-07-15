@@ -8,14 +8,13 @@ var gulp = require('gulp'),
 		webserver = require('gulp-webserver'),
 		concat = require('gulp-concat'),
 		jscs = require('gulp-jscs'),
-		Server = require('karma').Server;
+		Server = require('karma').Server,
+		jade = require('gulp-jade');
 
 var TOOLS = ['karma.conf.js', 'gulpfile.js'];
 var TESTS = ['spec/*-spec.js'];
 var SOURCE = ['js/helper-functions.js', 'js/cmd-resume.js'];
 var OUTPUT = ['./tmp/js/cmd-resume.js'];
-var EXAMPLE_SCRIPT = 'example-script.js';
-var EXAMPLE_OWN_SCRIPT = 'own-script.js';
 
 // Useful functions
 function getVersion() {
@@ -69,9 +68,9 @@ gulp.task('develop', ['watch', 'build', 'serve']);
 gulp.task('test', ['watch', 'build', 'test:karma', 'coverage']);
 
 // Build the project
-gulp.task('build', ['source-check:development', 'source-check:tests',
-	'source-check:tools', 'test:karma', 'compile:development', 'copy:html',
-	'copy:json', 'copy:icon']);
+gulp.task('build', ['compile:html', 'source-check:development',
+	'source-check:tests', 'source-check:tools', 'test:karma',
+	'compile:development', 'copy:json', 'copy:icon']);
 
 gulp.task('release', ['compile:release:minified', 'compile:release']);
 
@@ -141,15 +140,6 @@ gulp.task('jscs:tests', function() {
 		.pipe(jscs.reporter());
 });
 
-// Copy HTML across (Also inject Github ribbon)
-gulp.task('copy:html', function() {
-	return copyHtml('tmp', EXAMPLE_SCRIPT, './js/');
-});
-
-gulp.task('copy:own-html', function() {
-	return copyHtml('tmp/me', EXAMPLE_OWN_SCRIPT, '../js/');
-});
-
 gulp.task('copy:example-script', function() {
 	return gulp.src(['js/examples/example-script.js'])
 				.pipe(gulp.dest('tmp/js'));
@@ -171,6 +161,62 @@ gulp.task('copy:icon', function() {
 	return gulp.src('favicon.ico')
 		.pipe(gulp.dest('tmp'));
 });
+
+// Compile HTML
+gulp.task('compile:html', function() {
+   return gulp.src('index.jade')
+		.pipe(jade({
+			pretty: true,
+			locals: {
+				production: false,
+				jquery_script_location: 'node_modules/jquery/dist/jquery.js',
+				jquery_mousewheel_script_location: 'node_modules/jquery.terminal/js/jquery.mousewheel.js',
+				jquery_terminal_script_location: 'node_modules/jquery.terminal/js/jquery.terminal.js',
+				init_script_location: 'js/examples/example-script.js',
+				cmd_resume_script_location: 'tmp/js/cmd-resume.js',
+				jquery_terminal_stylesheet_location: 'node_modules/jquery.terminal/css/jquery.terminal.css',
+				favicon_directory: '.'
+			}
+		}))
+		.pipe(gulp.dest('./'))
+});
+
+gulp.task('compile:html:example', function() {
+   return gulp.src('index.jade')
+		.pipe(jade({
+			pretty: true,
+			locals: {
+				production: true,
+				jquery_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js',
+				jquery_mousewheel_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js',
+				jquery_terminal_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.23/js/jquery.terminal.min.js',
+				init_script_location: './js/example-script.js',
+				cmd_resume_script_location: './js/cmd-resume.js',
+				jquery_terminal_stylesheet_location: '//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.23/css/jquery.terminal.min.css',
+				favicon_directory: '.'
+			}
+		}))
+		.pipe(gulp.dest('./tmp'))
+});
+
+gulp.task('compile:html:own-example', function() {
+   return gulp.src('index.jade')
+		.pipe(jade({
+			pretty: true,
+			locals: {
+				production: true,
+				jquery_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js',
+				jquery_mousewheel_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js',
+				jquery_terminal_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.23/js/jquery.terminal.min.js',
+				init_script_location: './js/own-example-script.js',
+				cmd_resume_script_location: '../js/cmd-resume.js',
+				jquery_terminal_stylesheet_location: '//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.23/css/jquery.terminal.min.css',
+				favicon_directory: '..'
+			}
+		}))
+		.pipe(gulp.dest('./tmp/me'))
+});
+
 
 // Compile JavaScript
 gulp.task('compile:release:minified', function() {
@@ -198,7 +244,7 @@ gulp.task('test:e2e', function() {
 });
 
 // Deployment
-gulp.task('build-gh-pages', ['compile:gh-pages', 'copy:html', 'copy:own-html',
+gulp.task('build-gh-pages', ['compile:gh-pages', 'compile:html:example', 'compile:html:own-example',
 	'copy:json', 'copy:icon', 'copy:example-script', 'copy:own-script']);
 
 gulp.task('deploy', ['build-gh-pages', 'gh-pages']);
