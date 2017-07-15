@@ -1,12 +1,11 @@
 /* File: gulpfile.js */
 
 // Dependancies
-var gulp   = require('gulp'),
+var gulp = require('gulp'),
 		jshint = require('gulp-jshint'),
 		uglify = require('gulp-uglify'),
 		inject = require('gulp-inject-string'),
 		webserver = require('gulp-webserver'),
-		fs = require('fs'),
 		concat = require('gulp-concat'),
 		jscs = require('gulp-jscs'),
 		Server = require('karma').Server;
@@ -20,6 +19,7 @@ var EXAMPLE_OWN_SCRIPT = 'own-script.js';
 
 // Useful functions
 function getVersion() {
+	var fs = require('fs');
 	var json = JSON.parse(fs.readFileSync('./package.json'));
 	return json.version;
 }
