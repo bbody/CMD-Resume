@@ -208,7 +208,7 @@ gulp.task('compile:html:own-example', function() {
 				jquery_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js',
 				jquery_mousewheel_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js',
 				jquery_terminal_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.23/js/jquery.terminal.min.js',
-				init_script_location: './js/own-example-script.js',
+				init_script_location: '../js/own-script.js',
 				cmd_resume_script_location: '../js/cmd-resume.js',
 				jquery_terminal_stylesheet_location: '//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.23/css/jquery.terminal.min.css',
 				favicon_directory: '..'
