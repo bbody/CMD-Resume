@@ -43,6 +43,7 @@
     "gulp-gh-pages": "^0.5.4",
     "gulp-inject": "^4.2.0",
     "gulp-inject-string": "^1.1.0",
+    "gulp-jade": "^1.1.0",
     "gulp-jscs": "^4.0.0",
     "gulp-jshint": "^2.0.4",
     "gulp-rename": "^1.2.2",
