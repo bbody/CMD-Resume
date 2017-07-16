@@ -1,5 +1,9 @@
 # Contribution Guide
-## Setup
+## Creating an issue
+There are no specific rules for submitting issues, however if you can follow the [following guidelines](https://upthemes.com/blog/2014/02/writing-useful-github-issues/) it would make prioritizing and development easier.
+
+## Development
+### Setup
 This guide assumes you are using a command line, if you want to use other tools please refer to your own tools documentation.
 
 1. Clone the Github repository `git clone https://github.com/bbody/CMD-Resume.git`
@@ -10,7 +14,7 @@ This guide assumes you are using a command line, if you want to use other tools 
 6. Install gulp command line tool `npm i -g gulp-cli` or `sudo npm i -g gulp-cli` if the first does not work
 7. Test if the running script works `gulp`
 
-## Making changes
+### Making changes
 1. Fork the repository
 2. Create a new branch
 3. Create an issue or ask to be assigned to an issue
@@ -52,6 +56,8 @@ Despite CMD-Resume being quite simple there are quite a few packages and tools w
     - [JSHint](http://jshint.com/) - used to pick up simple JavaScript problems which could lead to bugs (differs across code, tests and tooling)
     - [JSCS](http://jscs.info/) - used to ensure code style is consistent (differs across code, tests and tooling)
     - [Codecov](https://codecov.io/gh/bbody/CMD-Resume) - used to provide code coverage and code quality analysis
+- Development
+    - [PugJs](https://github.com/pugjs/pug) - used for building HTML through templating
 - Deployment
     - [Travis CI](https://travis-ci.org/) - used to build, run tests and deploy code
     - [Github Pages](https://pages.github.com/) - used to host example of CMD-Resume
