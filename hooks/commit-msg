@@ -1,4 +1,4 @@
-echo ":pencil: $1"
+echo ":pencil:"
 # if ["${1:0:1}" -eq ':']
 # then
 	
