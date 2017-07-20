@@ -1,3 +1,2 @@
-#!/bin/sh
-
-echo "Test"
+NAME=$(git branch | grep '*' | sed 's/* //')
+echo -n "$NAME"': '|cat - "$1" > /tmp/out && mv /tmp/out "$1"
