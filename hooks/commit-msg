@@ -1,4 +1,4 @@
-if [$1[0] -eq ':']
+if [1[0] -eq ':']
 then
 	echo ":pencil: $1"
 else
