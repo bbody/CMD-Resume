@@ -1,5 +1,5 @@
 echo "$(echo $1 | head -c 1)"
-echo $2
+echo $0
 if [$initial -eq ':']
 then
 	echo ":pencil: $1"
