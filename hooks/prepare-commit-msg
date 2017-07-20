@@ -5,7 +5,7 @@ message = File.read(message_file)
 
 $regex = /\A:.*:/
 
-if $regex.match(message)
+if !$regex.match(message)
   message = ":pencil: " + message
 end
 
