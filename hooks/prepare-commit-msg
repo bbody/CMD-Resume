@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+sed -i.bak -e "1s/^/[$BRANCH_NAME] /" $1
+# echo "$1"
+# #"${word:0:1}"
+# if ":" == ":"
+# then
+# echo 'Dog' >&2
+# exit 1
+# else
+# echo "$1" >&2
+# exit 1
+# fi
