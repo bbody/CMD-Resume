@@ -1,6 +1,6 @@
 echo "$(echo $1 | head -c 1)"
 echo $1
-if [$initial -eq ':']
+if [$1 -eq ':']
 then
 	echo ":pencil: $1"
 else
