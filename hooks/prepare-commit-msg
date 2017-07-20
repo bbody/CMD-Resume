@@ -1,13 +1,9 @@
-#!/usr/bin/env bash
+#!/usr/bin/env ruby
+message_file = ARGV[0]
+message = File.read(message_file)
 
-sed -i.bak -e "1s/^/:pencil: /" $1
-echo "$1"
-# #"${word:0:1}"
-# if ":" == ":"
-# then
-# echo 'Dog' >&2
-# exit 1
-# else
-# echo "$1" >&2
-# exit 1
-# fi
+$regex = /\A:.*:/
+
+if $regex.match(message)
+  message = ":pencil: " + message
+end
