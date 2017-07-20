@@ -1,7 +1,8 @@
-echo ":pencil:"
-# if ["${1:0:1}" -eq ':']
-# then
-	
-# else
-# 	echo "$1"
-# fi
+initial = "$(echo $1 | head -c 1)"
+
+if [initial -eq ':']
+then
+	echo ":pencil: $1"
+else
+	echo "$1"
+fi
