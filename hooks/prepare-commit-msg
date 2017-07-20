@@ -1,13 +1,10 @@
-#!/usr/bin/env ruby
+#!/bin/sh
 
-message_file = ARGV[0]
-message = File.read(message_file)
+commit_regex = '(\A:.*:)'
 
-$regex = /\A:.*:/
-
-if !$regex.match(message)
-  puts "Warning: Does not have an emoticon, prepending default"
-  message = ":pencil: " + message
-end
-
-File.open(message_file, 'w') { |file| file.write(message) }
+if grep -iqE "$commit_regex" "$1"
+then
+	sed -i.bak -e ":pencil: " $1
+else
+	sed -i.bak -e $1
+fi
