@@ -1,10 +1,11 @@
 #!/bin/sh
 
-commit_regex = '(\A:.*:)'
+sed -i.bak -e ":pencil: " $1
 
-if grep -iqE "$commit_regex" "$1"
-then
-	sed -i.bak -e ":pencil: " $1
-else
-	sed -i.bak -e $1
-fi
+# commit_regex='^:'
+
+# if grep -iqE "$commit_regex" "$1"; then
+# 	sed -i.bak -e ":pencil: " $1
+# else
+# 	sed -i.bak -e $1
+# fi
