@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+
 message_file = ARGV[0]
 message = File.read(message_file)
 
@@ -7,3 +8,5 @@ $regex = /\A:.*:/
 if $regex.match(message)
   message = ":pencil: " + message
 end
+
+File.open(message_file, 'w') { |file| file.write(message) }
