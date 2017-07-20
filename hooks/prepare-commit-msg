@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 sed -i.bak -e "1s/^/:pencil: /" $1
-echo 1s
+echo "$1"
 # #"${word:0:1}"
 # if ":" == ":"
 # then
