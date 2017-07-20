@@ -1,6 +1,7 @@
-if [1[0] -eq ':']
-then
-	echo ":pencil: $1"
-else
-	echo "$1"
-fi
+echo ":pencil: $1"
+# if ["${1:0:1}" -eq ':']
+# then
+	
+# else
+# 	echo "$1"
+# fi
