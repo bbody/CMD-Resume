@@ -6,6 +6,7 @@ message = File.read(message_file)
 $regex = /\A:.*:/
 
 if !$regex.match(message)
+  puts "Warning: Does not have an emoticon, prepending default"
   message = ":pencil: " + message
 end
 
