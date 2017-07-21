@@ -8,7 +8,7 @@ This guide assumes you are using a command line, if you want to use other tools 
 
 1. Clone the Github repository `git clone https://github.com/bbody/CMD-Resume.git`
 2. Change directory to the repository `cd CMD-Resume`
-3. Add git hooks to your project `git config core.hooksPath hooks`
+3. Add git hooks to your project `git config core.hooksPath hooks` (if git version >= 2.9). Or *nix: `./setup-hooks.sh`, Windows: `setup-hooks.bat`
 4. [Install Node and NPM](https://docs.npmjs.com/getting-started/installing-node) (if not already installed)
 5. Install the dependencies `npm install`
 6. Install gulp command line tool `npm i -g gulp-cli` or `sudo npm i -g gulp-cli` if the first does not work
