@@ -125,11 +125,8 @@ String.prototype.setFormat = function(styleEnumValue) {
 	if (color) {
 		result += CONSTANTS.SEMI_COLON;
 		result += color;
-	} else {
-		// Set to null, if the color is not valid
-		color = null;
 	}
-
+	
 	if (backgroundColor) {
 		if (bold || italic || color) {
 			result += CONSTANTS.SEMI_COLON;
