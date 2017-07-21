@@ -1,4 +1,5 @@
 #!/bin/sh
+
 commit_regex='^:'
 
 if grep -viqE "$commit_regex" "$1"; then
