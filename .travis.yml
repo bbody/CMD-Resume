@@ -47,3 +47,4 @@ after_success:
   - codeclimate-test-reporter < coverage/lcov.info
 after_deploy:
   - npm version patch
+  - npm publish
