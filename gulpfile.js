@@ -9,7 +9,7 @@ var gulp = require('gulp'),
 		concat = require('gulp-concat'),
 		jscs = require('gulp-jscs'),
 		Server = require('karma').Server,
-		jade = require('gulp-jade');
+		pug = require('gulp-pug');
 
 var TOOLS = ['karma.conf.js', 'gulpfile.js'];
 var TESTS = ['spec/*-spec.js'];
@@ -155,8 +155,8 @@ gulp.task('copy:icon', function() {
 // Compile HTML
 gulp.task('compile:html', function() {
 	// jscs:disable maximumLineLength
-	return gulp.src('index.jade')
-		.pipe(jade({
+	return gulp.src('index.pug')
+		.pipe(pug({
 			pretty: true,
 			locals: {
 				production: false,
@@ -175,8 +175,8 @@ gulp.task('compile:html', function() {
 
 gulp.task('compile:html:example', function() {
 	// jscs:disable maximumLineLength
-	return gulp.src('index.jade')
-		.pipe(jade({
+	return gulp.src('index.pug')
+		.pipe(pug({
 			pretty: true,
 			locals: {
 				production: true,
@@ -195,8 +195,8 @@ gulp.task('compile:html:example', function() {
 
 gulp.task('compile:html:own-example', function() {
 	// jscs:disable maximumLineLength
-	return gulp.src('index.jade')
-		.pipe(jade({
+	return gulp.src('index.pug')
+		.pipe(pug({
 			pretty: true,
 			locals: {
 				production: true,

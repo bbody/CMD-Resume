@@ -63,6 +63,6 @@ Despite CMD-Resume being quite simple there are quite a few packages and tools w
     - [Github Pages](https://pages.github.com/) - used to host example of CMD-Resume
     - [Github Releases](https://help.github.com/articles/creating-releases/) - used to package CMD-Resume and host in releases on Github repository
     - [NPM](https://www.npmjs.com/package/cmd-resume) - used to deploy new code to NPM repository
-    - [Yarn](https://yarnpkg.com) - used to deploy new code to NPM repository
+    - ~[Yarn](https://yarnpkg.com) - used to deploy new code to NPM repository~
 
 For more information a list of dependencies please check [package.json](https://github.com/bbody/CMD-Resume/blob/master/package.json).
