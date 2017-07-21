@@ -1,6 +1,8 @@
 #!/bin/sh
 
-sed -i.bak -e ":pencil: " $1
+# sed -i.bak -e ":pencil: " $1
+sed -i.old '1s;^;:pencil: ;' $1
+
 # commit_regex='^:'
 
 # if grep -iqE "$commit_regex" "$1"; then
