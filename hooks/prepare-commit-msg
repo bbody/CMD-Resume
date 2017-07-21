@@ -1,6 +1,6 @@
 #!/bin/sh
 commit_regex='^:'
 
-if grep -iqE "$commit_regex" "$1"; then
+if grep -viqE "$commit_regex" "$1"; then
 	sed -i.old '1s;^;:pencil: ;' $1
 fi
