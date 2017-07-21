@@ -108,10 +108,10 @@ String.prototype.setFormat = function(styleEnumValue) {
 	var type = StyleEnum.toString(styleEnumValue);
 	var style = defaultStyles[type] ?
 		defaultStyles[type] : defaultStyles.standard;
-	var color = style.color ? style.color : defaultStyles.standard.color;
+	var color = style.color && isValidColor(style.color) ? style.color : defaultStyles.standard.color;
 	var bold = style.bold ? style.bold : defaultStyles.standard.bold;
 	var italic = style.italic ? style.italic : defaultStyles.standard.italic;
-	var backgroundColor = style.backgroundColor ?
+	var backgroundColor = style.backgroundColor && isValidColor(style.backgroundColor) ?
 		style.backgroundColor : defaultStyles.standard.backgroundColor;
 
 	if (bold) {
@@ -122,7 +122,7 @@ String.prototype.setFormat = function(styleEnumValue) {
 		result += "i";
 	}
 
-	if (color && isValidColor(color)) {
+	if (color) {
 		result += CONSTANTS.SEMI_COLON;
 		result += color;
 	} else {
@@ -130,17 +130,11 @@ String.prototype.setFormat = function(styleEnumValue) {
 		color = null;
 	}
 
-	if (backgroundColor && isValidColor(backgroundColor)) {
+	if (backgroundColor) {
 		if (bold || italic || color) {
 			result += CONSTANTS.SEMI_COLON;
 		}
 		result += backgroundColor;
-	} else {
-		result += bold ? CONSTANTS.EMPTY : CONSTANTS.SEMI_COLON;
-		result += italic ? CONSTANTS.EMPTY : CONSTANTS.SEMI_COLON;
-		result += color ? CONSTANTS.EMPTY : CONSTANTS.SEMI_COLON;
-
-		result += defaultStyles.standard.backgroundColor;
 	}
 
 	return wrappedFormatting(result, this);

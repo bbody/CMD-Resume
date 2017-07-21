@@ -200,6 +200,10 @@ describe("Set format", function() {
 	beforeEach(function() {
 		this.exampleText = "Hello World";
 	});
+	
+	afterEach(function() {
+		defaultStyles['name']['color'] = "green";
+	});
 
 	it("Title format", function() {
 		expect(this.exampleText.setFormat(StyleEnum.TITLE)).toBe("[[b;red;#000]Hello World]");
@@ -231,6 +235,18 @@ describe("Set format", function() {
 
 	it("Accepts empty style and text", function() {
 		expect("".setFormat("")).toBe("");
+	});
+	
+	it('Accepts invalid styles', function() {
+		defaultStyles['title']['color'] = "cat";
+		expect(this.exampleText.setFormat(StyleEnum.TITLE)).toBe("[[b;white;#000]Hello World]");
+		expect(this.exampleText.setTitle()).toBe("[[b;white;#000]Hello World]");
+	});
+	
+	it('Accepts empty default styles', function() {
+		defaultStyles['name']['color'] = null;
+		expect(this.exampleText.setFormat(StyleEnum.NAME)).toBe("[[b;white;#000]Hello World]");
+		expect(this.exampleText.setName()).toBe("[[b;white;#000]Hello World]");
 	});
 });
 
