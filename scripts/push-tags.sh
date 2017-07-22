@@ -7,4 +7,8 @@
 # Update package.json based on the git tag we just created
 npm --no-git-tag-version version from-git
 
+git config --global user.email "travis@travis-ci.org"
+git config --global user.name "Travis CI"
+git remote rm origin
+git remote add origin https://bbody:${GITHUB_TOKEN}@github.com/bbody/CMD-Resume.git
 git push --tags
