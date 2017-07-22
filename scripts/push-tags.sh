@@ -13,5 +13,6 @@ git remote rm origin
 git remote add origin https://bbody:${GITHUB_TOKEN}@github.com/bbody/CMD-Resume.git
 git add package.json
 git add package-lock.json
+git commit -am ":pencil: Update version"
 git push origin master
 git push --tags
