@@ -32,6 +32,11 @@ before_install:
   # Update package.json based on the git tag we just created
 - npm --no-git-tag-version version from-git
 deploy:
+  - provider: script
+    skip_cleanup: true
+    script: git push --tags
+    on:
+      branch: master
   - provider: releases
     skip_cleanup: true
     api_key: $GITHUB_TOKEN
@@ -49,11 +54,6 @@ deploy:
     target_branch: gh-pages
     fqdn: cmd-resume.bbody.io
     repo: bbody/CMD-Resume
-    on:
-      branch: master
-  - provider: script
-    skip_cleanup: true
-    script: git push --tags
     on:
       branch: master
   - provider: npm
