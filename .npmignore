@@ -1,0 +1,12 @@
+.*
+*.md
+favicon.ico
+index.pug
+hooks
+responses
+spec
+tmp
+gulpfile.js
+index.html
+karma.conf.js
+setup-hooks.*
