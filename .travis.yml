@@ -62,6 +62,3 @@ deploy:
 after_success:
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < coverage/lcov.info
-after_deploy:
-  - npm version patch
-  - npm --no-git-tag-version version from-git
