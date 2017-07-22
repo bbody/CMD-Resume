@@ -34,7 +34,12 @@ before_install:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: git push --tags
+    script:
+    - git config --global user.email "travis@travis-ci.org"
+    - git config --global user.name "Travis CI"
+    - git remote rm origin
+    - git remote add origin https://bbody:${GITHUB_TOKEN}@github.com/bbody/CMD-Resume.git
+    - git push --tags
     on:
       branch: master
   - provider: releases
