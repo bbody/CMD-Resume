@@ -11,6 +11,9 @@ cache:
   - node_modules
 env:
 - CXX=g++-4.8 CC=gcc-4.8
+branches:
+  except:
+  - /^v?\d+\.\d+\.\d+$/
 addons:
   - apt:
     sources:
@@ -23,6 +26,11 @@ before_deploy:
 - gulp release
 - gulp build-gh-pages
 deploy:
+  - provider: script
+    skip_cleanup: true
+    script: scripts/push-tags.sh
+    on:
+      branch: master
   - provider: releases
     skip_cleanup: true
     api_key: $GITHUB_TOKEN
@@ -48,6 +56,4 @@ deploy:
 after_success:
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < coverage/lcov.info
-after_deploy:
-  - npm version patch
-  - npm --no-git-tag-version version from-git
+  
