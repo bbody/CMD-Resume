@@ -17,10 +17,12 @@ index.html
 karma.conf.js
 setup-hooks.bat
 setup-hooks.sh
+prepare-commit-msg.sh
 *.md
 favicon.ico
 index.pug
 hooks
+hooks/*
 responses
 spec
 tmp
@@ -29,3 +31,10 @@ index.html
 karma.conf.js
 setup-hooks.*
 /node_modules
+CMD-RESUME-DATA-SCHEMA.md
+CONTRIBUTING.md
+favicon.ico
+index.pug
+karma.conf.js
+responses/*
+spec/*

@@ -39,7 +39,6 @@ deploy:
       - "./dist/cmd-resume.min.js"
     on:
       repo: bbody/CMD-Resume
-      tags: true
       branch: master
   - provider: pages
     skip_cleanup: true
