@@ -1,7 +1,5 @@
 #!/bin/bash
 
-npm version patch
-
 PACKAGE_VERSION=$(cat package.json \
   | grep version \
   | head -1 \
