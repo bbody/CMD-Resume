@@ -21,7 +21,7 @@ This guide assumes you are using a command line, if you want to use other tools 
 4. Run command `gulp`
 4. Make changes and write tests
 5. Ensure tests and source code checking passes
-6. Commit code (Using format of '[:emoticon:](https://github.com/slashsBin/styleguide-git-commit-message) Description of change') by default :pencil: is prepended to any commit message without an emoticon (through [git hook](https://github.com/bbody/CMD-Resume/blob/master/hooks/prepend-commit-emoticon.sh)
+6. Commit code (Using format of '[:emoticon:](https://github.com/slashsBin/styleguide-git-commit-message) Description of change') by default :pencil: is prepended to any commit message without an emoticon (through [git hook](https://github.com/bbody/CMD-Resume/blob/master/hooks/prepend-commit-emoticon.sh). **Optional:** [Change previous commit message](https://help.github.com/articles/changing-a-commit-message/)
 7. Create pull request into main branch
 
 ## Technologies
