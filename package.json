@@ -8,15 +8,9 @@
     "ecosystem:jquery"
   ],
   "version": "3.1.1",
-  "author": {
-    "name": "Brendon Body",
-    "url": "https://github.com/bbody"
-  },
+  "author": "Brendon Body (https://github.com/bbody)",
   "maintainers": [
-    {
-      "name": "Brendon Body",
-      "url": "https://github.com/bbody"
-    }
+    "Brendon Body (https://github.com/bbody)"
   ],
   "licenses": [
     {
@@ -24,9 +18,14 @@
       "url": "https://github.com/bbody/CMD-Resume/blob/master/LICENSE"
     }
   ],
-  "bugs": "https://github.com/bbody/CMD-Resume/issues",
+  "bugs": {
+    "url": "https://github.com/bbody/CMD-Resume/issues"
+  },
   "homepage": "https://github.com/bbody/CMD-Resume/",
-  "repository": "https://github.com/bbody/CMD-Resume/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bbody/CMD-Resume/"
+  },
   "download": "https://github.com/bbody/CMD-Resume/releases",
   "dependencies": {
     "del": "^3.0.0",
@@ -69,5 +68,9 @@
     "wdio": "^0.3.3",
     "wdio-mocha-framework": "^0.5.8",
     "webdriverio": "^4.6.2"
+  },
+  "main": "dist/cmd-resume.min.js",
+  "scripts": {
+    "test": "gulp test:karma"
   }
 }
