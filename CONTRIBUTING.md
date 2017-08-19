@@ -71,5 +71,6 @@ For more information a list of dependencies please check [package.json](https://
 Releasing can only be performed by an admin.
 1. [Bump NPM version](https://docs.npmjs.com/cli/version)
 2. Commit `git commit -am ":bookmark: Upgrade version"`
-3. Push `git push origin master`
-4. Push `git push && git push --tags`
+3. Tag release `git tag x.x.x`
+4. Push `git push origin master`
+5. Push `git push && git push --tags`
