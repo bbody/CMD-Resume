@@ -17,3 +17,4 @@ git add package-lock.json
 git commit -m ":pencil: Update version"
 git push origin master
 git push --tags
+npm version patch
