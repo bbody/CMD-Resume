@@ -8,14 +8,10 @@
     "ecosystem:jquery"
   ],
   "version": "3.1.1",
-<<<<<<< HEAD
   "author": {
     "name": "Brendon Body",
     "url": "https://github.com/bbody"
   },
-=======
-  "author": "Brendon Body (https://github.com/bbody)",
->>>>>>> b565d8c25cc2262dc81689ea13df74792e5be40a
   "maintainers": [
     "Brendon Body (https://github.com/bbody)"
   ],
