@@ -25,13 +25,7 @@ addons:
 before_deploy:
 - gulp release
 - gulp build-gh-pages
-- npm version patch
 deploy:
-  - provider: script
-    skip_cleanup: true
-    script: scripts/push-tags.sh
-    on:
-      branch: master
   - provider: releases
     skip_cleanup: true
     api_key: $GITHUB_TOKEN
@@ -41,6 +35,7 @@ deploy:
     on:
       repo: bbody/CMD-Resume
       branch: master
+      tags: true
   - provider: pages
     skip_cleanup: true
     local_dir: ./tmp
@@ -53,6 +48,9 @@ deploy:
   - provider: npm
     email: "bbody.project@gmail.com"
     api_key: $NPMJS_TOKEN
+    on:
+      branch: master
+      tags: true
 after_success:
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < coverage/lcov.info

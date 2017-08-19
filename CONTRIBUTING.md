@@ -66,3 +66,11 @@ Despite CMD-Resume being quite simple there are quite a few packages and tools w
     - ~[Yarn](https://yarnpkg.com) - used to deploy new code to NPM repository~
 
 For more information a list of dependencies please check [package.json](https://github.com/bbody/CMD-Resume/blob/master/package.json).
+
+## Releasing
+Releasing can only be performed by an admin.
+1. [Bump NPM version](https://docs.npmjs.com/cli/version)
+2. Commit `git commit -am ":bookmark: Upgrade version"`
+3. Tag release `git tag x.x.x`
+4. Push `git push origin master`
+5. Push `git push && git push --tags`
