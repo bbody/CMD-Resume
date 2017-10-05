@@ -21,14 +21,18 @@ module.exports = function(config) {
 		logLevel: config.LOG_INFO,
 		autoWatch: true,
 		// Available browsers: https://npmjs.org/browse/keyword/karma-launcher
-		browsers: ['PhantomJS', 'CustomChromeHeadless'
+		browsers: ['PhantomJS', 'CustomChromeHeadless', 'FirefoxHeadless'
 			/*,'Chrome', 'Firefox', 'Safari' */],
 		customLaunchers: {
 			CustomChromeHeadless: {
 				base: 'ChromeHeadless',
 				flags: ['--disable-gpu', '--disable-translate',
 				'--disable-extensions','--remote-debugging-port=9223']
-			}
+			},
+			FirefoxHeadless: {
+		        base: 'Firefox',
+		        flags: [ '-headless' ],
+		    }
 		},
 		singleRun: false,
 		concurrency: Infinity,
