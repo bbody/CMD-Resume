@@ -1,6 +1,6 @@
-language: node_js
+flanguage: node_js
 node_js:
-- '8'
+- '7'
 dist: trusty
 before_script:
 - npm install -g gulp-cli
