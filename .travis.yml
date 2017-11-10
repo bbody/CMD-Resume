@@ -35,7 +35,6 @@ deploy:
       - "./dist/cmd-resume.js"
       - "./dist/cmd-resume.min.js"
     on:
-      repo: bbody/CMD-Resume
       branch: master
       tags: true
   - provider: pages
