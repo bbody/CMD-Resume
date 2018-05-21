@@ -20,9 +20,6 @@ module.exports = function(config) {
 		colors: true,
 		logLevel: config.LOG_INFO,
 		autoWatch: true,
-		// Available browsers: https://npmjs.org/browse/keyword/karma-launcher
-		browsers: ['PhantomJS', 'CustomChromeHeadless', 'FirefoxHeadless'
-			/*,'Chrome', 'Firefox', 'Safari' */],
 		customLaunchers: {
 			CustomChromeHeadless: {
 				base: 'ChromeHeadless',
