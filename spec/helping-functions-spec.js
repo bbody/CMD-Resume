@@ -203,6 +203,7 @@ describe("Set format", function() {
 	
 	afterEach(function() {
 		defaultStyles['name']['color'] = "green";
+		defaultStyles['title']['color'] = "red";
 	});
 
 	it("Title format", function() {

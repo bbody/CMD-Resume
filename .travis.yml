@@ -2,10 +2,13 @@ flanguage: node_js
 node_js:
 - '7'
 dist: trusty
+sudo: required
 before_script:
 - npm install
 - npm install gulp
 - npm install -g gulp-cli
+- sudo chown root /opt/google/chrome/chrome-sandbox
+- sudo chmod 4755 /opt/google/chrome/chrome-sandbox
 script:
 - gulp test:karma
 cache:
