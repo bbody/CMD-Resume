@@ -10,7 +10,7 @@ before_script:
 - sudo chown root /opt/google/chrome/chrome-sandbox
 - sudo chmod 4755 /opt/google/chrome/chrome-sandbox
 script:
-- gulp test:karma
+- npm run test
 cache:
   directories:
   - node_modules
@@ -28,8 +28,8 @@ addons:
   - code_climate
   - chrome: stable
 before_deploy:
-- gulp release
-- gulp build-gh-pages
+- npm run release
+- npm run gh-pages
 deploy:
   - provider: releases
     skip_cleanup: true
