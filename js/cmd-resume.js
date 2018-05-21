@@ -26,7 +26,10 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options) {
 
 	self.initTerminal = function() {
 		self.term = element.terminal(function(command, term) {
-			term.echo(self.commandLineParse(command) + CONSTANTS.NEW_LINE);
+			// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+			var splitCommand = $.terminal.split_command(command);
+			// jscs:enable
+			term.echo(self.commandLineParse(splitCommand) + CONSTANTS.NEW_LINE);
 		}, self.settings);
 	};
 
@@ -44,8 +47,7 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options) {
 	};
 
 	// Parse command line
-	self.commandLineParse = function(input) {
-		var commandList = input.toLowerCase().split(CONSTANTS.SPACE);
+	self.commandLineParse = function(commandList) {
 
 		// Command sections
 		var rootCommand = !isUndefinedOrNull(commandList[0]) ?
