@@ -73,7 +73,12 @@
   },
   "main": "dist/cmd-resume.min.js",
   "scripts": {
-    "test": "gulp test:karma"
+    "test": "gulp test:karma:build",
+    "test-macos": "gulp test:karma:macos",
+    "test-windows": "gulp test:karma:windows",
+    "test-linux": "gulp test:karma:linux",
+    "release": "gulp release",
+    "gh-pages": "gulp build-gh-pages"
   },
   "resolutions": {
     "natives": "1.1.3"

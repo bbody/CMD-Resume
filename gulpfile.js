@@ -55,11 +55,11 @@ gulp.task('default', ['develop']);
 gulp.task('develop', ['watch', 'build', 'serve']);
 
 // Task for test
-gulp.task('test', ['watch', 'build', 'test:karma', 'coverage']);
+gulp.task('test', ['watch', 'build', 'test:karma:build', 'coverage']);
 
 // Build the project
 gulp.task('build', ['compile:html', 'source-check:development',
-	'source-check:tests', 'source-check:tools', 'test:karma',
+	'source-check:tests', 'source-check:tools', 'test:karma:build',
 	'compile:development', 'copy:json', 'copy:icon']);
 
 gulp.task('release', ['compile:release:minified', 'compile:release']);
@@ -227,12 +227,29 @@ gulp.task('compile:development', function() {
 	return compiledCode('./tmp/js', false, false);
 });
 
-// Testing
-gulp.task('test:karma', function(done) {
-	return new Server({
-		configFile: __dirname + '/karma.conf.js',
-		singleRun: true
+let runTests = (browsers, done) => {
+	new Server({
+		configFile: `${__dirname}/karma.conf.js`,
+		singleRun: true,
+		browsers: browsers
 	}, done).start();
+};
+
+// Testing
+gulp.task('test:karma:build', function(done) {
+	return runTests(['PhantomJS', 'CustomChromeHeadless', 'FirefoxHeadless'], done);
+});
+
+gulp.task('test:karma:linux', function(done) {
+	return runTests(['Chrome', 'Firefox'], done);
+});
+
+gulp.task('test:karma:macos', function(done) {
+	return runTests(['Chrome', 'Firefox', 'Safari'], done);
+});
+
+gulp.task('test:karma:windows', function(done) {
+	return runTests(['Chrome', 'Firefox', 'IE'], done);
 });
 
 gulp.task('test:e2e', function() {
