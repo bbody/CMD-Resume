@@ -166,7 +166,6 @@ gulp.task('compile:html', function() {
 				init_script_location: 'js/examples/example-script.js',
 				cmd_resume_script_location: 'tmp/js/cmd-resume.js',
 				jquery_terminal_stylesheet_location: 'node_modules/jquery.terminal/css/jquery.terminal.css',
-				favicon_directory: '.',
 				sitename: 'Command Line Résumé'
 			}
 		}))
