@@ -10,6 +10,7 @@ var gulp = require('gulp'),
 		jscs = require('gulp-jscs'),
 		Server = require('karma').Server,
 		pug = require('gulp-pug');
+let package = require('./package.json');
 
 var TOOLS = ['karma.conf.js', 'gulpfile.js'];
 var TESTS = ['spec/*-spec.js'];
@@ -167,29 +168,32 @@ gulp.task('compile:html', function() {
 	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
 	return gulp.src('index.pug')
 		.pipe(pug({
-			pretty: true,
 			locals: locals
 		}))
 		.pipe(gulp.dest('./'));
 });
 
-gulp.task('compile:html:example', function() {
+getVersion = libraryName => {
+	let version = package['devDependencies'][libraryName];
+	return version.replace('=', '');
+};
+
+gulp.task('compile:html:example', function() { 
 	// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 	const locals = {
 		production: true,
-		jquery_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js',
-		jquery_mousewheel_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js',
-		jquery_terminal_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.23/js/jquery.terminal.min.js',
+		jquery_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery/${getVersion('jquery')}/jquery.min.js`,
+		jquery_mousewheel_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/${getVersion('jquery-mousewheel')}/jquery.mousewheel.min.js`,
+		jquery_terminal_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/${getVersion('jquery.terminal')}/js/jquery.terminal.min.js`,
 		init_script_location: './js/example-script.js',
 		cmd_resume_script_location: './js/cmd-resume.js',
-		jquery_terminal_stylesheet_location: '//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.23/css/jquery.terminal.min.css',
+		jquery_terminal_stylesheet_location: `//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/${getVersion('jquery.terminal')}/css/jquery.terminal.min.css`,
 		sitename: 'Command Line Résumé',
 		favicon_directory: '.'
 	};
 	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
 	return gulp.src('index.pug')
 		.pipe(pug({
-			pretty: true,
 			locals: locals
 		}))
 		.pipe(gulp.dest('./tmp'));
@@ -199,12 +203,12 @@ gulp.task('compile:html:own-example', function() {
 	// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 	const locals = {
 		production: true,
-		jquery_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js',
-		jquery_mousewheel_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js',
-		jquery_terminal_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.23/js/jquery.terminal.min.js',
+		jquery_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery/${getVersion('jquery')}/jquery.min.js`,
+		jquery_mousewheel_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/${getVersion('jquery-mousewheel')}/jquery.mousewheel.min.js`,
+		jquery_terminal_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/${getVersion('jquery.terminal')}/js/jquery.terminal.min.js`,
 		init_script_location: './js/own-script.js',
 		cmd_resume_script_location: '../js/cmd-resume.js',
-		jquery_terminal_stylesheet_location: '//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.23/css/jquery.terminal.min.css',
+		jquery_terminal_stylesheet_location: `//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/${getVersion('jquery.terminal')}/css/jquery.terminal.min.css`,
 		sitename: 'Command Line Résumé',
 		favicon_directory: '..'
 	};
