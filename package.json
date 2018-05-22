@@ -31,9 +31,7 @@
   },
   "download": "https://github.com/bbody/CMD-Resume/releases",
   "dependencies": {
-    "del": "^3.0.0",
-    "jquery": ">=1.5",
-    "jquery.terminal": "=1.15.0"
+    "del": "^3.0.0"
   },
   "devDependencies": {
     "bluebird": "^3.5.1",
@@ -54,6 +52,9 @@
     "gulp-webserver": "^0.9.1",
     "jasmine": "^3.1.0",
     "jasmine-core": "^3.1.0",
+    "jquery": "=3.2.1",
+    "jquery-mousewheel": "=3.1.13",
+    "jquery.terminal": "=1.15.0",
     "jshint": "^2.9.4",
     "jshint-stylish": "^2.2.1",
     "karma": "^2.0.2",
