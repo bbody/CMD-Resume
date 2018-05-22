@@ -163,7 +163,7 @@ gulp.task('compile:html', function() {
 		cmd_resume_script_location: 'tmp/js/cmd-resume.js',
 		jquery_terminal_stylesheet_location: 'node_modules/jquery.terminal/css/jquery.terminal.css',
 		sitename: 'Command Line Résumé',
-		favicon_directory: '.'
+		favicon_directory: './favicons'
 	};
 	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
 	return gulp.src('index.pug')
