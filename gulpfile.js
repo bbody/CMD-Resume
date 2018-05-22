@@ -58,8 +58,7 @@ gulp.task('develop', ['watch', 'build', 'serve']);
 gulp.task('test', ['watch', 'build', 'test:karma:build', 'coverage']);
 
 // Build the project
-gulp.task('build', ['compile:html', 'source-check:development',
-	'source-check:tests', 'source-check:tools', 'test:karma:build',
+gulp.task('build', ['compile:html', 'test:karma:build',
 	'compile:development', 'copy:json', 'copy:icon']);
 
 gulp.task('release', ['compile:release:minified', 'compile:release']);
@@ -75,8 +74,7 @@ gulp.task('serve', function() {
 	gulp.src('./tmp/')
 		.pipe(webserver({
 			livereload: true,
-			open: true,
-			fallback: 'index.html'
+			open: true
 		}));
 });
 
@@ -158,12 +156,13 @@ gulp.task('compile:html', function() {
 	const locals = {
 		production: false,
 		jquery_script_location: 'node_modules/jquery/dist/jquery.js',
-		jquery_mousewheel_script_location: 'node_modules/jquery.terminal/js/jquery.mousewheel.js',
+		jquery_mousewheel_script_location: 'node_modules/jquery.terminal/js/jquery.mousewheel-min.js',
 		jquery_terminal_script_location: 'node_modules/jquery.terminal/js/jquery.terminal.js',
 		init_script_location: 'js/examples/example-script.js',
 		cmd_resume_script_location: 'tmp/js/cmd-resume.js',
 		jquery_terminal_stylesheet_location: 'node_modules/jquery.terminal/css/jquery.terminal.css',
-		sitename: 'Command Line Résumé'
+		sitename: 'Command Line Résumé',
+		favicon_directory: '.'
 	};
 	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
 	return gulp.src('index.pug')
@@ -183,7 +182,9 @@ gulp.task('compile:html:example', function() {
 		jquery_terminal_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.23/js/jquery.terminal.min.js',
 		init_script_location: './js/example-script.js',
 		cmd_resume_script_location: './js/cmd-resume.js',
-		jquery_terminal_stylesheet_location: '//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.23/css/jquery.terminal.min.css'
+		jquery_terminal_stylesheet_location: '//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.23/css/jquery.terminal.min.css',
+		sitename: 'Command Line Résumé',
+		favicon_directory: '.'
 	};
 	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
 	return gulp.src('index.pug')
@@ -203,7 +204,9 @@ gulp.task('compile:html:own-example', function() {
 		jquery_terminal_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.23/js/jquery.terminal.min.js',
 		init_script_location: './js/own-script.js',
 		cmd_resume_script_location: '../js/cmd-resume.js',
-		jquery_terminal_stylesheet_location: '//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.23/css/jquery.terminal.min.css'
+		jquery_terminal_stylesheet_location: '//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.23/css/jquery.terminal.min.css',
+		sitename: 'Command Line Résumé',
+		favicon_directory: '..'
 	};
 	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
 	return gulp.src('index.pug')
