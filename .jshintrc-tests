@@ -19,6 +19,7 @@
 	"trailing": true,
 	"unused": true,
 	"jasmine": true,
+	"esversion": 6,
 	"globals": {
 		"StyleEnum": true,
 		"isUndefinedOrNull": true,
@@ -36,6 +37,7 @@
 		"filterGithubFork": true,
 		"getGithub": true,
 		"formatGithub": true,
-		"arrayHandlerFunction": true
+		"arrayHandlerFunction": true,
+		"defaultStyles": true
 	}
 }

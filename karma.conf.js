@@ -27,9 +27,9 @@ module.exports = function(config) {
 				'--disable-extensions','--remote-debugging-port=9223']
 			},
 			FirefoxHeadless: {
-		        base: 'Firefox',
-		        flags: [ '-headless' ],
-		    }
+				base: 'Firefox',
+				flags: ['-headless'],
+			}
 		},
 		singleRun: false,
 		concurrency: Infinity,

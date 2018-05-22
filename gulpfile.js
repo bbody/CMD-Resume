@@ -10,6 +10,7 @@ var gulp = require('gulp'),
 		jscs = require('gulp-jscs'),
 		Server = require('karma').Server,
 		pug = require('gulp-pug');
+let package = require('./package.json');
 
 var TOOLS = ['karma.conf.js', 'gulpfile.js'];
 var TESTS = ['spec/*-spec.js'];
@@ -58,8 +59,7 @@ gulp.task('develop', ['watch', 'build', 'serve']);
 gulp.task('test', ['watch', 'build', 'test:karma:build', 'coverage']);
 
 // Build the project
-gulp.task('build', ['compile:html', 'source-check:development',
-	'source-check:tests', 'source-check:tools', 'test:karma:build',
+gulp.task('build', ['compile:html', 'test:karma:build',
 	'compile:development', 'copy:json', 'copy:icon']);
 
 gulp.task('release', ['compile:release:minified', 'compile:release']);
@@ -75,8 +75,7 @@ gulp.task('serve', function() {
 	gulp.src('./tmp/')
 		.pipe(webserver({
 			livereload: true,
-			open: true,
-			fallback: 'index.html'
+			open: true
 		}));
 });
 
@@ -154,65 +153,73 @@ gulp.task('copy:icon', function() {
 
 // Compile HTML
 gulp.task('compile:html', function() {
-	// jscs:disable maximumLineLength
+	// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+	const locals = {
+		production: false,
+		jquery_script_location: 'node_modules/jquery/dist/jquery.js',
+		jquery_mousewheel_script_location: 'node_modules/jquery.terminal/js/jquery.mousewheel-min.js',
+		jquery_terminal_script_location: 'node_modules/jquery.terminal/js/jquery.terminal.js',
+		init_script_location: 'js/examples/example-script.js',
+		cmd_resume_script_location: 'tmp/js/cmd-resume.js',
+		jquery_terminal_stylesheet_location: 'node_modules/jquery.terminal/css/jquery.terminal.css',
+		sitename: 'Command Line Résumé',
+		favicon_directory: './favicons'
+	};
+	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
 	return gulp.src('index.pug')
 		.pipe(pug({
-			pretty: true,
-			locals: {
-				production: false,
-				jquery_script_location: 'node_modules/jquery/dist/jquery.js',
-				jquery_mousewheel_script_location: 'node_modules/jquery.terminal/js/jquery.mousewheel.js',
-				jquery_terminal_script_location: 'node_modules/jquery.terminal/js/jquery.terminal.js',
-				init_script_location: 'js/examples/example-script.js',
-				cmd_resume_script_location: 'tmp/js/cmd-resume.js',
-				jquery_terminal_stylesheet_location: 'node_modules/jquery.terminal/css/jquery.terminal.css',
-				sitename: 'Command Line Résumé'
-			}
+			locals: locals
 		}))
 		.pipe(gulp.dest('./'));
-	// jscs:enable maximumLineLength
 });
 
-gulp.task('compile:html:example', function() {
-	// jscs:disable maximumLineLength
+getVersion = libraryName => {
+	let version = package['devDependencies'][libraryName];
+	return version.replace('=', '');
+};
+
+gulp.task('compile:html:example', function() { 
+	// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+	const locals = {
+		production: true,
+		jquery_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery/${getVersion('jquery')}/jquery.min.js`,
+		jquery_mousewheel_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/${getVersion('jquery-mousewheel')}/jquery.mousewheel.min.js`,
+		jquery_terminal_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/${getVersion('jquery.terminal')}/js/jquery.terminal.min.js`,
+		init_script_location: './js/example-script.js',
+		cmd_resume_script_location: './js/cmd-resume.js',
+		jquery_terminal_stylesheet_location: `//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/${getVersion('jquery.terminal')}/css/jquery.terminal.min.css`,
+		sitename: 'Command Line Résumé',
+		favicon_directory: '.'
+	};
+	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
 	return gulp.src('index.pug')
 		.pipe(pug({
-			pretty: true,
-			locals: {
-				production: true,
-				jquery_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js',
-				jquery_mousewheel_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js',
-				jquery_terminal_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.23/js/jquery.terminal.min.js',
-				init_script_location: './js/example-script.js',
-				cmd_resume_script_location: './js/cmd-resume.js',
-				jquery_terminal_stylesheet_location: '//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.23/css/jquery.terminal.min.css',
-				favicon_directory: '.'
-			}
+			locals: locals
 		}))
 		.pipe(gulp.dest('./tmp'));
-	// jscs:enable maximumLineLength
 });
 
 gulp.task('compile:html:own-example', function() {
-	// jscs:disable maximumLineLength
+	// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+	const locals = {
+		production: true,
+		jquery_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery/${getVersion('jquery')}/jquery.min.js`,
+		jquery_mousewheel_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/${getVersion('jquery-mousewheel')}/jquery.mousewheel.min.js`,
+		jquery_terminal_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/${getVersion('jquery.terminal')}/js/jquery.terminal.min.js`,
+		init_script_location: './js/own-script.js',
+		cmd_resume_script_location: '../js/cmd-resume.js',
+		jquery_terminal_stylesheet_location: `//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/${getVersion('jquery.terminal')}/css/jquery.terminal.min.css`,
+		sitename: 'Command Line Résumé',
+		favicon_directory: '..'
+	};
+	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
 	return gulp.src('index.pug')
 		.pipe(pug({
 			pretty: true,
-			locals: {
-				production: true,
-				jquery_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js',
-				jquery_mousewheel_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js',
-				jquery_terminal_script_location: '//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.23/js/jquery.terminal.min.js',
-				init_script_location: './js/own-script.js',
-				cmd_resume_script_location: '../js/cmd-resume.js',
-				jquery_terminal_stylesheet_location: '//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/0.11.23/css/jquery.terminal.min.css',
-				favicon_directory: '..'
-			}
+			locals: locals
 		}))
 		.pipe(gulp.dest('./tmp/me'));
-	// jscs:enable maximumLineLength
 });
-
 
 // Compile JavaScript
 gulp.task('compile:release:minified', function() {
@@ -237,7 +244,8 @@ let runTests = (browsers, done) => {
 
 // Testing
 gulp.task('test:karma:build', function(done) {
-	return runTests(['PhantomJS', 'CustomChromeHeadless', 'FirefoxHeadless'], done);
+	return runTests(['PhantomJS', 'CustomChromeHeadless', 'FirefoxHeadless'],
+		done);
 });
 
 gulp.task('test:karma:linux', function(done) {
