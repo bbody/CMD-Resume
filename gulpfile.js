@@ -234,30 +234,30 @@ gulp.task('compile:development', function() {
 	return compiledCode('./tmp/js', false, false);
 });
 
-let runTests = (browsers, done) => {
+let runTests = (browsers, singleRun, done) => {
 	new Server({
 		configFile: `${__dirname}/karma.conf.js`,
-		singleRun: false,
+		singleRun: singleRun,
 		browsers: browsers
 	}, done).start();
 };
 
 // Testing
 gulp.task('test:karma:build', function(done) {
-	return runTests(['PhantomJS', 'CustomChromeHeadless', 'FirefoxHeadless'],
-		done);
+	return runTests(['CustomChromeHeadless', 'FirefoxHeadless'],
+		true, done);
 });
 
 gulp.task('test:karma:linux', function(done) {
-	return runTests(['Chrome', 'Firefox'], done);
+	return runTests(['Chrome', 'Firefox'], false, done);
 });
 
 gulp.task('test:karma:macos', function(done) {
-	return runTests(['Chrome', 'Firefox', 'Safari'], done);
+	return runTests(['Chrome', 'Firefox', 'Safari'], false, done);
 });
 
 gulp.task('test:karma:windows', function(done) {
-	return runTests(['Chrome', 'Firefox', 'IE'], done);
+	return runTests(['Chrome', 'Firefox', 'IE'], false, done);
 });
 
 gulp.task('test:e2e', function() {
