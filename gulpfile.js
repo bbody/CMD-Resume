@@ -59,7 +59,7 @@ gulp.task('develop', ['watch', 'build', 'serve']);
 gulp.task('test', ['watch', 'build', 'test:karma:build', 'coverage']);
 
 // Build the project
-gulp.task('build', ['compile:html',
+gulp.task('build', ['compile:html', 'test:karma:build',
 	'compile:development', 'copy:json', 'copy:icon']);
 
 gulp.task('release', ['compile:release:minified', 'compile:release']);
@@ -103,7 +103,7 @@ gulp.task('jshint:tools', function() {
 
 gulp.task('jshint:tests', function() {
 	return gulp.src(TESTS)
-		.pipe(jshint('./.jshintrc-tests'))
+		.pipe(jshint('./spec/.jshintrc'))
 		.pipe(jshint.reporter('jshint-stylish'))
 		.pipe(jshint.reporter('fail'));
 });
@@ -124,9 +124,9 @@ gulp.task('jscs:tools', function() {
 
 gulp.task('jscs:tests', function() {
 	return gulp.src(TESTS)
-		.pipe(jscs({configPath: './spec/.jscsrc'}))
+		.pipe(jscs({configPath: './spec/.jscsrc', fix: true}))
 		.pipe(jscs.reporter())
-		.pipe(jscs.reporter());
+		.pipe(jscs.reporter('failImmediately'));
 });
 
 gulp.task('copy:example-script', function() {

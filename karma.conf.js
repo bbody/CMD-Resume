@@ -11,12 +11,12 @@ module.exports = function(config) {
 			'js/cmd-resume.js',
 			// 'spec/helping-functions-spec.js',
 			'spec/cmd-resume-spec.js',
-			'fixtures/*.json'
+			'fixtures/**/*.json'
 		],
 		exclude: [],
 		preprocessors: {
 			'js/*.js': ['coverage'],
-			'fixtures/*.json': ['json_fixtures']
+			'fixtures/**/*.json': ['json_fixtures']
 
 		},
 		reporters: ['progress', 'coverage'],
@@ -40,7 +40,8 @@ module.exports = function(config) {
 		coverageReporter: {
 			reporters: [
 				{type: 'lcovonly', subdir: '.'},
-				{type: 'json', subdir: '.'}
+				{type: 'json', subdir: '.'},
+				{type: 'html', subdir: '.'}
 			]
 		},
 		jsonFixturesPreprocessor: {
