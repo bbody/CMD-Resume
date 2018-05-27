@@ -1,15 +1,8 @@
-$.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options) {
+$.fn.CMDResume = function(primaryEndpoint, options) {
 	// Get element
 	var element = this;
 
 	options = options || {};
-
-	// If there are no options, use second variable as options
-	if (!options) {
-		if ((typeof secondaryEndpoint) !== "string") {
-			options = secondaryEndpoint;
-		}
-	}
 
 	defaultStyles = initStyles(defaultStyles, options);
 
@@ -458,18 +451,20 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options) {
 	self.initVariables = function() {
 		self.data.commands = {};
 
-		self.data.basics.profiles.forEach(function(value) {
-			if (!self.data.basics.githubUsername &&
-				value.network.toLowerCase() === "github") {
-				if (value.username) {
-					self.data.basics.githubUsername = value.username;
-				} else if (value.url) {
-					self.data.basics.githubUsername = value.url;
+		if (self.data.basics.profiles) {
+			self.data.basics.profiles.forEach(function(value) {
+				if (!self.data.basics.githubUsername &&
+					value.network.toLowerCase() === "github") {
+					if (value.username) {
+						self.data.basics.githubUsername = value.username;
+					} else if (value.url) {
+						self.data.basics.githubUsername = value.url;
+					}
+				} else if (value.network.toLowerCase() === "resume") {
+					self.data.basics.pdfLink = value.url;
 				}
-			} else if (value.network.toLowerCase() === "resume") {
-				self.data.basics.pdfLink = value.url;
-			}
-		});
+			});
+		}
 
 		if (self.data.basics.githubUsername) {
 			getGithub(getGithubUri(self.data.basics.githubUsername),
@@ -515,44 +510,44 @@ $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options) {
 
 	$.getJSON(primaryEndpoint, function(response) {
 		self.data = response;
-
-		if (!secondaryEndpoint) {
-			self.init(options);
+		if (!self.data.basics){
+			self.data.basics = {};
 		}
 
-		$.getJSON(secondaryEndpoint, function(response) {
-			self.data.pgpkey = response.pgpkey;
+		if (options.extraDetails) {
+			$.getJSON(options.extraDetails, function(response) {
+				self.data.pgpkey = response.pgpkey;
 
-			if (self.data.pgpkey) {
-				self.commands.pgpkey = {
-					title: "PGP Key",
-					description: "print PGP key",
-					type: self.commandProcessor.calculated,
-					handler: function() {
-						var results = CONSTANTS.EMPTY;
+				if (self.data.pgpkey) {
+					self.commands.pgpkey = {
+						title: "PGP Key",
+						description: "print PGP key",
+						type: self.commandProcessor.calculated,
+						handler: function() {
+							var results = CONSTANTS.EMPTY;
 
-						for (var i = 0; i < self.data.pgpkey.length; i++) {
-							results += self.data.pgpkey[i];
-							if (i !== self.data.pgpkey.length - 1) {
-								results += CONSTANTS.NEW_LINE;
+							for (var i = 0; i < self.data.pgpkey.length; i++) {
+								results += self.data.pgpkey[i];
+								if (i !== self.data.pgpkey.length - 1) {
+									results += CONSTANTS.NEW_LINE;
+								}
 							}
+							return results.setPGP();
 						}
-						return results.setPGP();
-					}
-				};
-			}
+					};
+				}
 
-			if (response.github) {
-				self.data.basics.githubUsername = response.github;
-				self.data.githubCache = CONSTANTS.EMPTY;
-			}
+				if (response.github) {
+					self.data.basics.githubUsername = response.github;
+					self.data.githubCache = CONSTANTS.EMPTY;
+				}
 
-			if (response.splash) {
-				self.data.splash = response.splash;
-			}
-
-			self.init(options);
-		});
+				if (response.splash) {
+					self.data.splash = response.splash;
+				}
+			});
+		}
+		self.init(options);
 	});
 
 	this.CMDResume = self;
