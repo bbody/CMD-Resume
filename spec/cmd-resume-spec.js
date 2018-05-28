@@ -68,35 +68,126 @@ describe("CMDResume Plugin", function() {
 			});
 		});
 
-		// describe("Custom splash", function() {
-		// 	beforeEach(function() {
-		// 		$("#cmd-resume").CMDResume("noName",
-		// 			{extraDetails: "customSplash.json"});
-		// 	});
+		describe("Custom splash", function() {
+			beforeEach(function() {
+				jasmine.Ajax.stubRequest('emptyStrings.json').andReturn({
+					status: 200,
+				    responseText: JSON.stringify(loadJSON("emptyStrings"))
+				});
 
-		// 	it("Includes the basic splash", function() {
-		// 		jasmine.Ajax.stubRequest("noName.json").andReturn({
-		// 			status: 200,
-		// 		    responseText: {basics: {name: "Someoneone"}}
-		// 		});
+				jasmine.Ajax.stubRequest('customSplash.json').andReturn({
+					status: 200,
+				    responseText: JSON.stringify(loadJSON("extraDetails/customSplash"))
+				});
 
-		// 		jasmine.Ajax.stubRequest("customSplash.json").andReturn({
-		// 			status: 200,
-		// 		    responseText: loadJSON("customSplash")
-		// 		});
+				$("#cmd-resume").CMDResume("emptyStrings.json", {extraDetails: "customSplash.json"});
+			});
 
-		// 		jasmine.Ajax.stubRequest("noName").andReturn({
-		// 			status: 200,
-		// 			"responseText": JSON.stringify(loadJSON("noName"))
-		// 		});
+			it("Includes the basic splash", function() {
+				var splash = getSimpleSplash();
+				expect(splash).toEqual("Custom splash");
+			});
+		});
 
-		// 		var splash = getSimpleSplash();
-		// 		expect(splash).toEqual("Custom splash");
-		// 	});
-		// });
+		describe("Splash Command", ()=> {
+			describe("Featuring name", function() {
+				beforeEach(function() {
+					$("#cmd-resume").CMDResume("justName.json", {});
+				});
+
+				it("Includes the name in splash", function() {
+					var mostRecentRequest = jasmine.Ajax.requests.mostRecent();
+
+					mostRecentRequest.respondWith({
+						status: 200,
+						responseText: JSON.stringify(loadJSON("justName"))
+					});
+
+					enterCommand("splash");
+
+					var lines = $(".terminal-output > div");
+					var output = $(lines[lines.length - 1]).find("div span");
+
+					expect($(output[0]).html().decodeSpace()).toEqual("Welcome to ");
+					expect($(output[1]).html().decodeSpace()).toEqual("Richard Hendriks");
+					expect($(output[2]).html().decodeSpace()).toEqual("'s résumé.");
+
+				});
+			});
+
+			describe("Without name", function() {
+				beforeEach(function() {
+					$("#cmd-resume").CMDResume("noName.json", {});
+				});
+
+				it("Includes the basic splash", function() {
+					var mostRecentRequest = jasmine.Ajax.requests.mostRecent();
+
+					mostRecentRequest.respondWith({
+						status: 200,
+						responseText: JSON.stringify(loadJSON("emptyStrings"))
+					});
+
+					enterCommand("splash");
+
+					var lines = $(".terminal-output > div");
+					var output = $(lines[lines.length - 1]).find("div span");
+
+					expect($(output[0]).html().decodeSpace()).toEqual("Welcome to my résumé.");
+				});
+			});
+
+			describe("Empty name", function() {
+				beforeEach(function() {
+					$("#cmd-resume").CMDResume("noName.json", {});
+				});
+
+				it("Includes the basic splash", function() {
+					var mostRecentRequest = jasmine.Ajax.requests.mostRecent();
+
+					mostRecentRequest.respondWith({
+						status: 200,
+						responseText: JSON.stringify(loadJSON("empty"))
+					});
+
+					enterCommand("splash");
+
+					var lines = $(".terminal-output > div");
+					var output = $(lines[lines.length - 1]).find("div span");
+
+					expect($(output[0]).html().decodeSpace()).toEqual("Welcome to my résumé.");
+				});
+			});
+
+			describe("Custom splash", function() {
+				beforeEach(function() {
+					jasmine.Ajax.stubRequest('emptyStrings.json').andReturn({
+						status: 200,
+					    responseText: JSON.stringify(loadJSON("emptyStrings"))
+					});
+
+					jasmine.Ajax.stubRequest('customSplash.json').andReturn({
+						status: 200,
+					    responseText: JSON.stringify(loadJSON("extraDetails/customSplash"))
+					});
+
+					$("#cmd-resume").CMDResume("emptyStrings.json", {extraDetails: "customSplash.json"});
+				});
+
+				it("Includes the basic splash", function() {
+
+					enterCommand("splash");
+
+					var lines = $(".terminal-output > div");
+					var output = $(lines[lines.length - 1]).find("div span");
+
+					expect($(output[0]).html().decodeSpace()).toEqual("Custom splash");
+				});
+			});
+		});
 	});
 
-	describe("Name", function() {
+	describe("Name Command", function() {
 		describe("Featuring name", function() {
 			beforeEach(function() {
 				$("#cmd-resume").CMDResume("justName.json", {});
