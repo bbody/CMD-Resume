@@ -270,19 +270,17 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			handler: function() {
 				var results = CONSTANTS.EMPTY;
 
-				if (self.data.commands.splash) {
-					if (self.data.commands.splash) {
-						results += self.data.commands.splash;
-						results += CONSTANTS.NEW_LINE;
-					}
-				}
-
-				if (self.data.basics.name) {
-					results += "Welcome to " +
-						self.data.basics.name.setName() +
-						"'s résumé.";
+				// Return custom splash if it exists
+				if (self.data.customSplash){
+					results += self.data.customSplash;
 				} else {
-					results += "Welcome to my résumé.";
+					if (self.data.basics.name) {
+						results += "Welcome to " +
+							self.data.basics.name.setName() +
+							"'s résumé.";
+					} else {
+						results += "Welcome to my résumé.";
+					}
 				}
 
 				results += CONSTANTS.NEW_LINE;
@@ -510,44 +508,50 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 
 	$.getJSON(primaryEndpoint, function(response) {
 		self.data = response;
-		if (!self.data.basics){
-			self.data.basics = {};
+
+		if (!self.data || !self.data.basics){
+			self.data = {basics: {}};
 		}
 
 		if (options.extraDetails) {
-			$.getJSON(options.extraDetails, function(response) {
-				self.data.pgpkey = response.pgpkey;
+			$.getJSON(options.extraDetails, function(extraResponse) {
+				if (extraResponse) {
+					self.data.pgpkey = extraResponse.pgpkey;
 
-				if (self.data.pgpkey) {
-					self.commands.pgpkey = {
-						title: "PGP Key",
-						description: "print PGP key",
-						type: self.commandProcessor.calculated,
-						handler: function() {
-							var results = CONSTANTS.EMPTY;
+					if (self.data.pgpkey) {
+						self.commands.pgpkey = {
+							title: "PGP Key",
+							description: "print PGP key",
+							type: self.commandProcessor.calculated,
+							handler: function() {
+								var results = CONSTANTS.EMPTY;
 
-							for (var i = 0; i < self.data.pgpkey.length; i++) {
-								results += self.data.pgpkey[i];
-								if (i !== self.data.pgpkey.length - 1) {
-									results += CONSTANTS.NEW_LINE;
+								for (var i = 0; i < self.data.pgpkey.length; i++) {
+									results += self.data.pgpkey[i];
+									if (i !== self.data.pgpkey.length - 1) {
+										results += CONSTANTS.NEW_LINE;
+									}
 								}
+								return results.setPGP();
 							}
-							return results.setPGP();
-						}
-					};
+						};
+					}
+
+					if (extraResponse.github) {
+						self.data.basics.githubUsername = extraResponse.github;
+						self.data.githubCache = CONSTANTS.EMPTY;
+					}
+
+					if (extraResponse.splash) {
+						self.data.customSplash = extraResponse.splash;
+					}
 				}
 
-				if (response.github) {
-					self.data.basics.githubUsername = response.github;
-					self.data.githubCache = CONSTANTS.EMPTY;
-				}
-
-				if (response.splash) {
-					self.data.splash = response.splash;
-				}
+				self.init(options);
 			});
+		} else {
+			self.init(options);
 		}
-		self.init(options);
 	});
 
 	this.CMDResume = self;
