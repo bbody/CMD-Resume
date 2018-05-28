@@ -741,11 +741,7 @@ it("Formatting empty item", function() {
 
 describe("getGithub", function() {
 	beforeEach(function() {
-		console.log(loadJSON);
 		this.response = loadJSON('github/withForks');
-
-		console.log(this.response);
-
 		jasmine.Ajax.install();
 	});
 
