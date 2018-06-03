@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.org/bbody/CMD-Resume.svg?branch=master)](https://travis-ci.org/bbody/CMD-Resume)
 [![Maintainability](https://api.codeclimate.com/v1/badges/245ed2739858462f5337/maintainability)](https://codeclimate.com/github/bbody/CMD-Resume/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/245ed2739858462f5337/test_coverage)](https://codeclimate.com/github/bbody/CMD-Resume/test_coverage)
+[![dependencies Status](https://david-dm.org/bbody/cmd-resume/status.svg)](https://david-dm.org/bbody/cmd-resume)
+[![npm version](https://badge.fury.io/js/cmd-resume.svg)](https://badge.fury.io/js/cmd-resume)
 
 # CMD Resume
 ## Description
