@@ -401,195 +401,263 @@ describe("Calculated command handler", function() {
 		expect(arrayHandlerFunction(command, true)).toBe("Organisation 1\tTitle 1\tDate 1");
 	});
 
-	it("Returns nothing when there are no handlers", function() {
-		var command = {
-			data: this.data
-		};
+	describe("Missing handlers", function() {
+		it("Returns nothing when there are no handlers", function() {
+			var command = {
+				data: this.data
+			};
 
-		expect(arrayHandlerFunction(command)).toBe("");
-	});
+			expect(arrayHandlerFunction(command)).toBe("");
+		});
 
-	it("Returns nothing when there are no handlers", function() {
-		var command = {
-			data: this.data,
-			handlers: {}
-		};
+		it("Returns nothing when there are no handlers", function() {
+			var command = {
+				data: this.data,
+				handlers: {}
+			};
 
-		expect(arrayHandlerFunction(command)).toBe("");
-	});
-
-	it("Returns without any organisation", function() {
-		var command = {
-			data: this.data,
-			handlers: {
-				title: function(value) {
-					return value.title;
-				},
-				date: function(value) {
-					return value.date;
+			expect(arrayHandlerFunction(command)).toBe("");
+		});
+		it("Returns without any organisation", function() {
+			var command = {
+				data: this.data,
+				handlers: {
+					title: function(value) {
+						return value.title;
+					},
+					date: function(value) {
+						return value.date;
+					}
 				}
-			}
-		};
+			};
 
-		expect(arrayHandlerFunction(command)).toBe("\nTitle 1\tDate 1\nTitle 2\tDate 2");
+			expect(arrayHandlerFunction(command)).toBe("\nTitle 1\tDate 1\nTitle 2\tDate 2");
+		});
+
+		it("Returns without any organisation with top", function() {
+			var command = {
+				data: this.data,
+				handlers: {
+					title: function(value) {
+						return value.title;
+					},
+					date: function(value) {
+						return value.date;
+					}
+				}
+			};
+
+			expect(arrayHandlerFunction(command, true)).toBe("Title 1\tDate 1");
+		});
+
+		it("Returns without any title", function() {
+			var command = {
+				data: this.data,
+				handlers: {
+					organisation: function(value) {
+						return value.organisation;
+					},
+					date: function(value) {
+						return value.date;
+					}
+				}
+			};
+
+			expect(arrayHandlerFunction(command)).toBe("\nOrganisation 1\tDate 1\nOrganisation 2\tDate 2");
+		});
+
+		it("Returns without any title with top", function() {
+			var command = {
+				data: this.data,
+				handlers: {
+					organisation: function(value) {
+						return value.organisation;
+					},
+					date: function(value) {
+						return value.date;
+					}
+				}
+			};
+
+			expect(arrayHandlerFunction(command, true)).toBe("Organisation 1\tDate 1");
+		});
+
+		it("Returns without any date", function() {
+			var command = {
+				data: this.data,
+				handlers: {
+					title: function(value) {
+						return value.title;
+					},
+					organisation: function(value) {
+						return value.organisation;
+					}
+				}
+			};
+
+			expect(arrayHandlerFunction(command), "\nOrganisation 1\tTitle 1\nOrganisation 2\tTitle 2");
+		});
+
+		it("Returns without any date with top", function() {
+			var command = {
+				data: this.data,
+				handlers: {
+					organisation: function(value) {
+						return value.organisation;
+					},
+					title: function(value) {
+						return value.title;
+					}
+				}
+			};
+
+			expect(arrayHandlerFunction(command, true)).toBe("Organisation 1\tTitle 1");
+		});
+
+		it("Returns with only date", function() {
+			var command = {
+				data: this.data,
+				handlers: {
+					date: function(value) {
+						return value.date;
+					}
+				}
+			};
+
+			expect(arrayHandlerFunction(command)).toBe("\nDate 1\nDate 2");
+		});
+
+		it("Returns with only date with top", function() {
+			var command = {
+				data: this.data,
+				handlers: {
+					date: function(value) {
+						return value.date;
+					}
+				}
+			};
+
+			expect(arrayHandlerFunction(command, true)).toBe("Date 1");
+		});
+
+		it("Returns with only organisation", function() {
+			var command = {
+				data: this.data,
+				handlers: {
+					organisation: function(value) {
+						return value.organisation;
+					}
+				}
+			};
+
+			expect(arrayHandlerFunction(command)).toBe("\nOrganisation 1\nOrganisation 2");
+		});
+
+		it("Returns with only organisation with top", function() {
+			var command = {
+				data: this.data,
+				handlers: {
+					organisation: function(value) {
+						return value.organisation;
+					}
+				}
+			};
+
+			expect(arrayHandlerFunction(command, true)).toBe("Organisation 1");
+		});
+
+		it("Returns with only title", function() {
+			var command = {
+				data: this.data,
+				handlers: {
+					title: function(value) {
+						return value.title;
+					}
+				}
+			};
+
+			expect(arrayHandlerFunction(command)).toBe("\nTitle 1\nTitle 2");
+		});
+
+		it("Returns with only title with top", function() {
+			var command = {
+				data: this.data,
+				handlers: {
+					title: function(value) {
+						return value.title;
+					}
+				}
+			};
+
+			expect(arrayHandlerFunction(command, true)).toBe("Title 1");
+		});
 	});
 
-	it("Returns without any organisation with top", function() {
-		var command = {
-			data: this.data,
-			handlers: {
-				title: function(value) {
-					return value.title;
-				},
-				date: function(value) {
-					return value.date;
+	describe("Missing information", function() {
+		it("Returns nothing if has no values", function() {
+			var command = {
+				data: this.data,
+				handlers: {
+					organisation: function(value) {},
+					title: function(value) { return ""; },
+					date: function(value) { return null; }
 				}
-			}
-		};
+			};
 
-		expect(arrayHandlerFunction(command, true)).toBe("Title 1\tDate 1");
-	});
+			expect(arrayHandlerFunction(command, false)).toBe("");
+		});
 
-	it("Returns without any title", function() {
-		var command = {
-			data: this.data,
-			handlers: {
-				organisation: function(value) {
-					return value.organisation;
-				},
-				date: function(value) {
-					return value.date;
+		it("Returns nothing if has no values with top", function() {
+			var command = {
+				data: this.data,
+				handlers: {
+					organisation: function(value) {},
+					title: function(value) { return ""; },
+					date: function(value) { return null; }
 				}
-			}
-		};
+			};
 
-		expect(arrayHandlerFunction(command)).toBe("\nOrganisation 1\tDate 1\nOrganisation 2\tDate 2");
-	});
+			expect(arrayHandlerFunction(command, true)).toBe("");
+		});
 
-	it("Returns without any title with top", function() {
-		var command = {
-			data: this.data,
-			handlers: {
-				organisation: function(value) {
-					return value.organisation;
-				},
-				date: function(value) {
-					return value.date;
+		it("Handles missing organisation", function() {
+			var command = {
+				data: this.data,
+				handlers: {
+					organisation: function(value) { return undefined; },
+					title: function(value) { return value.title; },
+					date: function(value) { return value.date; }
 				}
-			}
-		};
+			};
 
-		expect(arrayHandlerFunction(command, true)).toBe("Organisation 1\tDate 1");
-	});
+			expect(arrayHandlerFunction(command, false)).toBe("\nTitle 1\tDate 1\nTitle 2\tDate 2");
+		});
 
-	it("Returns without any date", function() {
-		var command = {
-			data: this.data,
-			handlers: {
-				title: function(value) {
-					return value.title;
-				},
-				organisation: function(value) {
-					return value.organisation;
+		it("Handles missing title", function() {
+			var command = {
+				data: this.data,
+				handlers: {
+					organisation: function(value) { return value.organisation},
+					title: function(value) { return undefined; },
+					date: function(value) { return value.date; }
 				}
-			}
-		};
+			};
 
-		expect(arrayHandlerFunction(command), "\nOrganisation 1\tTitle 1\nOrganisation 2\tTitle 2");
-	});
+			expect(arrayHandlerFunction(command, false)).toBe("\nOrganisation 1\tDate 1\nOrganisation 2\tDate 2");
+		});
 
-	it("Returns without any date with top", function() {
-		var command = {
-			data: this.data,
-			handlers: {
-				organisation: function(value) {
-					return value.organisation;
-				},
-				title: function(value) {
-					return value.title;
+		it("Handles missing date", function() {
+			var command = {
+				data: this.data,
+				handlers: {
+					organisation: function(value) { return value.organisation},
+					title: function(value) { return value.title; },
+					date: function(value) { return undefined; }
 				}
-			}
-		};
+			};
 
-		expect(arrayHandlerFunction(command, true)).toBe("Organisation 1\tTitle 1");
-	});
-
-	it("Returns with only date", function() {
-		var command = {
-			data: this.data,
-			handlers: {
-				date: function(value) {
-					return value.date;
-				}
-			}
-		};
-
-		expect(arrayHandlerFunction(command)).toBe("\nDate 1\nDate 2");
-	});
-
-	it("Returns with only date with top", function() {
-		var command = {
-			data: this.data,
-			handlers: {
-				date: function(value) {
-					return value.date;
-				}
-			}
-		};
-
-		expect(arrayHandlerFunction(command, true)).toBe("Date 1");
-	});
-
-	it("Returns with only organisation", function() {
-		var command = {
-			data: this.data,
-			handlers: {
-				organisation: function(value) {
-					return value.organisation;
-				}
-			}
-		};
-
-		expect(arrayHandlerFunction(command)).toBe("\nOrganisation 1\nOrganisation 2");
-	});
-
-	it("Returns with only organisation with top", function() {
-		var command = {
-			data: this.data,
-			handlers: {
-				organisation: function(value) {
-					return value.organisation;
-				}
-			}
-		};
-
-		expect(arrayHandlerFunction(command, true)).toBe("Organisation 1");
-	});
-
-	it("Returns with only title", function() {
-		var command = {
-			data: this.data,
-			handlers: {
-				title: function(value) {
-					return value.title;
-				}
-			}
-		};
-
-		expect(arrayHandlerFunction(command)).toBe("\nTitle 1\nTitle 2");
-	});
-
-	it("Returns with only title with top", function() {
-		var command = {
-			data: this.data,
-			handlers: {
-				title: function(value) {
-					return value.title;
-				}
-			}
-		};
-
-		expect(arrayHandlerFunction(command, true)).toBe("Title 1");
+			expect(arrayHandlerFunction(command, false)).toBe("\nOrganisation 1\tTitle 1\nOrganisation 2\tTitle 2");
+		});
 	});
 });
 
@@ -737,6 +805,10 @@ it("Formatting null item", function() {
 it("Formatting empty item", function() {
 	expect(formatGithub({}, true)).toBe("");
 });
+it("Without description", function() {
+	this.response = loadJSON('github/withoutDescription');
+	expect
+})
 });
 
 describe("getGithub", function() {

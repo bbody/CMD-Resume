@@ -12,6 +12,12 @@ var getSimpleSplash = function() {
 	return $(splash[0]).html().decodeSpace();
 };
 
+
+var getClearOutput = function() {
+	var lines = $(".terminal-output > div");
+	return lines.length;
+};
+
 var getSimpleOutput =  function() {
 	var lines = $(".terminal-output > div");
 	var output = $(lines[lines.length - 1]).find("div span");
@@ -22,7 +28,15 @@ var getSimpleOutput =  function() {
 	};
 };
 
-var failedCommandOutput = function() {
+var getSingleOutput =  function() {
+	var lines = $(".terminal-output > div");
+	var output = $(lines[lines.length - 1]).find("div span");
+
+	return $(output[0]).html().decodeSpace();
+};
+
+
+var failedCommandOutput = manCommandOutput = function() {
 	var lines = $(".terminal-output > div");
 	var output = $(lines[lines.length - 1]).find("div span");
 
@@ -30,6 +44,151 @@ var failedCommandOutput = function() {
 		command: $(output[0]).html().decodeSpace(),
 		message: $(output[1]).html().decodeSpace()
 	};
+};
+
+var pdfCommandOutput = function() {
+	var lines = $(".terminal-output > div");
+	var output = $(lines[lines.length - 1]).find("div span");
+
+	return {
+		command: $(output[0]).html().decodeSpace(),
+		url: $(output[1]).html().decodeSpace(),
+		hint: $(output[2]).html().decodeSpace()
+	};
+};
+
+var manFailedCommandOutput = function() {
+	var lines = $(".terminal-output > div");
+	var output = $(lines[lines.length - 1]).find("div span");
+
+	return {
+		man: $(output[0]).html().decodeSpace() + $(output[1]).html().decodeSpace(),
+		command: $(output[2]).html().decodeSpace(),
+		message: $(output[3]).html().decodeSpace()
+	};
+};
+
+var references = interests = skills = pdf = {
+	topCommandOutput: function() {
+		var lines = $(".terminal-output > div");
+		var output = $(lines[lines.length - 1]).find("div span");
+
+		return $(output[0]).html().decodeSpace() + $(output[1]).html().decodeSpace();
+	},
+	fullCommandOutput: function() {
+		var lines = $(".terminal-output > div");
+		var output = $(lines[lines.length - 1]).find("div");
+		var parsedOutput = [];
+		var command = "";
+
+		output.each(function(count, value){
+			if (count === 0){
+				command = $(value).find("span").html().decodeSpace();
+			} else {
+				var parsedValue = "";
+
+				$(value).children('span,a').each(function(index, value){
+					parsedValue += $(value).html().decodeSpace();
+				});
+
+				if (parsedValue){ // Filter out empty value
+					parsedOutput.push(parsedValue);
+				}
+			}
+		});
+
+		return {
+			command: command,
+			values: parsedOutput
+		}
+	}
+};
+
+var socialmedia = {
+	fullCommandOutput: function() {
+		var lines = $(".terminal-output > div");
+		var output = $(lines[lines.length - 1]).find("div");
+		var parsedOutput = [];
+		var command = "";
+
+		output.each(function(count, value){
+			if (count === 0){
+				command = $(value).find("span").html().decodeSpace();
+			} else {
+				var parsedValue = "";
+
+				$(value).children('span,a').each(function(index, value){
+					parsedValue += $(value).html().decodeSpace();
+				});
+
+				if (parsedValue){ // Filter out empty value
+					parsedOutput.push(parsedValue);
+				}
+			}
+		});
+
+		return {
+			command: command,
+			values: parsedOutput
+		}
+	}
+};
+
+var topCommandOutput = function() {
+	var lines = $(".terminal-output > div");
+	var output = $(lines[lines.length - 1]).find("div span");
+
+	return $(output[0]).html().decodeSpace();
+};
+
+var fullCommandOutput = function() {
+	var lines = $(".terminal-output > div");
+	var output = $(lines[lines.length - 1]).find("div span");
+	var parsedOutput = [];
+	var command = "";
+	output.each(function(count, value){
+		if (count === 0){
+			command = $(value).html().decodeSpace();
+		} else {
+			var parsedValue = $(value).html().decodeSpace();
+			if (parsedValue){ // Filter out empty value
+				parsedOutput.push(parsedValue);
+			}
+		}
+	});
+
+	return {
+		command: command,
+		values: parsedOutput
+	};
+};
+
+var helpOutput = function() {
+	var lines = $(".terminal-output > div");
+	var output = $(lines[lines.length - 1]).find("div");
+	var parsedOutput = [];
+	var command = "";
+
+	output.each(function(count, value){
+		if (count === 0){
+			command = $(value).find("span").html().decodeSpace();
+		} else {
+			var parsedValue = "";
+
+			$(value).children('span').each(function(index, value){
+				parsedValue += $(value).html().decodeSpace();
+			});
+
+			if (parsedValue){ // Filter out empty value
+				parsedOutput.push(parsedValue);
+			}
+		}
+	});
+
+	return {
+		command: command,
+		values: parsedOutput
+	}
 };
 
 String.prototype.decodeSpace = function() {
@@ -102,3 +261,10 @@ var enterCommand = function(command) {
 	typeCharacters(command);
 	pressEnter();
 };
+
+var succesResponse = function(filename){
+	return {
+		status: 200,
+		responseText: JSON.stringify(loadJSON(filename))
+	};
+}
