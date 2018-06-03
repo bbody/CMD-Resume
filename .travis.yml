@@ -32,7 +32,7 @@ before_deploy:
 - npm run release
 - npm run gh-pages
 - sh ./scripts/build_commit.sh && npm version patch && PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
-- echo '${PACKAGE_VERSION}'
+- echo $PACKAGE_VERSION
 deploy:
   - provider: releases
     skip_cleanup: true
@@ -61,9 +61,9 @@ deploy:
     tag: next
     on:
       branch: master
-      tags: true
   - provider: script
     script:
+      - git remote rm origin
       - git remote add origin https://${GITHUB_TOKEN}@github.com/bbody/CMD-Resume.git > /dev/null 2>&1
       - sh ./scripts/push.sh
     on:
