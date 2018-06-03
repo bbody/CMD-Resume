@@ -3,23 +3,26 @@ module.exports = function(config) {
 	config.set({
 		basePath: '',
 		// Frameworks: https://npmjs.org/browse/keyword/karma-adapter
-		frameworks: ['jasmine-ajax', 'jasmine', 'jquery-3.1.1'],
+		frameworks: ['jasmine-ajax', 'jasmine', 'jquery-3.1.1', 'fixture'],
 		files: [
 			'node_modules/jquery.terminal/js/jquery.terminal.js',
+			'spec/support/helpers.js',
 			'js/helper-functions.js',
 			'js/cmd-resume.js',
-			'spec/helping-functions-spec.js',
-			// 'spec/cmd-resume-spec.js'
+			'spec/*.spec.js',
+			'fixtures/**/*.json'
 		],
 		exclude: [],
 		preprocessors: {
-			'js/*.js': ['coverage']
+			'js/*.js': ['coverage'],
+			'fixtures/**/*.json': ['json_fixtures']
+
 		},
 		reporters: ['progress', 'coverage'],
 		port: 9876,
 		colors: true,
 		logLevel: config.LOG_INFO,
-		autoWatch: true,
+		autoWatch: false,
 		customLaunchers: {
 			CustomChromeHeadless: {
 				base: 'ChromeHeadless',
@@ -31,13 +34,18 @@ module.exports = function(config) {
 				flags: ['-headless'],
 			}
 		},
-		singleRun: false,
+		singleRun: true,
 		concurrency: Infinity,
 		coverageReporter: {
 			reporters: [
 				{type: 'lcovonly', subdir: '.'},
-				{type: 'json', subdir: '.'}
+				{type: 'json', subdir: '.'},
+				{type: 'html', subdir: '.'}
 			]
+		},
+		jsonFixturesPreprocessor: {
+			stripPrefix: 'fixtures/',
+			variableName: '__json__'
 		}
 	});
 };

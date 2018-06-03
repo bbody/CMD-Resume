@@ -59,7 +59,7 @@ gulp.task('develop', ['watch', 'build', 'serve']);
 gulp.task('test', ['watch', 'build', 'test:karma:build', 'coverage']);
 
 // Build the project
-gulp.task('build', ['compile:html', 'test:karma:build',
+gulp.task('build', ['compile:html',// 'test:karma:build',
 	'compile:development', 'copy:json', 'copy:icon']);
 
 gulp.task('release', ['compile:release:minified', 'compile:release']);
@@ -72,7 +72,7 @@ gulp.task('watch', function() {
 
 // Serve the for development
 gulp.task('serve', function() {
-	gulp.src('./tmp/')
+	gulp.src('./')
 		.pipe(webserver({
 			livereload: true,
 			open: true
@@ -244,7 +244,7 @@ let runTests = (browsers, done) => {
 
 // Testing
 gulp.task('test:karma:build', function(done) {
-	return runTests(['PhantomJS', 'CustomChromeHeadless', 'FirefoxHeadless'],
+	return runTests(['CustomChromeHeadless', 'FirefoxHeadless'],
 		done);
 });
 

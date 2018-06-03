@@ -5,7 +5,7 @@
 	"curly": true,
 	"eqeqeq": true,
 	"forin": true,
-	"freeze": false, // Allow overriding of string library
+	"freeze": false,
 	"immed": true,
 	"latedef": true,
 	"newcap": true,
@@ -14,12 +14,12 @@
 	"nonew": false,
 	"plusplus": false,
 	"quotmark": true,
-	"undef": true,
 	"strict": false,
 	"trailing": true,
-	"unused": true,
+	"unused": false,
 	"jasmine": true,
 	"esversion": 6,
+	"undef": true,
 	"globals": {
 		"StyleEnum": true,
 		"isUndefinedOrNull": true,
@@ -38,6 +38,13 @@
 		"getGithub": true,
 		"formatGithub": true,
 		"arrayHandlerFunction": true,
-		"defaultStyles": true
+		"defaultStyles": true,
+		"console": true,
+		"getSplash": true,
+		"getSimpleSplash": true,
+		"failedCommandOutput": true,
+		"getSimpleOutput": true,
+		"enterCommand": true,
+		"loadJSON": true
 	}
 }

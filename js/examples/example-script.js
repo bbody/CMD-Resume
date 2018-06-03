@@ -14,7 +14,8 @@ $(document).ready(function() {
         },
         name: {
             color: "purple"
-        }
+        },
+        extraDetails: "responses/extra-details.json"
     };
-    $("body").CMDResume("responses/details.json", "responses/extra-details.json", settings);
+    $("body").CMDResume("responses/details.json", settings);
 });

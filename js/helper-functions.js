@@ -161,14 +161,28 @@ String.prototype.setPGP = function() {
 
 // Format date
 var getDate = function(startDate, endDate) {
-	return endDate ? startDate + CONSTANTS.DASH + endDate : startDate ?
-		startDate + " - Present" : CONSTANTS.EMPTY;
+	if (endDate && startDate) {
+		return startDate + CONSTANTS.DASH + endDate;
+	} else if (!endDate && !startDate) {
+		return CONSTANTS.EMPTY;
+	} else if (!endDate) {
+		return startDate + " - Present";
+	} else {
+		return "Until " + endDate;
+	}
 };
 
 // Get degree name
 var getFullDegree = function(studyType, area) {
-	return area ? studyType + " of " + area : studyType ? studyType
-	: CONSTANTS.EMPTY;
+	if (!studyType && !area) {
+		return CONSTANTS.EMPTY;
+	} else if (!studyType) {
+		return area;
+	} else if (!area) {
+		return studyType;
+	} else {
+		return studyType + " of " + area;
+	}
 };
 
 // Build URL based on social media username
@@ -229,36 +243,39 @@ var calculatedHandlerFunction = function(command) {
 var arrayHandlerFunction = function(command, top) {
 	var result = CONSTANTS.EMPTY;
 
-	if (!command.handlers ||
-		(!command.handlers.title && !command.handlers.organisation &&
-			!command.handlers.date)) {
+	if (!command.handlers) {
 		return result;
 	}
 
 	command.data.some(function(value) {
-		if (!top) {
-			result += CONSTANTS.NEW_LINE;
-		}
+		var resultArray = [];
 
 		if (command.handlers.organisation) {
-			if (!command.handlers.title && !command.handlers.date) {
-				result += command.handlers.organisation(value);
-			} else {
-				result += command.handlers.organisation(value) + CONSTANTS.TAB;
+			var organisationValue = command.handlers.organisation(value);
+			if (organisationValue) {
+				resultArray.push(organisationValue);
 			}
 		}
 
 		if (command.handlers.title) {
-			if (!command.handlers.date) {
-				result += command.handlers.title(value);
-			} else {
-				result += command.handlers.title(value) + CONSTANTS.TAB;
+			var titleValue = command.handlers.title(value);
+			if (titleValue) {
+				resultArray.push(titleValue);
 			}
 		}
 
 		if (command.handlers.date) {
-			result += command.handlers.date(value);
+			var dateValue = command.handlers.date(value);
+			if (dateValue) {
+				resultArray.push(dateValue);
+			}
 		}
+
+		if (!top && resultArray.length) {
+			result += CONSTANTS.NEW_LINE;
+		}
+
+		result += resultArray.join(CONSTANTS.TAB);
 
 		// Break after the first command
 		return top;

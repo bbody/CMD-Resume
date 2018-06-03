@@ -1,0 +1,16 @@
+{
+    "interests": [{
+        "name": "Name 1",
+        "keywords": [
+            "Internet 1",
+            "Internet 2"
+        ]
+    },
+	{
+        "name": "Name 2",
+        "keywords": [
+            "Internet 3",
+            "Internet 4"
+        ]
+    }]
+}
