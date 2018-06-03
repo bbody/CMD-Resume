@@ -175,7 +175,7 @@ gulp.task('compile:html', function() {
 
 let getLibraryVersion = libraryName => {
 	let version = package['devDependencies'][libraryName];
-	return version.replace('=', '');
+	return version.replace('=', '').replace('^', '');
 };
 
 gulp.task('compile:html:example', function() { 
