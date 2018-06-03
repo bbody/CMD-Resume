@@ -68,7 +68,6 @@
     "karma-jasmine-ajax": "^0.1.13",
     "karma-jquery": "^0.2.0",
     "karma-json-fixtures-preprocessor": "0.0.6",
-    "karma-phantomjs-launcher": "^1.0.4",
     "karma-requirejs": "^1.1.0",
     "karma-safari-launcher": "^1.0.0",
     "pump": "^3.0.0",
