@@ -32,7 +32,7 @@ before_deploy:
 - sh ./scripts/build_commit.sh
 - npm version patch
 - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
-- sh ./scripts/release_commit.sh
+# - sh ./scripts/release_commit.sh
 deploy:
   - provider: releases
     skip_cleanup: true
