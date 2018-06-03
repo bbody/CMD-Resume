@@ -4,6 +4,5 @@
 	"validateIndentation": "\t",
 	"validateQuoteMarks": "\"",
 	"maximumLineLength": 80,
-	"requireSemicolons": true,
-	"disallowKeywordsInComments": true
+	"requireSemicolons": true
 }
