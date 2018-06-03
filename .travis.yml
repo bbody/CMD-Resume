@@ -31,7 +31,8 @@ addons:
 before_deploy:
 - npm run release
 - npm run gh-pages
-- sh ./scripts/build_commit.sh && npm version patch && PACKAGE_VERSION=$(node -p -e "require('./package.json').version") && sh ./scripts/release_commit.sh
+- sh ./scripts/build_commit.sh && npm version patch && PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
+- echo '${PACKAGE_VERSION}'
 deploy:
   - provider: releases
     skip_cleanup: true
@@ -68,4 +69,3 @@ deploy:
 after_success:
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < coverage/lcov.info
-  
