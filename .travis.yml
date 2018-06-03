@@ -39,7 +39,6 @@ deploy:
       - "./dist/cmd-resume.min.js"
     on:
       branch: master
-      tags: true
   - provider: pages
     skip_cleanup: true
     local_dir: ./tmp
