@@ -107,6 +107,7 @@ var references = {
 var interests = references;
 var skills = references;
 var pdf = references;
+var github = references;
 
 var socialmedia = {
 	fullCommandOutput: function() {

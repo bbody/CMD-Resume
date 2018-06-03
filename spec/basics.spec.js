@@ -13,7 +13,7 @@ describe("Basics", () => {
 	describe("Name Command", function() {
 		describe("Featuring name", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("justName.json", {});
+				$("#cmd-resume").CMDResume("justName.json");
 			});
 
 			it("Includes the name", function() {
@@ -34,7 +34,7 @@ describe("Basics", () => {
 
 		describe("Without name", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noName.json", {});
+				$("#cmd-resume").CMDResume("noName.json");
 			});
 
 			it("Returns command error", function() {
@@ -56,7 +56,7 @@ describe("Basics", () => {
 
 		describe("Empty name", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noName.json", {});
+				$("#cmd-resume").CMDResume("noName.json");
 				jasmine.Ajax.requests.mostRecent().respondWith({
 					status: 200,
 					responseText: JSON.stringify(loadJSON("emptyStrings"))
@@ -78,7 +78,7 @@ describe("Basics", () => {
 	describe("Help", function() {
 		describe("Full command set", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noName.json", {});
+				$("#cmd-resume").CMDResume("noName.json");
 				var mostRecentRequest = jasmine.Ajax.requests.mostRecent();
 
 				mostRecentRequest.respondWith({
@@ -96,7 +96,7 @@ describe("Basics", () => {
 
 		describe("Reduced command set", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noName.json", {});
+				$("#cmd-resume").CMDResume("noName.json");
 				var mostRecentRequest = jasmine.Ajax.requests.mostRecent();
 				mostRecentRequest.respondWith({
 					status: 200,
@@ -114,7 +114,7 @@ describe("Basics", () => {
 
 		describe("Base commands", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noName.json", {});
+				$("#cmd-resume").CMDResume("noName.json");
 				var mostRecentRequest = jasmine.Ajax.requests.mostRecent();
 
 				mostRecentRequest.respondWith({
@@ -141,7 +141,7 @@ describe("Basics", () => {
 	describe("About", function() {
 		describe("Featuring about", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("about.json", {});
+				$("#cmd-resume").CMDResume("about.json");
 			});
 
 			it("Includes about", function() {
@@ -162,7 +162,7 @@ describe("Basics", () => {
 
 		describe("Without about", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noName.json", {});
+				$("#cmd-resume").CMDResume("noName.json");
 			});
 
 			it("Returns command error", function() {
@@ -184,7 +184,7 @@ describe("Basics", () => {
 
 		describe("Empty about", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noName.json", {});
+				$("#cmd-resume").CMDResume("noName.json");
 				jasmine.Ajax.requests.mostRecent().respondWith({
 					status: 200,
 					responseText: JSON.stringify(loadJSON("emptyStrings"))
