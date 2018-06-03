@@ -63,7 +63,9 @@ deploy:
       branch: master
       tags: true
   - provider: script
-    script: sh ./scripts/push.sh
+    script:
+      - git remote add origin https://${GITHUB_TOKEN}@github.com/bbody/CMD-Resume.git > /dev/null 2>&1
+      - sh ./scripts/push.sh
     on:
       branch: master
 after_success:
