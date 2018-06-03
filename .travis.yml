@@ -29,7 +29,7 @@ addons:
 before_deploy:
 - npm run release
 - npm run gh-pages
-- ./scripts/build_commit.sh
+- sh ./scripts/build_commit.sh
 - npm version patch
 - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
 - ./scripts/release_commit.sh
