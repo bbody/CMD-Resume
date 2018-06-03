@@ -37,7 +37,7 @@ before_deploy:
 - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
 - git add package.json
 - git add package-lock.json
-- "git commit -m \":gem: Release ${PACKAGE_VERSION}\""
+- git commit -m \":gem: Release ${PACKAGE_VERSION}\"
 deploy:
   - provider: releases
     skip_cleanup: true
