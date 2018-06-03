@@ -32,12 +32,12 @@ before_deploy:
 - git add package.json
 - git add dist/
 - git add package-lock.json
-- git commit -m ":gem: Build"
+- "git commit -m \":gem: Build\""
 - npm version patch
 - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
 - git add package.json
 - git add package-lock.json
-- git commit -m ":gem: Release ${PACKAGE_VERSION}"
+- "git commit -m \":gem: Release ${PACKAGE_VERSION}\""
 deploy:
   - provider: releases
     skip_cleanup: true
