@@ -1,0 +1,25 @@
+{
+  "publications": [
+    {
+      "name": "Name 1",
+      "publisher": "Company 1",
+      "releaseDate": "Date 1",
+      "website": "https://en.wikipedia.org/wiki/Silicon_Valley_(TV_series)",
+      "summary": "Innovative middle-out compression algorithm that changes the way we store data."
+    },
+    {
+      "name": "Name 2",
+      "publisher": "Company 2",
+      "releaseDate": "Date 2",
+      "website": "https://en.wikipedia.org/wiki/Silicon_Valley_(TV_series)",
+      "summary": "Innovative middle-out compression algorithm that changes the way we store data."
+    },
+    {
+      "name": "Name 3",
+      "publisher": "Company 3",
+      "releaseDate": "Date 3",
+      "website": "https://en.wikipedia.org/wiki/Silicon_Valley_(TV_series)",
+      "summary": "Innovative middle-out compression algorithm that changes the way we store data."
+    },
+  ]
+}

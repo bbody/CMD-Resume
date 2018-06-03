@@ -1,0 +1,10 @@
+{
+	"references": [
+    {
+      "reference": "Reference 1"
+    },
+    {
+      "name": "Name 2"
+    }
+  ]
+}

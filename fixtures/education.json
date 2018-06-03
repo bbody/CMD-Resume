@@ -1,0 +1,64 @@
+{
+  "education": [
+    {
+      "institution": "University of Oklahoma",
+      "area": "Computer Science",
+      "studyType": "PhD",
+      "startDate": "2013-12-01",
+      "endDate": "2014-12-01",
+      "gpa": "4.0",
+      "courses": [
+        "DB1101 - Basic SQL",
+        "CS2011 - Java Introduction"
+      ]
+    },
+    {
+      "institution": "University of Virginia",
+      "area": "Something Else",
+      "studyType": "Master",
+      "startDate": "2013-12-01",
+      "endDate": "2014-12-01",
+      "gpa": "4.0",
+      "courses": [
+        "DB1101 - Basic SQL",
+        "CS2011 - Java Introduction"
+      ]
+    },
+    {
+      "institution": "University of California",
+      "area": "Computer Science",
+      "studyType": "Master",
+      "startDate": "2013-12-01",
+      "endDate": "2014-12-01",
+      "gpa": "4.0",
+      "courses": [
+        "DB1101 - Basic SQL",
+        "CS2011 - Java Introduction"
+      ]
+    },
+    {
+      "institution": "University of Queensland",
+      "area": "Something Else",
+      "studyType": "Bachelor",
+      "startDate": "2013-12-01",
+      "endDate": "2014-12-01",
+      "gpa": "4.0",
+      "courses": [
+        "DB1101 - Basic SQL",
+        "CS2011 - Java Introduction"
+      ]
+    },
+    {
+      "institution": "University of Oklahoma",
+      "area": "Information Technology",
+      "studyType": "Bachelor",
+      "startDate": "2013-12-01",
+      "endDate": "2014-12-01",
+      "gpa": "4.0",
+      "courses": [
+        "DB1101 - Basic SQL",
+        "CS2011 - Java Introduction"
+      ]
+    }
+  ]
+}

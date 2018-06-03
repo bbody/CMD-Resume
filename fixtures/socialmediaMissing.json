@@ -1,0 +1,12 @@
+{
+  "basics": {
+    "profiles": [
+      {
+        "url": "http://www.twitter.com/something"   
+      },
+      {
+        "network": "SoundCloud"
+      }
+    ]
+  }
+}

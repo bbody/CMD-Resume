@@ -1,0 +1,12 @@
+{
+	"skills": [
+    {
+      "name": "Name 1",
+      "level": "Level 1"
+    },
+    {
+      "name": "Name 2",
+      "level": "Level 2"
+    }
+  ]
+}

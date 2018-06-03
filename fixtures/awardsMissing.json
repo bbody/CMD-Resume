@@ -1,0 +1,16 @@
+{
+  "awards": [
+    {
+      "date": "Date 1",
+      "awarder": "Awarder 1"
+    },
+    {
+      "title": "Title 2",
+      "awarder": "Awarder 2"
+    },
+    {
+      "title": "Title 3",
+      "date": "Date 3"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+    "references": [
+    {
+        "name": "Name 1",
+        "reference": "Reference 1"
+    },
+    {
+        "name": "Name 2",
+        "reference": "Reference 2"
+    }]
+}
