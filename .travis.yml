@@ -36,7 +36,7 @@ deploy:
     skip_cleanup: true
     api_key: $GITHUB_TOKEN
     tag: next
-    name: Version-${PACKAGE_VERSION}
+    name: ${PACKAGE_VERSION}
     file:
       - "./dist/cmd-resume.js"
       - "./dist/cmd-resume.min.js"
