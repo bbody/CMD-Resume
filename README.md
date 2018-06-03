@@ -39,10 +39,11 @@ var settings = {
     },
     name: {
         color: "purple"
-    }
+    },
+    extraDetails: "uri/path/to/cmd-resume-custom-data.json"
 };
 
-$("body").CMDResume("uri/path/to/json-resume.json", "uri/path/to/cmd-resume-custom-data.json", settings);
+$("body").CMDResume("uri/path/to/json-resume.json", settings);
 ```
 8. Upload to website
 
@@ -54,13 +55,3 @@ If you find any bugs or have any suggestions on how to improve CMD Resume please
 If you wish to work on existing issues please check out the [Github issues](https://github.com/bbody/CMD-Resume/issues).
 
 If you wish to contribute feel please read the [Contribution Guide](CONTRIBUTING.md).
-
-## Roadmap
-- Comprehensive Unit testing
-- ~Schema for extra variables~
-- Skills table styling
-- ~Add to jQuery library files~
-- ~Deployment script~
-- ~Rationalization of `\n` usage~
-- ~General code quality improvements~
-- ~Validations for custom styles~
