@@ -162,13 +162,13 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 
 		if (self.data.basics.pdfLink) {
 			self.commands.pdf = {
-				title: "Resume PDF",
+				title: "Résumé PDF",
 				description: "pdf version of the résumé",
 				data: self.data.basics.pdfLink,
 				type: self.commandProcessor.calculated,
 				handler: function(data) {
 					window.open(data);
-					return data + CONSTANTS.NEW_LINE +
+					return decodeURIComponent(escape(data)) + CONSTANTS.NEW_LINE +
 					"Hint: May need to allow pop-ups.";
 				}
 			};
@@ -196,7 +196,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				data: self.data.basics.label,
 				type: self.commandProcessor.calculated,
 				handler: function(data) {
-					return data + " positions";
+					return data;
 				}
 			};
 		}
@@ -208,33 +208,33 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				data: self.data.basics.profiles,
 				type: self.commandProcessor.calculated,
 				handler: function(data) {
-					var result = CONSTANTS.EMPTY;
+					var resultArray = [];
 					data.forEach(function(value, index) {
 						if (value.network) {
-							if (index !== 0) {
-								result += CONSTANTS.NEW_LINE;
-							}
-
 							if (value.network.toLowerCase() === "email") {
-								result += value.network +
-								CONSTANTS.DASH +
-								value.url.split(CONSTANTS.COLON).charAt(1);
+								resultArray.push(value.network +
+									CONSTANTS.DASH +
+									value.url.split(CONSTANTS.COLON).charAt(1));
 							} else if (value.url) {
-								result += value.network + CONSTANTS.DASH +
-								value.url;
+								resultArray.push(value.network + CONSTANTS.DASH +
+								value.url);
 							} else if (value.username) {
 								var url = CONSTANTS.EMPTY;
 
 								url = buildUrl(value.network, value.username);
 
 								if (url) {
-									result += value.network +
-									CONSTANTS.DASH + url;
+									resultArray.push(value.network
+										+ CONSTANTS.DASH + url);
 								}
+							} else {
+								resultArray.push(value.network);
 							}
+						} else if (value.url){
+							resultArray.push(value.url);
 						}
 					});
-					return result;
+					return resultArray.join(CONSTANTS.NEW_LINE);
 				}
 			};
 		}
@@ -248,10 +248,18 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				handler: function(data) {
 					var result = CONSTANTS.EMPTY;
 
+
 					data.forEach(function(value, index) {
-						result += value.level;
-						result += " in ";
-						result += value.name;
+						if (value.level) {
+							result += value.level;
+							if (value.name) {
+								result += " in ";
+							}
+						}
+
+						if (value.name) {
+							result += value.name;
+						}
 
 						// Make sure not the last entry
 						if (index !== data.length - 1) {
@@ -313,7 +321,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			};
 		}
 
-		if (self.data.work) {
+		if (self.data.work && self.data.work.length) {
 			self.commands.employment = {
 				title: "Employment",
 				description: "employment history",
@@ -418,10 +426,10 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				data: self.data.interests,
 				handlers: {
 					organisation: function(value) {
-						return value.name + CONSTANTS.COLON;
+						return value.name ? value.name.setName() : "";
 					},
 					title: function(value) {
-						return value.keywords.join(CONSTANTS.COMA);
+						return value.keywords ? value.keywords.join(CONSTANTS.COMA) : "";
 					}
 				}
 			};
@@ -435,10 +443,10 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				data: self.data.references,
 				handlers: {
 					organisation: function(value) {
-						return (value.name).setName() + CONSTANTS.COLON;
+						return value.name ? value.name.setName() : "";
 					},
 					title: function(value) {
-						return CONSTANTS.NEW_LINE + value.reference;
+						return value.reference;
 					}
 				}
 			};
@@ -451,6 +459,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 
 		if (self.data.basics.profiles) {
 			self.data.basics.profiles.forEach(function(value) {
+				if (!value.network) return;
 				if (!self.data.basics.githubUsername &&
 					value.network.toLowerCase() === "github") {
 					if (value.username) {
@@ -509,8 +518,12 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	$.getJSON(primaryEndpoint, function(response) {
 		self.data = response;
 
-		if (!self.data || !self.data.basics){
-			self.data = {basics: {}};
+		if (!self.data){
+			self.data = {};
+		}
+		
+		if (!self.data.basics){
+			self.data.basics = {};
 		}
 
 		if (options.extraDetails) {
