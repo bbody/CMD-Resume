@@ -1,4 +1,4 @@
-/* v3.1.1 of CMD Resume by Brendon Body */
+/* v3.1.12 of CMD Resume by Brendon Body */
 ;(function($){
   "use strict";
   
@@ -112,10 +112,12 @@
   	var type = StyleEnum.toString(styleEnumValue);
   	var style = defaultStyles[type] ?
   		defaultStyles[type] : defaultStyles.standard;
-  	var color = style.color && isValidColor(style.color) ? style.color : defaultStyles.standard.color;
+  	var color = style.color && isValidColor(style.color) ?
+  		style.color : defaultStyles.standard.color;
   	var bold = style.bold ? style.bold : defaultStyles.standard.bold;
   	var italic = style.italic ? style.italic : defaultStyles.standard.italic;
-  	var backgroundColor = style.backgroundColor && isValidColor(style.backgroundColor) ?
+  	var backgroundColor = style.backgroundColor &&
+  		isValidColor(style.backgroundColor) ?
   		style.backgroundColor : defaultStyles.standard.backgroundColor;
   
   	if (bold) {
@@ -129,8 +131,8 @@
   	if (color) {
   		result += CONSTANTS.SEMI_COLON;
   		result += color;
-    }
-    
+  	}
+  
   	if (backgroundColor) {
   		if (bold || italic || color) {
   			result += CONSTANTS.SEMI_COLON;
@@ -383,7 +385,11 @@
   
   	self.initTerminal = function() {
   		self.term = element.terminal(function(command, term) {
-  			term.echo(self.commandLineParse(command) + CONSTANTS.NEW_LINE);
+  			// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+  			var splitCommand = $.terminal.split_command(command);
+  			// jscs:enable
+  			term.echo(self.commandLineParse(splitCommand.name, splitCommand.args) +
+  				CONSTANTS.NEW_LINE);
   		}, self.settings);
   	};
   
@@ -401,14 +407,9 @@
   	};
   
   	// Parse command line
-  	self.commandLineParse = function(input) {
-  		var commandList = input.toLowerCase().split(CONSTANTS.SPACE);
-  
-  		// Command sections
-  		var rootCommand = !isUndefinedOrNull(commandList[0]) ?
-  			commandList[0] : false;
-  		var stemCommand = !isUndefinedOrNull(commandList[1]) &&
-  			commandList[1].length > 0 ? commandList[1] : false;
+  	self.commandLineParse = function(rootCommand, commandList) {
+  		var stemCommand = !isUndefinedOrNull(commandList[0]) &&
+  			commandList[0].length > 0 ? commandList[0] : false;
   		var command = self.commands[rootCommand];
   		if (rootCommand === "man") {
   			return self.commands.man.handler(stemCommand);
