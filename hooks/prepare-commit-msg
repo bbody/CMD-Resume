@@ -3,5 +3,10 @@
 commit_regex='^:.+: \S'
 
 if grep -viqE "$commit_regex" "$1"; then
-	sed -i.old '1s;^;:pencil: ;' $1
+	RED='\033[0;31m'
+	BLUE='\033[0;34m'
+	NC='\033[0m' # No Color
+	printf "\n${RED}Need emoji message in commit message${NC} ${BLUE}https://github.com/slashsBin/styleguide-git-commit-message${NC}\n\n"
+	exit 1
 fi
+exit 0
