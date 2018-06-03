@@ -7,7 +7,7 @@
     "jquery-plugin",
     "ecosystem:jquery"
   ],
-  "version": "4.0.3",
+  "version": "4.0.3-semantically-released",
   "author": {
     "name": "Brendon Body",
     "url": "https://github.com/bbody"
@@ -72,11 +72,9 @@
     "pump": "^3.0.0",
     "requirejs": "^2.3.5",
     "selenium-webdriver": "^4.0.0-alpha.1",
-    "semantic-release": "^15.5.0",
     "watchify": "^3.11.0",
     "wdio": "^2.0.2",
-    "webdriverio": "^4.6.2",
-    "travis-deploy-once": "^5.0.0"
+    "webdriverio": "^4.6.2"
   },
   "scripts": {
     "test": "gulp test:karma:build",
@@ -85,9 +83,7 @@
     "test-linux": "gulp test:karma:linux",
     "release": "gulp release",
     "gh-pages": "gulp build-gh-pages",
-    "source-check": "gulp source-check",
-    "semantic-release": "semantic-release",
-    "travis-deploy-once": "travis-deploy-once"
+    "source-check": "gulp source-check"
   },
   "resolutions": {
     "natives": "1.1.3"
