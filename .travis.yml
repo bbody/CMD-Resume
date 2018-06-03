@@ -36,6 +36,7 @@ deploy:
   - provider: releases
     skip_cleanup: true
     api_key: $GITHUB_TOKEN
+    tag: next
     file:
       - "./dist/cmd-resume.js"
       - "./dist/cmd-resume.min.js"
@@ -49,6 +50,7 @@ deploy:
     target_branch: gh-pages
     fqdn: cmd-resume.bbody.io
     repo: bbody/CMD-Resume
+    tag: next
     on:
       branch: master
       tags: true
