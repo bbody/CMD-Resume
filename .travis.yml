@@ -10,6 +10,8 @@ before_script:
 - sudo chmod 4755 /opt/google/chrome/chrome-sandbox
 script:
 - npm run test
+git:
+  depth: false
 cache:
   directories:
   - node_modules
@@ -29,11 +31,7 @@ addons:
 before_deploy:
 - npm run release
 - npm run gh-pages
-- sh ./scripts/build_commit.sh
-- npm version patch
-- PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
-# - sh ./scripts/release_commit.sh
-- git status
+- sh ./scripts/build_commit.sh && npm version patch && PACKAGE_VERSION=$(node -p -e "require('./package.json').version") && sh ./scripts/release_commit.sh
 deploy:
   - provider: releases
     skip_cleanup: true
@@ -45,6 +43,7 @@ deploy:
       - "./dist/cmd-resume.min.js"
     on:
       branch: master
+      tags: true
   - provider: pages
     skip_cleanup: true
     local_dir: ./tmp
@@ -55,6 +54,7 @@ deploy:
     tag: next
     on:
       branch: master
+      tags: true
   - provider: npm
     skip_cleanup: true
     email: "bbody.project@gmail.com"
@@ -62,10 +62,12 @@ deploy:
     tag: next
     on:
       branch: master
+      tags: true
   - provider: script
     script: sh ./scripts/push.sh
     on:
       branch: master
+      tags: true
 after_success:
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < coverage/lcov.info
