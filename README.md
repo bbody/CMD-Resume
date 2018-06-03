@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/bbody/CMD-Resume.svg?branch=master)](https://travis-ci.org/bbody/CMD-Resume)
-[![Code Climate](https://codeclimate.com/github/codeclimate/codeclimate/badges/gpa.svg)](https://codeclimate.com/github/bbody/CMD-Resume)
-[![Test Coverage](https://codeclimate.com/github/codeclimate/codeclimate/badges/coverage.svg)](https://codeclimate.com/github/bbody/CMD-Resume/coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/245ed2739858462f5337/maintainability)](https://codeclimate.com/github/bbody/CMD-Resume/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/245ed2739858462f5337/test_coverage)](https://codeclimate.com/github/bbody/CMD-Resume/test_coverage)
 
 # CMD Resume
 ## Description
