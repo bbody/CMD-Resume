@@ -50,6 +50,7 @@ deploy:
     on:
       branch: master
   - provider: npm
+    skip_cleanup: true
     email: "bbody.project@gmail.com"
     api_key: $NPMJS_TOKEN
     tag: next
