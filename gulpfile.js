@@ -81,7 +81,7 @@ gulp.task('serve', function() {
 
 // Source code checking
 
-gulp.task("source-check", ['source-check:development', 'source-check:tools', 'source-check:tests']);
+gulp.task('source-check', ['source-check:development', 'source-check:tools', 'source-check:tests']);
 
 gulp.task('source-check:development', ['jshint:development',
 	'jscs:development']);
@@ -106,7 +106,7 @@ gulp.task('jshint:tools', function() {
 
 gulp.task('jshint:tests', function() {
 	return gulp.src(TESTS)
-		.pipe(jshint('./.jshintrc-tests'))
+		.pipe(jshint('./spec/.jshintrc'))
 		.pipe(jshint.reporter('jshint-stylish'))
 		.pipe(jshint.reporter('fail'));
 });
@@ -177,7 +177,7 @@ gulp.task('compile:html', function() {
 });
 
 let getLibraryVersion = libraryName => {
-	let version = package['devDependencies'][libraryName];
+	let version = package.devDependencies[libraryName];
 	return version.replace('=', '');
 };
 
