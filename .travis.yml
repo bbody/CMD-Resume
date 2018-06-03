@@ -29,15 +29,10 @@ addons:
 before_deploy:
 - npm run release
 - npm run gh-pages
-- git add package.json
-- git add dist/
-- git add package-lock.json
-- "git commit -m \":gem: Build\""
+- ./scripts/build_commit.sh
 - npm version patch
 - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
-- git add package.json
-- git add package-lock.json
-- git commit -m \":gem: Release ${PACKAGE_VERSION}\"
+- ./scripts/release_commit.sh
 deploy:
   - provider: releases
     skip_cleanup: true
@@ -69,5 +64,4 @@ deploy:
 after_success:
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < coverage/lcov.info
-  - git remote add origin git@github.com:bbody/CMD-Resume.git
-  - git push origin master
+  - ./scripts/push.sh
