@@ -72,7 +72,7 @@ gulp.task('watch', function() {
 
 // Serve the for development
 gulp.task('serve', function() {
-	gulp.src('./')
+	gulp.src('./tmp/')
 		.pipe(webserver({
 			livereload: true,
 			open: true
@@ -103,7 +103,7 @@ gulp.task('jshint:tools', function() {
 
 gulp.task('jshint:tests', function() {
 	return gulp.src(TESTS)
-		.pipe(jshint('./spec/.jshintrc'))
+		.pipe(jshint('./.jshintrc-tests'))
 		.pipe(jshint.reporter('jshint-stylish'))
 		.pipe(jshint.reporter('fail'));
 });
@@ -124,9 +124,9 @@ gulp.task('jscs:tools', function() {
 
 gulp.task('jscs:tests', function() {
 	return gulp.src(TESTS)
-		.pipe(jscs({configPath: './spec/.jscsrc', fix: true}))
+		.pipe(jscs({configPath: './spec/.jscsrc'}))
 		.pipe(jscs.reporter())
-		.pipe(jscs.reporter('failImmediately'));
+		.pipe(jscs.reporter());
 });
 
 gulp.task('copy:example-script', function() {
@@ -234,30 +234,30 @@ gulp.task('compile:development', function() {
 	return compiledCode('./tmp/js', false, false);
 });
 
-let runTests = (browsers, singleRun, done) => {
+let runTests = (browsers, done) => {
 	new Server({
 		configFile: `${__dirname}/karma.conf.js`,
-		singleRun: singleRun,
+		singleRun: true,
 		browsers: browsers
 	}, done).start();
 };
 
 // Testing
 gulp.task('test:karma:build', function(done) {
-	return runTests(['CustomChromeHeadless', 'FirefoxHeadless'],
-		true, done);
+	return runTests(['PhantomJS', 'CustomChromeHeadless', 'FirefoxHeadless'],
+		done);
 });
 
 gulp.task('test:karma:linux', function(done) {
-	return runTests(['Chrome', 'Firefox'], false, done);
+	return runTests(['Chrome', 'Firefox'], done);
 });
 
 gulp.task('test:karma:macos', function(done) {
-	return runTests(['Chrome', 'Firefox', 'Safari'], false, done);
+	return runTests(['Chrome', 'Firefox', 'Safari'], done);
 });
 
 gulp.task('test:karma:windows', function(done) {
-	return runTests(['Chrome', 'Firefox', 'IE'], false, done);
+	return runTests(['Chrome', 'Firefox', 'IE'], done);
 });
 
 gulp.task('test:e2e', function() {
