@@ -122,14 +122,14 @@ gulp.task('jscs:tools', function() {
 	return gulp.src(TOOLS)
 		.pipe(jscs({configPath: './.jscsrc-tools'}))
 		.pipe(jscs.reporter())
-		.pipe(jscs.reporter());
+		.pipe(jscs.reporter('fail'));
 });
 
 gulp.task('jscs:tests', function() {
 	return gulp.src(TESTS)
 		.pipe(jscs({configPath: './spec/.jscsrc'}))
 		.pipe(jscs.reporter())
-		.pipe(jscs.reporter());
+		.pipe(jscs.reporter('fail'));
 });
 
 gulp.task('copy:example-script', function() {
@@ -181,7 +181,7 @@ let getLibraryVersion = libraryName => {
 	return version.replace('=', '');
 };
 
-gulp.task('compile:html:example', function() { 
+gulp.task('compile:html:example', function() {
 	// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 	const locals = {
 		production: true,
