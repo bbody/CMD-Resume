@@ -52,6 +52,7 @@ deploy:
   - provider: npm
     email: "bbody.project@gmail.com"
     api_key: $NPMJS_TOKEN
+    tag: next
     on:
       branch: master
       tags: true
