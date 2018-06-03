@@ -30,13 +30,13 @@ addons:
 before_deploy:
 - npm run release
 - npm run gh-pages
-- npm install -g semantic-release-cli
-- npx semantic-release
+- PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
 deploy:
   - provider: releases
     skip_cleanup: true
     api_key: $GITHUB_TOKEN
     tag: next
+    name: Version-${PACKAGE_VERSION}
     file:
       - "./dist/cmd-resume.js"
       - "./dist/cmd-resume.min.js"
