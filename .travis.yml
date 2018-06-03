@@ -43,7 +43,6 @@ deploy:
       - "./dist/cmd-resume.min.js"
     on:
       branch: master
-      tags: true
   - provider: pages
     skip_cleanup: true
     local_dir: ./tmp
@@ -54,7 +53,6 @@ deploy:
     tag: next
     on:
       branch: master
-      tags: true
   - provider: npm
     skip_cleanup: true
     email: "bbody.project@gmail.com"
@@ -67,7 +65,7 @@ deploy:
     script: sh ./scripts/push.sh
     on:
       branch: master
-      tags: true
 after_success:
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < coverage/lcov.info
+  
