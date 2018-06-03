@@ -38,3 +38,7 @@ index.pug
 karma.conf.js
 responses/*
 spec/*
+fixtures/*
+favicons/
+coverage/
+LICENSE/
