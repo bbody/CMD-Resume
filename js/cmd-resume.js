@@ -87,10 +87,6 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		return self.commandList.indexOf(command) >= 0;
 	};
 
-	self.getCategory = function(command) {
-		return self.commands[command].type;
-	};
-
 	self.initCommands = function() {
 		self.commands.man = {
 			title: "man".setCommand(),
@@ -520,48 +516,44 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	$.getJSON(primaryEndpoint, function(response) {
 		self.data = response;
 
-		if (!self.data) {
-			self.data = {};
-		}
-
 		if (!self.data.basics) {
 			self.data.basics = {};
 		}
 
 		if (options.extraDetails) {
 			$.getJSON(options.extraDetails, function(extraResponse) {
-				if (extraResponse) {
-					self.data.pgpkey = extraResponse.pgpkey;
+				if (!extraResponse) {
+					return;
+				}
+				self.data.pgpkey = extraResponse.pgpkey;
 
-					if (self.data.pgpkey) {
-						self.commands.pgpkey = {
-							title: "PGP Key",
-							description: "print PGP key",
-							type: self.commandProcessor.calculated,
-							handler: function() {
-								var results = CONSTANTS.EMPTY;
+				if (self.data.pgpkey) {
+					self.commands.pgpkey = {
+						title: "PGP Key",
+						description: "print PGP key",
+						type: self.commandProcessor.calculated,
+						handler: function() {
+							var results = CONSTANTS.EMPTY;
 
-								for (var i = 0; i < self.data.pgpkey.length; i++) {
-									results += self.data.pgpkey[i];
-									if (i !== self.data.pgpkey.length - 1) {
-										results += CONSTANTS.NEW_LINE;
-									}
+							for (var i = 0; i < self.data.pgpkey.length; i++) {
+								results += self.data.pgpkey[i];
+								if (i !== self.data.pgpkey.length - 1) {
+									results += CONSTANTS.NEW_LINE;
 								}
-								return results.setPGP();
 							}
-						};
-					}
-
-					if (extraResponse.github) {
-						self.data.basics.githubUsername = extraResponse.github;
-						self.data.githubCache = CONSTANTS.EMPTY;
-					}
-
-					if (extraResponse.splash) {
-						self.data.customSplash = extraResponse.splash;
-					}
+							return results.setPGP();
+						}
+					};
 				}
 
+				if (extraResponse.github) {
+					self.data.basics.githubUsername = extraResponse.github;
+					self.data.githubCache = CONSTANTS.EMPTY;
+				}
+
+				if (extraResponse.splash) {
+					self.data.customSplash = extraResponse.splash;
+				}
 				self.init(options);
 			});
 		} else {
