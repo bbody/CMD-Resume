@@ -78,24 +78,24 @@ describe("Skills", function(){
 		});
 	});
 
-	describe("top", function(){
-		beforeEach(function() {
-			$("#cmd-resume").CMDResume("details.json", {});
-		});
+	// describe("top", function(){
+	// 	beforeEach(function() {
+	// 		$("#cmd-resume").CMDResume("details.json", {});
+	// 	});
 
-		it("should only show one entry", function(){
-			jasmine.Ajax.requests.mostRecent().respondWith({
-				status: 200,
-				responseText: JSON.stringify(loadJSON("details"))
-			});
+	// 	it("should only show one entry", function(){
+	// 		jasmine.Ajax.requests.mostRecent().respondWith({
+	// 			status: 200,
+	// 			responseText: JSON.stringify(loadJSON("details"))
+	// 		});
 
-			enterCommand("skills -top");
+	// 		enterCommand("skills -top");
 
-			var output = skills.topCommandOutput();
+	// 		var output = skills.topCommandOutput();
 
-			expect(output).toEqual("Master in Web Development");
-		});
-	});
+	// 		expect(output).toEqual("Master in Web Development");
+	// 	});
+	// });
 
 	describe("missing parts", function(){
 		beforeEach(function() {

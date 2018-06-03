@@ -68,12 +68,12 @@ var manFailedCommandOutput = function() {
 	};
 };
 
-var references = interests = skills = pdf = {
+var references = {
 	topCommandOutput: function() {
 		var lines = $(".terminal-output > div");
 		var output = $(lines[lines.length - 1]).find("div span");
 
-		return $(output[0]).html().decodeSpace() + $(output[1]).html().decodeSpace();
+		return $(output[0]).html().decodeSpace() + $(output[1]).html().decodeSpace() + $(output[2]).html().decodeSpace();
 	},
 	fullCommandOutput: function() {
 		var lines = $(".terminal-output > div");
@@ -103,6 +103,10 @@ var references = interests = skills = pdf = {
 		}
 	}
 };
+
+var interests = references;
+var skills = references;
+var pdf = references;
 
 var socialmedia = {
 	fullCommandOutput: function() {
@@ -199,21 +203,21 @@ var loadJSON = function(fixtureName) {
 	return window.__json__[fixtureName];
 };
 
-var spyJSON = function(fixtureName, extraDetailsFixtureName = null) {
-	var spy = spyOn($, "getJSON");
-	spy.and.callFake(function(url, success) {
-		if (extraDetailsFixtureName && url === `${extraDetailsFixtureName}.json`){
-			success(loadJSON(`extraDetails/${extraDetailsFixtureName}`));
-		} else {
-			success(loadJSON(fixtureName));
-		}
+// var spyJSON = function(fixtureName, extraDetailsFixtureName = null) {
+// 	var spy = spyOn($, "getJSON");
+// 	spy.and.callFake(function(url, success) {
+// 		if (extraDetailsFixtureName && url === `${extraDetailsFixtureName}.json`){
+// 			success(loadJSON(`extraDetails/${extraDetailsFixtureName}`));
+// 		} else {
+// 			success(loadJSON(fixtureName));
+// 		}
 
-		return {
-			fail: function() {}
-		};
-	});
-	return spy;
-};
+// 		return {
+// 			fail: function() {}
+// 		};
+// 	});
+// 	return spy;
+// };
 
 var typeCharacters = function(text) {
 	// Based off enter_text https://github.com/jcubic/jquery.terminal/blob/master/spec/terminalSpec.js
@@ -262,9 +266,9 @@ var enterCommand = function(command) {
 	pressEnter();
 };
 
-var succesResponse = function(filename){
+var successResponse = function(filename){
 	return {
 		status: 200,
 		responseText: JSON.stringify(loadJSON(filename))
 	};
-}
+};

@@ -16,7 +16,7 @@ describe("References", function(){
 			});
 
 			it("Includes the basic splash", function() {
-				jasmine.Ajax.requests.mostRecent().respondWith(succesResponse("emptyStrings"));
+				jasmine.Ajax.requests.mostRecent().respondWith(successResponse("emptyStrings"));
 
 				enterCommand("references");
 
@@ -33,7 +33,7 @@ describe("References", function(){
 			});
 
 			it("Includes the basic splash", function() {
-				jasmine.Ajax.requests.mostRecent().respondWith(succesResponse("empty"));
+				jasmine.Ajax.requests.mostRecent().respondWith(successResponse("empty"));
 
 				enterCommand("references");
 
@@ -51,7 +51,7 @@ describe("References", function(){
 		});
 
 		it("should only show one entry", function(){
-			jasmine.Ajax.requests.mostRecent().respondWith(succesResponse("references"));
+			jasmine.Ajax.requests.mostRecent().respondWith(successResponse("references"));
 
 			enterCommand("references");
 
@@ -70,7 +70,7 @@ describe("References", function(){
 		});
 
 		it("should only show one entry", function(){
-			jasmine.Ajax.requests.mostRecent().respondWith(succesResponse("details"));
+			jasmine.Ajax.requests.mostRecent().respondWith(successResponse("details"));
 
 			enterCommand("references -top");
 
@@ -83,7 +83,7 @@ describe("References", function(){
 	describe("missing parts", function(){
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("references.json", {});
-			jasmine.Ajax.requests.mostRecent().respondWith(succesResponse("referencesMissing"));
+			jasmine.Ajax.requests.mostRecent().respondWith(successResponse("referencesMissing"));
 			enterCommand("references");
 		});
 		it("Missing name", function(){

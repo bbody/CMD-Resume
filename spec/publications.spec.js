@@ -16,12 +16,7 @@ describe("Publications", function(){
 			});
 
 			it("Includes the basic splash", function() {
-				var mostRecentRequest = jasmine.Ajax.requests.mostRecent();
-
-				mostRecentRequest.respondWith({
-					status: 200,
-					responseText: JSON.stringify(loadJSON("emptyStrings"))
-				});
+				jasmine.Ajax.requests.mostRecent().respondWith(successResponse("emptyStrings"));
 
 				enterCommand("publications");
 
@@ -40,10 +35,7 @@ describe("Publications", function(){
 			it("Includes the basic splash", function() {
 				var mostRecentRequest = jasmine.Ajax.requests.mostRecent();
 
-				mostRecentRequest.respondWith({
-					status: 200,
-					responseText: JSON.stringify(loadJSON("empty"))
-				});
+				mostRecentRequest.respondWith(successResponse("empty"));
 
 				enterCommand("publications");
 
@@ -61,10 +53,7 @@ describe("Publications", function(){
 		});
 
 		it("should only show one entry", function(){
-			jasmine.Ajax.requests.mostRecent().respondWith({
-				status: 200,
-				responseText: JSON.stringify(loadJSON("publications"))
-			});
+			jasmine.Ajax.requests.mostRecent().respondWith(successResponse("publications"));
 
 			enterCommand("publications");
 
@@ -85,10 +74,7 @@ describe("Publications", function(){
 		});
 
 		it("should only show one entry", function(){
-			jasmine.Ajax.requests.mostRecent().respondWith({
-				status: 200,
-				responseText: JSON.stringify(loadJSON("details"))
-			});
+			jasmine.Ajax.requests.mostRecent().respondWith(successResponse("details"));
 
 			enterCommand("publications -top");
 
@@ -101,10 +87,7 @@ describe("Publications", function(){
 	describe("missing parts", function(){
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("volunteer.json", {});
-			jasmine.Ajax.requests.mostRecent().respondWith({
-				status: 200,
-				responseText: JSON.stringify(loadJSON("publicationsMissing"))
-			});
+			jasmine.Ajax.requests.mostRecent().respondWith(successResponse("publicationsMissing"));
 			enterCommand("publications");
 		});
 		it("Missing name", function(){
