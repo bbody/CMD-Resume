@@ -3,7 +3,7 @@
 	"preset": "google",
 	"validateIndentation": "\t",
 	"validateQuoteMarks": "'",
-	"maximumLineLength": 140,
+	"maximumLineLength": 200,
 	"requireSemicolons": true,
 	"disallowKeywordsInComments": true,
 	"disallowMultipleVarDecl": false
