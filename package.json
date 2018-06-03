@@ -30,6 +30,7 @@
     "url": "https://github.com/bbody/CMD-Resume/"
   },
   "download": "https://github.com/bbody/CMD-Resume/releases",
+  "main": "dist/cmd-resume.min.js",
   "devDependencies": {
     "bluebird": "^3.5.1",
     "browserify": "^16.2.2",
