@@ -266,7 +266,7 @@ var arrayHandlerFunction = function(command, top) {
 
 		if (command.handlers.date) {
 			var dateValue = command.handlers.date(value);
-			if (dateValue){
+			if (dateValue) {
 				resultArray.push(dateValue);
 			}
 		}

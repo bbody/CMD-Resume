@@ -209,7 +209,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				type: self.commandProcessor.calculated,
 				handler: function(data) {
 					var resultArray = [];
-					data.forEach(function(value, index) {
+					data.forEach(function(value) {
 						if (value.network) {
 							if (value.network.toLowerCase() === "email") {
 								resultArray.push(value.network +
@@ -224,13 +224,12 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 								url = buildUrl(value.network, value.username);
 
 								if (url) {
-									resultArray.push(value.network
-										+ CONSTANTS.DASH + url);
+									resultArray.push(value.network + CONSTANTS.DASH + url);
 								}
 							} else {
 								resultArray.push(value.network);
 							}
-						} else if (value.url){
+						} else if (value.url) {
 							resultArray.push(value.url);
 						}
 					});
@@ -247,7 +246,6 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				data: self.data.skills,
 				handler: function(data) {
 					var result = CONSTANTS.EMPTY;
-
 
 					data.forEach(function(value, index) {
 						if (value.level) {
@@ -279,7 +277,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				var results = CONSTANTS.EMPTY;
 
 				// Return custom splash if it exists
-				if (self.data.customSplash){
+				if (self.data.customSplash) {
 					results += self.data.customSplash;
 				} else {
 					if (self.data.basics.name) {
@@ -459,7 +457,11 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 
 		if (self.data.basics.profiles) {
 			self.data.basics.profiles.forEach(function(value) {
-				if (!value.network) return;
+
+				if (!value.network) {// Ensure has network
+					return;
+				}
+
 				if (!self.data.basics.githubUsername &&
 					value.network.toLowerCase() === "github") {
 					if (value.username) {
@@ -518,11 +520,11 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	$.getJSON(primaryEndpoint, function(response) {
 		self.data = response;
 
-		if (!self.data){
+		if (!self.data) {
 			self.data = {};
 		}
-		
-		if (!self.data.basics){
+
+		if (!self.data.basics) {
 			self.data.basics = {};
 		}
 
