@@ -29,6 +29,9 @@ addons:
 before_deploy:
 - npm run release
 - npm run gh-pages
+- git add package.json
+- git add dist/
+- git add package-lock.json
 - npm version patch
 - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
 deploy:
@@ -62,6 +65,5 @@ deploy:
 after_success:
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < coverage/lcov.info
-  - git add package.json
   - 'git commit -m ":gem: Update version number to ${PACKAGE_VERSION}"'
   - git push origin master
