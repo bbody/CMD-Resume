@@ -67,26 +67,26 @@ describe("Splash screen", function() {
 		});
 	});
 
-	describe("Custom splash", function() {
-		beforeEach(function() {
-			jasmine.Ajax.stubRequest('emptyStrings.json').andReturn({
-				status: 200,
-			    responseText: JSON.stringify(loadJSON("emptyStrings"))
-			});
+	// describe("Custom splash", function() {
+	// 	beforeEach(function() {
+	// 		jasmine.Ajax.stubRequest('emptyStrings.json').andReturn({
+	// 			status: 200,
+	// 		    responseText: JSON.stringify(loadJSON("emptyStrings"))
+	// 		});
 
-			jasmine.Ajax.stubRequest('customSplash.json').andReturn({
-				status: 200,
-			    responseText: JSON.stringify(loadJSON("extraDetails/customSplash"))
-			});
+	// 		jasmine.Ajax.stubRequest('customSplash.json').andReturn({
+	// 			status: 200,
+	// 		    responseText: JSON.stringify(loadJSON("extraDetails/customSplash"))
+	// 		});
 
-			$("#cmd-resume").CMDResume("emptyStrings.json", {extraDetails: "customSplash.json"});
-		});
+	// 		$("#cmd-resume").CMDResume("emptyStrings.json", {extraDetails: "customSplash.json"});
+	// 	});
 
-		it("Includes the basic splash", function() {
-			var splash = getSimpleSplash();
-			expect(splash).toEqual("Custom splash");
-		});
-	});
+	// 	it("Includes the basic splash", function() {
+	// 		var splash = getSimpleSplash();
+	// 		expect(splash).toEqual("Custom splash");
+	// 	});
+	// });
 
 	describe("Splash Command", ()=> {
 		describe("Featuring name", function() {
@@ -158,30 +158,30 @@ describe("Splash screen", function() {
 			});
 		});
 
-		describe("Custom splash", function() {
-			beforeEach(function() {
-				jasmine.Ajax.stubRequest('emptyStrings.json').andReturn({
-					status: 200,
-				    responseText: JSON.stringify(loadJSON("emptyStrings"))
-				});
+		// describe("Custom splash", function() {
+		// 	beforeEach(function() {
+		// 		jasmine.Ajax.stubRequest('emptyStrings.json').andReturn({
+		// 			status: 200,
+		// 		    responseText: JSON.stringify(loadJSON("emptyStrings"))
+		// 		});
 
-				jasmine.Ajax.stubRequest('customSplash.json').andReturn({
-					status: 200,
-				    responseText: JSON.stringify(loadJSON("extraDetails/customSplash"))
-				});
+		// 		jasmine.Ajax.stubRequest('customSplash.json').andReturn({
+		// 			status: 200,
+		// 		    responseText: JSON.stringify(loadJSON("extraDetails/customSplash"))
+		// 		});
 
-				$("#cmd-resume").CMDResume("emptyStrings.json", {extraDetails: "customSplash.json"});
-			});
+		// 		$("#cmd-resume").CMDResume("emptyStrings.json", {extraDetails: "customSplash.json"});
+		// 	});
 
-			it("Includes the basic splash", function() {
+		// 	it("Includes the basic splash", function() {
 
-				enterCommand("splash");
+		// 		enterCommand("splash");
 
-				var lines = $(".terminal-output > div");
-				var output = $(lines[lines.length - 1]).find("div span");
+		// 		var lines = $(".terminal-output > div");
+		// 		var output = $(lines[lines.length - 1]).find("div span");
 
-				expect($(output[0]).html().decodeSpace()).toEqual("Custom splash");
-			});
-		});
+		// 		expect($(output[0]).html().decodeSpace()).toEqual("Custom splash");
+		// 	});
+		// });
 	});
 });
