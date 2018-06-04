@@ -552,7 +552,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				}
 
 				if (extraResponse.splash) {
-					self.data.customSplash = extraResponse.splash;
+					self.data.customSplash = extraResponse.splash.join(CONSTANTS.NEW_LINE);
 				}
 				self.init(options);
 			});
