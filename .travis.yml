@@ -44,6 +44,7 @@ deploy:
       - "./dist/cmd-resume.min.js"
     on:
       branch: master
+      tags: true
   - provider: pages
     skip_cleanup: true
     local_dir: ./tmp
@@ -54,6 +55,7 @@ deploy:
     tag: next
     on:
       branch: master
+      tags: true
   - provider: npm
     skip_cleanup: true
     email: "bbody.project@gmail.com"
@@ -61,6 +63,7 @@ deploy:
     tag: next
     on:
       branch: master
+      tags: true
   - provider: script
     script: git remote rm origin && git remote add origin https://${GITHUB_TOKEN}@github.com/bbody/CMD-Resume.git > /dev/null 2>&1 && sh ./scripts/push.sh
     on:
