@@ -31,7 +31,6 @@ addons:
 before_deploy:
 - npm run release
 - npm run gh-pages
-# - sh ./scripts/build_commit.sh && npm version patch && PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
 - echo $PACKAGE_VERSION
 deploy:
   - provider: releases
@@ -64,10 +63,6 @@ deploy:
     on:
       branch: master
       tags: true
-  - provider: script
-    script: git remote rm origin && git remote add origin https://${GITHUB_TOKEN}@github.com/bbody/CMD-Resume.git > /dev/null 2>&1 && sh ./scripts/push.sh
-    on:
-      branch: master
 after_success:
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < coverage/lcov.info
