@@ -10,16 +10,11 @@ before_script:
 - sudo chmod 4755 /opt/google/chrome/chrome-sandbox
 script:
 - npm run test
-git:
-  depth: false
 cache:
   directories:
   - node_modules
 env:
 - CXX=g++-4.8 CC=gcc-4.8
-branches:
-  except:
-  - /^v?\d+\.\d+\.\d+$/
 addons:
   - apt:
     sources:
@@ -31,7 +26,6 @@ addons:
 before_deploy:
 - npm run release
 - npm run gh-pages
-- echo $PACKAGE_VERSION
 deploy:
   - provider: releases
     skip_cleanup: true
