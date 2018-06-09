@@ -36,7 +36,6 @@ deploy:
   - provider: releases
     skip_cleanup: true
     api_key: $GITHUB_TOKEN
-    tag: next
     name: ${PACKAGE_VERSION}
     file:
       - "./dist/cmd-resume.js"
@@ -51,7 +50,6 @@ deploy:
     target_branch: gh-pages
     fqdn: cmd-resume.bbody.io
     repo: bbody/CMD-Resume
-    tag: next
     on:
       branch: master
       tags: true
@@ -59,7 +57,6 @@ deploy:
     skip_cleanup: true
     email: "bbody.project@gmail.com"
     api_key: $NPMJS_TOKEN
-    tag: next
     on:
       branch: master
       tags: true
