@@ -124,17 +124,11 @@ String.prototype.setFormat = function(styleEnumValue) {
 		result += "i";
 	}
 
-	if (color) {
-		result += CONSTANTS.SEMI_COLON;
-		result += color;
-	}
+	result += CONSTANTS.SEMI_COLON;
+	result += color;
 
-	if (backgroundColor) {
-		if (bold || italic || color) {
-			result += CONSTANTS.SEMI_COLON;
-		}
-		result += backgroundColor;
-	}
+	result += CONSTANTS.SEMI_COLON;
+	result += backgroundColor;
 
 	return wrappedFormatting(result, this);
 };
