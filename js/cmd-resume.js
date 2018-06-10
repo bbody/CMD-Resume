@@ -135,18 +135,6 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			};
 		}
 
-		if (self.data.commands && self.data.commands.pgpkey) {
-			self.commands.pgpkey = {
-				title: "PGP Key",
-				description: "public PGP key",
-				data: self.data.commands.pgpkey,
-				type: self.commandProcessor.calculated,
-				handler: function(data) {
-					return data.setPGP();
-				}
-			};
-		}
-
 		if (self.data.basics.summary) {
 			self.commands.about = {
 				title: "About",
@@ -177,10 +165,21 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				data: self.data.basics.location,
 				type: self.commandProcessor.calculated,
 				handler: function(data) {
-					return data.city +
-						(data.region ? CONSTANTS.COMA + data.region :
-							CONSTANTS.EMPTY) + CONSTANTS.COMA +
-							data.countryCode;
+					var results = [];
+
+					if (data.city) {
+						results.push(data.city);
+					}
+
+					if (data.region) {
+						results.push(data.region);
+					}
+
+					if (data.countryCode) {
+						results.push(data.countryCode);
+					}
+
+					return results.join(CONSTANTS.COMA);
 				}
 			};
 		}
@@ -208,9 +207,20 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 					data.forEach(function(value) {
 						if (value.network) {
 							if (value.network.toLowerCase() === "email") {
-								resultArray.push(value.network +
-									CONSTANTS.DASH +
-									value.url.split(CONSTANTS.COLON).charAt(1));
+								var address = "";
+								if (value.url &&
+									value.url.indexOf("mailto:") >= 0) {
+									address = value.url.replace("mailto:", "");
+								} else if (value.url) {
+									address = value.url;
+								} else if (value.username) {
+									address = value.username;
+								} else {
+									return true; // continue
+								}
+
+								resultArray.push("Email" +
+									CONSTANTS.DASH + address);
 							} else if (value.url) {
 								resultArray.push(value.network + CONSTANTS.DASH +
 								value.url);
@@ -229,6 +239,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 							resultArray.push(value.url);
 						}
 					});
+
 					return resultArray.join(CONSTANTS.NEW_LINE);
 				}
 			};
@@ -462,8 +473,6 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 					value.network.toLowerCase() === "github") {
 					if (value.username) {
 						self.data.basics.githubUsername = value.username;
-					} else if (value.url) {
-						self.data.basics.githubUsername = value.url;
 					}
 				} else if (value.network.toLowerCase() === "resume") {
 					self.data.basics.pdfLink = value.url;
@@ -475,23 +484,20 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			getGithub(getGithubUri(self.data.basics.githubUsername),
 				self.data.basics.githubUsername, self.showForks,
 				function(result) {
-					// In the case of too many requests bail
-					if (!isUndefinedOrNull(result.length)) {
-						var formattedString = CONSTANTS.EMPTY;
+					var formattedString = CONSTANTS.EMPTY;
 
-						result.forEach(function(value, key) {
-							formattedString += formatGithub(value, key === 0);
-						});
+					result.forEach(function(value, key) {
+						formattedString += formatGithub(value, key === 0);
+					});
 
-						self.commands.github = {
-							title: "Github Repositories",
-							description: "list Github repositories",
-							type: self.commandProcessor.basic,
-							data: formattedString
-						};
+					self.commands.github = {
+						title: "Github Repositories",
+						description: "list Github repositories",
+						type: self.commandProcessor.basic,
+						data: formattedString
+					};
 
-						self.commandList.push("github");
-					}
+					self.commandList.push("github");
 				});
 		}
 	};
@@ -522,15 +528,12 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 
 		if (options.extraDetails) {
 			$.getJSON(options.extraDetails, function(extraResponse) {
-				if (!extraResponse) {
-					return;
-				}
 				self.data.pgpkey = extraResponse.pgpkey;
 
 				if (self.data.pgpkey) {
 					self.commands.pgpkey = {
 						title: "PGP Key",
-						description: "print PGP key",
+						description: "public PGP key",
 						type: self.commandProcessor.calculated,
 						handler: function() {
 							var results = CONSTANTS.EMPTY;
@@ -552,7 +555,13 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				}
 
 				if (extraResponse.splash) {
-					self.data.customSplash = extraResponse.splash.join(CONSTANTS.NEW_LINE);
+					if (typeof extraResponse.splash === "string") {
+						self.data.customSplash = extraResponse.splash +
+							CONSTANTS.NEW_LINE;
+					} else {
+						self.data.customSplash = extraResponse.splash.join(
+							CONSTANTS.NEW_LINE);
+					}
 				}
 				self.init(options);
 			});
