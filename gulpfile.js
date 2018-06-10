@@ -9,8 +9,9 @@ var gulp = require('gulp'),
 		concat = require('gulp-concat'),
 		jscs = require('gulp-jscs'),
 		Server = require('karma').Server,
-		pug = require('gulp-pug');
-let package = require('./package.json');
+		pug = require('gulp-pug'),
+		jsonlint = require('gulp-json-lint'),
+		package = require('./package.json');
 
 var TOOLS = ['karma.conf.js', 'gulpfile.js'];
 var TESTS = ['spec/*-spec.js'];
@@ -88,7 +89,7 @@ gulp.task('source-check:development', ['jshint:development',
 
 gulp.task('source-check:tools', ['jshint:tools', 'jscs:tools']);
 
-gulp.task('source-check:tests', ['jshint:tests', 'jscs:tests']);
+gulp.task('source-check:tests', ['jshint:tests', 'jscs:tests', 'jsonlint']);
 
 gulp.task('jshint:development', function() {
 	return gulp.src(OUTPUT)
@@ -130,6 +131,12 @@ gulp.task('jscs:tests', function() {
 		.pipe(jscs({configPath: './spec/.jscsrc'}))
 		.pipe(jscs.reporter())
 		.pipe(jscs.reporter('fail'));
+});
+
+gulp.task('jsonlint', function() {
+	gulp.src('fixtures/**/*.json')
+		.pipe(jsonlint())
+		.pipe(jsonlint.report('verbose'));
 });
 
 gulp.task('copy:example-script', function() {

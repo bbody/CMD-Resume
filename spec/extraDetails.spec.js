@@ -39,13 +39,33 @@ describe("Extra details", function() {
 			$("#cmd-resume").CMDResume("details.json", {extraDetails: "github.json"});
 		});
 
-		it("Includes the basic splash", function() {
+		it("Has the repositories", function() {
 			enterCommand("github");
 
 			var output = github.fullCommandOutput();
+			expect(output.command).toEqual("Github Repositories");
 			expect(output.values.length).toEqual(2);
 			expect(output.values[0]).toEqual("HelloWorld - Create hello world");
 			expect(output.values[1]).toEqual("GoodbyeWorld");
+		});
+	});
+
+	describe("Github Empty Response", function() {
+		beforeEach(function() {
+			jasmine.Ajax.stubRequest('details.json').andReturn(successResponse("emptyStrings"));
+			jasmine.Ajax.stubRequest('github.json').andReturn(successResponse("extraDetails/github"));
+			jasmine.Ajax.stubRequest('https://api.github.com/users/example/repos').andReturn({});
+
+			$("#cmd-resume").CMDResume("details.json", {extraDetails: "github.json"});
+		});
+
+		it("Failed command", function() {
+			enterCommand("github");
+
+			var output = failedCommandOutput();
+
+			expect(output.command).toEqual("github");
+			expect(output.message).toEqual(" is an unknown command.");
 		});
 	});
 });

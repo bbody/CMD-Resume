@@ -209,7 +209,7 @@ describe("Basics", () => {
 				$("#cmd-resume").CMDResume("about.json", {});
 			});
 
-			it("Includes about", function() {
+			it("Includes location", function() {
 				var mostRecentRequest = jasmine.Ajax.requests.mostRecent();
 
 				mostRecentRequest.respondWith({
@@ -222,6 +222,96 @@ describe("Basics", () => {
 				var output = getSimpleOutput();
 				expect(output.summary).toEqual("Location");
 				expect(output.value).toEqual("San Francisco, California, US");
+			});
+
+			it("Only has city", function() {
+				var mostRecentRequest = jasmine.Ajax.requests.mostRecent();
+
+				mostRecentRequest.respondWith({
+					status: 200,
+					responseText: JSON.stringify({basics: {location: {city: "San Francisco"}}})
+				});
+
+				enterCommand("location");
+
+				var output = getSimpleOutput();
+				expect(output.summary).toEqual("Location");
+				expect(output.value).toEqual("San Francisco");
+			});
+
+			it("Only has state/province/region", function() {
+				var mostRecentRequest = jasmine.Ajax.requests.mostRecent();
+
+				mostRecentRequest.respondWith({
+					status: 200,
+					responseText: JSON.stringify({basics: {location: {region: "California"}}})
+				});
+
+				enterCommand("location");
+
+				var output = getSimpleOutput();
+				expect(output.summary).toEqual("Location");
+				expect(output.value).toEqual("California");
+			});
+
+			it("Only has country", function() {
+				var mostRecentRequest = jasmine.Ajax.requests.mostRecent();
+
+				mostRecentRequest.respondWith({
+					status: 200,
+					responseText: JSON.stringify({basics: {location: {countryCode: "US"}}})
+				});
+
+				enterCommand("location");
+
+				var output = getSimpleOutput();
+				expect(output.summary).toEqual("Location");
+				expect(output.value).toEqual("US");
+			});
+
+			it("Only city and country", function() {
+				var mostRecentRequest = jasmine.Ajax.requests.mostRecent();
+
+				mostRecentRequest.respondWith({
+					status: 200,
+					responseText: JSON.stringify({basics: {location: {city: "San Francisco", countryCode: "US"}}})
+				});
+
+				enterCommand("location");
+
+				var output = getSimpleOutput();
+				expect(output.summary).toEqual("Location");
+				expect(output.value).toEqual("San Francisco, US");
+			});
+
+			it("Only state/province/region and country", function() {
+				var mostRecentRequest = jasmine.Ajax.requests.mostRecent();
+
+				mostRecentRequest.respondWith({
+					status: 200,
+					responseText: JSON.stringify({basics: {location: {region: "California", countryCode: "US"}}})
+				});
+
+				enterCommand("location");
+
+				var output = getSimpleOutput();
+				expect(output.summary).toEqual("Location");
+				expect(output.value).toEqual("California, US");
+			});
+
+			it("Only city and state/province/region", function() {
+				var mostRecentRequest = jasmine.Ajax.requests.mostRecent();
+
+				mostRecentRequest.respondWith({
+					status: 200,
+					responseText: JSON.stringify({basics: {location: {region: "California", city: "San Francisco"}}})
+				});
+
+				enterCommand("location");
+
+				var output = getSimpleOutput();
+				expect(output.summary).toEqual("Location");
+				expect(output.value).toEqual("San Francisco, California");
 			});
 		});
 

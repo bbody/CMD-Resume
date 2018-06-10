@@ -96,4 +96,118 @@ describe("Social Media", function(){
 			expect(output.values[1]).toEqual("SoundCloud");
 		});
 	});
+
+	describe("Email", function(){
+		beforeEach(function() {
+			$("#cmd-resume").CMDResume("socialmedia.json", {});
+		});
+		it("Has mailto", function(){
+			jasmine.Ajax.requests.mostRecent().respondWith({
+				status: 200,
+				responseText: JSON.stringify({basics: {profiles: [{network: "email",url:"mailto:test@example.com"}]}})
+			});
+			enterCommand("socialmedia");
+
+			var output = socialmedia.fullCommandOutput();
+			expect(output.values[0]).toEqual("Email - test@example.com");
+		});
+		it("Straight email", function(){
+			jasmine.Ajax.requests.mostRecent().respondWith({
+				status: 200,
+				responseText: JSON.stringify({basics: {profiles: [{network: "email",url:"test@example.com"}]}})
+			});
+			enterCommand("socialmedia");
+			
+			var output = socialmedia.fullCommandOutput();
+			expect(output.values[0]).toEqual("Email - test@example.com");
+		});
+		it("Is missing url", function(){
+			jasmine.Ajax.requests.mostRecent().respondWith({
+				status: 200,
+				responseText: JSON.stringify({basics: {profiles: [{network: "email",username:"test@example.com"}]}})
+			});
+			enterCommand("socialmedia");
+			
+			var output = socialmedia.fullCommandOutput();
+			expect(output.values[0]).toEqual("Email - test@example.com");
+		});
+
+		it("Is missing url and username", function(){
+			jasmine.Ajax.requests.mostRecent().respondWith({
+				status: 200,
+				responseText: JSON.stringify({basics: {profiles: [{network: "email"}]}})
+			});
+			enterCommand("socialmedia");
+			
+			var output = socialmedia.fullCommandOutput();
+			expect(output.command).toEqual("Social Media");
+			expect(output.values.length).toEqual(0);
+		});
+
+		it("It builds url with username", function(){
+			jasmine.Ajax.requests.mostRecent().respondWith({
+				status: 200,
+				responseText: JSON.stringify({basics: {profiles: [{network: "GitHub", username: "test"}]}})
+			});
+			enterCommand("socialmedia");
+			
+			var output = socialmedia.fullCommandOutput();
+			expect(output.command).toEqual("Social Media");
+			expect(output.values[0]).toEqual("GitHub - https://www.github.com/test");
+		});
+
+		it("It isn't a known network", function(){
+			jasmine.Ajax.requests.mostRecent().respondWith({
+				status: 200,
+				responseText: JSON.stringify({basics: {profiles: [{network: "Network", username: "test"}]}})
+			});
+			enterCommand("socialmedia");
+			
+			var output = socialmedia.fullCommandOutput();
+			expect(output.command).toEqual("Social Media");
+			expect(output.values.length).toEqual(0);
+		});
+
+		it("It isn't a known network", function(){
+			jasmine.Ajax.requests.mostRecent().respondWith({
+				status: 200,
+				responseText: JSON.stringify({basics: {profiles: [{url: "http://example.com/"}]}})
+			});
+			enterCommand("socialmedia");
+			
+			var output = socialmedia.fullCommandOutput();
+			expect(output.command).toEqual("Social Media");
+			expect(output.values[0]).toEqual("http://example.com/");
+		});
+
+		it("It isn't a known network", function(){
+			jasmine.Ajax.requests.mostRecent().respondWith({
+				status: 200,
+				responseText: JSON.stringify({basics: {profiles: [{username: "test"}]}})
+			});
+			enterCommand("socialmedia");
+			
+			var output = socialmedia.fullCommandOutput();
+			expect(output.command).toEqual("Social Media");
+			expect(output.values.length).toEqual(0);
+		});
+	});
+
+	describe("Github no username supplied", function() {
+		beforeEach(function() {
+			jasmine.Ajax.stubRequest('details.json').andReturn(successResponse("noGithubUsername"));
+			jasmine.Ajax.stubRequest('https://api.github.com/users/example/repos').andReturn(successResponse("github/override"));
+
+			$("#cmd-resume").CMDResume("details.json");
+		});
+
+		it("Failed command", function() {
+			enterCommand("github");
+
+			var output = failedCommandOutput();
+
+			expect(output.command).toEqual("github");
+			expect(output.message).toEqual(" is an unknown command.");
+		});
+	});
 });

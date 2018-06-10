@@ -12,6 +12,15 @@ var getSimpleSplash = function() {
 	return $(splash[0]).html().decodeSpace();
 };
 
+var getMultilineSplash = function() {
+	var splash = $(".terminal-output div[data-index='0'] span");
+	var results = [];
+	splash.each(function(index, element) {
+		results.push($(element).html().decodeSpace());
+	});
+
+	return results;
+};
 
 var getClearOutput = function() {
 	var lines = $(".terminal-output > div");
