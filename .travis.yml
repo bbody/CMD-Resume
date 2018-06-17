@@ -19,11 +19,10 @@ addons:
   - apt:
     sources:
     - ubuntu-toolchain-r-test
-    - google-chrome
     packages:
     - g++-4.8
-    - google-chrome-stable fluxbox
   - code_climate
+  - chrome: latest
   - firefox: latest
 before_install:
 - jdk_switcher use oraclejdk8
