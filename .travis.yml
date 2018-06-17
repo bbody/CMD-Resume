@@ -22,7 +22,8 @@ addons:
     packages:
     - g++-4.8
   - code_climate
-  - chrome: stable
+  - chrome: latest
+  - firefox: latest
 before_install:
 - jdk_switcher use oraclejdk8
 before_deploy:
