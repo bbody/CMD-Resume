@@ -23,6 +23,8 @@ addons:
     - g++-4.8
   - code_climate
   - chrome: stable
+before_install:
+- jdk_switcher use oraclejdk8
 before_deploy:
 - npm run release
 - npm run gh-pages
