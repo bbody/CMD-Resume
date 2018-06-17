@@ -11,6 +11,7 @@ var gulp = require('gulp'),
 		Server = require('karma').Server,
 		pug = require('gulp-pug'),
 		jsonlint = require('gulp-json-lint'),
+		webdriver = require('gulp-webdriver'),
 		package = require('./package.json');
 
 var TOOLS = ['karma.conf.js', 'gulpfile.js'];
@@ -61,7 +62,7 @@ gulp.task('test', ['watch', 'build', 'test:karma:build', 'coverage']);
 
 // Build the project
 gulp.task('build', ['compile:html',// 'test:karma:build',
-	'compile:development', 'copy:json', 'copy:icon']);
+	'compile:development', 'copy:json:build', 'copy:icons:build']);
 
 gulp.task('release', ['compile:release:minified', 'compile:release']);
 
@@ -150,13 +151,28 @@ gulp.task('copy:own-script', function() {
 });
 
 // Copy JSON files to tmp
-gulp.task('copy:json', function() {
+gulp.task('copy:json:build', function() {
 	return gulp.src(['responses/*.json'])
 				.pipe(gulp.dest('tmp/responses'));
 });
 
+gulp.task('copy:json:test', function() {
+	return gulp.src(['responses/*.json'])
+				.pipe(gulp.dest('test_tmp/responses'));
+});
+
+gulp.task('copy:js:test', function() {
+	return gulp.src(['dist/cmd-resume.js'])
+				.pipe(gulp.dest('test_tmp/js'));
+});
+
 // Copy favicon to tmp
-gulp.task('copy:icon', function() {
+gulp.task('copy:icons:test', function() {
+	return gulp.src('favicons/*')
+		.pipe(gulp.dest('test_tmp'));
+});
+
+gulp.task('copy:icons:build', function() {
 	return gulp.src('favicons/*')
 		.pipe(gulp.dest('tmp'));
 });
@@ -231,6 +247,27 @@ gulp.task('compile:html:own-example', function() {
 		.pipe(gulp.dest('./tmp/me'));
 });
 
+gulp.task('compile:html:test', function() {
+	// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+	const locals = {
+		production: false,
+		jquery_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery/${getLibraryVersion('jquery')}/jquery.min.js`,
+		jquery_mousewheel_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/${getLibraryVersion('jquery-mousewheel')}/jquery.mousewheel.min.js`,
+		jquery_terminal_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/${getLibraryVersion('jquery.terminal')}/js/jquery.terminal.min.js`,
+		init_script_location: false,// Allow script to be triggered from code
+		cmd_resume_script_location: './js/cmd-resume.js',
+		jquery_terminal_stylesheet_location: `//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/${getLibraryVersion('jquery.terminal')}/css/jquery.terminal.min.css`,
+		sitename: 'Command Line Résumé',
+		favicon_directory: '.'
+	};
+	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
+	return gulp.src('index.pug')
+		.pipe(pug({
+			locals: locals
+		}))
+		.pipe(gulp.dest('./test_tmp'));
+});
+
 // Compile JavaScript
 gulp.task('compile:release:minified', function() {
 	return compiledCode('./dist', true, true);
@@ -271,12 +308,14 @@ gulp.task('test:karma:windows', function(done) {
 });
 
 gulp.task('test:e2e', function() {
-	// return gulp.src('wdio.conf.js').pipe(webdriver());
+	return gulp.src('wdio.conf.js').pipe(webdriver());
 });
+
+gulp.task('test:e2e:pre', ['copy:icons:test', 'compile:html:test', 'copy:json:test', 'copy:js:test']);
 
 // Deployment
 gulp.task('build-gh-pages', ['compile:gh-pages', 'compile:html:example',
-	'compile:html:own-example', 'copy:json', 'copy:icon', 'copy:example-script',
+	'compile:html:own-example', 'copy:json:build', 'copy:icons:build', 'copy:example-script',
 	'copy:own-script']);
 
 gulp.task('deploy', ['build-gh-pages', 'gh-pages']);
