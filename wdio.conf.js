@@ -216,7 +216,7 @@ exports.config = {
     // methods. If one of them returns with a promise, WebdriverIO will wait until that promise got
     // resolved to continue.
     //
-    services: ['selenium-standalone', 'static-server'],
+    services: ['chromedriver', 'static-server'],
 
     staticServerFolders: [
      { mount: '/', path: './test_tmp' }
