@@ -8,8 +8,9 @@ before_script:
 - npm install -g gulp-cli
 - sudo chown root /opt/google/chrome/chrome-sandbox
 - sudo chmod 4755 /opt/google/chrome/chrome-sandbox
-- /usr/bin/google-chrome --version
-- /opt/google/chrome/chrome-sandbox --version
+- echo /usr/bin/google-chrome --version
+- ls /opt/google/chrome/chrome-sandbox 
+- echo /opt/google/chrome/chrome-sandbox/bin --version
 script:
 - npm run test
 cache:
