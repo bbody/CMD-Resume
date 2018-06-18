@@ -8,7 +8,7 @@ before_script:
 - npm install -g gulp-cli
 - sudo chown root /opt/google/chrome/chrome-sandbox
 - sudo chmod 4755 /opt/google/chrome/chrome-sandbox
-- alias chrome="/usr/bin/google-chrome"
+- echo /usr/bin/google-chrome --version
 script:
 - npm run test
 cache:
@@ -22,7 +22,7 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
-  - code_climate
+    - code_climate
   - firefox: latest
   - chrome: latest
 before_install:
