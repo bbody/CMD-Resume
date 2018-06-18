@@ -4,11 +4,14 @@ node_js:
 dist: trusty
 sudo: required
 before_script:
+- "sh -e /etc/init.d/xvfb start"
+- sleep 3
+- sudo apt-get update
+- sudo apt-get install -y libappindicator1 fonts-liberation
+- wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+- sudo dpkg -i google-chrome*.deb
 - npm install
 - npm install -g gulp-cli
-- sudo chown root /opt/google/chrome/chrome-sandbox
-- sudo chmod 4755 /opt/google/chrome/chrome-sandbox
-- /usr/bin/google-chrome --version
 script:
 - npm run test:build
 cache:
@@ -16,6 +19,8 @@ cache:
   - node_modules
 env:
   - CXX=g++-4.8 CC=gcc-4.8
+  global:
+    - CHROME_BIN=/usr/bin/google-chrome
 addons:
   - apt:
     sources:
@@ -24,7 +29,6 @@ addons:
     - g++-4.8
     - code_climate
   - firefox: latest
-  - chrome: latest
 before_install:
 - jdk_switcher use oraclejdk8
 before_deploy:
