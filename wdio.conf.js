@@ -63,7 +63,6 @@ exports.config = {
     capabilities: [
     {
         browserName: 'chrome',
-        version: 67,
         chromeOptions: {
     //     // to run chrome headless the following flags are required
     //     // (see https://developers.google.com/web/updates/2017/04/headless-chrome)
@@ -216,7 +215,7 @@ exports.config = {
     // methods. If one of them returns with a promise, WebdriverIO will wait until that promise got
     // resolved to continue.
     //
-    services: ['chromedriver', 'static-server'],
+    services: ['selenium-standalone', 'static-server'],
 
     staticServerFolders: [
      { mount: '/', path: './test_tmp' }
