@@ -15,6 +15,7 @@ cache:
   - node_modules
 env:
 - CXX=g++-4.8 CC=gcc-4.8
+- CHROME_BIN=/usr/bin/google-chrome
 addons:
   - apt:
     sources:
