@@ -83,9 +83,9 @@
   },
   "scripts": {
     "test": "npm run unit-test && npm run e2e",
-    "test:build": "gulp test:karma:build && gulp test:e2e:build",
-    "test:linux": "gulp test:karma:linux && gulp test:e2e:linux",
-    "test:windows": "gulp test:karma:windows && gulp test:e2e:windows",
+    "test:build": "gulp test:karma:build && gulp test:e2e:pre && gulp test:e2e:build",
+    "test:linux": "gulp test:karma:linux && gulp test:e2e:pre && gulp test:e2e:linux",
+    "test:windows": "gulp test:karma:windows && gulp test:e2e:pre && gulp test:e2e:windows",
     "unit-test": "gulp test:karma:build",
     "e2e": "gulp test:e2e:pre && gulp test:e2e",
     "e2e:linux": "gulp test:e2e:pre && gulp test:e2e:linux",
