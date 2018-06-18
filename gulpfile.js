@@ -308,7 +308,7 @@ gulp.task('test:karma:windows', function(done) {
 	return runTests(['Chrome', 'Firefox', 'IE'], done);
 });
 
-gulp.task('test:e2e:linux', function() {
+gulp.task('test:e2e:build', function() {
 	return gulp.src('wdio.conf.js').pipe(webdriver({
 		capabilities: [
 			{
