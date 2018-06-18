@@ -312,6 +312,7 @@ gulp.task('test:e2e:build', function() {
 	return gulp.src('wdio.conf.js').pipe(webdriver({
 		capabilities: [
 			{
+				version: 67,
 				browserName: 'chrome',
 				chromeOptions: {
 					args: ['--headless', '--disable-gpu'],
