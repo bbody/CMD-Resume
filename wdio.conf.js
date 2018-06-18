@@ -34,8 +34,7 @@ exports.config = {
         'spec-e2e/*.js'
     ],
     // Patterns to exclude.
-    exclude: [
-    ],
+    exclude: [],
     //
     // ============
     // Capabilities
@@ -60,29 +59,30 @@ exports.config = {
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
-    capabilities: [
-    {
-        browserName: 'chrome',
-        chromeOptions: {
-    //     // to run chrome headless the following flags are required
-    //     // (see https://developers.google.com/web/updates/2017/04/headless-chrome)
-        args: ['--headless', '--disable-gpu'],       
-        }        
-    }, 
-    {
-        // maxInstances can get overwritten per capability. So if you have an in house Selenium
-        // grid with only 5 firefox instance available you can make sure that not more than
-        // 5 instance gets started at a time.
-        maxInstances: 1,
-        browserName: 'firefox',
-        // specs: [
-        //     'test/ffOnly/*'
-        // ],
-        "moz:firefoxOptions": {
-          // flag to activate Firefox headless mode (see https://github.com/mozilla/geckodriver/blob/master/README.md#firefox-capabilities for more details about moz:firefoxOptions)
-          args: ['-headless']
+    capabilities: [{
+            browserName: 'chrome',
+            chromeOptions: {
+                //     // to run chrome headless the following flags are required
+                //     // (see https://developers.google.com/web/updates/2017/04/headless-chrome)
+                args: ['--headless', '--disable-gpu'],
+                binary: "chrome"
+            }
+        },
+        {
+            // maxInstances can get overwritten per capability. So if you have an in house Selenium
+            // grid with only 5 firefox instance available you can make sure that not more than
+            // 5 instance gets started at a time.
+            maxInstances: 1,
+            browserName: 'firefox',
+            // specs: [
+            //     'test/ffOnly/*'
+            // ],
+            "moz:firefoxOptions": {
+                // flag to activate Firefox headless mode (see https://github.com/mozilla/geckodriver/blob/master/README.md#firefox-capabilities for more details about moz:firefoxOptions)
+                args: ['-headless']
+            }
         }
-    }],
+    ],
     //
     // When enabled opens a debug port for node-inspector and pauses execution
     // on `debugger` statements. The node-inspector can be attached with:
@@ -191,19 +191,19 @@ exports.config = {
     // If you are using Cucumber you need to specify where your step definitions are located.
     // See also: https://github.com/webdriverio/wdio-cucumber-framework#cucumberopts-options
     cucumberOpts: {
-        require: [],        // <string[]> (file/dir) require files before executing features
-        backtrace: false,   // <boolean> show full backtrace for errors
-        compiler: [],       // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
-        dryRun: false,      // <boolean> invoke formatters without executing steps
-        failFast: false,    // <boolean> abort the run on first failure
+        require: [], // <string[]> (file/dir) require files before executing features
+        backtrace: false, // <boolean> show full backtrace for errors
+        compiler: [], // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
+        dryRun: false, // <boolean> invoke formatters without executing steps
+        failFast: false, // <boolean> abort the run on first failure
         format: ['pretty'], // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
-        colors: true,       // <boolean> disable colors in formatter output
-        snippets: true,     // <boolean> hide step definition snippets for pending steps
-        source: true,       // <boolean> hide source URIs
-        profile: [],        // <string[]> (name) specify the profile to use
-        strict: false,      // <boolean> fail if there are any undefined or pending steps
-        tags: [],           // <string[]> (expression) only execute the features or scenarios with tags matching the expression
-        timeout: 20000,      // <number> timeout for step definitions
+        colors: true, // <boolean> disable colors in formatter output
+        snippets: true, // <boolean> hide step definition snippets for pending steps
+        source: true, // <boolean> hide source URIs
+        profile: [], // <string[]> (name) specify the profile to use
+        strict: false, // <boolean> fail if there are any undefined or pending steps
+        tags: [], // <string[]> (expression) only execute the features or scenarios with tags matching the expression
+        timeout: 20000, // <number> timeout for step definitions
         ignoreUndefinedDefinitions: false, // <boolean> Enable this config to treat undefined definitions as warnings.
     },
     //
@@ -218,17 +218,16 @@ exports.config = {
     services: ['selenium-standalone', 'static-server'],
 
     staticServerFolders: [
-     { mount: '/', path: './test_tmp' }
-   ],
-   staticServerPort: 4567,
+        { mount: '/', path: './test_tmp' }
+    ],
+    staticServerPort: 4567,
 
     /**
      * Gets executed once before all workers get launched.
      * @param {Object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      */
-    onPrepare: function (config, capabilities) {
-    },
+    onPrepare: function(config, capabilities) {},
     /**
      * Gets executed just before initialising the webdriver session and test framework. It allows you
      * to manipulate configurations depending on the capability or spec.
@@ -236,47 +235,40 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that are to be run
      */
-    beforeSession: function (config, capabilities, specs) {
-    },  
+    beforeSession: function(config, capabilities, specs) {},
     /**
      * Gets executed before test execution begins. At this point you can access to all global
      * variables like `browser`. It is the perfect place to define custom commands.
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that are to be run
      */
-    before: function (capabilities, specs) {
-    },
+    before: function(capabilities, specs) {},
     /**
      * Hook that gets executed before the suite starts
      * @param {Object} suite suite details
      */
-    beforeSuite: function (suite) {
-    },
+    beforeSuite: function(suite) {},
     /**
      * Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
      * beforeEach in Mocha)
      */
-    beforeHook: function () {
-    },
+    beforeHook: function() {},
     /**
      * Hook that gets executed _after_ a hook within the suite ends (e.g. runs after calling
      * afterEach in Mocha)
      */
-    afterHook: function () {
-    },
+    afterHook: function() {},
     /**
      * Function to be executed before a test (in Mocha/Jasmine) or a step (in Cucumber) starts.
      * @param {Object} test test details
      */
-    beforeTest: function (test) {
-    },
+    beforeTest: function(test) {},
     /**
      * Runs before a WebdriverIO command gets executed.
      * @param {String} commandName hook command name
      * @param {Array} args arguments that command would receive
      */
-    beforeCommand: function (commandName, args) {
-    },
+    beforeCommand: function(commandName, args) {},
     /**
      * Runs after a WebdriverIO command gets executed
      * @param {String} commandName hook command name
@@ -284,20 +276,17 @@ exports.config = {
      * @param {Number} result 0 - command success, 1 - command error
      * @param {Object} error error object if any
      */
-    afterCommand: function (commandName, args, result, error) {
-    },
+    afterCommand: function(commandName, args, result, error) {},
     /**
      * Function to be executed after a test (in Mocha/Jasmine) or a step (in Cucumber) ends.
      * @param {Object} test test details
      */
-    afterTest: function (test) {
-    },
+    afterTest: function(test) {},
     /**
      * Hook that gets executed after the suite has ended
      * @param {Object} suite suite details
      */
-    afterSuite: function (suite) {
-    },
+    afterSuite: function(suite) {},
     /**
      * Gets executed after all tests are done. You still have access to all global variables from
      * the test.
@@ -305,16 +294,14 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that ran
      */
-    after: function (result, capabilities, specs) {
-    },
+    after: function(result, capabilities, specs) {},
     /**
      * Gets executed right after terminating the webdriver session.
      * @param {Object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that ran
      */
-    afterSession: function (config, capabilities, specs) {
-    },
+    afterSession: function(config, capabilities, specs) {},
     /**
      * Gets executed after all workers got shut down and the process is about to exit.
      * @param {Object} exitCode 0 - success, 1 - fail
@@ -326,16 +313,10 @@ exports.config = {
     },
     //
     // Cucumber specific hooks
-    beforeFeature: function (feature) {
-    },
-    beforeScenario: function (scenario) {
-    },
-    beforeStep: function (step) {
-    },
-    afterStep: function (stepResult) {
-    },
-    afterScenario: function (scenario) {
-    },
-    afterFeature: function (feature) {
-    }
+    beforeFeature: function(feature) {},
+    beforeScenario: function(scenario) {},
+    beforeStep: function(step) {},
+    afterStep: function(stepResult) {},
+    afterScenario: function(scenario) {},
+    afterFeature: function(feature) {}
 };
