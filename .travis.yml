@@ -10,7 +10,7 @@ before_script:
 - sudo chmod 4755 /opt/google/chrome/chrome-sandbox
 - /usr/bin/google-chrome --version
 script:
-- npm run test:linux
+- npm run test:build
 cache:
   directories:
   - node_modules
