@@ -8,6 +8,8 @@ before_script:
 - npm install -g gulp-cli
 - sudo chown root /opt/google/chrome/chrome-sandbox
 - sudo chmod 4755 /opt/google/chrome/chrome-sandbox
+- /usr/bin/google-chrome --version
+- /opt/google/chrome/chrome-sandbox --version
 script:
 - npm run test
 cache:
@@ -30,8 +32,6 @@ before_deploy:
 - npm run release
 - npm run gh-pages
 - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
-- /usr/bin/google-chrome --version
-- /opt/google/chrome/chrome-sandbox --version
 deploy:
   - provider: releases
     skip_cleanup: true
