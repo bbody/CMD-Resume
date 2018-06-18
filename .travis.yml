@@ -1,6 +1,6 @@
 flanguage: node_js
 node_js:
-- '7'
+- '10'
 dist: trusty
 sudo: required
 before_script:
