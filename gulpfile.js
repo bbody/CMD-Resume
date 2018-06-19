@@ -326,7 +326,7 @@ gulp.task('test:e2e:build', function() {
 				browserName: 'firefox',
 				'moz:firefoxOptions': {
 					args: ['-headless'],
-					binary: '/opt/firefox/firefox'
+					binary: '/usr/bin/firefox'
 				}
 			}
 		]
