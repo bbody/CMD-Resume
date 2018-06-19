@@ -310,6 +310,9 @@ gulp.task('test:karma:windows', function(done) {
 
 gulp.task('test:e2e:build', function() {
 	return gulp.src('wdio.conf.js').pipe(webdriver({
+		jasmineNodeOpts: {
+			defaultTimeoutInterval: 50000
+		},
 		capabilities: [
 			{
 				version: 67,
