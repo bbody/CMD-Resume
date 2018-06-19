@@ -10,6 +10,7 @@ before_script:
 - sudo apt-get install -y libappindicator1 fonts-liberation
 - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 - sudo dpkg -i google-chrome*.deb
+- apt install firefox
 - npm install
 - npm install -g gulp-cli
 script:
@@ -28,7 +29,6 @@ addons:
     packages:
     - g++-4.8
     - code_climate
-  - firefox: latest
 before_install:
 - jdk_switcher use oraclejdk8
 before_deploy:
