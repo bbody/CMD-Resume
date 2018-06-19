@@ -13,7 +13,7 @@ before_script:
 - sudo apt install firefox
 - which firefox
 - whereis firefox
-- locate firefox
+- /usr/bin/firefox -version
 - npm install
 - npm install -g gulp-cli
 script:
