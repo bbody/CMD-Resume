@@ -73,7 +73,7 @@ describe("StyleEnum produces the correct text", function() {
 	});
 
 	it("Invalid style name", function() {
-		expect(StyleEnum.toString(-100)).toBe("");
+		expect(StyleEnum.toString(-100)).toBe(false);
 	});
 });
 
