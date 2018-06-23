@@ -7,14 +7,14 @@ module.exports = function(config) {
 		files: [
 			'node_modules/jquery.terminal/js/jquery.terminal.js',
 			'spec/support/helpers.js',
-			'js/helper-functions.js',
+			'js/helpers/*.js',
 			'js/cmd-resume.js',
 			'spec/*.spec.js',
 			'fixtures/**/*.json'
 		],
 		exclude: [],
 		preprocessors: {
-			'js/*.js': ['coverage'],
+			'js/**/*.js': ['coverage'],
 			'fixtures/**/*.json': ['json_fixtures']
 
 		},

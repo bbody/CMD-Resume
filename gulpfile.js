@@ -16,7 +16,10 @@ var gulp = require('gulp'),
 
 var TOOLS = ['karma.conf.js', 'gulpfile.js'];
 var TESTS = ['spec/*-spec.js'];
-var SOURCE = ['js/helper-functions.js', 'js/cmd-resume.js'];
+var SOURCE = ['js/helpers/constants.js', 'js/helpers/misc.js',
+	'js/helpers/formatters.js', 'js/helpers/commandHandlers.js',
+	'js/helpers/github.js',
+	'js/cmd-resume.js'];
 var OUTPUT = ['./tmp/js/cmd-resume.js'];
 
 // Useful functions
@@ -33,7 +36,7 @@ function getVersionString() {
 }
 
 function compiledCode(destination, minified, versioned) {
-	var stream = gulp.src(['js/helper-functions.js', 'js/cmd-resume.js'])
+	var stream = gulp.src(SOURCE)
 		.pipe(concat(minified ? 'cmd-resume.min.js' : 'cmd-resume.js'));
 
 	stream.pipe(inject.prepend(';(function($){\n"use strict";\n\n'))
@@ -69,7 +72,7 @@ gulp.task('release', ['compile:release:minified', 'compile:release']);
 
 // Watch important files
 gulp.task('watch', function() {
-	gulp.watch(['js/*.js', 'index.html', 'spec/*.js', 'karma.conf.js'], ['build']);
+	gulp.watch(['js/**/*.js', 'index.html', 'spec/*.js', 'karma.conf.js'], ['build']);
 });
 
 // Serve the for development
