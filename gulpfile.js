@@ -24,14 +24,21 @@ var OUTPUT = ['./tmp/js/cmd-resume.js'];
 
 // Useful functions
 function getVersion() {
-	var fs = require('fs');
-	var json = JSON.parse(fs.readFileSync('./package.json'));
-	return json.version;
+	return package.version;
+}
+
+function getAuthorName() {
+	return package.author.name;
+}
+
+function getGithubUrl() {
+	return package.repository.url;
 }
 
 function getVersionString() {
 	var versionInfo = '/* v' + getVersion() +
-		' of CMD Resume by Brendon Body */';
+		' of CMD Resume by ' + getAuthorName() +
+		'(' + getGithubUrl() + ') */';
 	return versionInfo;
 }
 
@@ -43,12 +50,12 @@ function compiledCode(destination, minified, versioned) {
 		.pipe(inject.afterEach('\n', '  '))
 		.pipe(inject.append('\n}(jQuery));'));
 
-	if (versioned) {
-		stream.pipe(inject.prepend(getVersionString() + '\n'));
-	}
-
 	if (minified) {
 		stream.pipe(uglify());
+	}
+
+	if (versioned) {
+		stream.pipe(inject.prepend(getVersionString() + '\n'));
 	}
 
 	return stream.pipe(gulp.dest(destination));
