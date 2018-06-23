@@ -1,4 +1,4 @@
-/* v4.1.0 of CMD Resume by Brendon Body */
+/* v4.0.19 of CMD Resume by Brendon Body */
 ;(function($){
   "use strict";
   
@@ -475,7 +475,7 @@
   		return self.commandList.indexOf(command) >= 0;
   	};
   
-  	self.initMan = function() {
+  	self.initCommands = function() {
   		self.commands.man = {
   			title: "man".setCommand(),
   			description: "describes what each command does",
@@ -493,9 +493,7 @@
   				}
   			}
   		};
-  	};
   
-  	self.initHelp = function() {
   		self.commands.help = {
   			title: "Help",
   			description: "lists help for all the commands",
@@ -511,15 +509,11 @@
   				return commands;
   			}
   		};
-  	};
   
-  	self.initClear = function() {
   		self.commands.clear = {
   			description: "clear command history from screen"
   		};
-  	};
   
-  	self.initName = function() {
   		if (self.data.basics.name) {
   			self.commands.name = {
   				title: "Name",
@@ -528,9 +522,7 @@
   				type: self.commandProcessor.basic
   			};
   		}
-  	};
   
-  	self.initSummary = function() {
   		if (self.data.basics.summary) {
   			self.commands.about = {
   				title: "About",
@@ -539,9 +531,7 @@
   				type: self.commandProcessor.basic
   			};
   		}
-  	};
   
-  	self.initPdfLink = function() {
   		if (self.data.basics.pdfLink) {
   			self.commands.pdf = {
   				title: "Résumé PDF",
@@ -555,9 +545,7 @@
   				}
   			};
   		}
-  	};
   
-  	self.initLocation = function() {
   		if (self.data.basics.location) {
   			self.commands.location = {
   				title: "Location",
@@ -583,9 +571,7 @@
   				}
   			};
   		}
-  	};
   
-  	self.initLabel = function() {
   		if (self.data.basics.label) {
   			self.commands.lookingfor = {
   				title: "Looking For",
@@ -597,9 +583,7 @@
   				}
   			};
   		}
-  	};
   
-  	self.initProfiles = function() {
   		if (self.data.basics.profiles) {
   			self.commands.socialmedia = {
   				title: "Social Media",
@@ -648,9 +632,7 @@
   				}
   			};
   		}
-  	};
   
-  	self.initSkills = function() {
   		if (self.data.skills) {
   			self.commands.skills = {
   				title: "Skills",
@@ -681,9 +663,7 @@
   				}
   			};
   		}
-  	};
   
-  	self.initSplash = function() {
   		self.commands.splash = {
   			title: "Splash Screen",
   			description: "print the welcome screen",
@@ -713,9 +693,7 @@
   				return results;
   			}
   		};
-  	};
   
-  	self.initEducation = function() {
   		if (self.data.education) {
   			self.commands.education = {
   				title: "Education",
@@ -735,9 +713,7 @@
   				}
   			};
   		}
-  	};
   
-  	self.initWork = function() {
   		if (self.data.work && self.data.work.length) {
   			self.commands.employment = {
   				title: "Employment",
@@ -757,9 +733,7 @@
   				}
   			};
   		}
-  	};
   
-  	self.initVolunteer = function() {
   		if (self.data.volunteer) {
   			self.commands.volunteering = {
   				title: "Volunteering",
@@ -779,9 +753,7 @@
   				}
   			};
   		}
-  	};
   
-  	self.initAwards = function() {
   		if (self.data.awards) {
   			self.commands.awards = {
   				title: "Awards",
@@ -801,9 +773,7 @@
   				}
   			};
   		}
-  	};
   
-  	self.initPublications = function() {
   		if (self.data.publications) {
   			self.commands.publications = {
   				title: "Publications",
@@ -823,9 +793,7 @@
   				}
   			};
   		}
-  	};
   
-  	self.initLanguages = function() {
   		if (self.data.languages) {
   			self.commands.languages = {
   				title: "Languages",
@@ -842,9 +810,7 @@
   				}
   			};
   		}
-  	};
   
-  	self.initInterests = function() {
   		if (self.data.interests) {
   			self.commands.interests = {
   				title: "Interests",
@@ -861,9 +827,7 @@
   				}
   			};
   		}
-  	};
   
-  	self.initReferences = function() {
   		if (self.data.references) {
   			self.commands.references = {
   				title: "References",
@@ -880,28 +844,6 @@
   				}
   			};
   		}
-  	};
-  
-  	self.initCommands = function() {
-  		self.initMan();
-  		self.initHelp();
-  		self.initClear();
-  		self.initName();
-  		self.initSummary();
-  		self.initPdfLink();
-  		self.initLocation();
-  		self.initLabel();
-  		self.initProfiles();
-  		self.initSkills();
-  		self.initSplash();
-  		self.initEducation();
-  		self.initWork();
-  		self.initVolunteer();
-  		self.initAwards();
-  		self.initPublications();
-  		self.initLanguages();
-  		self.initInterests();
-  		self.initReferences();
   	};
   
   	// Initialize variables
