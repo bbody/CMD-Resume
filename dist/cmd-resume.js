@@ -1,4 +1,4 @@
-/* v3.1.12 of CMD Resume by Brendon Body */
+/* v4.0.19 of CMD Resume by Brendon Body */
 ;(function($){
   "use strict";
   
@@ -60,7 +60,7 @@
   			case StyleEnum.STANDARD:
   				return "standard";
   			default:
-  				return "";
+  				return false;
   		}
   	}
   };
@@ -76,6 +76,40 @@
   	document.title = name ? name + "'s Résumé" : "Command Line Résumé";
   };
   
+  // Check if a valid color
+  var isValidColor = function(color) {
+  	if (color) {
+  		// Disable style checking on external function
+  		// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+  		return $.terminal.valid_color(color);
+  		// jscs:enable
+  	} else {
+  		return false;
+  	}
+  };
+  
+  // Calculate the formatting
+  var mergeFormatting = function(baseStyle, overRideStyle) {
+  	if (overRideStyle.color && isValidColor(overRideStyle.color)) {
+  		baseStyle.color = overRideStyle.color;
+  	}
+  
+  	if (overRideStyle.bold) {
+  		baseStyle.bold = overRideStyle.bold;
+  	}
+  
+  	if (overRideStyle.italic) {
+  		baseStyle.italic = overRideStyle.italic;
+  	}
+  
+  	if (overRideStyle.backgroundColor &&
+  		isValidColor(overRideStyle.backgroundColor)) {
+  		baseStyle.backgroundColor = overRideStyle.backgroundColor;
+  	}
+  
+  	return baseStyle;
+  };
+  
   // Wrap around styling
   var wrappedFormatting = function(style, content) {
   	// Check if content null, then ignore
@@ -89,18 +123,6 @@
   	return "[[" + style + "]" + content + "]";
   };
   
-  // Check if a valid color
-  var isValidColor = function(color) {
-  	if (color) {
-  		// Disable style checking on external function
-  		// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
-  		return $.terminal.valid_color(color);
-  		// jscs:enable
-  	} else {
-  		return false;
-  	}
-  };
-  
   // Update color
   String.prototype.setFormat = function(styleEnumValue) {
   	var result = CONSTANTS.EMPTY;
@@ -110,35 +132,25 @@
   	}
   
   	var type = StyleEnum.toString(styleEnumValue);
-  	var style = defaultStyles[type] ?
-  		defaultStyles[type] : defaultStyles.standard;
-  	var color = style.color && isValidColor(style.color) ?
-  		style.color : defaultStyles.standard.color;
-  	var bold = style.bold ? style.bold : defaultStyles.standard.bold;
-  	var italic = style.italic ? style.italic : defaultStyles.standard.italic;
-  	var backgroundColor = style.backgroundColor &&
-  		isValidColor(style.backgroundColor) ?
-  		style.backgroundColor : defaultStyles.standard.backgroundColor;
+  	var style = $.extend({}, defaultStyles.standard);
   
-  	if (bold) {
+  	if (type && styleEnumValue !== StyleEnum.STANDARD) {
+  		style = mergeFormatting(style, defaultStyles[type]);
+  	}
+  
+  	if (style.bold) {
   		result += "b";
   	}
   
-  	if (italic) {
+  	if (style.italic) {
   		result += "i";
   	}
   
-  	if (color) {
-  		result += CONSTANTS.SEMI_COLON;
-  		result += color;
-  	}
+  	result += CONSTANTS.SEMI_COLON;
+  	result += style.color;
   
-  	if (backgroundColor) {
-  		if (bold || italic || color) {
-  			result += CONSTANTS.SEMI_COLON;
-  		}
-  		result += backgroundColor;
-  	}
+  	result += CONSTANTS.SEMI_COLON;
+  	result += style.backgroundColor;
   
   	return wrappedFormatting(result, this);
   };
@@ -163,40 +175,32 @@
   	return this.setFormat(StyleEnum.PGP);
   };
   
-  // Format date
-  var getDate = function(startDate, endDate) {
-  	return endDate ? startDate + CONSTANTS.DASH + endDate : startDate ?
-  		startDate + " - Present" : CONSTANTS.EMPTY;
-  };
+  // Intiate styles with custom added options
+  var initStyles = function(defaultStyles, options) {
+  	// Copy the object
+  	var styles = $.extend(true, {}, defaultStyles);
   
-  // Get degree name
-  var getFullDegree = function(studyType, area) {
-  	return area ? studyType + " of " + area : studyType ? studyType
-  	: CONSTANTS.EMPTY;
-  };
+  	$.each(options, function(key, value) {
+  		if (defaultStyles[key]) {
+  			if (value.color) {
+  				styles[key].color = value.color;
+  			}
   
-  // Build URL based on social media username
-  var buildUrl = function(network, username) {
-  	if (!network || !username) {
-  		return CONSTANTS.EMPTY;
-  	}
+  			if (!isUndefinedOrNull(value.bold)) {
+  				styles[key].bold = value.bold;
+  			}
   
-  	switch (network.toLowerCase()){
-  		case "twitter":
-  			return "https://www.twitter.com/" + username;
-  		case "github":
-  			return "https://www.github.com/" + username;
-  		case "linkedin":
-  			return "https://www.linkedin.com/in/" + username;
-  		case "facebook":
-  			return "https://www.facebook.com/" + username;
-  		case "reddit":
-  			return "https://www.reddit.com/user/" + username;
-  		case "hackernews":
-  			return "https://news.ycombinator.com/user?id=" + username;
-  		default:
-  			return CONSTANTS.EMPTY;
-  	}
+  			if (!isUndefinedOrNull(value.italic)) {
+  				styles[key].italic = value.italic;
+  			}
+  
+  			if (value.backgroundColor) {
+  				styles[key].backgroundColor = value.backgroundColor;
+  			}
+  		}
+  	});
+  
+  	return styles;
   };
   
   // Basic command handlers
@@ -233,36 +237,39 @@
   var arrayHandlerFunction = function(command, top) {
   	var result = CONSTANTS.EMPTY;
   
-  	if (!command.handlers ||
-  		(!command.handlers.title && !command.handlers.organisation &&
-  			!command.handlers.date)) {
+  	if (!command.handlers) {
   		return result;
   	}
   
   	command.data.some(function(value) {
-  		if (!top) {
-  			result += CONSTANTS.NEW_LINE;
-  		}
+  		var resultArray = [];
   
   		if (command.handlers.organisation) {
-  			if (!command.handlers.title && !command.handlers.date) {
-  				result += command.handlers.organisation(value);
-  			} else {
-  				result += command.handlers.organisation(value) + CONSTANTS.TAB;
+  			var organisationValue = command.handlers.organisation(value);
+  			if (organisationValue) {
+  				resultArray.push(organisationValue);
   			}
   		}
   
   		if (command.handlers.title) {
-  			if (!command.handlers.date) {
-  				result += command.handlers.title(value);
-  			} else {
-  				result += command.handlers.title(value) + CONSTANTS.TAB;
+  			var titleValue = command.handlers.title(value);
+  			if (titleValue) {
+  				resultArray.push(titleValue);
   			}
   		}
   
   		if (command.handlers.date) {
-  			result += command.handlers.date(value);
+  			var dateValue = command.handlers.date(value);
+  			if (dateValue) {
+  				resultArray.push(dateValue);
+  			}
   		}
+  
+  		if (!top && resultArray.length) {
+  			result += CONSTANTS.NEW_LINE;
+  		}
+  
+  		result += resultArray.join(CONSTANTS.TAB);
   
   		// Break after the first command
   		return top;
@@ -271,32 +278,54 @@
   	return result;
   };
   
-  // Intiate styles with custom added options
-  var initStyles = function(defaultStyles, options) {
-  	// Copy the object
-  	var styles = $.extend(true, {}, defaultStyles);
+  // Format date
+  var getDate = function(startDate, endDate) {
+  	if (endDate && startDate) {
+  		return startDate + CONSTANTS.DASH + endDate;
+  	} else if (!endDate && !startDate) {
+  		return CONSTANTS.EMPTY;
+  	} else if (!endDate) {
+  		return startDate + " - Present";
+  	} else {
+  		return "Until " + endDate;
+  	}
+  };
   
-  	$.each(options, function(key, value) {
-  		if (defaultStyles[key]) {
-  			if (value.color) {
-  				styles[key].color = value.color;
-  			}
+  // Get degree name
+  var getFullDegree = function(studyType, area) {
+  	if (!studyType && !area) {
+  		return CONSTANTS.EMPTY;
+  	} else if (!studyType) {
+  		return area;
+  	} else if (!area) {
+  		return studyType;
+  	} else {
+  		return studyType + " of " + area;
+  	}
+  };
   
-  			if (!isUndefinedOrNull(value.bold)) {
-  				styles[key].bold = value.bold;
-  			}
+  // Build URL based on social media username
+  var buildUrl = function(network, username) {
+  	if (!network || !username) {
+  		return CONSTANTS.EMPTY;
+  	}
   
-  			if (!isUndefinedOrNull(value.italic)) {
-  				styles[key].italic = value.italic;
-  			}
-  
-  			if (value.backgroundColor) {
-  				styles[key].backgroundColor = value.backgroundColor;
-  			}
-  		}
-  	});
-  
-  	return styles;
+  	switch (network.toLowerCase()){
+  		case "twitter":
+  			return "https://www.twitter.com/" + username;
+  		case "github":
+  			return "https://www.github.com/" + username;
+  		case "linkedin":
+  			return "https://www.linkedin.com/in/" + username;
+  		case "facebook":
+  			return "https://www.facebook.com/" + username;
+  		case "reddit":
+  			return "https://www.reddit.com/user/" + username;
+  		case "hackernews":
+  			return "https://news.ycombinator.com/user?id=" + username;
+  		default:
+  			return CONSTANTS.EMPTY;
+  	}
   };
   
   // Get Github URI based on username
@@ -357,18 +386,11 @@
   	return repoCache;
   };
   
-  $.fn.CMDResume = function(primaryEndpoint, secondaryEndpoint, options) {
+  $.fn.CMDResume = function(primaryEndpoint, options) {
   	// Get element
   	var element = this;
   
   	options = options || {};
-  
-  	// If there are no options, use second variable as options
-  	if (!options) {
-  		if ((typeof secondaryEndpoint) !== "string") {
-  			options = secondaryEndpoint;
-  		}
-  	}
   
   	defaultStyles = initStyles(defaultStyles, options);
   
@@ -453,10 +475,6 @@
   		return self.commandList.indexOf(command) >= 0;
   	};
   
-  	self.getCategory = function(command) {
-  		return self.commands[command].type;
-  	};
-  
   	self.initCommands = function() {
   		self.commands.man = {
   			title: "man".setCommand(),
@@ -505,18 +523,6 @@
   			};
   		}
   
-  		if (self.data.commands && self.data.commands.pgpkey) {
-  			self.commands.pgpkey = {
-  				title: "PGP Key",
-  				description: "public PGP key",
-  				data: self.data.commands.pgpkey,
-  				type: self.commandProcessor.calculated,
-  				handler: function(data) {
-  					return data.setPGP();
-  				}
-  			};
-  		}
-  
   		if (self.data.basics.summary) {
   			self.commands.about = {
   				title: "About",
@@ -528,13 +534,13 @@
   
   		if (self.data.basics.pdfLink) {
   			self.commands.pdf = {
-  				title: "Resume PDF",
+  				title: "Résumé PDF",
   				description: "pdf version of the résumé",
   				data: self.data.basics.pdfLink,
   				type: self.commandProcessor.calculated,
   				handler: function(data) {
   					window.open(data);
-  					return data + CONSTANTS.NEW_LINE +
+  					return decodeURIComponent(escape(data)) + CONSTANTS.NEW_LINE +
   					"Hint: May need to allow pop-ups.";
   				}
   			};
@@ -547,10 +553,21 @@
   				data: self.data.basics.location,
   				type: self.commandProcessor.calculated,
   				handler: function(data) {
-  					return data.city +
-  						(data.region ? CONSTANTS.COMA + data.region :
-  							CONSTANTS.EMPTY) + CONSTANTS.COMA +
-  							data.countryCode;
+  					var results = [];
+  
+  					if (data.city) {
+  						results.push(data.city);
+  					}
+  
+  					if (data.region) {
+  						results.push(data.region);
+  					}
+  
+  					if (data.countryCode) {
+  						results.push(data.countryCode);
+  					}
+  
+  					return results.join(CONSTANTS.COMA);
   				}
   			};
   		}
@@ -562,7 +579,7 @@
   				data: self.data.basics.label,
   				type: self.commandProcessor.calculated,
   				handler: function(data) {
-  					return data + " positions";
+  					return data;
   				}
   			};
   		}
@@ -574,33 +591,44 @@
   				data: self.data.basics.profiles,
   				type: self.commandProcessor.calculated,
   				handler: function(data) {
-  					var result = CONSTANTS.EMPTY;
-  					data.forEach(function(value, index) {
+  					var resultArray = [];
+  					data.forEach(function(value) {
   						if (value.network) {
-  							if (index !== 0) {
-  								result += CONSTANTS.NEW_LINE;
-  							}
-  
   							if (value.network.toLowerCase() === "email") {
-  								result += value.network +
-  								CONSTANTS.DASH +
-  								value.url.split(CONSTANTS.COLON).charAt(1);
+  								var address = "";
+  								if (value.url &&
+  									value.url.indexOf("mailto:") >= 0) {
+  									address = value.url.replace("mailto:", "");
+  								} else if (value.url) {
+  									address = value.url;
+  								} else if (value.username) {
+  									address = value.username;
+  								} else {
+  									return true; // continue
+  								}
+  
+  								resultArray.push("Email" +
+  									CONSTANTS.DASH + address);
   							} else if (value.url) {
-  								result += value.network + CONSTANTS.DASH +
-  								value.url;
+  								resultArray.push(value.network + CONSTANTS.DASH +
+  								value.url);
   							} else if (value.username) {
   								var url = CONSTANTS.EMPTY;
   
   								url = buildUrl(value.network, value.username);
   
   								if (url) {
-  									result += value.network +
-  									CONSTANTS.DASH + url;
+  									resultArray.push(value.network + CONSTANTS.DASH + url);
   								}
+  							} else {
+  								resultArray.push(value.network);
   							}
+  						} else if (value.url) {
+  							resultArray.push(value.url);
   						}
   					});
-  					return result;
+  
+  					return resultArray.join(CONSTANTS.NEW_LINE);
   				}
   			};
   		}
@@ -615,9 +643,16 @@
   					var result = CONSTANTS.EMPTY;
   
   					data.forEach(function(value, index) {
-  						result += value.level;
-  						result += " in ";
-  						result += value.name;
+  						if (value.level) {
+  							result += value.level;
+  							if (value.name) {
+  								result += " in ";
+  							}
+  						}
+  
+  						if (value.name) {
+  							result += value.name;
+  						}
   
   						// Make sure not the last entry
   						if (index !== data.length - 1) {
@@ -636,19 +671,17 @@
   			handler: function() {
   				var results = CONSTANTS.EMPTY;
   
-  				if (self.data.commands.splash) {
-  					if (self.data.commands.splash) {
-  						results += self.data.commands.splash;
-  						results += CONSTANTS.NEW_LINE;
-  					}
-  				}
-  
-  				if (self.data.basics.name) {
-  					results += "Welcome to " +
-  						self.data.basics.name.setName() +
-  						"'s résumé.";
+  				// Return custom splash if it exists
+  				if (self.data.customSplash) {
+  					results += self.data.customSplash;
   				} else {
-  					results += "Welcome to my résumé.";
+  					if (self.data.basics.name) {
+  						results += "Welcome to " +
+  							self.data.basics.name.setName() +
+  							"'s résumé.";
+  					} else {
+  						results += "Welcome to my résumé.";
+  					}
   				}
   
   				results += CONSTANTS.NEW_LINE;
@@ -681,7 +714,7 @@
   			};
   		}
   
-  		if (self.data.work) {
+  		if (self.data.work && self.data.work.length) {
   			self.commands.employment = {
   				title: "Employment",
   				description: "employment history",
@@ -786,10 +819,10 @@
   				data: self.data.interests,
   				handlers: {
   					organisation: function(value) {
-  						return value.name + CONSTANTS.COLON;
+  						return value.name ? value.name.setName() : "";
   					},
   					title: function(value) {
-  						return value.keywords.join(CONSTANTS.COMA);
+  						return value.keywords ? value.keywords.join(CONSTANTS.COMA) : "";
   					}
   				}
   			};
@@ -803,10 +836,10 @@
   				data: self.data.references,
   				handlers: {
   					organisation: function(value) {
-  						return (value.name).setName() + CONSTANTS.COLON;
+  						return value.name ? value.name.setName() : "";
   					},
   					title: function(value) {
-  						return CONSTANTS.NEW_LINE + value.reference;
+  						return value.reference;
   					}
   				}
   			};
@@ -817,40 +850,42 @@
   	self.initVariables = function() {
   		self.data.commands = {};
   
-  		self.data.basics.profiles.forEach(function(value) {
-  			if (!self.data.basics.githubUsername &&
-  				value.network.toLowerCase() === "github") {
-  				if (value.username) {
-  					self.data.basics.githubUsername = value.username;
-  				} else if (value.url) {
-  					self.data.basics.githubUsername = value.url;
+  		if (self.data.basics.profiles) {
+  			self.data.basics.profiles.forEach(function(value) {
+  
+  				if (!value.network) {// Ensure has network
+  					return;
   				}
-  			} else if (value.network.toLowerCase() === "resume") {
-  				self.data.basics.pdfLink = value.url;
-  			}
-  		});
+  
+  				if (!self.data.basics.githubUsername &&
+  					value.network.toLowerCase() === "github") {
+  					if (value.username) {
+  						self.data.basics.githubUsername = value.username;
+  					}
+  				} else if (value.network.toLowerCase() === "resume") {
+  					self.data.basics.pdfLink = value.url;
+  				}
+  			});
+  		}
   
   		if (self.data.basics.githubUsername) {
   			getGithub(getGithubUri(self.data.basics.githubUsername),
   				self.data.basics.githubUsername, self.showForks,
   				function(result) {
-  					// In the case of too many requests bail
-  					if (!isUndefinedOrNull(result.length)) {
-  						var formattedString = CONSTANTS.EMPTY;
+  					var formattedString = CONSTANTS.EMPTY;
   
-  						result.forEach(function(value, key) {
-  							formattedString += formatGithub(value, key === 0);
-  						});
+  					result.forEach(function(value, key) {
+  						formattedString += formatGithub(value, key === 0);
+  					});
   
-  						self.commands.github = {
-  							title: "Github Repositories",
-  							description: "list Github repositories",
-  							type: self.commandProcessor.basic,
-  							data: formattedString
-  						};
+  					self.commands.github = {
+  						title: "Github Repositories",
+  						description: "list Github repositories",
+  						type: self.commandProcessor.basic,
+  						data: formattedString
+  					};
   
-  						self.commandList.push("github");
-  					}
+  					self.commandList.push("github");
   				});
   		}
   	};
@@ -875,43 +910,52 @@
   	$.getJSON(primaryEndpoint, function(response) {
   		self.data = response;
   
-  		if (!secondaryEndpoint) {
-  			self.init(options);
+  		if (!self.data.basics) {
+  			self.data.basics = {};
   		}
   
-  		$.getJSON(secondaryEndpoint, function(response) {
-  			self.data.pgpkey = response.pgpkey;
+  		if (options.extraDetails) {
+  			$.getJSON(options.extraDetails, function(extraResponse) {
+  				self.data.pgpkey = extraResponse.pgpkey;
   
-  			if (self.data.pgpkey) {
-  				self.commands.pgpkey = {
-  					title: "PGP Key",
-  					description: "print PGP key",
-  					type: self.commandProcessor.calculated,
-  					handler: function() {
-  						var results = CONSTANTS.EMPTY;
+  				if (self.data.pgpkey) {
+  					self.commands.pgpkey = {
+  						title: "PGP Key",
+  						description: "public PGP key",
+  						type: self.commandProcessor.calculated,
+  						handler: function() {
+  							var results = CONSTANTS.EMPTY;
   
-  						for (var i = 0; i < self.data.pgpkey.length; i++) {
-  							results += self.data.pgpkey[i];
-  							if (i !== self.data.pgpkey.length - 1) {
-  								results += CONSTANTS.NEW_LINE;
+  							for (var i = 0; i < self.data.pgpkey.length; i++) {
+  								results += self.data.pgpkey[i];
+  								if (i !== self.data.pgpkey.length - 1) {
+  									results += CONSTANTS.NEW_LINE;
+  								}
   							}
+  							return results.setPGP();
   						}
-  						return results.setPGP();
+  					};
+  				}
+  
+  				if (extraResponse.github) {
+  					self.data.basics.githubUsername = extraResponse.github;
+  					self.data.githubCache = CONSTANTS.EMPTY;
+  				}
+  
+  				if (extraResponse.splash) {
+  					if (typeof extraResponse.splash === "string") {
+  						self.data.customSplash = extraResponse.splash +
+  							CONSTANTS.NEW_LINE;
+  					} else {
+  						self.data.customSplash = extraResponse.splash.join(
+  							CONSTANTS.NEW_LINE);
   					}
-  				};
-  			}
-  
-  			if (response.github) {
-  				self.data.basics.githubUsername = response.github;
-  				self.data.githubCache = CONSTANTS.EMPTY;
-  			}
-  
-  			if (response.splash) {
-  				self.data.splash = response.splash;
-  			}
-  
+  				}
+  				self.init(options);
+  			});
+  		} else {
   			self.init(options);
-  		});
+  		}
   	});
   
   	this.CMDResume = self;
