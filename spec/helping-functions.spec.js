@@ -196,6 +196,25 @@ describe("Wrap formatting", function() {
 	});
 });
 
+describe("Merge formatting", function() {
+	beforeEach(function() {
+		this.tempBackgroundColor = defaultStyles.standard.backgroundColor;
+		defaultStyles.standard.backgroundColor = "#000";
+	});
+	
+	afterEach(function() {
+		defaultStyles.standard.backgroundColor = this.tempBackgroundColor;
+	});
+
+	it("Handle Background Color", function() {
+		var overrideStyle = { backgroundColor: "purple"};
+		var baseStyle = defaultStyles.standard;
+		expect(baseStyle.backgroundColor).toBe("#000");
+		var outputStyle = mergeFormatting(baseStyle, overrideStyle);
+		expect(outputStyle.backgroundColor).toBe("purple");
+	});
+});
+
 describe("Set format", function() {
 	beforeEach(function() {
 		this.exampleText = "Hello World";
