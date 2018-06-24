@@ -87,7 +87,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		return self.commandList.indexOf(command) >= 0;
 	};
 
-	self.initCommands = function() {
+	self.initMan = function() {
 		self.commands.man = {
 			title: "man".setCommand(),
 			description: "describes what each command does",
@@ -105,7 +105,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				}
 			}
 		};
+	};
 
+	self.initHelp = function() {
 		self.commands.help = {
 			title: "Help",
 			description: "lists help for all the commands",
@@ -121,11 +123,15 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				return commands;
 			}
 		};
+	};
 
+	self.initClear = function() {
 		self.commands.clear = {
 			description: "clear command history from screen"
 		};
+	};
 
+	self.initName = function() {
 		if (self.data.basics.name) {
 			self.commands.name = {
 				title: "Name",
@@ -134,7 +140,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				type: self.commandProcessor.basic
 			};
 		}
+	};
 
+	self.initSummary = function() {
 		if (self.data.basics.summary) {
 			self.commands.about = {
 				title: "About",
@@ -143,7 +151,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				type: self.commandProcessor.basic
 			};
 		}
+	};
 
+	self.initPdfLink = function() {
 		if (self.data.basics.pdfLink) {
 			self.commands.pdf = {
 				title: "Résumé PDF",
@@ -157,7 +167,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				}
 			};
 		}
+	};
 
+	self.initLocation = function() {
 		if (self.data.basics.location) {
 			self.commands.location = {
 				title: "Location",
@@ -183,7 +195,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				}
 			};
 		}
+	};
 
+	self.initLabel = function() {
 		if (self.data.basics.label) {
 			self.commands.lookingfor = {
 				title: "Looking For",
@@ -195,7 +209,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				}
 			};
 		}
+	};
 
+	self.initProfiles = function() {
 		if (self.data.basics.profiles) {
 			self.commands.socialmedia = {
 				title: "Social Media",
@@ -244,7 +260,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				}
 			};
 		}
+	};
 
+	self.initSkills = function() {
 		if (self.data.skills) {
 			self.commands.skills = {
 				title: "Skills",
@@ -275,7 +293,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				}
 			};
 		}
+	};
 
+	self.initSplash = function() {
 		self.commands.splash = {
 			title: "Splash Screen",
 			description: "print the welcome screen",
@@ -305,7 +325,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				return results;
 			}
 		};
+	};
 
+	self.initEducation = function() {
 		if (self.data.education) {
 			self.commands.education = {
 				title: "Education",
@@ -325,7 +347,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				}
 			};
 		}
+	};
 
+	self.initWork = function() {
 		if (self.data.work && self.data.work.length) {
 			self.commands.employment = {
 				title: "Employment",
@@ -345,7 +369,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				}
 			};
 		}
+	};
 
+	self.initVolunteer = function() {
 		if (self.data.volunteer) {
 			self.commands.volunteering = {
 				title: "Volunteering",
@@ -365,7 +391,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				}
 			};
 		}
+	};
 
+	self.initAwards = function() {
 		if (self.data.awards) {
 			self.commands.awards = {
 				title: "Awards",
@@ -385,7 +413,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				}
 			};
 		}
+	};
 
+	self.initPublications = function() {
 		if (self.data.publications) {
 			self.commands.publications = {
 				title: "Publications",
@@ -405,7 +435,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				}
 			};
 		}
+	};
 
+	self.initLanguages = function() {
 		if (self.data.languages) {
 			self.commands.languages = {
 				title: "Languages",
@@ -422,7 +454,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				}
 			};
 		}
+	};
 
+	self.initInterests = function() {
 		if (self.data.interests) {
 			self.commands.interests = {
 				title: "Interests",
@@ -439,7 +473,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				}
 			};
 		}
+	};
 
+	self.initReferences = function() {
 		if (self.data.references) {
 			self.commands.references = {
 				title: "References",
@@ -456,6 +492,28 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				}
 			};
 		}
+	};
+
+	self.initCommands = function() {
+		self.initMan();
+		self.initHelp();
+		self.initClear();
+		self.initName();
+		self.initSummary();
+		self.initPdfLink();
+		self.initLocation();
+		self.initLabel();
+		self.initProfiles();
+		self.initSkills();
+		self.initSplash();
+		self.initEducation();
+		self.initWork();
+		self.initVolunteer();
+		self.initAwards();
+		self.initPublications();
+		self.initLanguages();
+		self.initInterests();
+		self.initReferences();
 	};
 
 	// Initialize variables
