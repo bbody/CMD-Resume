@@ -220,40 +220,14 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				type: self.commandProcessor.calculated,
 				handler: function(data) {
 					var resultArray = [];
+
 					data.forEach(function(value) {
-						if (value.network) {
-							if (value.network.toLowerCase() === "email") {
-								var address = "";
-								if (value.url &&
-									value.url.indexOf("mailto:") >= 0) {
-									address = value.url.replace("mailto:", "");
-								} else if (value.url) {
-									address = value.url;
-								} else if (value.username) {
-									address = value.username;
-								} else {
-									return true; // continue
-								}
-
-								resultArray.push("Email" +
-									CONSTANTS.DASH + address);
-							} else if (value.url) {
-								resultArray.push(value.network + CONSTANTS.DASH +
-								value.url);
-							} else if (value.username) {
-								var url = CONSTANTS.EMPTY;
-
-								url = buildUrl(value.network, value.username);
-
-								if (url) {
-									resultArray.push(value.network + CONSTANTS.DASH + url);
-								}
-							} else {
-								resultArray.push(value.network);
-							}
-						} else if (value.url) {
-							resultArray.push(value.url);
+						var socialMediaProfile = buildSocialMedia(value);
+						if (!socialMediaProfile) {
+							return true;
 						}
+
+						resultArray.push(socialMediaProfile);
 					});
 
 					return resultArray.join(CONSTANTS.NEW_LINE);
@@ -516,30 +490,25 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		self.initReferences();
 	};
 
-	// Initialize variables
-	self.initVariables = function() {
-		self.data.commands = {};
+	self.initSocialMedia = function() {
+		self.data.basics.profiles.forEach(function(value) {
+			if (!value.network) {// Ensure has network
+				return;
+			}
 
-		if (self.data.basics.profiles) {
-			self.data.basics.profiles.forEach(function(value) {
-
-				if (!value.network) {// Ensure has network
-					return;
+			if (!self.data.basics.githubUsername &&
+				value.network.toLowerCase() === "github") {
+				if (value.username) {
+					self.data.basics.githubUsername = value.username;
 				}
+			} else if (value.network.toLowerCase() === "resume") {
+				self.data.basics.pdfLink = value.url;
+			}
+		});
+	};
 
-				if (!self.data.basics.githubUsername &&
-					value.network.toLowerCase() === "github") {
-					if (value.username) {
-						self.data.basics.githubUsername = value.username;
-					}
-				} else if (value.network.toLowerCase() === "resume") {
-					self.data.basics.pdfLink = value.url;
-				}
-			});
-		}
-
-		if (self.data.basics.githubUsername) {
-			getGithub(getGithubUri(self.data.basics.githubUsername),
+	self.initGithub = function() {
+		getGithub(getGithubUri(self.data.basics.githubUsername),
 				self.data.basics.githubUsername, self.showForks,
 				function(result) {
 					var formattedString = CONSTANTS.EMPTY;
@@ -557,6 +526,18 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 
 					self.commandList.push("github");
 				});
+	};
+
+	// Initialize variables
+	self.initVariables = function() {
+		self.data.commands = {};
+
+		if (self.data.basics.profiles) {
+			self.initSocialMedia();
+		}
+
+		if (self.data.basics.githubUsername) {
+			self.initGithub();
 		}
 	};
 
