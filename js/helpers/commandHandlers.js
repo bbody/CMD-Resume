@@ -15,12 +15,10 @@ var systemHandlerFunction = function(command) {
 			return command.handler(command.data);
 		} else if (command.data) {
 			return command.data;
-		} else {
-			return CONSTANTS.EMPTY;
 		}
-	} else {
-		return CONSTANTS.EMPTY;
 	}
+
+	return CONSTANTS.EMPTY;
 };
 
 // Calculated command handler
@@ -94,9 +92,9 @@ var getFullDegree = function(studyType, area) {
 		return area;
 	} else if (!area) {
 		return studyType;
-	} else {
-		return studyType + " of " + area;
 	}
+
+	return studyType + " of " + area;
 };
 
 // Build URL based on social media username
