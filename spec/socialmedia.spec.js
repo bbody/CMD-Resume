@@ -93,7 +93,7 @@ describe("Social Media", function(){
 		});
 		it("Missing url", function(){
 			var output = socialmedia.fullCommandOutput();
-			expect(output.values[1]).toEqual("SoundCloud");
+			expect(output.values.length).toEqual(1);
 		});
 	});
 
@@ -156,7 +156,7 @@ describe("Social Media", function(){
 			expect(output.values[0]).toEqual("GitHub - https://www.github.com/test");
 		});
 
-		it("It isn't a known network", function(){
+		it("It isn't a known network (network, username)", function(){
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify({basics: {profiles: [{network: "Network", username: "test"}]}})
@@ -168,7 +168,7 @@ describe("Social Media", function(){
 			expect(output.values.length).toEqual(0);
 		});
 
-		it("It isn't a known network", function(){
+		it("It isn't a known network (url)", function(){
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify({basics: {profiles: [{url: "http://example.com/"}]}})
@@ -180,7 +180,7 @@ describe("Social Media", function(){
 			expect(output.values[0]).toEqual("http://example.com/");
 		});
 
-		it("It isn't a known network", function(){
+		it("It isn't a known network (username)", function(){
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify({basics: {profiles: [{username: "test"}]}})
