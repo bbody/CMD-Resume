@@ -146,7 +146,7 @@ gulp.task('jscs:tests', function() {
 });
 
 gulp.task('jsonlint', function() {
-	gulp.src('fixtures/**/*.json')
+	gulp.src(['**/*.json', '!node_modules/**'])
 		.pipe(jsonlint())
 		.pipe(jsonlint.report('verbose'));
 });
