@@ -222,7 +222,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 					var resultArray = [];
 
 					data.forEach(function(value) {
-						var socialMediaProfile = buildSocialMedia(value);
+						var socialMediaProfile = buildSocialNetwork(value);
 						if (!socialMediaProfile) {
 							return true;
 						}
