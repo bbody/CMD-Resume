@@ -75,7 +75,7 @@ var arrayHandlerFunction = function(command, top) {
 
 // Format date
 var getDate = function(startDate, endDate) {
-	if (!endDate || !startDate) {
+	if (!endDate && !startDate) {
 		return CONSTANTS.EMPTY;
 	} else if (!endDate) {
 		return startDate + " - Present";
