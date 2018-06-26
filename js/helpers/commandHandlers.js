@@ -121,24 +121,39 @@ var buildUrl = function(network, username) {
 	}
 };
 
-var buildSocialMedia = function(value) {
-	if (value.network) {
-		if (value.network.toLowerCase() === "email") {
-			return buildEmail(value.url, value.username);
-		} else if (value.url) {
-			return value.network + CONSTANTS.DASH + value.url;
-		} else if (value.username) {
-			var url = buildUrl(value.network, value.username);
+var buildSocialNetworkAddress = function(network, url, username) {
+	if (network.toLowerCase() === "email") {
+		return buildEmail(url, username);
+	} else if (url) {
+		return url;
+	} else if (username) {
+		var url = buildUrl(network, username);
 
-			if (url) {
-				return value.network + CONSTANTS.DASH + url;
-			}
-		} else {
-			return value.network;
+		if (url) {
+			return url;
 		}
 	}
+	return false;
+};
 
-	return value.url;
+String.prototype.upperCaseFirstLetter = function() {
+	if (!this) {
+		return "";
+	}
+
+	return this[0].toUpperCase() + this.slice(1);
+};
+
+var buildSocialNetwork = function(value) {
+	if (value.network) {
+		var address = buildSocialNetworkAddress(value.network, value.url,
+			value.username);
+		if (address) {
+			return value.network.upperCaseFirstLetter() + CONSTANTS.DASH + address;
+		}
+		return false;
+	}
+	return value.url ? value.url : false;
 };
 
 var parseEmail = function(email) {
@@ -155,7 +170,7 @@ var buildEmail = function(email, username) {
 	}
 
 	if (address) {
-		return "Email" + CONSTANTS.DASH + address;
+		return address;
 	}
 
 	return false;
