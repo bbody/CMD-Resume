@@ -122,23 +122,22 @@ var buildUrl = function(network, username) {
 };
 
 var buildSocialMedia = function(value) {
-	if (value.network) {
-		if (value.network.toLowerCase() === "email") {
-			return buildEmail(value.url, value.username);
-		} else if (value.url) {
-			return value.network + CONSTANTS.DASH + value.url;
-		} else if (value.username) {
-			var url = buildUrl(value.network, value.username);
-
-			if (url) {
-				return value.network + CONSTANTS.DASH + url;
-			}
-		} else {
-			return value.network;
-		}
+	if (!value.network) {
+		return value.url ? value.url : false;
 	}
 
-	return value.url;
+	if (value.network.toLowerCase() === "email") {
+		return buildEmail(value.url, value.username);
+	} else if (value.url) {
+		return value.network + CONSTANTS.DASH + value.url;
+	} else if (value.username) {
+		var url = buildUrl(value.network, value.username);
+
+		if (url) {
+			return value.network + CONSTANTS.DASH + url;
+		}
+	}
+	return value.network;
 };
 
 var parseEmail = function(email) {
