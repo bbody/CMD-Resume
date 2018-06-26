@@ -103,7 +103,7 @@ var buildUrl = function(network, username) {
 		return CONSTANTS.EMPTY;
 	}
 
-	switch (network.toLowerCase()){
+	switch (network.toLowerCase()) {
 		case "twitter":
 			return "https://www.twitter.com/" + username;
 		case "github":
@@ -119,4 +119,36 @@ var buildUrl = function(network, username) {
 		default:
 			return CONSTANTS.EMPTY;
 	}
+};
+
+var buildSocialMedia = function(value) {
+	if (value.network) {
+		if (value.network.toLowerCase() === "email") {
+			var address = "";
+			if (value.url &&
+				value.url.indexOf("mailto:") >= 0) {
+				address = value.url.replace("mailto:", "");
+			} else if (value.url) {
+				address = value.url;
+			} else if (value.username) {
+				address = value.username;
+			} else {
+				return false; // Nothing
+			}
+
+			return "Email" + CONSTANTS.DASH + address;
+		} else if (value.url) {
+			return value.network + CONSTANTS.DASH + value.url;
+		} else if (value.username) {
+			var url = buildUrl(value.network, value.username);
+
+			if (url) {
+				return value.network + CONSTANTS.DASH + url;
+			}
+		} else {
+			return value.network;
+		}
+	}
+
+	return value.url;
 };
