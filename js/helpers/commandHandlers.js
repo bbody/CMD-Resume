@@ -124,19 +124,8 @@ var buildUrl = function(network, username) {
 var buildSocialMedia = function(value) {
 	if (value.network) {
 		if (value.network.toLowerCase() === "email") {
-			var address = "";
-			if (value.url &&
-				value.url.indexOf("mailto:") >= 0) {
-				address = value.url.replace("mailto:", "");
-			} else if (value.url) {
-				address = value.url;
-			} else if (value.username) {
-				address = value.username;
-			} else {
-				return false; // Nothing
-			}
-
-			return "Email" + CONSTANTS.DASH + address;
+			var email = buildEmail(value.url, value.username);
+			return email;
 		} else if (value.url) {
 			return value.network + CONSTANTS.DASH + value.url;
 		} else if (value.username) {
@@ -151,4 +140,22 @@ var buildSocialMedia = function(value) {
 	}
 
 	return value.url;
+};
+
+var buildEmail = function(email, username) {
+	var address = "";
+
+	if (email) {
+		if (email.indexOf("mailto:") >= 0) {
+			address = email.replace("mailto:", "");
+		} else {
+			address = email;
+		}
+	} else if (username) {
+		address = username;
+	} else {
+		return false;
+	}
+
+	return "Email" + CONSTANTS.DASH + address;
 };
