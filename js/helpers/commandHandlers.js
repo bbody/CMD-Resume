@@ -137,11 +137,11 @@ var buildSocialNetworkAddress = function(network, url, username) {
 };
 
 String.prototype.upperCaseFirstLetter = function() {
-	if (!this) {
+	if (!this || !this.length) {
 		return "";
 	}
 
-	return this[0].toUpperCase() + this.slice(1);
+	return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
 var buildSocialNetwork = function(value) {
@@ -166,7 +166,7 @@ var buildEmail = function(email, username) {
 	if (email) {
 		address = parseEmail(email);
 	} else if (username) {
-		address = parseEmail(username);;
+		address = parseEmail(username);
 	}
 
 	if (address) {

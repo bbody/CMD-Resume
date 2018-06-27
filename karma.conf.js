@@ -9,7 +9,7 @@ module.exports = function(config) {
 			'spec/support/helpers.js',
 			'js/helpers/*.js',
 			'js/cmd-resume.js',
-			'spec/*.spec.js',
+			'spec/**/*.spec.js',
 			'fixtures/**/*.json'
 		],
 		exclude: [],
