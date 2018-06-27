@@ -166,7 +166,7 @@ var buildEmail = function(email, username) {
 	if (email) {
 		address = parseEmail(email);
 	} else if (username) {
-		address = parseEmail(username);;
+		address = parseEmail(username);
 	}
 
 	if (address) {
