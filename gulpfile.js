@@ -22,6 +22,21 @@ var SOURCE = ['js/helpers/constants.js', 'js/helpers/misc.js',
 	'js/cmd-resume.js'];
 var OUTPUT = ['./tmp/js/cmd-resume.js'];
 
+var OPERATING_SYSTEM = 'linux';
+
+function getCurrentOperatingSystem() {
+	var os = require('os');
+	if (os.platform().includes('mac') || os.platform().includes('darwin')) {
+		return 'macos';
+	} else if (os.platform().includes('win')) {
+		return 'windows';
+	} else {
+		return 'linux';
+	}
+}
+
+OPERATING_SYSTEM = getCurrentOperatingSystem();
+
 // Useful functions
 function getVersion() {
 	return package.version;
@@ -60,6 +75,8 @@ function compiledCode(destination, minified, versioned) {
 
 	return stream.pipe(gulp.dest(destination));
 }
+
+gulp.task('test:local', [`test:${OPERATING_SYSTEM}`]);
 
 // Default Gulp task is develop
 gulp.task('default', ['develop']);
@@ -315,7 +332,7 @@ gulp.task('test:karma:macos', function(done) {
 });
 
 gulp.task('test:karma:windows', function(done) {
-	return runTests(['Chrome', 'Firefox', 'IE'], done);
+	return runTests(['Chrome', 'Firefox', 'IE', 'Edge'], done);
 });
 
 gulp.task('test:e2e:build', function() {
@@ -343,11 +360,63 @@ gulp.task('test:e2e:build', function() {
 	}));
 });
 
+gulp.task('test:e2e:windows', function() {
+	return gulp.src('wdio.conf.js').pipe(webdriver({
+		capabilities: [
+			{
+				browserName: 'chrome'
+			},
+			{
+				browserName: 'firefox'
+			},
+			{
+				browserName: 'internet explorer'
+			},
+			{
+				browserName: 'MicrosoftEdge'
+			}
+		]
+	}));
+});
+
+gulp.task('test:e2e:macos', function() {
+	return gulp.src('wdio.conf.js').pipe(webdriver({
+		capabilities: [
+			{
+				browserName: 'chrome'
+			},
+			{
+				browserName: 'firefox'
+			},
+			{
+				browserName: 'safari'
+			}
+		]
+	}));
+});
+
+gulp.task('test:e2e:linux', function() {
+	return gulp.src('wdio.conf.js').pipe(webdriver({
+		capabilities: [
+			{
+				browserName: 'chrome'
+			},
+			{
+				browserName: 'firefox'
+			}
+		]
+	}));
+});
+
 gulp.task('test:e2e', function() {
 	return gulp.src('wdio.conf.js').pipe(webdriver());
 });
 
 gulp.task('test:e2e:pre', ['copy:icons:test', 'compile:html:test', 'copy:json:test', 'copy:js:test']);
+
+gulp.task('test:macos', ['test:karma:macos', 'test:e2e:pre', 'test:e2e:macos']);
+gulp.task('test:windows', ['test:karma:windows', 'test:e2e:pre', 'test:e2e:windows']);
+gulp.task('test:linux', ['test:karma:linux', 'test:e2e:pre', 'test:e2e:linux']);
 
 // Deployment
 gulp.task('build-gh-pages', ['compile:gh-pages', 'compile:html:example',
