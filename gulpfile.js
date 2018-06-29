@@ -22,8 +22,6 @@ var SOURCE = ['js/helpers/constants.js', 'js/helpers/misc.js',
 	'js/cmd-resume.js'];
 var OUTPUT = ['./tmp/js/cmd-resume.js'];
 
-var OPERATING_SYSTEM = 'linux';
-
 function getCurrentOperatingSystem() {
 	var os = require('os');
 	if (os.platform().includes('mac') || os.platform().includes('darwin')) {
@@ -35,7 +33,7 @@ function getCurrentOperatingSystem() {
 	}
 }
 
-OPERATING_SYSTEM = getCurrentOperatingSystem();
+var OPERATING_SYSTEM = getCurrentOperatingSystem();
 
 // Useful functions
 function getVersion() {
