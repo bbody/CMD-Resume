@@ -121,13 +121,33 @@ var buildUrl = function(network, username) {
 	}
 };
 
+var parseEmail = function(email) {
+	return email.replace("mailto:", "");
+};
+
+var buildEmail = function(email, username) {
+	var address = "";
+
+	if (email) {
+		address = parseEmail(email);
+	} else if (username) {
+		address = parseEmail(username);
+	}
+
+	if (address) {
+		return address;
+	}
+
+	return false;
+};
+
 var buildSocialNetworkAddress = function(network, url, username) {
 	if (network.toLowerCase() === "email") {
 		return buildEmail(url, username);
 	} else if (url) {
 		return url;
 	} else if (username) {
-		var url = buildUrl(network, username);
+		url = buildUrl(network, username);
 
 		if (url) {
 			return url;
@@ -154,24 +174,4 @@ var buildSocialNetwork = function(value) {
 		return false;
 	}
 	return value.url ? value.url : false;
-};
-
-var parseEmail = function(email) {
-	return email.replace("mailto:", "");
-};
-
-var buildEmail = function(email, username) {
-	var address = "";
-
-	if (email) {
-		address = parseEmail(email);
-	} else if (username) {
-		address = parseEmail(username);
-	}
-
-	if (address) {
-		return address;
-	}
-
-	return false;
 };
