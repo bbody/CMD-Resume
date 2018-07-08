@@ -310,7 +310,6 @@ gulp.task('compile:development', function() {
 let runTests = (browsers, done) => {
 	new Server({
 		configFile: `${__dirname}/karma.conf.js`,
-		singleRun: true,
 		browsers: browsers
 	}, done).start();
 };
