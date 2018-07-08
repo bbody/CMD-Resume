@@ -277,12 +277,12 @@ gulp.task('compile:html:test', function() {
 	// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 	const locals = {
 		production: false,
-		jquery_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery/${getLibraryVersion('jquery')}/jquery.min.js`,
-		jquery_mousewheel_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/${getLibraryVersion('jquery-mousewheel')}/jquery.mousewheel.min.js`,
-		jquery_terminal_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/${getLibraryVersion('jquery.terminal')}/js/jquery.terminal.min.js`,
+		jquery_script_location: `./node_modules/jquery/dist/jquery.min.js`,
+		jquery_mousewheel_script_location: `./node_modules/jquery-mousewheel/jquery.mousewheel.js`,
+		jquery_terminal_script_location: `./node_modules/jquery.terminal/js/jquery.terminal.min.js`,
 		init_script_location: false, // Allow script to be triggered from code
 		cmd_resume_script_location: './js/cmd-resume.js',
-		jquery_terminal_stylesheet_location: `//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/${getLibraryVersion('jquery.terminal')}/css/jquery.terminal.min.css`,
+		jquery_terminal_stylesheet_location: `./node_modules/jquery.terminal/css/jquery.terminal.min.css`,
 		sitename: 'Command Line Résumé',
 		favicon_directory: '.'
 	};
