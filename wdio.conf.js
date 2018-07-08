@@ -174,7 +174,7 @@ exports.config = {
     jasmineNodeOpts: {
         //
         // Jasmine default timeout
-        defaultTimeoutInterval: 5000,
+        defaultTimeoutInterval: 10000,
         //
         // The Jasmine framework allows it to intercept each assertion in order to log the state of the application
         // or website depending on the result. For example it is pretty handy to take a screenshot every time
@@ -218,7 +218,8 @@ exports.config = {
     services: ['selenium-standalone', 'static-server'],
 
     staticServerFolders: [
-     { mount: '/', path: './test_tmp' }
+     { mount: '/', path: './test_tmp' },
+     { mount: '/node_modules', path: './node_modules' }
    ],
    staticServerPort: 4567,
 
