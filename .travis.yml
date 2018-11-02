@@ -1,4 +1,4 @@
-flanguage: node_js
+language: node_js
 node_js:
 - '10'
 dist: trusty
@@ -40,9 +40,7 @@ deploy:
     skip_cleanup: true
     api_key: $GITHUB_TOKEN
     name: ${PACKAGE_VERSION}
-    file:
-      - "./dist/cmd-resume.js"
-      - "./dist/cmd-resume.min.js"
+    file: "./dist/cmd-resume*.js"
     on:
       branch: master
       tags: true
