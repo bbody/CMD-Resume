@@ -222,6 +222,10 @@ exports.config = {
      { mount: '/node_modules', path: './node_modules' }
    ],
    staticServerPort: 4567,
+   
+   // Firefox workaround
+   seleniumArgs: {drivers: Object.assign({}, require('selenium-standalone/lib/default-config').drivers, {firefox: {version: '0.23.0'}})},
+   seleniumInstallArgs: {drivers: Object.assign({}, require('selenium-standalone/lib/default-config').drivers, {firefox: {version: '0.23.0'}})},
 
     /**
      * Gets executed once before all workers get launched.
