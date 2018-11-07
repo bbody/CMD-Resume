@@ -83,7 +83,8 @@
     "wdio-jasmine-framework": "^0.3.7",
     "wdio-selenium-standalone-service": "0.0.10",
     "wdio-static-server-service": "^1.0.1",
-    "webdriverio": "^4.14.0"
+    "webdriverio": "^4.14.0",
+    "yaml-lint": "^1.2.4"
   },
   "scripts": {
     "test": "npm run unit-test && npm run e2e",
@@ -96,9 +97,10 @@
     "e2e:linux": "gulp test:e2e:pre && gulp test:e2e:linux",
     "release": "gulp release",
     "gh-pages": "gulp build-gh-pages",
-    "source-check": "gulp source-check",
-    "linter": "travis lint",
-    "install:travis": "gem install travis"
+    "source-check": "gulp source-check && npm run lint:yaml",
+    "setup": "gem install travis",
+    "lint:yaml": "yamllint .travis.yml",
+    "lint:travis": "travis lint"
   },
   "resolutions": {
     "natives": "1.1.3"
@@ -106,8 +108,8 @@
   "husky": {
     "hooks": {
       "prepare-commit-msg": "hooks/prepare-commit-msg ${HUSKY_GIT_PARAMS}",
-      "pre-commit": "npm run source-check && npm run linter",
-      "pre-push": "gulp test:local"
+      "pre-commit": "npm run source-check",
+      "pre-push": "lint:travis && gulp test:local"
     }
   }
 }
