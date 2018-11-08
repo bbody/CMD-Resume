@@ -13,8 +13,10 @@ before_script:
 - sudo apt install firefox
 - npm install
 - npm install -g gulp-cli
+- npm run setup
 script:
 - npm run test:build
+- npm run source-check
 cache:
   directories:
   - node_modules
@@ -40,9 +42,7 @@ deploy:
     skip_cleanup: true
     api_key: $GITHUB_TOKEN
     name: ${PACKAGE_VERSION}
-    file:
-      - "./dist/cmd-resume.js"
-      - "./dist/cmd-resume.min.js"
+    file: "./dist/cmd-resume*.js"
     on:
       branch: master
       tags: true
