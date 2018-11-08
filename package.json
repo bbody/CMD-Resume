@@ -97,7 +97,7 @@
     "e2e:linux": "gulp test:e2e:pre && gulp test:e2e:linux",
     "release": "gulp release",
     "gh-pages": "gulp build-gh-pages",
-    "source-check": "gulp source-check && npm run lint:yaml",
+    "source-check": "gulp source-check && npm run lint:yaml && npm run lint:travis",
     "setup": "gem install travis",
     "lint:yaml": "yamllint .travis.yml",
     "lint:travis": "travis lint"
@@ -109,7 +109,7 @@
     "hooks": {
       "prepare-commit-msg": "hooks/prepare-commit-msg ${HUSKY_GIT_PARAMS}",
       "pre-commit": "npm run source-check",
-      "pre-push": "npm run lint:travis && gulp test:local"
+      "pre-push": "gulp test:local"
     }
   }
 }
