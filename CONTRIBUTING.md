@@ -9,7 +9,7 @@ This guide assumes you are using a command line, if you want to use other tools 
 1. Clone the Github repository `git clone https://github.com/bbody/CMD-Resume.git`
 2. Change directory to the repository `cd CMD-Resume`
 3. [Install Node and NPM](https://docs.npmjs.com/getting-started/installing-node) (if not already installed)
-4. Install the dependencies `npm install`
+4. Install the dependencies `npm install` and `npm run setup`
 5. Install gulp command line tool `npm i -g gulp-cli` or `sudo npm i -g gulp-cli` if the first does not work
 6. Test if the running script works `gulp`
 
@@ -53,7 +53,9 @@ Despite CMD-Resume being quite simple there are quite a few packages and tools w
 - Source Checking
     - [JSHint](http://jshint.com/) - used to pick up simple JavaScript problems which could lead to bugs (differs across code, tests and tooling)
     - [JSCS](http://jscs.info/) - used to ensure code style is consistent (differs across code, tests and tooling)
-    - [JSON Lint](https://github.com/zaach/jsonlint) - used to check the 
+    - [JSON Lint](https://github.com/zaach/jsonlint) - used to check the JSON files creating the resume
+    - [YAML Lint](https://github.com/rasshofer/yaml-lint) - used to lint the Travis file
+    - [Travis Lint](https://github.com/travis-ci/travis.rb#lint) - used to lint and verify the Travis file according to Travis' recommended format
     - [Code Climate](https://codeclimate.com/github/bbody/CMD-Resume) - used to provide code coverage and code quality analysis
 - HTML
     - [PugJs](https://github.com/pugjs/pug) - used for building HTML through templating
