@@ -109,7 +109,7 @@
     "hooks": {
       "prepare-commit-msg": "hooks/prepare-commit-msg ${HUSKY_GIT_PARAMS}",
       "pre-commit": "npm run source-check",
-      "pre-push": "lint:travis && gulp test:local"
+      "pre-push": "npm run lint:travis && gulp test:local"
     }
   }
 }
