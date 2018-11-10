@@ -1,23 +1,26 @@
+---
 language: node_js
 node_js:
-- '10'
+  - '10'
 dist: trusty
 sudo: required
 before_script:
-- "sh -e /etc/init.d/xvfb start"
-- sleep 3
-- sudo apt-get update
-- sudo apt-get install -y libappindicator1 fonts-liberation
-- wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-- sudo dpkg -i google-chrome*.deb
-- sudo apt install firefox
-- npm install
-- npm install -g gulp-cli
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3
+  - sudo apt-get update
+  - sudo apt-get install -y libappindicator1 fonts-liberation
+  - >
+    wget
+    https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  - sudo dpkg -i google-chrome*.deb
+  - sudo apt install firefox
+  - npm install
+  - npm install -g gulp-cli
 script:
-- npm run test:build
+  - npm run test:build
 cache:
   directories:
-  - node_modules
+    - node_modules
 env:
   global:
     - CXX=g++-4.8 CC=gcc-4.8
@@ -25,16 +28,16 @@ env:
 addons:
   - apt:
     sources:
-    - ubuntu-toolchain-r-test
+      - ubuntu-toolchain-r-test
     packages:
-    - g++-4.8
-    - code_climate
+      - g++-4.8
+      - code_climate
 before_install:
-- jdk_switcher use oraclejdk8
+  - jdk_switcher use oraclejdk8
 before_deploy:
-- npm run release
-- npm run gh-pages
-- PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
+  - npm run release
+  - npm run gh-pages
+  - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
 deploy:
   - provider: releases
     skip_cleanup: true
