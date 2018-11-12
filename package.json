@@ -99,7 +99,7 @@
     "source-check": "gulp source-check && npm run lint:yaml && npm run lint:travis",
     "setup": "gem install travis -v 1.8.9 --no-rdoc --no-ri && sudo pip install yamllint",
     "lint:yaml": "yamllint .travis.yml",
-    "lint:travis": "travis lint .travis.yml"
+    "lint:travis": "travis lint .travis.yml --skip-completion-check"
   },
   "resolutions": {
     "natives": "1.1.3"
