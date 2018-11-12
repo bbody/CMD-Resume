@@ -35,6 +35,7 @@ addons:
       - code_climate
 before_install:
   - jdk_switcher use oraclejdk8
+  - npm run setup
 before_deploy:
   - npm run release
   - npm run gh-pages
