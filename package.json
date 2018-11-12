@@ -97,7 +97,7 @@
     "release": "gulp release",
     "gh-pages": "gulp build-gh-pages",
     "source-check": "gulp source-check && npm run lint:yaml && npm run lint:travis",
-    "setup": "gem install travis && pip install yamllint",
+    "setup": "gem install travis && sudo apt-get install yamllint",
     "lint:yaml": "yamllint .travis.yml",
     "lint:travis": "travis lint"
   },
