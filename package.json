@@ -83,8 +83,7 @@
     "wdio-jasmine-framework": "^0.3.7",
     "wdio-selenium-standalone-service": "0.0.10",
     "wdio-static-server-service": "^1.0.1",
-    "webdriverio": "^4.14.0",
-    "yaml-lint": "^1.2.4"
+    "webdriverio": "^4.14.0"
   },
   "scripts": {
     "test": "npm run unit-test && npm run e2e",
@@ -98,9 +97,9 @@
     "release": "gulp release",
     "gh-pages": "gulp build-gh-pages",
     "source-check": "gulp source-check && npm run lint:yaml && npm run lint:travis",
-    "setup": "gem install travis",
+    "setup": "gem install travis -v 1.8.9 --no-rdoc --no-ri && sudo pip install yamllint",
     "lint:yaml": "yamllint .travis.yml",
-    "lint:travis": "travis lint"
+    "lint:travis": "travis lint .travis.yml --skip-completion-check"
   },
   "resolutions": {
     "natives": "1.1.3"
