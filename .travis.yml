@@ -28,7 +28,7 @@ env:
     - CXX=g++-4.8 CC=gcc-4.8
     - CHROME_BIN=/usr/bin/google-chrome
 addons:
-  apt:
+  - apt:
     sources:
       - ubuntu-toolchain-r-test
     packages:
@@ -45,14 +45,17 @@ deploy:
   - provider: script
     skip_cleanup: true
     script: npx semantic-release
-  - provider: releases
-    skip_cleanup: true
-    api_key: $GITHUB_TOKEN
-    name: ${PACKAGE_VERSION}
-    file: "./dist/cmd-resume*.js"
     on:
       branch: master
       tags: true
+  # - provider: releases
+  #   skip_cleanup: true
+  #   api_key: $GITHUB_TOKEN
+  #   name: ${PACKAGE_VERSION}
+  #   file: "./dist/cmd-resume*.js"
+  #   on:
+  #     branch: master
+  #     tags: true
   - provider: pages
     skip_cleanup: true
     local_dir: ./tmp
@@ -63,13 +66,13 @@ deploy:
     on:
       branch: master
       tags: true
-  - provider: npm
-    skip_cleanup: true
-    email: "bbody.project@gmail.com"
-    api_key: $NPMJS_TOKEN
-    on:
-      branch: master
-      tags: true
+  # - provider: npm
+  #   skip_cleanup: true
+  #   email: "bbody.project@gmail.com"
+  #   api_key: $NPMJS_TOKEN
+  #   on:
+  #     branch: master
+  #     tags: true
 after_success:
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < coverage/lcov.info
