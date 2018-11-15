@@ -3,6 +3,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/245ed2739858462f5337/test_coverage)](https://codeclimate.com/github/bbody/CMD-Resume/test_coverage)
 [![devDependencies Status](https://david-dm.org/bbody/cmd-resume/dev-status.svg)](https://david-dm.org/bbody/cmd-resume?type=dev)
 [![npm version](https://badge.fury.io/js/cmd-resume.svg)](https://badge.fury.io/js/cmd-resume)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=TXJtSnFra2t1em56djV0cDNHbXBWQ0F1S2ZwWFNndG0rQTlySU5YaUZaUT0tLTFsTlp3ZUcrT29rMUNPcXhtbHRpNXc9PQ==--8f9c890ea5f00b2700273a981af403651fea3f65)](https://www.browserstack.com/automate/public-build/TXJtSnFra2t1em56djV0cDNHbXBWQ0F1S2ZwWFNndG0rQTlySU5YaUZaUT0tLTFsTlp3ZUcrT29rMUNPcXhtbHRpNXc9PQ==--8f9c890ea5f00b2700273a981af403651fea3f65)
 
 # CMD Resume

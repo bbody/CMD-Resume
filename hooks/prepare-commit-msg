@@ -1,6 +1,6 @@
 #!/bin/sh
 
-commit_regex='^:.+: \S'
+commit_regex='.*:.+:.*'
 
 if grep -viqE "$commit_regex" "$1"; then
 	RED='\033[0;31m'
