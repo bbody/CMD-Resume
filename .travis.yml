@@ -16,7 +16,6 @@ before_script:
   - sudo apt install firefox
   - npm install
   - npm install -g gulp-cli
-  - npm -g install npm-registry-client
 script:
   - npm run test:build
   - npm run source-check
