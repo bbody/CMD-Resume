@@ -12,7 +12,7 @@ describe("Name", function() {
 	});
 
 	it("returns name", function(){
-		browser.keys("name\uE006");
+		browser.keys(['n', 'a', 'm', 'e', '\uE006']);
 
 		var commandOutput = helper.getSimpleValues(browser);
 
@@ -21,7 +21,7 @@ describe("Name", function() {
 	});
 
 	it("returns location", function(){
-		browser.keys("location\uE006");
+		browser.keys(['l', 'o', 'c', 'a', 't', 'i', 'o', 'n', '\uE006']);
 
 		var commandOutput = helper.getSimpleValues(browser);
 
@@ -30,15 +30,11 @@ describe("Name", function() {
 	});
 
 	it("returns about", function(){
-		browser.keys("about\uE006");
+		browser.keys(['a', 'b', 'o', 'u', 't', '\uE006']);
 
 		var commandOutput = helper.getSimpleValues(browser);
 
 		expect(commandOutput.key).toBe("About");
 		expect(commandOutput.value).toContain("Richard hails from Tulsa.");
-	});
-
-	afterAll(function(){
-		browser.end();
 	});
 });

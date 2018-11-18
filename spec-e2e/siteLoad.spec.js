@@ -1,52 +1,46 @@
 var helper = require('./support/helper.js');
 
-describe("Website title", function() {
-	beforeEach(function(){
-		browser.url('/');
-	});
-
-	it("changes once plugin loads", function(){
-		var title = browser.getTitle();
-		expect(title).toBe("Command Line Résumé");
-		browser.execute(function(){
-			$('body').CMDResume('./responses/details.json');
-		});
-
-		var terminal = $('body.terminal');
-
-		terminal.waitForExist(5000);
-
-		title = browser.getTitle();
-		expect(title).toBe("Richard Hendriks's Résumé");
-	});
-
-	afterAll(function(){
-		browser.end();
-	});
-});
-
 describe("Website load", function() {
-	beforeEach(function(){
-		browser.execute(function(){
-			$('body').CMDResume('./responses/details.json');
+	describe("Website title", function() {
+		beforeEach(function(){
+			browser.url('/');
 		});
 
-		$('body.terminal').waitForExist(5000);
+		it("changes once plugin loads", function(){
+			var title = browser.getTitle();
+			expect(title).toBe("Command Line Résumé");
+			browser.execute(function(){
+				$('body').CMDResume('./responses/details.json');
+			});
+
+			var terminal = $('body.terminal');
+
+			terminal.waitForExist(5000);
+
+			title = browser.getTitle();
+			expect(title).toBe("Richard Hendriks's Résumé");
+		});
+
 	});
+	describe("Splash message", function() {
+		beforeEach(function(){
+			browser.execute(function(){
+				$('body').CMDResume('./responses/details.json');
+			});
 
-	it("has welcome message", function(){
-		var welcomeMessage = browser.getText('.terminal-output div[data-index="0"] div:first-child');
+			$('body.terminal').waitForExist(5000);
+		});
 
-		expect(welcomeMessage).toBe("Welcome to Richard Hendriks's résumé.");
-	});
+		it("has welcome message", function(){
+			var welcomeMessage = browser.getText('.terminal-output div[data-index="0"] div:first-child');
 
-	it("has help message", function(){
-		var helpMessage = browser.getText('.terminal-output div[data-index="0"] div:last-child');
+			expect(welcomeMessage).toBe("Welcome to Richard Hendriks's résumé.");
+		});
 
-		expect(helpMessage).toBe("Type help for commands");
-	});
+		it("has help message", function(){
+			var helpMessage = browser.getText('.terminal-output div[data-index="0"] div:last-child');
 
-	afterAll(function(){
-		browser.end();
+			expect(helpMessage).toBe("Type help for commands");
+		});
 	});
 });
