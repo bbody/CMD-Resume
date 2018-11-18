@@ -11,7 +11,11 @@ describe("Title", function() {
 		browser.execute(function(){
 			$('body').CMDResume('./responses/details.json');
 		});
-		browser.waitForExist('body.terminal');
+
+		var terminal = $('body.terminal');
+
+		terminal.waitForExist(5000);
+
 		title = browser.getTitle();
 		expect(title).toBe("Richard Hendriks's Résumé");
 	});
