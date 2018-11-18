@@ -19,6 +19,10 @@ describe("Website title", function() {
 		title = browser.getTitle();
 		expect(title).toBe("Richard Hendriks's Résumé");
 	});
+
+	afterAll(function(){
+		browser.end();
+	});
 });
 
 describe("Website load", function() {
@@ -40,5 +44,9 @@ describe("Website load", function() {
 		var helpMessage = browser.getText('.terminal-output div[data-index="0"] div:last-child');
 
 		expect(helpMessage).toBe("Type help for commands");
+	});
+
+	afterAll(function(){
+		browser.end();
 	});
 });

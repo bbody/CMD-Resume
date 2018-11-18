@@ -37,4 +37,8 @@ describe("Name", function() {
 		expect(commandOutput.key).toBe("About");
 		expect(commandOutput.value).toContain("Richard hails from Tulsa.");
 	});
+
+	afterAll(function(){
+		browser.end();
+	});
 });
