@@ -47,4 +47,5 @@ terminal.jquery.json
 /tmp
 /test_tmp
 /spec-e2e/shots/*
+/spec-e2e/screenshots/
 index.html
