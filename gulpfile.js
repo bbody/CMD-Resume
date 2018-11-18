@@ -74,6 +74,40 @@ function compiledCode(destination, minified, versioned) {
 	return stream.pipe(gulp.dest(destination));
 }
 
+function getE2EBrowsers(browserList, headless) {
+	var capabilities = [];
+
+	headless = headless ? headless : false;
+
+	browserList.forEach(function(browser) {
+		var capability = {};
+
+		if (browser === 'firefox') {
+			// Exclude as typing doesn't work in Firefox
+			capability.exclude = ['spec-e2e/*.nonFF.spec.js'];
+		}
+
+		if (headless && browser === 'firefox') {
+			capability['moz:firefoxOptions'] = {
+				args: ['-headless'],
+				binary: '/usr/bin/firefox'
+			};
+		} else if (headless && browser === 'chrome') {
+			capability.version = 67;
+			capability.chromeOptions = {
+				args: ['--headless', '--disable-gpu'],
+				binary: '/usr/bin/google-chrome'
+			};
+		}
+
+		capability.browserName = browser;
+
+		capabilities.push(capability);
+	});
+
+	return capabilities;
+}
+
 gulp.task('test:local', [`test:${OPERATING_SYSTEM}`]);
 
 // Default Gulp task is develop
@@ -338,71 +372,25 @@ gulp.task('test:e2e:build', function() {
 		jasmineNodeOpts: {
 			defaultTimeoutInterval: 50000
 		},
-		capabilities: [
-			{
-				version: 67,
-				browserName: 'chrome',
-				chromeOptions: {
-					args: ['--headless', '--disable-gpu'],
-					binary: '/usr/bin/google-chrome'
-				}
-			},
-			{
-				browserName: 'firefox',
-				'moz:firefoxOptions': {
-					args: ['-headless'],
-					binary: '/usr/bin/firefox'
-				}
-			}
-		]
+		capabilities: getE2EBrowsers(['chrome', 'firefox'], true)
 	}));
 });
 
 gulp.task('test:e2e:windows', function() {
 	return gulp.src('wdio.conf.js').pipe(webdriver({
-		capabilities: [
-			{
-				browserName: 'chrome'
-			},
-			{
-				browserName: 'firefox'
-			},
-			{
-				browserName: 'internet explorer'
-			},
-			{
-				browserName: 'MicrosoftEdge'
-			}
-		]
+		capabilities: getE2EBrowsers(['chrome', 'firefox', 'internet explorer', 'MicrosoftEdge'])
 	}));
 });
 
 gulp.task('test:e2e:macos', function() {
 	return gulp.src('wdio.conf.js').pipe(webdriver({
-		capabilities: [
-			{
-				browserName: 'chrome'
-			},
-			{
-				browserName: 'firefox'
-			},
-			{
-				browserName: 'safari'
-			}
-		]
+		capabilities: getE2EBrowsers(['chrome', 'firefox', 'safari'])
 	}));
 });
 
 gulp.task('test:e2e:linux', function() {
 	return gulp.src('wdio.conf.js').pipe(webdriver({
-		capabilities: [
-			{
-				browserName: 'chrome'
-			},
-			{
-				browserName: 'firefox'
-			}
-		]
+		capabilities: getE2EBrowsers(['chrome', 'firefox'])
 	}));
 });
 
