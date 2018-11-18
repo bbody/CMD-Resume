@@ -9,9 +9,7 @@ describe("Website load", function() {
 		it("changes once plugin loads", function(){
 			var title = browser.getTitle();
 			expect(title).toBe("Command Line Résumé");
-			browser.execute(function(){
-				$('body').CMDResume('./responses/details.json');
-			});
+			helper.loadSimpleCMDResume(browser);
 
 			var terminal = $('body.terminal');
 
@@ -24,9 +22,7 @@ describe("Website load", function() {
 	});
 	describe("Splash message", function() {
 		beforeEach(function(){
-			browser.execute(function(){
-				$('body').CMDResume('./responses/details.json');
-			});
+			helper.loadSimpleCMDResume(browser);
 
 			$('body.terminal').waitForExist(5000);
 		});
@@ -41,6 +37,22 @@ describe("Website load", function() {
 			var helpMessage = browser.getText('.terminal-output div[data-index="0"] div:last-child');
 
 			expect(helpMessage).toBe("Type help for commands");
+		});
+	});
+
+	describe("Extended splash message", function(){
+		beforeEach(function(){
+			browser.url('/');
+
+			helper.loadExtendedCMDResume(browser);
+
+			$('body.terminal').waitForExist(5000);
+		});
+
+		it("has a splashscreen", function(){
+			var splash = $$('.terminal-output div[data-index="0"] div');
+
+			expect(splash.length).toBeGreaterThan(5);
 		});
 	});
 });
