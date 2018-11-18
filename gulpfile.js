@@ -384,7 +384,7 @@ gulp.task('test:e2e:windows', function() {
 
 gulp.task('test:e2e:macos', function() {
 	return gulp.src('wdio.conf.js').pipe(webdriver({
-		capabilities: getE2EBrowsers(['chrome', 'firefox' /*, 'safari'*/])
+		capabilities: getE2EBrowsers(['chrome', 'firefox', 'safari'])
 	}));
 });
 
