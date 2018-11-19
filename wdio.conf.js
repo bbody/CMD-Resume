@@ -31,11 +31,10 @@ exports.config = {
     // directory is where your package.json resides, so `wdio` will be called from there.
     //
     specs: [
-        'spec-e2e/*.js'
+        'spec-e2e/*.spec.js'
     ],
     // Patterns to exclude.
-    exclude: [
-    ],
+    exclude: [],
     //
     // ============
     // Capabilities
@@ -54,35 +53,36 @@ exports.config = {
     // from the same test should run tests.
     //
     //
-    maxInstances: 10,
+    maxInstances: 1,
     //
     // If you have trouble getting all important capabilities together, check out the
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
     capabilities: [
-    {
-        browserName: 'chrome',
-        chromeOptions: {
-    //     // to run chrome headless the following flags are required
-    //     // (see https://developers.google.com/web/updates/2017/04/headless-chrome)
-        args: ['--headless', '--disable-gpu'],       
-        }        
-    }, 
-    {
-        // maxInstances can get overwritten per capability. So if you have an in house Selenium
-        // grid with only 5 firefox instance available you can make sure that not more than
-        // 5 instance gets started at a time.
-        maxInstances: 1,
-        browserName: 'firefox',
-        // specs: [
-        //     'test/ffOnly/*'
-        // ],
-        "moz:firefoxOptions": {
-          // flag to activate Firefox headless mode (see https://github.com/mozilla/geckodriver/blob/master/README.md#firefox-capabilities for more details about moz:firefoxOptions)
-          args: ['-headless']
-        }
-    }],
+    // {
+    //     browserName: 'chrome',
+    //     chromeOptions: {
+    // //     // to run chrome headless the following flags are required
+    // //     // (see https://developers.google.com/web/updates/2017/04/headless-chrome)
+    //     args: ['--headless', '--disable-gpu'],       
+    //     }        
+    // }, 
+    // {
+    //     // maxInstances can get overwritten per capability. So if you have an in house Selenium
+    //     // grid with only 5 firefox instance available you can make sure that not more than
+    //     // 5 instance gets started at a time.
+    //     maxInstances: 1,
+    //     browserName: 'firefox',
+    //     // specs: [
+    //     //     'test/ffOnly/*'
+    //     // ],
+    //     "moz:firefoxOptions": {
+    //       // flag to activate Firefox headless mode (see https://github.com/mozilla/geckodriver/blob/master/README.md#firefox-capabilities for more details about moz:firefoxOptions)
+    //       args: ['-headless']
+    //     }
+    // }
+    ],
     //
     // When enabled opens a debug port for node-inspector and pauses execution
     // on `debugger` statements. The node-inspector can be attached with:
@@ -120,7 +120,7 @@ exports.config = {
     bail: 0,
     //
     // Saves a screenshot to a given path if a command fails.
-    screenshotPath: 'spec-e2e/shots',
+    screenshotPath: 'spec-e2e/screenshots',
     //
     // Set a base URL in order to shorten url command calls. If your `url` parameter starts 
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl. 
