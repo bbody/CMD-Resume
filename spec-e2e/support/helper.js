@@ -1,12 +1,12 @@
 module.exports = {
 	loadSimpleCMDResume: function(browser) {
 		browser.execute(function(){
-			$('body').CMDResume('./responses/details.json');
+			$('body').CMDResume('./responses/details_nogithub.json');
 		});
 	},
 	loadExtendedCMDResume: function(browser){
 		browser.execute(function(){
-			$('body').CMDResume('./responses/details.json', {'extraDetails': './responses/extra-details.json'});
+			$('body').CMDResume('./responses/details_nogithub.json', {'extraDetails': './responses/extra-details_nogithub.json'});
 		});
 	},
 	getSingleValue: function(browser){
@@ -33,7 +33,6 @@ module.exports = {
 	},
 	keyboard: {
 		typeCommand: function(browser, command, tab) {
-			command = command.replace(/ /, '\uE00D')
 			var keys = command.split('');
 
 			if (tab){
@@ -41,37 +40,6 @@ module.exports = {
 			}
 
 			browser.keys([...keys, '\uE006']);
-		},
-		typeCharacters: function(browser, keys) {
-			var keys = [];
-			for (var i = 0; i < keys.length; i++){
-				var key = {
-					type: 'key',
-					id: `keyboard${i}`,
-					actions: [
-						{"type": "keyDown", "value": keys[i]},
-						{"type": "pause", "value": 500}
-					]
-				};
-				keys.push(key);
-			}
-
-			browser.actions(keys);
-
-		},
-		typeEnter: function(browser) {
-			browser.actions([
-				{
-					type: 'key',
-					id: 'keyboard',
-					actions: [
-						{"type": "keyDown", "value": "a"},
-						{"type": "pause", "value": 500}
-					]
-				}
-			]);
-
-			browser.actions();
 		}
 	}
 };
