@@ -59,12 +59,21 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		}
 	};
 
+	self.showTitle = function(commandType, top) {
+		if (commandType === self.commandProcessor.system) {
+			return false;
+		} else if (top && (commandType === self.commandProcessor.array)) {
+			return false;
+		}
+
+		return true;
+	};
+
 	self.processCommand = function(command, top) {
 		var result = CONSTANTS.EMPTY;
 
 		// Don't show title for system or -top array command
-		if (!((command.type === self.commandProcessor.system) ||
-			(top && (command.type === self.commandProcessor.array)))) {
+		if (self.showTitle(command.type, top)) {
 			result += command.title.setTitle();
 		}
 
