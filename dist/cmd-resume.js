@@ -1,4 +1,4 @@
-/* v4.3.0 of CMD Resume by Brendon Body(https://github.com/bbody/CMD-Resume.git) */
+/* v4.4.0 of CMD Resume by Brendon Body(https://github.com/bbody/CMD-Resume.git) */
 ;(function($){
   "use strict";
   
@@ -503,8 +503,7 @@
   	self.processCommand = function(command, top) {
   		var result = CONSTANTS.EMPTY;
   
-  		if (!top &&
-  			command.type !== self.commandProcessor.system) {
+  		if (!top || (command.type !== self.commandProcessor.array && top)) {
   			result += command.title.setTitle();
   		}
   
