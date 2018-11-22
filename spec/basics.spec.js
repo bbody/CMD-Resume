@@ -30,6 +30,21 @@ describe("Basics", () => {
 				expect(output.summary).toEqual("Name");
 				expect(output.value).toEqual("Richard Hendriks");
 			});
+
+			it("Ignores -top", function() {
+				var mostRecentRequest = jasmine.Ajax.requests.mostRecent();
+
+				mostRecentRequest.respondWith({
+					status: 200,
+					responseText: JSON.stringify(loadJSON("justName"))
+				});
+
+				enterCommand("name -top");
+
+				var output = getSimpleOutput();
+				expect(output.summary).toEqual("Name");
+				expect(output.value).toEqual("Richard Hendriks");
+			});
 		});
 
 		describe("Without name", function() {
@@ -106,6 +121,13 @@ describe("Basics", () => {
 
 			it("List of commands", function() {
 				enterCommand("help");
+				var output = helpOutput();
+				expect(output.command).toEqual("Available Commands:");
+				expect(output.values.length).toEqual(18);
+			});
+
+			it("Ignores top", function() {
+				enterCommand("help -top");
 				var output = helpOutput();
 				expect(output.command).toEqual("Available Commands:");
 				expect(output.values.length).toEqual(18);
@@ -218,6 +240,21 @@ describe("Basics", () => {
 				});
 
 				enterCommand("location");
+
+				var output = getSimpleOutput();
+				expect(output.summary).toEqual("Location");
+				expect(output.value).toEqual("San Francisco, California, US");
+			});
+
+			it("Ignores top", function() {
+				var mostRecentRequest = jasmine.Ajax.requests.mostRecent();
+
+				mostRecentRequest.respondWith({
+					status: 200,
+					responseText: JSON.stringify(loadJSON("fullExample"))
+				});
+
+				enterCommand("location -top");
 
 				var output = getSimpleOutput();
 				expect(output.summary).toEqual("Location");
