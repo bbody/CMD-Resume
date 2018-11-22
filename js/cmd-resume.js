@@ -62,8 +62,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	self.processCommand = function(command, top) {
 		var result = CONSTANTS.EMPTY;
 
-		if (!top &&
-			command.type !== self.commandProcessor.system) {
+		if (!top || (command.type !== self.commandProcessor.array && top)) {
 			result += command.title.setTitle();
 		}
 
