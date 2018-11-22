@@ -62,7 +62,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	self.processCommand = function(command, top) {
 		var result = CONSTANTS.EMPTY;
 
-		if (!top || (command.type !== self.commandProcessor.array && top)) {
+		// Don't show title for system or -top array command
+		if (!((command.type === self.commandProcessor.system) ||
+			(top && (command.type === self.commandProcessor.array)))) {
 			result += command.title.setTitle();
 		}
 
@@ -202,10 +204,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				title: "Looking For",
 				description: "looking for what kind of position",
 				data: self.data.basics.label,
-				type: self.commandProcessor.calculated,
-				handler: function(data) {
-					return data;
-				}
+				type: self.commandProcessor.basic
 			};
 		}
 	};
