@@ -1,5 +1,62 @@
 // Karma configuration
 module.exports = function(config) {
+	const LATEST = 'LATEST';
+
+	var getBrowserStackBrowserList = function(allBrowsers, os, osVersion, browser, browserVersions) {
+		var configs = {};
+
+		for (var version of browserVersions) {
+			var versionKey = `bs__${os}_${osVersion}__${browser}_${version}`;
+			var config = {
+				'base': 'BrowserStack',
+				'os': os,
+				'os_version': version,
+				'browser': browser
+			};
+
+			if (version === LATEST) {
+				// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+				config.browser_version = version;
+				// jscs:enable
+			}
+
+			configs[versionKey] = config;
+		}
+		return Object.assign(allBrowsers, configs);
+	};
+
+	var bsBrowserProfiles = {
+		'CustomChromeHeadless': {
+			'base': 'ChromeHeadless',
+			'displayName': 'Headless Chrome',
+			'flags': ['--disable-gpu', '--disable-translate',
+			'--disable-extensions','--remote-debugging-port=9223']
+		},
+		'FirefoxHeadless': {
+			'base': 'Firefox',
+			'displayName': 'Headless Firefox',
+			'flags': ['-headless'],
+		},
+	};
+
+	// Windows 10
+	bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '10', 'Chrome', [LATEST, '70', '60', '50', '40', '37']);
+	bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '10', 'Firefox', [LATEST, '60', '50', '40', '32']);
+	bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '10', 'Edge', [LATEST, '17', '16', '15']);
+	bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '10', 'IE', [LATEST]);
+
+	// Windows 8.1
+	bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '8.1', 'Chrome', [LATEST, '70', '60', '50', '40', '37']);
+	bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '8.1', 'Firefox', [LATEST, '60', '50', '40', '32']);
+	bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '8.1', 'IE', [LATEST]);
+	bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '8.1', 'Opera', [LATEST, '12.16', '12.15']);
+
+	// Windows 8
+	// bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '8.1', 'Chrome', [LATEST, '70', '60', '50', '40', '37']);
+	// bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '8.1', 'Firefox', [LATEST, '60', '50', '40', '32']);
+	// bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '8.1', 'IE', [LATEST]);
+	// bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '8.1', 'Opera', [LATEST, '12.16', '12.15']);
+
 	config.set({
 		basePath: '',
 		// Frameworks: https://npmjs.org/browse/keyword/karma-adapter
@@ -31,61 +88,10 @@ module.exports = function(config) {
 		browserStack: {
 			username: process.env.BROWSERSTACK_USERNAME,
 			accessKey: process.env.BROWSERSTACK_KEY,
-			startTunnel: true
+			startTunnel: true,
+			video: false
 		},
-		customLaunchers: {
-			'CustomChromeHeadless': {
-				'base': 'ChromeHeadless',
-				'displayName': 'Headless Chrome',
-				'flags': ['--disable-gpu', '--disable-translate',
-				'--disable-extensions','--remote-debugging-port=9223']
-			},
-			'FirefoxHeadless': {
-				'base': 'Firefox',
-				'displayName': 'Headless Firefox',
-				'flags': ['-headless'],
-			},
-			'bs_firefox_mac': {
-				'base': 'BrowserStack',
-				'browser': 'firefox',
-				'browser_version': '21.0',
-				'os': 'OS X',
-				'os_version': 'Mountain Lion'
-			},
-			'bs_iphone5': {
-				'base': 'BrowserStack',
-				'device': 'iPhone 5',
-				'os': 'ios',
-				'os_version': '6.0'
-			},
-			'bs_win7_ie11': {
-				'base': 'BrowserStack',
-				'os': 'Windows',
-				'os_version': '7',
-				'browser': 'IE',
-				'browserName': 'IE',
-				'browser_version': '11.0',
-				'selenium_version': '3.5.2'
-			},
-			'bs_win10_edge11': {
-				'base': 'BrowserStack',
-				'os': 'Windows',
-				'os_version': '10',
-				'browser': 'Edge',
-				'browserName': 'Edge',
-				'browser_version': '17.0',
-				'selenium_version': '3.5.2'
-			},
-			'bs_win10_chrome70': {
-				'base': 'BrowserStack',
-				'os': 'Windows',
-				'os_version': '10',
-				'browser': 'Chrome',
-				'browserName': 'Chrome',
-				'browser_version': '70.0',
-				'selenium_version': '3.5.2'
-			}
-		},
+		customLaunchers: bsBrowserProfiles,
 		singleRun: true,
 		concurrency: Infinity,
 		coverageReporter: {
