@@ -356,7 +356,17 @@ gulp.task('test:karma:build', function(done) {
 });
 
 gulp.task('test:karma:browserstack', function(done) {
-	return runTests(['bs_win10_edge11', 'bs_win10_chrome70'],
+	return runTests([
+			'bs__windows_10__chrome_latest',
+			'bs__windows_10__firefox_latest',
+			'bs__windows_10__edge_latest',
+			'bs__windows_10__ie_latest',
+
+			'bs__osx_mojave__chrome_latest',
+			'bs__windows_10__firefox_latest',
+			'bs__windows_10__opera_latest',
+			'bs__windows_10__safari_latest'
+		],
 		done);
 });
 

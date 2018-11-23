@@ -1,30 +1,5 @@
 // Karma configuration
 module.exports = function(config) {
-	const LATEST = 'LATEST';
-
-	var getBrowserStackBrowserList = function(allBrowsers, os, osVersion, browser, browserVersions) {
-		var configs = {};
-
-		for (var version of browserVersions) {
-			var versionKey = `bs__${os}_${osVersion}__${browser}_${version}`;
-			var config = {
-				'base': 'BrowserStack',
-				'os': os,
-				'os_version': version,
-				'browser': browser
-			};
-
-			if (version === LATEST) {
-				// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
-				config.browser_version = version;
-				// jscs:enable
-			}
-
-			configs[versionKey] = config;
-		}
-		return Object.assign(allBrowsers, configs);
-	};
-
 	var bsBrowserProfiles = {
 		'CustomChromeHeadless': {
 			'base': 'ChromeHeadless',
@@ -39,23 +14,7 @@ module.exports = function(config) {
 		},
 	};
 
-	// Windows 10
-	bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '10', 'Chrome', [LATEST, '70', '60', '50', '40', '37']);
-	bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '10', 'Firefox', [LATEST, '60', '50', '40', '32']);
-	bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '10', 'Edge', [LATEST, '17', '16', '15']);
-	bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '10', 'IE', [LATEST]);
-
-	// Windows 8.1
-	bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '8.1', 'Chrome', [LATEST, '70', '60', '50', '40', '37']);
-	bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '8.1', 'Firefox', [LATEST, '60', '50', '40', '32']);
-	bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '8.1', 'IE', [LATEST]);
-	bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '8.1', 'Opera', [LATEST, '12.16', '12.15']);
-
-	// Windows 8
-	// bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '8.1', 'Chrome', [LATEST, '70', '60', '50', '40', '37']);
-	// bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '8.1', 'Firefox', [LATEST, '60', '50', '40', '32']);
-	// bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '8.1', 'IE', [LATEST]);
-	// bsBrowserProfiles = getBrowserStackBrowserList(bsBrowserProfiles, 'Windows', '8.1', 'Opera', [LATEST, '12.16', '12.15']);
+	Object.assign(bsBrowserProfiles, require('./customLaunchers.json'));
 
 	config.set({
 		basePath: '',
