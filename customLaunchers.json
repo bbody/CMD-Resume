@@ -1,0 +1,53 @@
+{
+	"bs__windows_10__chrome_latest": {
+		"base": "BrowserStack",
+		"browser": "Chrome",
+		"os": "Windows",
+		"os_version": "10"
+	},
+	"bs__windows_10__firefox_latest": {
+		"base": "BrowserStack",
+		"browser": "Firefox",
+		"os": "Windows",
+		"os_version": "10"
+	},
+	"bs__windows_10__edge_latest": {
+		"base": "BrowserStack",
+		"browser": "Edge",
+		"os": "Windows",
+		"os_version": "10"
+	},
+	"bs__windows_10__ie_latest": {
+		"base": "BrowserStack",
+		"browser": "IE",
+		"os": "Windows",
+		"os_version": "10"
+	},
+
+
+
+	"bs__osx_mojave__chrome_latest": {
+		"base": "BrowserStack",
+		"browser": "Chrome",
+		"os": "OS X",
+		"os_version": "Mojave"
+	},
+	"bs__windows_10__firefox_latest": {
+		"base": "BrowserStack",
+		"browser": "Firefox",
+		"os": "OS X",
+		"os_version": "Mojave"
+	},
+	"bs__windows_10__opera_latest": {
+		"base": "BrowserStack",
+		"browser": "Opera",
+		"os": "OS X",
+		"os_version": "Mojave"
+	},
+	"bs__windows_10__safari_latest": {
+		"base": "BrowserStack",
+		"browser": "Safari",
+		"os": "OS X",
+		"os_version": "Mojave"
+	},
+}
