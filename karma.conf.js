@@ -66,6 +66,24 @@ module.exports = function(config) {
 				'browserName': 'IE',
 				'browser_version': '11.0',
 				'selenium_version': '3.5.2'
+			},
+			'bs_win10_edge11': {
+				'base': 'BrowserStack',
+				'os': 'Windows',
+				'os_version': '10',
+				'browser': 'Edge',
+				'browserName': 'Edge',
+				'browser_version': '17.0',
+				'selenium_version': '3.5.2'
+			},
+			'bs_win10_chrome70': {
+				'base': 'BrowserStack',
+				'os': 'Windows',
+				'os_version': '10',
+				'browser': 'Chrome',
+				'browserName': 'Chrome',
+				'browser_version': '70.0',
+				'selenium_version': '3.5.2'
 			}
 		},
 		singleRun: true,
