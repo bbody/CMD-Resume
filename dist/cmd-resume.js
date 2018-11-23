@@ -1,4 +1,4 @@
-/* v4.3.0 of CMD Resume by Brendon Body(https://github.com/bbody/CMD-Resume.git) */
+/* v4.4.0 of CMD Resume by Brendon Body(https://github.com/bbody/CMD-Resume.git) */
 ;(function($){
   "use strict";
   
@@ -500,11 +500,21 @@
   		}
   	};
   
+  	self.showTitle = function(commandType, top) {
+  		if (commandType === self.commandProcessor.system) {
+  			return false;
+  		} else if (top && (commandType === self.commandProcessor.array)) {
+  			return false;
+  		}
+  
+  		return true;
+  	};
+  
   	self.processCommand = function(command, top) {
   		var result = CONSTANTS.EMPTY;
   
-  		if (!top &&
-  			command.type !== self.commandProcessor.system) {
+  		// Don't show title for system or -top array command
+  		if (self.showTitle(command.type, top)) {
   			result += command.title.setTitle();
   		}
   
@@ -644,10 +654,7 @@
   				title: "Looking For",
   				description: "looking for what kind of position",
   				data: self.data.basics.label,
-  				type: self.commandProcessor.calculated,
-  				handler: function(data) {
-  					return data;
-  				}
+  				type: self.commandProcessor.basic
   			};
   		}
   	};

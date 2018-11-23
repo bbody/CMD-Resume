@@ -59,11 +59,21 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		}
 	};
 
+	self.showTitle = function(commandType, top) {
+		if (commandType === self.commandProcessor.system) {
+			return false;
+		} else if (top && (commandType === self.commandProcessor.array)) {
+			return false;
+		}
+
+		return true;
+	};
+
 	self.processCommand = function(command, top) {
 		var result = CONSTANTS.EMPTY;
 
-		if (!top &&
-			command.type !== self.commandProcessor.system) {
+		// Don't show title for system or -top array command
+		if (self.showTitle(command.type, top)) {
 			result += command.title.setTitle();
 		}
 
@@ -203,10 +213,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				title: "Looking For",
 				description: "looking for what kind of position",
 				data: self.data.basics.label,
-				type: self.commandProcessor.calculated,
-				handler: function(data) {
-					return data;
-				}
+				type: self.commandProcessor.basic
 			};
 		}
 	};
