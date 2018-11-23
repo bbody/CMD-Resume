@@ -18,6 +18,7 @@ before_script:
   - npm install -g gulp-cli
 script:
   - npm run test:build
+  - npm run test:karma:browserstack
   - npm run source-check
 cache:
   directories:

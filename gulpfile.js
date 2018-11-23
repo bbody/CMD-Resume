@@ -355,6 +355,11 @@ gulp.task('test:karma:build', function(done) {
 		done);
 });
 
+gulp.task('test:karma:browserstack', function(done) {
+	return runTests(['bs_win7_ie11'],
+		done);
+});
+
 gulp.task('test:karma:linux', function(done) {
 	return runTests(['Chrome', 'Firefox'], done);
 });
