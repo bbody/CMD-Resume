@@ -356,7 +356,7 @@ gulp.task('test:karma:build', function(done) {
 });
 
 gulp.task('test:karma:browserstack', function(done) {
-	return runTests(require('bs-browerList.json'),
+	return runTests(require('./bs-browerList.json'),
 		done);
 });
 
