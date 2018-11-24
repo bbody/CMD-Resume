@@ -43,7 +43,7 @@
 				{
 					"name": "Opera",
 					"versions": ["12.15"],
-					"enabled": true
+					"enabled": false
 				},
 				{
 					"name": "Safari",
