@@ -20,7 +20,7 @@ for (var os of config.operating_systems) {
 		if (browser.enabled) {
 			if (!browser.versions){
 				var oldestVersion = browser.oldest ? browser.oldest : browser.newest - 2;
-				browser.versions = getListOfVersions(oldestVersion, browser.newest);
+				browser.versions = getListOfVersions(essentialBrowsers ? browser.newest : oldestVersion, browser.newest);
 			}
 
 			if (essentialBrowsers) {
@@ -30,12 +30,15 @@ for (var os of config.operating_systems) {
 			for (var version of browser.versions) {
 				var key = `bs__${os.name.replace(' ', '-')}_${os.version.replace(' ', '-')}__${browser.name}_${version}`;
 				browserList.push(key);
-				browserMap[key] = {
-					"base": "BrowserStack",
-					"browser": browser.name,
-					"browser_version": version,
-					"os": os.name,
-					"os_version": os.version
+
+				if (!essentialBrowsers) {
+					browserMap[key] = {
+						"base": "BrowserStack",
+						"browser": browser.name,
+						"browser_version": version,
+						"os": os.name,
+						"os_version": os.version
+					}
 				}
 			}
 		}
@@ -43,17 +46,18 @@ for (var os of config.operating_systems) {
 }
 
 var content = JSON.stringify(browserMap);
-
-var customLaunchersFilename = essentialBrowsers ? 'bs-customLaunchers-essential.json' : 'bs-customLaunchers.json';
 var browserListFilename = essentialBrowsers ? 'bs-browerList-essential.json' : 'bs-browerList.json';
 
-fs.writeFile(`browserstack/${customLaunchersFilename}`, content, function(err, data){
-	if (err) {
-		console.error(err);
-	}
-	fs.writeFile(`browserstack/${browserListFilename}`, JSON.stringify({browsers: browserList}), function(err, data){
+if (!essentialBrowsers) {
+	fs.writeFile('browserstack/bs-customLaunchers.json', content, function(err, data){
 		if (err) {
 			console.error(err);
 		}
 	});
+}
+
+fs.writeFile(`browserstack/${browserListFilename}`, JSON.stringify({browsers: browserList}), function(err, data){
+	if (err) {
+		console.error(err);
+	}
 });
