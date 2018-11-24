@@ -357,7 +357,11 @@ gulp.task('test:karma:build', function(done) {
 
 gulp.task('test:karma:browserstack', function(done) {
 	var browsers = require('./bs-browerList.json');
-	console.log(browsers);
+	return runTests(browsers, done);
+});
+
+gulp.task('test:karma:browserstack:essential', function(done) {
+	var browsers = require('./bs-browerList-essential.json');
 	return runTests(browsers, done);
 });
 
