@@ -102,7 +102,7 @@
     "lint:yaml": "yamllint .travis.yml",
     "lint:travis": "travis lint .travis.yml --skip-completion-check",
     "test:server:essential": "run test:build && travis_wait 15 npm run unit-test:browserstack:essential",
-    "test:server:full": "run test:build && travis_wait 15 npm run unit-test:browserstack:full",
+    "test:server:full": "run test:build && travis_wait 30 npm run unit-test:browserstack:full",
     "unit-test:browserstack:full": "gulp test:karma:browserstack",
     "unit-test:browserstack:essential": "gulp test:karma:browserstack:essential",
     "generate:browserstack-browsers": "node scripts/generate-browserstack-karma-browsers.js && node scripts/generate-browserstack-karma-browsers.js essential"
