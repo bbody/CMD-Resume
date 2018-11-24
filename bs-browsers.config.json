@@ -7,19 +7,16 @@
 				{
 					"name": "Chrome",
 					"newest": 71,
-					"oldest": 49,
 					"enabled": true
 				},
 				{
 					"name": "Firefox",
 					"newest": 64,
-					"oldest": 47,
 					"enabled": true
 				},
 				{
 					"name": "Edge",
 					"newest": 17,
-					"oldest": 15,
 					"enabled": true
 				},
 				{
@@ -36,13 +33,11 @@
 				{
 					"name": "Chrome",
 					"newest": 71,
-					"oldest": 49,
 					"enabled": true
 				},
 				{
 					"name": "Firefox",
 					"newest": 64,
-					"oldest": 47,
 					"enabled": true
 				},
 				{
@@ -64,13 +59,11 @@
 				{
 					"name": "Chrome",
 					"newest": 71,
-					"oldest": 49,
 					"enabled": true
 				},
 				{
 					"name": "Firefox",
 					"newest": 64,
-					"oldest": 47,
 					"enabled": true
 				},
 				{
@@ -92,13 +85,11 @@
 				{
 					"name": "Chrome",
 					"newest": 71,
-					"oldest": 49,
 					"enabled": true
 				},
 				{
 					"name": "Firefox",
 					"newest": 64,
-					"oldest": 47,
 					"enabled": true
 				},
 				{
@@ -121,13 +112,11 @@
 				{
 					"name": "Chrome",
 					"newest": 71,
-					"oldest": 49,
 					"enabled": true
 				},
 				{
 					"name": "Firefox",
 					"newest": 64,
-					"oldest": 47,
 					"enabled": true
 				},
 				{
@@ -149,13 +138,11 @@
 				{
 					"name": "Chrome",
 					"newest": 71,
-					"oldest": 49,
 					"enabled": true
 				},
 				{
 					"name": "Firefox",
 					"newest": 64,
-					"oldest": 47,
 					"enabled": true
 				},
 				{
@@ -177,13 +164,11 @@
 				{
 					"name": "Chrome",
 					"newest": 71,
-					"oldest": 49,
 					"enabled": true
 				},
 				{
 					"name": "Firefox",
 					"newest": 64,
-					"oldest": 47,
 					"enabled": true
 				},
 				{
@@ -205,13 +190,11 @@
 				{
 					"name": "Chrome",
 					"newest": 71,
-					"oldest": 49,
 					"enabled": true
 				},
 				{
 					"name": "Firefox",
 					"newest": 64,
-					"oldest": 47,
 					"enabled": true
 				},
 				{
@@ -233,13 +216,11 @@
 				{
 					"name": "Chrome",
 					"newest": 71,
-					"oldest": 49,
 					"enabled": true
 				},
 				{
 					"name": "Firefox",
 					"newest": 64,
-					"oldest": 47,
 					"enabled": true
 				},
 				{

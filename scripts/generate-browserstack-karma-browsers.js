@@ -4,7 +4,7 @@ var getListOfVersions = function(start, end) {
 	var versions = [];
 
 	for (var i = start; i <= end; i++) {
-		versions.push(`${i}`);
+		versions.push(`${i}.0`);
 	}
 
 	return versions;
@@ -17,7 +17,7 @@ for (var os of config.operating_systems) {
 	for (var browser of os.browsers) {
 		if (browser.enabled) {
 			if (!browser.versions){
-				browser.versions = getListOfVersions(browser.oldest, browser.newest);
+				browser.versions = getListOfVersions(browser.oldest ? browser.oldest : browser.newest - 2, browser.newest);
 			}
 
 			for (var version of browser.versions) {
