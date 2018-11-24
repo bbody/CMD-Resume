@@ -375,7 +375,6 @@ gulp.task('test:karma:browserstack', function(done) {
 			// OSX El Capitan
 			'bs__osx_elcapitan__chrome_latest',
 			'bs__osx_elcapitan__firefox_latest',
-			'bs__osx_elcapitan__opera_latest',
 			'bs__osx_elcapitan__safari_latest'
 		],
 		done);
