@@ -17,7 +17,7 @@ before_script:
   - npm install
   - npm install -g gulp-cli
 script:
-  - npm run test:build && travis_wait 15 npm run unit-test:browserstack
+  - npm run test:build && travis_wait 30 npm run unit-test:browserstack
   - npm run source-check
 cache:
   directories:
