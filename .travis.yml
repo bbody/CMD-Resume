@@ -18,8 +18,11 @@ before_script:
   - npm install -g gulp-cli
 script:
   - |
-    (env($TRAVIS_EVENT_TYPE) = "cron" && npm run test:server:essential) ||
-    (env($TRAVIS_EVENT_TYPE) != "cron" && npm run test:server:full)
+    if [ $TRAVIS_EVENT_TYPE == "cron" ];then
+      npm run test:server:full
+    else
+      npm run test:server:essential
+    fi
   - npm run source-check
 cache:
   directories:
