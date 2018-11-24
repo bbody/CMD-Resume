@@ -39,7 +39,7 @@ module.exports = function(config) {
 			'fixtures/**/*.json': ['json_fixtures']
 
 		},
-		reporters: ['progress', 'coverage'],
+		reporters: ['progress', 'coverage', 'BrowserStack'],
 		port: 9876,
 		colors: true,
 		logLevel: config.LOG_INFO,
