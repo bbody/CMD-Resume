@@ -358,7 +358,7 @@ gulp.task('test:karma:build', function(done) {
 gulp.task('test:karma:browserstack', function(done) {
 	var browsers = require('./bs-browerList.json');
 	console.log(browsers);
-	return runTests(['bs__Windows_10__Chrome_71'], done);
+	return runTests(browsers, done);
 });
 
 gulp.task('test:karma:linux', function(done) {
