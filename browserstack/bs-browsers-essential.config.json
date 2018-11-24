@@ -6,12 +6,12 @@
 			"browsers": [
 				{
 					"name": "Chrome",
-					"newest": 71,
+					"newest": 70,
 					"enabled": true
 				},
 				{
 					"name": "Firefox",
-					"newest": 64,
+					"newest": 63,
 					"enabled": true
 				},
 				{
@@ -32,12 +32,12 @@
 			"browsers": [
 				{
 					"name": "Chrome",
-					"newest": 71,
+					"newest": 70,
 					"enabled": true
 				},
 				{
 					"name": "Firefox",
-					"newest": 64,
+					"newest": 63,
 					"enabled": true
 				},
 				{
