@@ -101,7 +101,8 @@
     "setup": "gem install travis -v 1.8.9 --no-rdoc --no-ri && sudo pip install yamllint",
     "lint:yaml": "yamllint .travis.yml",
     "lint:travis": "travis lint .travis.yml --skip-completion-check",
-    "unit-test:browserstack": "gulp test:karma:browserstack"
+    "unit-test:browserstack": "gulp test:karma:browserstack",
+    "generate:browserstack-browsers": "node scripts/generate-browserstack-karma-browsers.js"
   },
   "resolutions": {
     "natives": "1.1.3"
