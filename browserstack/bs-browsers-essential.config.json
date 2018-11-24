@@ -10,11 +10,6 @@
 					"enabled": true
 				},
 				{
-					"name": "Firefox",
-					"newest": 64,
-					"enabled": true
-				},
-				{
 					"name": "Edge",
 					"newest": 17,
 					"enabled": true
@@ -31,18 +26,8 @@
 			"version": "Mojave",
 			"browsers": [
 				{
-					"name": "Chrome",
-					"newest": 71,
-					"enabled": true
-				},
-				{
 					"name": "Firefox",
 					"newest": 64,
-					"enabled": true
-				},
-				{
-					"name": "Opera",
-					"versions": ["12.15"],
 					"enabled": true
 				},
 				{
