@@ -22,7 +22,7 @@
 				{
 					"name": "IE",
 					"versions": ["11"],
-					"enabled": false
+					"enabled": true
 				}
 			]
 		},
