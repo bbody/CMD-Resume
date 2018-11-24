@@ -24,6 +24,31 @@
 		"os_version": "10"
 	},
 
+	"bs__windows_7__chrome_latest": {
+		"base": "BrowserStack",
+		"browser": "Chrome",
+		"os": "Windows",
+		"os_version": "7"
+	},
+	"bs__windows_7__firefox_latest": {
+		"base": "BrowserStack",
+		"browser": "Firefox",
+		"os": "Windows",
+		"os_version": "7"
+	},
+	"bs__windows_7__ie_latest": {
+		"base": "BrowserStack",
+		"browser": "IE",
+		"os": "Windows",
+		"os_version": "7"
+	},
+	"bs__windows_7__opera_latest": {
+		"base": "BrowserStack",
+		"browser": "Opera",
+		"os": "Windows",
+		"os_version": "7"
+	},
+
 
 
 	"bs__osx_mojave__chrome_latest": {
@@ -32,22 +57,47 @@
 		"os": "OS X",
 		"os_version": "Mojave"
 	},
-	"bs__windows_10__firefox_latest": {
+	"bs__osx_mojave__firefox_latest": {
 		"base": "BrowserStack",
 		"browser": "Firefox",
 		"os": "OS X",
 		"os_version": "Mojave"
 	},
-	"bs__windows_10__opera_latest": {
+	"bs__osx_mojave__opera_latest": {
 		"base": "BrowserStack",
 		"browser": "Opera",
 		"os": "OS X",
 		"os_version": "Mojave"
 	},
-	"bs__windows_10__safari_latest": {
+	"bs__osx_mojave__safari_latest": {
 		"base": "BrowserStack",
 		"browser": "Safari",
 		"os": "OS X",
 		"os_version": "Mojave"
+	},
+
+	"bs__osx_elcapitan__chrome_latest": {
+		"base": "BrowserStack",
+		"browser": "Chrome",
+		"os": "OS X",
+		"os_version": "El Capitan"
+	},
+	"bs__osx_elcapitan__firefox_latest": {
+		"base": "BrowserStack",
+		"browser": "Firefox",
+		"os": "OS X",
+		"os_version": "El Capitan"
+	},
+	"bs__osx_elcapitan__opera_latest": {
+		"base": "BrowserStack",
+		"browser": "Opera",
+		"os": "OS X",
+		"os_version": "El Capitan"
+	},
+	"bs__osx_elcapitan__safari_latest": {
+		"base": "BrowserStack",
+		"browser": "Safari",
+		"os": "OS X",
+		"os_version": "El Capitan"
 	}
 }

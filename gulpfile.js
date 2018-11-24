@@ -357,15 +357,26 @@ gulp.task('test:karma:build', function(done) {
 
 gulp.task('test:karma:browserstack', function(done) {
 	return runTests([
+			// Windows 10
 			'bs__windows_10__chrome_latest',
 			'bs__windows_10__firefox_latest',
 			'bs__windows_10__edge_latest',
 			// 'bs__windows_10__ie_latest',
-
+			// Windows 7
+			'bs__windows_7__chrome_latest',
+			'bs__windows_7__firefox_latest',
+			'bs__windows_7__opera_latest',
+			// 'bs__windows_7__ie_latest',
+			// OSX Mojave
 			'bs__osx_mojave__chrome_latest',
-			'bs__windows_10__firefox_latest',
-			'bs__windows_10__opera_latest',
-			'bs__windows_10__safari_latest'
+			'bs__osx_mojave__firefox_latest',
+			'bs__osx_mojave__opera_latest',
+			'bs__osx_mojave__safari_latest',
+			// OSX El Capitan
+			'bs__osx_elcapitan__chrome_latest',
+			'bs__osx_elcapitan__firefox_latest',
+			'bs__osx_elcapitan__opera_latest',
+			'bs__osx_elcapitan`__safari_latest'
 		],
 		done);
 });
