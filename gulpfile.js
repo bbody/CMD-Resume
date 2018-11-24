@@ -356,12 +356,12 @@ gulp.task('test:karma:build', function(done) {
 });
 
 gulp.task('test:karma:browserstack', function(done) {
-	var browsers = require('./bs-browerList.json');
+	var browsers = require('./browserstack/bs-browerList.json');
 	return runTests(browsers, done);
 });
 
 gulp.task('test:karma:browserstack:essential', function(done) {
-	var browsers = require('./bs-browerList-essential.json');
+	var browsers = require('./browserstack/bs-browerList-essential.json');
 	return runTests(browsers, done);
 });
 

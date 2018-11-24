@@ -14,7 +14,7 @@ module.exports = function(config) {
 		},
 	};
 
-	Object.assign(bsBrowserProfiles, require('./bs-customLaunchers.json'));
+	Object.assign(bsBrowserProfiles, require('./browserstack/bs-customLaunchers.json'));
 	// console.log(bsBrowserProfiles);
 	config.set({
 		basePath: '',
