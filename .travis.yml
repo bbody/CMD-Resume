@@ -19,9 +19,9 @@ before_script:
 script:
   - |
     if [ $TRAVIS_EVENT_TYPE == "cron" ];then
-      npm run test:server:full
+    npm run test:server:full
     else
-      npm run test:server:essential
+    npm run test:server:essential
     fi
   - npm run source-check
 cache:
