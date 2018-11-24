@@ -6,7 +6,7 @@ var getListOfVersions = function(start, end) {
 	var versions = [];
 
 	for (var i = end; i >= start; i--) {
-		versions.push(`${i}.0`);
+		versions.push(`${i}`);
 	}
 
 	return versions;
