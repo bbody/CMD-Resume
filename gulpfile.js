@@ -360,7 +360,7 @@ gulp.task('test:karma:browserstack', function(done) {
 			'bs__windows_10__chrome_latest',
 			'bs__windows_10__firefox_latest',
 			'bs__windows_10__edge_latest',
-			'bs__windows_10__ie_latest',
+			// 'bs__windows_10__ie_latest',
 
 			'bs__osx_mojave__chrome_latest',
 			'bs__windows_10__firefox_latest',
