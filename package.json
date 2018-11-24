@@ -101,10 +101,8 @@
     "setup": "gem install travis -v 1.8.9 --no-rdoc --no-ri && sudo pip install yamllint",
     "lint:yaml": "yamllint .travis.yml",
     "lint:travis": "travis lint .travis.yml --skip-completion-check",
-    "test:server:essential": "npm run test:build && travis_wait 15 npm run unit-test:browserstack:essential",
-    "test:server:full": "npm run test:build && travis_wait 30 npm run unit-test:browserstack:full",
-    "unit-test:browserstack:full": "gulp test:karma:browserstack",
-    "unit-test:browserstack:essential": "gulp test:karma:browserstack:essential",
+    "unit-test:bs:all": "gulp test:karma:browserstack",
+    "unit-test:bs:essential": "gulp test:karma:browserstack:essential",
     "generate:browserstack-browsers": "node scripts/generate-browserstack-karma-browsers.js && node scripts/generate-browserstack-karma-browsers.js essential"
   },
   "resolutions": {
