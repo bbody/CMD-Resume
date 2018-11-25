@@ -7,22 +7,26 @@
 				{
 					"name": "Chrome",
 					"newest": 70,
-					"enabled": true
+					"enabled": true,
+					"essential": true
 				},
 				{
 					"name": "Firefox",
 					"newest": 63,
-					"enabled": true
+					"enabled": true,
+					"essential": true
 				},
 				{
 					"name": "Edge",
 					"newest": 17,
-					"enabled": true
+					"enabled": true,
+					"essential": true
 				},
 				{
 					"name": "IE",
 					"versions": ["11"],
-					"enabled": false
+					"enabled": false,
+					"essential": true
 				}
 			]
 		},
@@ -97,17 +101,20 @@
 				{
 					"name": "Chrome",
 					"newest": 70,
-					"enabled": true
+					"enabled": true,
+					"essential": true
 				},
 				{
 					"name": "Firefox",
 					"newest": 63,
-					"enabled": true
+					"enabled": true,
+					"essential": true
 				},
 				{
 					"name": "Safari",
 					"versions": ["12"],
-					"enabled": true
+					"enabled": true,
+					"essential": true
 				}
 			]
 		},
