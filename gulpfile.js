@@ -355,6 +355,16 @@ gulp.task('test:karma:build', function(done) {
 		done);
 });
 
+gulp.task('test:karma:browserstack', function(done) {
+	var browsers = require('./browserstack/bs-browerList.json').browsers;
+	return runTests(browsers, done);
+});
+
+gulp.task('test:karma:browserstack:essential', function(done) {
+	var browsers = require('./browserstack/bs-browerList-essential.json').browsers;
+	return runTests(browsers, done);
+});
+
 gulp.task('test:karma:linux', function(done) {
 	return runTests(['Chrome', 'Firefox'], done);
 });

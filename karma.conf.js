@@ -1,9 +1,30 @@
 // Karma configuration
 module.exports = function(config) {
+	var bsBrowserProfiles = {
+		'CustomChromeHeadless': {
+			'base': 'ChromeHeadless',
+			'displayName': 'Headless Chrome',
+			'flags': ['--disable-gpu', '--disable-translate',
+			'--disable-extensions','--remote-debugging-port=9223']
+		},
+		'FirefoxHeadless': {
+			'base': 'Firefox',
+			'displayName': 'Headless Firefox',
+			'flags': ['-headless'],
+		},
+	};
+
+	Object.assign(bsBrowserProfiles, require('./browserstack/bs-customLaunchers.json'));
+
 	config.set({
 		basePath: '',
 		// Frameworks: https://npmjs.org/browse/keyword/karma-adapter
-		frameworks: ['jasmine-ajax', 'jasmine', 'jquery-3.1.1', 'fixture'],
+		frameworks: [
+			'jasmine-ajax',
+			'jasmine',
+			'jquery-3.1.1',
+			'fixture'
+		],
 		files: [
 			'node_modules/jquery.terminal/js/jquery.terminal.js',
 			'spec/support/helpers.js',
@@ -18,22 +39,18 @@ module.exports = function(config) {
 			'fixtures/**/*.json': ['json_fixtures']
 
 		},
-		reporters: ['progress', 'coverage'],
+		reporters: ['progress', 'coverage', 'BrowserStack'],
 		port: 9876,
 		colors: true,
 		logLevel: config.LOG_INFO,
 		autoWatch: false,
-		customLaunchers: {
-			CustomChromeHeadless: {
-				base: 'ChromeHeadless',
-				flags: ['--disable-gpu', '--disable-translate',
-				'--disable-extensions','--remote-debugging-port=9223']
-			},
-			FirefoxHeadless: {
-				base: 'Firefox',
-				flags: ['-headless'],
-			}
+		browserStack: {
+			username: process.env.BROWSERSTACK_USERNAME,
+			accessKey: process.env.BROWSERSTACK_KEY,
+			startTunnel: true,
+			video: false
 		},
+		customLaunchers: bsBrowserProfiles,
 		singleRun: true,
 		concurrency: Infinity,
 		coverageReporter: {
@@ -46,6 +63,22 @@ module.exports = function(config) {
 		jsonFixturesPreprocessor: {
 			stripPrefix: 'fixtures/',
 			variableName: '__json__'
-		}
+		},
+		plugins: [
+			'karma-jasmine',
+			'karma-jasmine-ajax',
+			'karma-fixture',
+			'karma-json-fixtures-preprocessor',
+			'karma-jquery',
+			'karma-coverage',
+			'karma-browserstack-launcher',
+			'karma-firefox-launcher',
+			'karma-chrome-launcher',
+			'karma-browserify',
+			'karma-edge-launcher',
+			'karma-ie-launcher',
+			'karma-requirejs',
+			'karma-safari-launcher'
+		]
 	});
 };
