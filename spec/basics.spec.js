@@ -1,4 +1,4 @@
-describe("Basics", () => {
+describe("Basics", function() {
 	beforeEach(function() {
 		var div = $("<div id='cmd-resume'></div>");
 		$("body").append(div);

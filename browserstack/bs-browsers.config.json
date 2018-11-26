@@ -1,0 +1,246 @@
+{
+	"operating_systems": [
+		{
+			"name": "Windows",
+			"version": "10",
+			"browsers": [
+				{
+					"name": "Chrome",
+					"newest": 70,
+					"enabled": true,
+					"essential": true
+				},
+				{
+					"name": "Firefox",
+					"newest": 63,
+					"enabled": true,
+					"essential": true
+				},
+				{
+					"name": "Edge",
+					"newest": 17,
+					"enabled": true,
+					"essential": true
+				},
+				{
+					"name": "IE",
+					"versions": ["11"],
+					"enabled": true,
+					"essential": true
+				}
+			]
+		},
+		{
+			"name": "Windows",
+			"version": "8.1",
+			"browsers": [
+				{
+					"name": "Chrome",
+					"newest": 70,
+					"enabled": true
+				},
+				{
+					"name": "Firefox",
+					"newest": 63,
+					"enabled": true
+				},
+				{
+					"name": "IE",
+					"versions": ["11"],
+					"enabled": true
+				},
+				{
+					"name": "Opera",
+					"versions": ["12.16", "12.15"],
+					"enabled": true
+				}
+			]
+		},
+		{
+			"name": "Windows",
+			"version": "8",
+			"browsers": [
+				{
+					"name": "Chrome",
+					"newest": 70,
+					"enabled": true
+				},
+				{
+					"name": "Firefox",
+					"newest": 63,
+					"enabled": true
+				},
+				{
+					"name": "IE",
+					"versions": ["10"],
+					"enabled": true
+				},
+				{
+					"name": "Opera",
+					"versions": ["12.16", "12.15"],
+					"enabled": true
+				}
+			]
+		},
+		{
+			"name": "Windows",
+			"version": "7",
+			"browsers": [
+				{
+					"name": "Chrome",
+					"newest": 70,
+					"enabled": true
+				},
+				{
+					"name": "Firefox",
+					"newest": 63,
+					"enabled": true
+				},
+				{
+					"name": "IE",
+					"newest": 11,
+					"oldest": 8,
+					"enabled": true
+				},
+				{
+					"name": "Opera",
+					"versions": ["12.16", "12.15"],
+					"enabled": true
+				}
+			]
+		},
+		{
+			"name": "OS X",
+			"version": "Mojave",
+			"browsers": [
+				{
+					"name": "Chrome",
+					"newest": 70,
+					"enabled": true,
+					"essential": true
+				},
+				{
+					"name": "Firefox",
+					"newest": 63,
+					"enabled": true,
+					"essential": true
+				},
+				{
+					"name": "Safari",
+					"versions": ["12"],
+					"enabled": true,
+					"essential": true
+				},
+				{
+					"name": "Opera",
+					"versions": ["12.15"],
+					"enabled": true
+				}
+			]
+		},
+		{
+			"name": "OS X",
+			"version": "High Sierra",
+			"browsers": [
+				{
+					"name": "Chrome",
+					"newest": 70,
+					"enabled": true
+				},
+				{
+					"name": "Firefox",
+					"newest": 63,
+					"enabled": true
+				},
+				{
+					"name": "Safari",
+					"versions": ["11.1"],
+					"enabled": true
+				},
+				{
+					"name": "Opera",
+					"versions": ["12.15"],
+					"enabled": true
+				}
+			]
+		},
+		{
+			"name": "OS X",
+			"version": "Sierra",
+			"browsers": [
+				{
+					"name": "Chrome",
+					"newest": 70,
+					"enabled": true
+				},
+				{
+					"name": "Firefox",
+					"newest": 63,
+					"enabled": true
+				},
+				{
+					"name": "Safari",
+					"versions": ["10.1"],
+					"enabled": true
+				},
+				{
+					"name": "Opera",
+					"versions": ["12.15"],
+					"enabled": true
+				}
+			]
+		},
+		{
+			"name": "OS X",
+			"version": "El Capitan",
+			"browsers": [
+				{
+					"name": "Chrome",
+					"newest": 70,
+					"enabled": true
+				},
+				{
+					"name": "Firefox",
+					"newest": 63,
+					"enabled": true
+				},
+				{
+					"name": "Safari",
+					"versions": ["9.1"],
+					"enabled": true
+				},
+				{
+					"name": "Opera",
+					"versions": ["12.15"],
+					"enabled": true
+				}
+			]
+		},
+		{
+			"name": "OS X",
+			"version": "Yosemite",
+			"browsers": [
+				{
+					"name": "Chrome",
+					"newest": 70,
+					"enabled": true
+				},
+				{
+					"name": "Firefox",
+					"newest": 63,
+					"enabled": true
+				},
+				{
+					"name": "Safari",
+					"versions": ["8"],
+					"enabled": true
+				},
+				{
+					"name": "Opera",
+					"versions": ["12.15"],
+					"enabled": true
+				}
+			]
+		}
+	]
+}
