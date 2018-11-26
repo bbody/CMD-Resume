@@ -177,7 +177,7 @@
 				{
 					"name": "Safari",
 					"versions": ["9.1"],
-					"enabled": false
+					"enabled": true
 				}
 			]
 		},
@@ -198,7 +198,7 @@
 				{
 					"name": "Safari",
 					"versions": ["8"],
-					"enabled": false
+					"enabled": true
 				}
 			]
 		}
