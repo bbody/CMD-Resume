@@ -18,7 +18,7 @@
 	"trailing": true,
 	"unused": false,
 	"jasmine": true,
-	"esversion": 6,
+	"esversion": 5,
 	"undef": true,
 	"globals": {
 		"StyleEnum": true,

@@ -112,7 +112,7 @@ describe("Splash screen", function() {
 		});
 	});
 
-	describe("Splash Command", ()=> {
+	describe("Splash Command", function() {
 		describe("Featuring name", function() {
 			beforeEach(function() {
 				$("#cmd-resume").CMDResume("justName.json", {});

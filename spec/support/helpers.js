@@ -213,22 +213,6 @@ var loadJSON = function(fixtureName) {
 	return window.__json__[fixtureName];
 };
 
-// var spyJSON = function(fixtureName, extraDetailsFixtureName = null) {
-// 	var spy = spyOn($, "getJSON");
-// 	spy.and.callFake(function(url, success) {
-// 		if (extraDetailsFixtureName && url === `${extraDetailsFixtureName}.json`){
-// 			success(loadJSON(`extraDetails/${extraDetailsFixtureName}`));
-// 		} else {
-// 			success(loadJSON(fixtureName));
-// 		}
-
-// 		return {
-// 			fail: function() {}
-// 		};
-// 	});
-// 	return spy;
-// };
-
 var typeCharacters = function(text) {
 	// Based off enter_text https://github.com/jcubic/jquery.terminal/blob/master/spec/terminalSpec.js
 	var docElement = $(document.documentElement || window);
