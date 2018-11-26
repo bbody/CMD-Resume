@@ -47,7 +47,7 @@
 				{
 					"name": "IE",
 					"versions": ["11"],
-					"enabled": false
+					"enabled": true
 				}
 			]
 		},
@@ -68,7 +68,7 @@
 				{
 					"name": "IE",
 					"versions": ["10"],
-					"enabled": false
+					"enabled": true
 				}
 			]
 		},
@@ -90,7 +90,7 @@
 					"name": "IE",
 					"newest": 11,
 					"oldest": 8,
-					"enabled": false
+					"enabled": true
 				}
 			]
 		},
