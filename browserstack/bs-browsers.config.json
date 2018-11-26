@@ -48,6 +48,11 @@
 					"name": "IE",
 					"versions": ["11"],
 					"enabled": true
+				},
+				{
+					"name": "Opera",
+					"versions": ["12.16", "12.15"],
+					"enabled": true
 				}
 			]
 		},
@@ -68,6 +73,11 @@
 				{
 					"name": "IE",
 					"versions": ["10"],
+					"enabled": true
+				},
+				{
+					"name": "Opera",
+					"versions": ["12.16", "12.15"],
 					"enabled": true
 				}
 			]
@@ -90,6 +100,11 @@
 					"name": "IE",
 					"newest": 11,
 					"oldest": 8,
+					"enabled": true
+				},
+				{
+					"name": "Opera",
+					"versions": ["12.16", "12.15"],
 					"enabled": true
 				}
 			]
@@ -115,6 +130,11 @@
 					"versions": ["12"],
 					"enabled": true,
 					"essential": true
+				},
+				{
+					"name": "Opera",
+					"versions": ["12.15"],
+					"enabled": true
 				}
 			]
 		},
@@ -135,6 +155,11 @@
 				{
 					"name": "Safari",
 					"versions": ["11.1"],
+					"enabled": true
+				},
+				{
+					"name": "Opera",
+					"versions": ["12.15"],
 					"enabled": true
 				}
 			]
@@ -157,6 +182,11 @@
 					"name": "Safari",
 					"versions": ["10.1"],
 					"enabled": true
+				},
+				{
+					"name": "Opera",
+					"versions": ["12.15"],
+					"enabled": true
 				}
 			]
 		},
@@ -178,6 +208,11 @@
 					"name": "Safari",
 					"versions": ["9.1"],
 					"enabled": true
+				},
+				{
+					"name": "Opera",
+					"versions": ["12.15"],
+					"enabled": true
 				}
 			]
 		},
@@ -198,6 +233,11 @@
 				{
 					"name": "Safari",
 					"versions": ["8"],
+					"enabled": true
+				},
+				{
+					"name": "Opera",
+					"versions": ["12.15"],
 					"enabled": true
 				}
 			]
