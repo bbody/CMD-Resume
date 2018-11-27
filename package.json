@@ -103,7 +103,7 @@
     "lint:travis": "travis lint .travis.yml --skip-completion-check",
     "unit-test:bs:all": "gulp test:karma:browserstack",
     "unit-test:bs:essential": "gulp test:karma:browserstack:essential",
-    "generate:browserstack-browsers": "node scripts/generate-browserstack-karma-browsers.js && node scripts/generate-browserstack-karma-browsers.js essential"
+    "generate:bs-browsers": "node scripts/generate-browserstack-karma-browsers.js"
   },
   "resolutions": {
     "natives": "1.1.3"

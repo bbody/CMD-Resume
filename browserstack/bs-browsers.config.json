@@ -177,7 +177,7 @@
 				{
 					"name": "Safari",
 					"versions": ["9.1"],
-					"enabled": true
+					"enabled": false
 				}
 			]
 		}
