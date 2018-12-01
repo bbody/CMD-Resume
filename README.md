@@ -8,8 +8,7 @@
 ## Description
 CMD-Resume is a Javascript based command line for demonstrating your resume. [Here](http://cmd-resume.bbody.io/) is an example of a resume in a command line.
 
-![CMD Resume Screenshot](https://s3-ap-southeast-2.amazonaws.com/bbody-images/github/cmd-resume/output.gif
- "CMD Resume Screenshot")
+![CMD Resume Screenshot](https://raw.githubusercontent.com/bbody/CMD-Resume/master/docs/images/output.gif "CMD Resume Screenshot")
 
 ## Setup
 ### Prerequisites
