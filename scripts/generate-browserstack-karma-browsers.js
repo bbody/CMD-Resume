@@ -32,18 +32,22 @@ for (var os of config.operating_systems) {
 			var key = `bs__${os.name.replace(' ', '-')}_${os.version.replace(' ', '-')}__${browser.name}_${version}`;
 			browserList.push(key);
 
-			// If it is essential and the latest version add to essential list
-			if (browser.essential && latestVersion == version) {
-				essentialBrowserList.push(key);
-			}
-			
-			browserMap[key] = {
+			var browserProfile = {
 				"base": "BrowserStack",
 				"browser": browser.name,
-				"browser_version": version,
 				"os": os.name,
 				"os_version": os.version
+			};
+
+			// If it is essential and the latest version add to essential list
+			if (browser.essential) {
+				var essentialKey = `bs__${os.name.replace(' ', '-')}_${os.version.replace(' ', '-')}__${browser.name}_Latest`;
+				essentialBrowserList.push(essentialKey);
+				browserList.push(key);
+				browserMap[essentialKey] = browserProfile;
 			}
+
+			browserMap[key] = {...browserProfile, browser_version: version};
 		}
 	}
 }
