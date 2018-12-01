@@ -21,44 +21,40 @@ var isValidColor = function(color) {
 	}
 };
 
+// Get value
+var hasArrayKey = function(data, keys) {
+	for (var i = 0; i < keys.length; i++) {
+		var key = keys[i];
+
+		if (typeof data[key] === "undefined") {
+			return false;
+		}
+
+		data = data[key];
+	}
+
+	return data;
+};
+
 // Check if an object has key and has length
 var isDefinedNotEmpty = function(object, key, isObject) {
 	if (!key || !object) {
 		return false;
 	}
 
-	var keyArray = [];
+	var keys = [];
 	if (Array.isArray(key)) {
-		keyArray = key;
+		keys = key;
 	} else {
-		keyArray.push(key);
+		keys.push(key);
 	}
 
-	var data = object;
+	var data = hasArrayKey(object, keys);
 
-	for (var i = 0; i < keyArray.length; i++) {
-		var keyValue = keyArray[i];
-
-		if (typeof data[keyValue] === "undefined") {
-			return false;
-		}
-
-		data = data[keyValue];
-	}
-
-	return !!isObject || data.length;
+	return data && (!!isObject || data.length);
 };
 
 // Get data from object
 var getData = function(object, keys) {
-	if (Array.isArray(keys)) {
-		var data = object;
-		keys.forEach(function(key) {
-			data = data[key];
-		});
-
-		return data;
-	} else {
-		return object[keys];
-	}
+	return hasArrayKey(object, Array.isArray(keys) ? keys : [keys]);
 };
