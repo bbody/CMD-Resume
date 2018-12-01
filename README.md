@@ -57,6 +57,8 @@ $(document).ready(function() {
 70 - 67 ✔ | 63 - 60 ✔ | 17 - 14 ✔ | 12 - 10 ✔ | 56 - 53 ✔ | 11 - 10 ✔ |
 
 Assets from [Browsers Logos](https://github.com/alrra/browser-logos).
+
+Currently only unit tests are run currently on [BrowserStack](https://www.browserstack.com/).
 ## Bugs and suggestions
 If you find any bugs or have any suggestions on how to improve CMD Resume please post in the [Github issues](https://github.com/bbody/CMD-Resume/issues).
 
