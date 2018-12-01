@@ -1,5 +1,7 @@
 Despite CMD-Resume being quite simple there are quite a few packages and tools which are used to develop, test, build and deploy.
 
+![Build Flow](https://raw.githubusercontent.com/bbody/CMD-Resume/master/docs/images/merge_graph.png "Build Flow")
+
 - Run Dependencies
     - [jQuery Terminal](http://terminal.jcubic.pl/) - required for getting a terminal inside web browser
     - [jQuery Mousewheel](https://github.com/jquery/jquery-mousewheel) - optional for improving mousewheel functionality
@@ -43,6 +45,6 @@ Despite CMD-Resume being quite simple there are quite a few packages and tools w
 - Release
     - [Github Pages](https://pages.github.com/) - used to host example of CMD-Resume
     - [Github Releases](https://help.github.com/articles/creating-releases/) - used to package CMD-Resume and host in releases on Github repository
-    - [NPM](https://www.npmjs.com/package/cmd-resume) - used to deploy new code to NPM repository
+    - [NPM](https://www.npmjs.com/) - used to deploy new code to NPM repository
 
 For more information a list of dependencies please check [package.json](https://github.com/bbody/CMD-Resume/blob/master/package.json).

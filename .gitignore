@@ -49,3 +49,6 @@ terminal.jquery.json
 /spec-e2e/shots/*
 /spec-e2e/screenshots/
 index.html
+
+# Doc diagram
+docs/images/.~lock.merge_graph.odg#
