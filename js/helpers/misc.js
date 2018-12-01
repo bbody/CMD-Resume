@@ -36,20 +36,22 @@ var hasArrayKey = function(data, keys) {
 	return data;
 };
 
+// Get key array
+var getKeyArray = function(key) {
+	if (Array.isArray(key)) {
+		return key;
+	} else {
+		return [key];
+	}
+};
+
 // Check if an object has key and has length
 var isDefinedNotEmpty = function(object, key, isObject) {
 	if (!key || !object) {
 		return false;
 	}
 
-	var keys = [];
-	if (Array.isArray(key)) {
-		keys = key;
-	} else {
-		keys.push(key);
-	}
-
-	var data = hasArrayKey(object, keys);
+	var data = hasArrayKey(object, getKeyArray(key));
 
 	return data && (!!isObject || data.length);
 };
