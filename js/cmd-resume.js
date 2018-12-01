@@ -142,7 +142,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	};
 
 	self.initName = function() {
-		if (self.data.basics.name) {
+		if (isDefinedNotEmpty(self.data.basics, "name")) {
 			self.commands.name = {
 				title: "Name",
 				description: "owner of the résumé",
@@ -153,7 +153,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	};
 
 	self.initSummary = function() {
-		if (self.data.basics.summary) {
+		if (isDefinedNotEmpty(self.data.basics, "summary")) {
 			self.commands.about = {
 				title: "About",
 				description: "about me",
@@ -164,7 +164,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	};
 
 	self.initPdfLink = function() {
-		if (self.data.basics.pdfLink) {
+		if (isDefinedNotEmpty(self.data.basics, "pdfLink")) {
 			self.commands.pdf = {
 				title: "Résumé PDF",
 				description: "pdf version of the résumé",
@@ -180,7 +180,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	};
 
 	self.initLocation = function() {
-		if (self.data.basics.location) {
+		if (isDefinedNotEmpty(self.data.basics, "location")) {
 			self.commands.location = {
 				title: "Location",
 				description: "current location",
@@ -208,7 +208,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	};
 
 	self.initLabel = function() {
-		if (self.data.basics.label) {
+		if (isDefinedNotEmpty(self.data.basics, "label")) {
 			self.commands.lookingfor = {
 				title: "Looking For",
 				description: "looking for what kind of position",
@@ -219,7 +219,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	};
 
 	self.initProfiles = function() {
-		if (self.data.basics.profiles) {
+		if (isDefinedNotEmpty(self.data.basics, "profiles")) {
 			self.commands.socialmedia = {
 				title: "Social Media",
 				description: "social media profiles",
@@ -244,7 +244,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	};
 
 	self.initSkills = function() {
-		if (self.data.skills) {
+		if (isDefinedNotEmpty(self.data, "skills")) {
 			self.commands.skills = {
 				title: "Skills",
 				description: "skills obtained",
@@ -309,7 +309,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	};
 
 	self.initEducation = function() {
-		if (self.data.education) {
+		if (isDefinedNotEmpty(self.data, "education")) {
 			self.commands.education = {
 				title: "Education",
 				description: "education history",
@@ -331,7 +331,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	};
 
 	self.initWork = function() {
-		if (self.data.work && self.data.work.length) {
+		if (isDefinedNotEmpty(self.data, "work")) {
 			self.commands.employment = {
 				title: "Employment",
 				description: "employment history",
@@ -353,7 +353,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	};
 
 	self.initVolunteer = function() {
-		if (self.data.volunteer) {
+		if (isDefinedNotEmpty(self.data, "volunteer")) {
 			self.commands.volunteering = {
 				title: "Volunteering",
 				description: "volunteering history",
@@ -375,7 +375,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	};
 
 	self.initAwards = function() {
-		if (self.data.awards) {
+		if (isDefinedNotEmpty(self.data, "awards")) {
 			self.commands.awards = {
 				title: "Awards",
 				description: "awards obtained",
@@ -397,7 +397,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	};
 
 	self.initPublications = function() {
-		if (self.data.publications) {
+		if (isDefinedNotEmpty(self.data, "publications")) {
 			self.commands.publications = {
 				title: "Publications",
 				description: "publications produced",
@@ -419,7 +419,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	};
 
 	self.initLanguages = function() {
-		if (self.data.languages) {
+		if (isDefinedNotEmpty(self.data, "languages")) {
 			self.commands.languages = {
 				title: "Languages",
 				description: "languages",
@@ -438,7 +438,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	};
 
 	self.initInterests = function() {
-		if (self.data.interests) {
+		if (isDefinedNotEmpty(self.data, "interests")) {
 			self.commands.interests = {
 				title: "Interests",
 				description: "interests",
@@ -457,7 +457,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	};
 
 	self.initReferences = function() {
-		if (self.data.references) {
+		if (isDefinedNotEmpty(self.data, "references")) {
 			self.commands.references = {
 				title: "References",
 				description: "references",

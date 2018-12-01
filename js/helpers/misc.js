@@ -20,3 +20,7 @@ var isValidColor = function(color) {
 		return false;
 	}
 };
+
+var isDefinedNotEmpty = function(object, key) {
+	return key && typeof object[key] !== "undefined" && object[key].length;
+};
