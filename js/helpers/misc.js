@@ -20,3 +20,8 @@ var isValidColor = function(color) {
 		return false;
 	}
 };
+
+// Check if an object has key and has length
+var isDefinedNotEmpty = function(object, key) {
+	return key && typeof object[key] !== "undefined" && object[key].length;
+};
