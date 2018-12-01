@@ -22,22 +22,31 @@ var isValidColor = function(color) {
 };
 
 // Check if an object has key and has length
-var isDefinedNotEmpty = function(object, keys, isObject) {
-	if (!keys || !object) {
+var isDefinedNotEmpty = function(object, key, isObject) {
+	if (!key || !object) {
 		return false;
 	}
 
-	var key = Array.isArray(keys) ? keys[0] : keys;
-
-	if (typeof object[key] === "undefined") {
-		return false;
-	}
-
-	if (Array.isArray(keys) && keys.length > 1) {
-		return isDefinedNotEmpty(object[key], keys.slice(1), isObject);
+	var keyArray = [];
+	if (Array.isArray(key)) {
+		keyArray = key;
 	} else {
-		return !!isObject ||  object[key].length;
+		keyArray.push(key);
 	}
+
+	var data = object;
+
+	for (var i = 0; i < keyArray.length; i++) {
+		var keyValue = keyArray[i];
+
+		if (typeof data[keyValue] === "undefined") {
+			return false;
+		}
+
+		data = data[keyValue];
+	}
+
+	return !!isObject || data.length;
 };
 
 // Get data from object
