@@ -169,7 +169,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			name: "socialmedia",
 			title: "Social Media",
 			description: "social media profiles",
-			data: {keys: ["basics", "profiles"]},
+			data: {keys: ["basics", "profiles"], isObject: true},
 			type: self.CMD.CALCULATED,
 			handler: function(data) {
 				var resultArray = [];

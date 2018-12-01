@@ -27,17 +27,16 @@ var isDefinedNotEmpty = function(object, keys, isObject) {
 		return false;
 	}
 
-	if (Array.isArray(keys) && keys.length === 1) {
-		keys = keys[0];
+	var key = Array.isArray(keys) ? keys[0] : keys;
+
+	if (typeof object[key] === "undefined") {
+		return false;
 	}
 
-	if (Array.isArray(keys)) {
-		var key = keys[0];
-		return typeof object[key] !== "undefined" &&
-			isDefinedNotEmpty(object[key], keys.slice(1), isObject);
+	if (Array.isArray(keys) && keys.length > 1) {
+		return isDefinedNotEmpty(object[key], keys.slice(1), isObject);
 	} else {
-		return object && typeof object[keys] !== "undefined" &&
-			(!!isObject || object[keys].length);
+		return !!isObject ||  object[key].length;
 	}
 };
 
