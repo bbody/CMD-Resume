@@ -180,7 +180,8 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	};
 
 	self.initLocation = function() {
-		if (isDefinedNotEmpty(self.data.basics, "location")) {
+		// Is an object, so don't need to check length
+		if (self.data.basics.location) {
 			self.commands.location = {
 				title: "Location",
 				description: "current location",
