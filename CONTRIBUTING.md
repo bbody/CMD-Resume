@@ -9,7 +9,7 @@ This guide assumes you are using a command line, if you want to use other tools 
 1. Clone the Github repository `git clone https://github.com/bbody/CMD-Resume.git`
 2. Change directory to the repository `cd CMD-Resume`
 3. [Install Node and NPM](https://docs.npmjs.com/getting-started/installing-node) (if not already installed)
-4. Install the dependencies `npm install` and `npm run setup`
+4. Install the dependencies `npm install` and `npm run setup_local`
 5. Install gulp command line tool `npm i -g gulp-cli` or `sudo npm i -g gulp-cli` if the first does not work
 6. Test if the running script works `gulp`
 
