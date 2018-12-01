@@ -4,7 +4,6 @@
 [![devDependencies Status](https://david-dm.org/bbody/cmd-resume/dev-status.svg)](https://david-dm.org/bbody/cmd-resume?type=dev)
 [![npm version](https://badge.fury.io/js/cmd-resume.svg)](https://badge.fury.io/js/cmd-resume)
 [![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=TXJtSnFra2t1em56djV0cDNHbXBWQ0F1S2ZwWFNndG0rQTlySU5YaUZaUT0tLTFsTlp3ZUcrT29rMUNPcXhtbHRpNXc9PQ==--8f9c890ea5f00b2700273a981af403651fea3f65)](https://www.browserstack.com/automate/public-build/TXJtSnFra2t1em56djV0cDNHbXBWQ0F1S2ZwWFNndG0rQTlySU5YaUZaUT0tLTFsTlp3ZUcrT29rMUNPcXhtbHRpNXc9PQ==--8f9c890ea5f00b2700273a981af403651fea3f65)
-
 # CMD Resume
 ## Description
 CMD-Resume is a Javascript based command line for demonstrating your resume. [Here](http://cmd-resume.bbody.io/) is an example of a resume in a command line.
