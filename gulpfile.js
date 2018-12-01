@@ -386,6 +386,14 @@ gulp.task('test:e2e:build', function() {
 	}));
 });
 
+gulp.task('test:e2e:browserstack', function() {
+	return gulp.src('./wdio.bs-essential.conf.js').pipe(webdriver({
+		jasmineNodeOpts: {
+			defaultTimeoutInterval: 50000
+		}
+	}));
+});
+
 gulp.task('test:e2e:windows', function() {
 	return gulp.src('wdio.conf.js').pipe(webdriver({
 		capabilities: getE2EBrowsers(['chrome', 'firefox', 'internet explorer', 'MicrosoftEdge'])
