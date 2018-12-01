@@ -118,7 +118,6 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Education",
 			description: "education history",
-			data: "education",
 			type: self.CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
@@ -191,7 +190,6 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Skills",
 			description: "skills obtained",
-			data: "skills",
 			type: self.CMD.CALCULATED,
 			handler: function(data) {
 				var result = CONSTANTS.EMPTY;
@@ -219,7 +217,6 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Awards",
 			description: "awards obtained",
-			data: "awards",
 			type: self.CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
@@ -236,7 +233,6 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Publications",
 			description: "publications produced",
-			data: "publications",
 			type: self.CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
@@ -253,7 +249,6 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Languages",
 			description: "languages",
-			data: "languages",
 			type: self.CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
@@ -267,7 +262,6 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Interests",
 			description: "interests",
-			data: "interests",
 			type: self.CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
@@ -281,7 +275,6 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "References",
 			description: "references",
-			data: "references",
 			type: self.CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
@@ -327,7 +320,6 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			title: "PGP Key",
 			description: "public PGP key",
 			type: self.CMD.CALCULATED,
-			data: "pgpkey",
 			handler: function() {
 				var results = CONSTANTS.EMPTY;
 
@@ -430,7 +422,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 
 	self.addCommand = function(command) {
 		if (command.type === self.CMD.SYSTEM ||
-			isDefinedNotEmpty(self.data, command.data, !!command.dataIsObject)) {
+			isDefinedNotEmpty(self.data,
+				command.data ? command.data : command.name.toLowerCase(),
+				!!command.dataIsObject)) {
 			var tempCommand = {
 				title: command.title ? command.title : command.name,
 				description: command.description,
@@ -438,7 +432,8 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			};
 
 			if (command.type !== self.CMD.SYSTEM) {
-				tempCommand.data = getData(self.data, command.data);
+				tempCommand.data = getData(self.data,
+					command.data ? command.data : command.name.toLowerCase());
 			}
 
 			if (command.handlers) {
