@@ -64,20 +64,20 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Name",
 			description: "owner of the résumé",
-			data: {keys: ["basics", "name"]},
+			data: ["basics", "name"],
 			type: self.CMD.BASIC
 		},
 		{
 			name: "About",
 			description: "about me",
-			data: {keys: ["basics", "summary"]},
+			data: ["basics", "summary"],
 			type: self.CMD.BASIC
 		},
 		{
 			name: "pdf",
 			title: "Résumé PDF",
 			description: "pdf version of the résumé",
-			data: {keys: ["basics", "pdfLink"]},
+			data: ["basics", "pdfLink"],
 			type: self.CMD.CALCULATED,
 			handler: function(data) {
 				window.open(data);
@@ -88,7 +88,8 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Location",
 			description: "current location",
-			data: {keys: ["basics", "location"], isObject: true},
+			data: ["basics", "location"],
+			dataIsObject: true,
 			type: self.CMD.CALCULATED,
 			handler: function(data) {
 				var results = [];
@@ -111,13 +112,13 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Label",
 			description: "title",
-			data: {keys: ["basics", "label"]},
+			data: ["basics", "label"],
 			type: self.CMD.BASIC
 		},
 		{
 			name: "Education",
 			description: "education history",
-			data: {keys: "education"},
+			data: "education",
 			type: self.CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
@@ -134,7 +135,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Employment",
 			description: "employment history",
-			data: {keys: "work"},
+			data: "work",
 			type: self.CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
@@ -151,7 +152,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Volunteering",
 			description: "volunteering history",
-			data: {keys: "volunteer"},
+			data: "volunteer",
 			type: self.CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
@@ -169,7 +170,8 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			name: "socialmedia",
 			title: "Social Media",
 			description: "social media profiles",
-			data: {keys: ["basics", "profiles"], isObject: true},
+			data: ["basics", "profiles"],
+			dataIsObject: true,
 			type: self.CMD.CALCULATED,
 			handler: function(data) {
 				var resultArray = [];
@@ -189,7 +191,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Skills",
 			description: "skills obtained",
-			data: {keys: "skills"},
+			data: "skills",
 			type: self.CMD.CALCULATED,
 			handler: function(data) {
 				var result = CONSTANTS.EMPTY;
@@ -217,7 +219,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Awards",
 			description: "awards obtained",
-			data: {keys: "awards"},
+			data: "awards",
 			type: self.CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
@@ -234,7 +236,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Publications",
 			description: "publications produced",
-			data: {keys: "publications"},
+			data: "publications",
 			type: self.CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
@@ -251,7 +253,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Languages",
 			description: "languages",
-			data: {keys: "languages"},
+			data: "languages",
 			type: self.CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
@@ -265,7 +267,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Interests",
 			description: "interests",
-			data: {keys: "interests"},
+			data: "interests",
 			type: self.CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
@@ -279,7 +281,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "References",
 			description: "references",
-			data: {keys: "references"},
+			data: "references",
 			type: self.CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
@@ -325,7 +327,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			title: "PGP Key",
 			description: "public PGP key",
 			type: self.CMD.CALCULATED,
-			data: {keys: "pgpkey"},
+			data: "pgpkey",
 			handler: function() {
 				var results = CONSTANTS.EMPTY;
 
@@ -428,7 +430,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 
 	self.addCommand = function(command) {
 		if (command.type === self.CMD.SYSTEM ||
-			isDefinedNotEmpty(self.data, command.data.keys, !!command.data.isObject)) {
+			isDefinedNotEmpty(self.data, command.data, !!command.dataIsObject)) {
 			var tempCommand = {
 				title: command.title ? command.title : command.name,
 				description: command.description,
@@ -436,7 +438,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			};
 
 			if (command.type !== self.CMD.SYSTEM) {
-				tempCommand.data = getData(self.data, command.data.keys);
+				tempCommand.data = getData(self.data, command.data);
 			}
 
 			if (command.handlers) {
@@ -496,7 +498,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 						title: "Github Repositories",
 						description: "list Github repositories",
 						type: self.CMD.BASIC,
-						data: {keys: "githubCache"}
+						data: "githubCache"
 					});
 				});
 	};
