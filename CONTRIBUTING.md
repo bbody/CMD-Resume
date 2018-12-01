@@ -77,4 +77,9 @@ For more information a list of dependencies please check [package.json](https://
 ## Releasing
 Run the command `node scripts/release.js {version type}`, where the version type is either major, minor or patch ([Semantic versioning](https://semver.org/)).
 
+Releases to:
+- [Github Release](https://github.com/bbody/CMD-Resume/releases)
+- [NPM](https://www.npmjs.com/package/cmd-resume)
+- [Github Pages](https://cmd-resume.bbody.io/)
+
 *Note:* Releasing can only be performed by a project admin.
