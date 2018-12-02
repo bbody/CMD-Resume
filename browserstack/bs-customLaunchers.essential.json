@@ -1,1 +1,59 @@
-{"browsers":[{"base":"BrowserStack","browser":"Chrome","os":"Windows","os_version":"10","browserstack.local":true},{"base":"BrowserStack","browser":"Chrome","os":"Windows","os_version":"10","browserstack.local":true},{"base":"BrowserStack","browser":"Chrome","os":"Windows","os_version":"10","browserstack.local":true},{"base":"BrowserStack","browser":"Firefox","os":"Windows","os_version":"10","browserstack.local":true},{"base":"BrowserStack","browser":"Firefox","os":"Windows","os_version":"10","browserstack.local":true},{"base":"BrowserStack","browser":"Firefox","os":"Windows","os_version":"10","browserstack.local":true},{"base":"BrowserStack","browser":"Edge","os":"Windows","os_version":"10","browserstack.local":true},{"base":"BrowserStack","browser":"Edge","os":"Windows","os_version":"10","browserstack.local":true},{"base":"BrowserStack","browser":"Edge","os":"Windows","os_version":"10","browserstack.local":true},{"base":"BrowserStack","browser":"IE","os":"Windows","os_version":"10","browserstack.local":true},{"base":"BrowserStack","browser":"Opera","os":"Windows","os_version":"10","browserstack.local":true},{"base":"BrowserStack","browser":"Opera","os":"Windows","os_version":"10","browserstack.local":true},{"base":"BrowserStack","browser":"Opera","os":"Windows","os_version":"10","browserstack.local":true},{"base":"BrowserStack","browser":"Chrome","os":"OS X","os_version":"Mojave","browserstack.local":true},{"base":"BrowserStack","browser":"Chrome","os":"OS X","os_version":"Mojave","browserstack.local":true},{"base":"BrowserStack","browser":"Chrome","os":"OS X","os_version":"Mojave","browserstack.local":true},{"base":"BrowserStack","browser":"Firefox","os":"OS X","os_version":"Mojave","browserstack.local":true},{"base":"BrowserStack","browser":"Firefox","os":"OS X","os_version":"Mojave","browserstack.local":true},{"base":"BrowserStack","browser":"Firefox","os":"OS X","os_version":"Mojave","browserstack.local":true},{"base":"BrowserStack","browser":"Safari","os":"OS X","os_version":"Mojave","browserstack.local":true},{"base":"BrowserStack","browser":"Opera","os":"OS X","os_version":"Mojave","browserstack.local":true},{"base":"BrowserStack","browser":"Opera","os":"OS X","os_version":"Mojave","browserstack.local":true},{"base":"BrowserStack","browser":"Opera","os":"OS X","os_version":"Mojave","browserstack.local":true}]}
+{
+    "browsers": [
+    {
+        "base": "BrowserStack",
+        "browser": "Chrome",
+        "os": "Windows",
+        "os_version": "10",
+        "browserstack.local": true
+    },
+    {
+        "base": "BrowserStack",
+        "browser": "Firefox",
+        "os": "Windows",
+        "os_version": "10",
+        "browserstack.local": true
+    },
+    {
+        "base": "BrowserStack",
+        "browser": "Edge",
+        "os": "Windows",
+        "os_version": "10",
+        "browserstack.local": true
+    },
+    {
+        "base": "BrowserStack",
+        "browser": "IE",
+        "os": "Windows",
+        "os_version": "10",
+        "browserstack.local": true
+    },
+    {
+        "base": "BrowserStack",
+        "browser": "Opera",
+        "os": "Windows",
+        "os_version": "10",
+        "browserstack.local": true
+    },
+    {
+        "base": "BrowserStack",
+        "browser": "Chrome",
+        "os": "OS X",
+        "os_version": "Mojave",
+        "browserstack.local": true
+    },
+    {
+        "base": "BrowserStack",
+        "browser": "Firefox",
+        "os": "OS X",
+        "os_version": "Mojave",
+        "browserstack.local": true
+    },
+    {
+        "base": "BrowserStack",
+        "browser": "Safari",
+        "os": "OS X",
+        "os_version": "Mojave",
+        "browserstack.local": true
+    },]
+}

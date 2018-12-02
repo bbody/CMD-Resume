@@ -1,10 +1,18 @@
 var browserstack = require('browserstack-local');
-let config = require("./wdio.conf.js");
+let wdioConf = require("./wdio.conf.js");
+var merge = require('deepmerge');
 
-exports.config = {
+var capabilities = require('./browserstack/bs-customLaunchers.essential.json').browsers;
+
+for (var i = 0; i < capabilities.length; i++) {
+	capabilities["browserstack.local"] = true;
+	capabilities.build = `UI Build: ${process.env.TRAVIS_JOB_ID}`;
+}
+
+exports.config = merge(wdioConf, {
 	user: process.env.BROWSERSTACK_USERNAME,
 	key: process.env.BROWSERSTACK_KEY,
-	capabilities: require('./browserstack/bs-customLaunchers.essential.json').browsers,
+	capabilities: capabilities,
 	onPrepare: function (config, capabilities) {
 		console.log("Connecting local");
 		return new Promise(function(resolve, reject) {
@@ -20,6 +28,6 @@ exports.config = {
 	onComplete: function (capabilties, specs) {
 		exports.bs_local.stop(function() {});
 	}
-};
+});
 
 exports.config = {...config.config, ...exports.config};
