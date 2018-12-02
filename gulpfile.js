@@ -387,11 +387,7 @@ gulp.task('test:e2e:build', function() {
 });
 
 gulp.task('test:e2e:browserstack:essential', function() {
-	console.log(`USERNAME: ${process.env.BROWSERSTACK_USERNAME}`);
-	// console.log(process.env.BROWSERSTACK_KEY);
 	return gulp.src('./wdio.bs-essential.conf.js').pipe(webdriver({
-		user: process.env.BROWSERSTACK_USERNAME,
-		key: process.env.BROWSERSTACK_KEY,
 		jasmineNodeOpts: {
 			defaultTimeoutInterval: 50000
 		}
