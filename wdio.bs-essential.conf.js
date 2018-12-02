@@ -12,8 +12,6 @@ for (var i = 0; i < capabilities.length; i++) {
 console.log(process.env.BROWSERSTACK_USERNAME);
 
 exports.config = merge(wdioConf, {
-	user: process.env.BROWSERSTACK_USERNAME,
-	key: process.env.BROWSERSTACK_KEY,
 	capabilities: capabilities,
 	onPrepare: function (config, capabilities) {
 		console.log("Connecting local");
