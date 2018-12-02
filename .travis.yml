@@ -21,7 +21,7 @@ script:
     if [ $TRAVIS_EVENT_TYPE == "cron" ];then
     npm run test:build && travis_wait 60 npm run unit-test:bs:all
     else
-    travis_wait 15 npm run bs:essential
+    travis_wait 15 wdio wdio.bs-essential.conf.js
     fi
   - npm run source-check
 cache:
