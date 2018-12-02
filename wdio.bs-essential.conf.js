@@ -31,5 +31,3 @@ exports.config = merge(wdioConf, {
 		exports.bs_local.stop(function() {});
 	}
 });
-
-exports.config = {...config.config, ...exports.config};
