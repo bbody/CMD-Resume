@@ -56,6 +56,7 @@ Despite CMD-Resume being quite simple there are quite a few packages and tools w
     -   [JSON Lint](https://github.com/zaach/jsonlint) - used to check the JSON files creating the resume
     -   [YAML Lint](https://github.com/rasshofer/yaml-lint) - used to lint the Travis file
     -   [Travis Lint](https://github.com/travis-ci/travis.rb#lint) - used to lint and verify the Travis file according to Travis' recommended format
+    -   [Markdown Lint](https://github.com/remarkjs/remark-lint) - used to lint the Markdown doc files
     -   [Code Climate](https://codeclimate.com/github/bbody/CMD-Resume) - used to provide code coverage and code quality analysis
 -   HTML
     -   [PugJs](https://github.com/pugjs/pug) - used for building HTML through templating
