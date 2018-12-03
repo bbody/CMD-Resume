@@ -98,7 +98,7 @@ describe("commandHandlers", function(){
 				}
 			};
 
-			expect(arrayHandlerFunction(command, false)).toBe("\nOrganisation 1\tTitle 1\tDate 1\nOrganisation 2\tTitle 2\tDate 2");
+			expect(arrayHandlerFunction(command, false)).toBe("\nOrganisation 1    Title 1    Date 1\nOrganisation 2    Title 2    Date 2");
 		});
 
 		it("Top returns back first row", function() {
@@ -117,7 +117,7 @@ describe("commandHandlers", function(){
 				}
 			};
 
-			expect(arrayHandlerFunction(command, true)).toBe("Organisation 1\tTitle 1\tDate 1");
+			expect(arrayHandlerFunction(command, true)).toBe("Organisation 1    Title 1    Date 1");
 		});
 
 		describe("Missing handlers", function() {
@@ -150,7 +150,7 @@ describe("commandHandlers", function(){
 					}
 				};
 
-				expect(arrayHandlerFunction(command)).toBe("\nTitle 1\tDate 1\nTitle 2\tDate 2");
+				expect(arrayHandlerFunction(command)).toBe("\nTitle 1    Date 1\nTitle 2    Date 2");
 			});
 
 			it("Returns without any organisation with top", function() {
@@ -166,7 +166,7 @@ describe("commandHandlers", function(){
 					}
 				};
 
-				expect(arrayHandlerFunction(command, true)).toBe("Title 1\tDate 1");
+				expect(arrayHandlerFunction(command, true)).toBe("Title 1    Date 1");
 			});
 
 			it("Returns without any title", function() {
@@ -182,7 +182,7 @@ describe("commandHandlers", function(){
 					}
 				};
 
-				expect(arrayHandlerFunction(command)).toBe("\nOrganisation 1\tDate 1\nOrganisation 2\tDate 2");
+				expect(arrayHandlerFunction(command)).toBe("\nOrganisation 1    Date 1\nOrganisation 2    Date 2");
 			});
 
 			it("Returns without any title with top", function() {
@@ -198,7 +198,7 @@ describe("commandHandlers", function(){
 					}
 				};
 
-				expect(arrayHandlerFunction(command, true)).toBe("Organisation 1\tDate 1");
+				expect(arrayHandlerFunction(command, true)).toBe("Organisation 1    Date 1");
 			});
 
 			it("Returns without any date", function() {
@@ -214,7 +214,7 @@ describe("commandHandlers", function(){
 					}
 				};
 
-				expect(arrayHandlerFunction(command), "\nOrganisation 1\tTitle 1\nOrganisation 2\tTitle 2");
+				expect(arrayHandlerFunction(command), "\nOrganisation 1    Title 1\nOrganisation 2    Title 2");
 			});
 
 			it("Returns without any date with top", function() {
@@ -230,7 +230,7 @@ describe("commandHandlers", function(){
 					}
 				};
 
-				expect(arrayHandlerFunction(command, true)).toBe("Organisation 1\tTitle 1");
+				expect(arrayHandlerFunction(command, true)).toBe("Organisation 1    Title 1");
 			});
 
 			it("Returns with only date", function() {
@@ -349,7 +349,7 @@ describe("commandHandlers", function(){
 					}
 				};
 
-				expect(arrayHandlerFunction(command, false)).toBe("\nTitle 1\tDate 1\nTitle 2\tDate 2");
+				expect(arrayHandlerFunction(command, false)).toBe("\nTitle 1    Date 1\nTitle 2    Date 2");
 			});
 
 			it("Handles missing title", function() {
@@ -362,7 +362,7 @@ describe("commandHandlers", function(){
 					}
 				};
 
-				expect(arrayHandlerFunction(command, false)).toBe("\nOrganisation 1\tDate 1\nOrganisation 2\tDate 2");
+				expect(arrayHandlerFunction(command, false)).toBe("\nOrganisation 1    Date 1\nOrganisation 2    Date 2");
 			});
 
 			it("Handles missing date", function() {
@@ -375,7 +375,7 @@ describe("commandHandlers", function(){
 					}
 				};
 
-				expect(arrayHandlerFunction(command, false)).toBe("\nOrganisation 1\tTitle 1\nOrganisation 2\tTitle 2");
+				expect(arrayHandlerFunction(command, false)).toBe("\nOrganisation 1    Title 1\nOrganisation 2    Title 2");
 			});
 		});
 	});
