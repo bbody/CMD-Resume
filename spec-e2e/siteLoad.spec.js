@@ -22,6 +22,7 @@ describe("Website load", function() {
 	});
 	describe("Splash message", function() {
 		beforeEach(function(){
+			browser.url('/');
 			helper.loadSimpleCMDResume(browser);
 
 			$('body.full-screen-terminal').waitForExist(5000);
