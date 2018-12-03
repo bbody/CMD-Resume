@@ -51,7 +51,7 @@ describe("Utilities", function() {
 				responseText: JSON.stringify(loadJSON("details"))
 			});
 
-			enterCommand("\t\t\t\t");
+			enterCommand("                ");
 
 			var output = getSingleOutput();
 			expect(output).toEqual("No command entered.");

@@ -6,7 +6,7 @@ describe("Simple", function() {
 
 		helper.loadSimpleCMDResume(browser);
 
-		$('body.terminal').waitForExist(5000);
+		$('body.full-screen-terminal').waitForExist(5000);
 	});
 
 	it("returns help", function(){

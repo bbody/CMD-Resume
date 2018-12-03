@@ -243,7 +243,7 @@ gulp.task('compile:html', function() {
 	const locals = {
 		production: false,
 		jquery_script_location: 'node_modules/jquery/dist/jquery.js',
-		jquery_mousewheel_script_location: 'node_modules/jquery.terminal/js/jquery.mousewheel-min.js',
+		keyboard_polyfill: 'node_modules/js-polyfills/keyboard.js',
 		jquery_terminal_script_location: 'node_modules/jquery.terminal/js/jquery.terminal.js',
 		init_script_location: 'js/examples/example-script.js',
 		cmd_resume_script_location: 'tmp/js/cmd-resume.js',
@@ -269,7 +269,7 @@ gulp.task('compile:html:example', function() {
 	const locals = {
 		production: true,
 		jquery_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery/${getLibraryVersion('jquery')}/jquery.min.js`,
-		jquery_mousewheel_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/${getLibraryVersion('jquery-mousewheel')}/jquery.mousewheel.min.js`,
+		keyboard_polyfill: `//cdn.rawgit.com/inexorabletash/polyfill/master/keyboard.js`,
 		jquery_terminal_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/${getLibraryVersion('jquery.terminal')}/js/jquery.terminal.min.js`,
 		init_script_location: './js/example-script.js',
 		cmd_resume_script_location: './js/cmd-resume.js',
@@ -290,7 +290,7 @@ gulp.task('compile:html:own-example', function() {
 	const locals = {
 		production: true,
 		jquery_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery/${getLibraryVersion('jquery')}/jquery.min.js`,
-		jquery_mousewheel_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/${getLibraryVersion('jquery-mousewheel')}/jquery.mousewheel.min.js`,
+		keyboard_polyfill: `//cdn.rawgit.com/inexorabletash/polyfill/master/keyboard.js`,
 		jquery_terminal_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/${getLibraryVersion('jquery.terminal')}/js/jquery.terminal.min.js`,
 		init_script_location: './js/own-script.js',
 		cmd_resume_script_location: '../js/cmd-resume.js',
@@ -312,7 +312,7 @@ gulp.task('compile:html:test', function() {
 	const locals = {
 		production: false,
 		jquery_script_location: `./node_modules/jquery/dist/jquery.min.js`,
-		jquery_mousewheel_script_location: `./node_modules/jquery-mousewheel/jquery.mousewheel.js`,
+		keyboard_polyfill: `./node_modules/js-polyfills/keyboard.js`,
 		jquery_terminal_script_location: `./node_modules/jquery.terminal/js/jquery.terminal.min.js`,
 		init_script_location: false, // Allow script to be triggered from code
 		cmd_resume_script_location: './js/cmd-resume.js',

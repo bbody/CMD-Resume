@@ -30,7 +30,7 @@ var CONSTANTS = {
 	NEW_LINE: "\n",
 	SEMI_COLON: ";",
 	EMPTY: "",
-	TAB: "\t",
+	TAB: "    ",
 	COLON: ":",
 	COMA: ", ",
 	DASH: " - ",
