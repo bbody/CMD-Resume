@@ -75,6 +75,8 @@
     "karma-requirejs": "^1.1.0",
     "karma-safari-launcher": "^1.0.0",
     "pump": "^3.0.0",
+    "remark-cli": "^6.0.1",
+    "remark-preset-lint-recommended": "^3.0.2",
     "requirejs": "^2.3.6",
     "selenium-standalone": "^6.15.4",
     "watchify": "^3.11.0",
