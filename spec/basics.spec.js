@@ -152,9 +152,9 @@ describe("Basics", function() {
 
 				expect(output.command).toEqual("Available Commands:");
 				expect(output.values.length).toEqual(4);
-				expect(output.values[0]).toEqual("man - describes what each command does");
-				expect(output.values[1]).toEqual("help - lists help for all the commands");
-				expect(output.values[2]).toEqual("clear - clear command history from screen");
+				expect(output.values[0]).toEqual("clear - clear command history from screen");
+				expect(output.values[1]).toEqual("man - describes what each command does");
+				expect(output.values[2]).toEqual("help - lists help for all the commands");
 				expect(output.values[3]).toEqual("splash - print the welcome screen");
 			});
 		});
@@ -396,7 +396,7 @@ describe("Basics", function() {
 	});
 
 	describe("Looking For Command", function() {
-		describe("Featuring lookingfor", function() {
+		describe("Featuring label", function() {
 			beforeEach(function() {
 				$("#cmd-resume").CMDResume("justName.json", {});
 			});
@@ -409,15 +409,15 @@ describe("Basics", function() {
 					responseText: JSON.stringify(loadJSON("details"))
 				});
 
-				enterCommand("lookingfor");
+				enterCommand("label");
 
 				var output = getSimpleOutput();
-				expect(output.summary).toEqual("Looking For");
+				expect(output.summary).toEqual("Label");
 				expect(output.value).toEqual("Programmer");
 			});
 		});
 
-		describe("Without lookingfor", function() {
+		describe("Without label", function() {
 			beforeEach(function() {
 				$("#cmd-resume").CMDResume("noName.json", {});
 			});
@@ -430,16 +430,16 @@ describe("Basics", function() {
 					responseText: JSON.stringify(loadJSON("empty"))
 				});
 
-				enterCommand("lookingfor");
+				enterCommand("label");
 
 				var output = failedCommandOutput();
 
-				expect(output.command).toEqual("lookingfor");
+				expect(output.command).toEqual("label");
 				expect(output.message).toEqual(" is an unknown command.");
 			});
 		});
 
-		describe("Empty lookingfor", function() {
+		describe("Empty label", function() {
 			beforeEach(function() {
 				$("#cmd-resume").CMDResume("noName.json", {});
 				jasmine.Ajax.requests.mostRecent().respondWith({
@@ -450,11 +450,11 @@ describe("Basics", function() {
 
 			it("Returns command error", function() {
 
-				enterCommand("lookingfor");
+				enterCommand("label");
 
 				var output = failedCommandOutput();
 
-				expect(output.command).toEqual("lookingfor");
+				expect(output.command).toEqual("label");
 				expect(output.message).toEqual(" is an unknown command.");
 			});
 		});

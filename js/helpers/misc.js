@@ -21,7 +21,38 @@ var isValidColor = function(color) {
 	}
 };
 
+// Get value
+var getDataFromArrayKey = function(data, keys) {
+	keys = getKeyArray(keys);
+	for (var i = 0; i < keys.length; i++) {
+		var key = keys[i];
+
+		if (typeof data[key] === "undefined") {
+			return false;
+		}
+
+		data = data[key];
+	}
+
+	return data;
+};
+
+// Get key array
+var getKeyArray = function(key) {
+	if (Array.isArray(key)) {
+		return key;
+	} else {
+		return [key];
+	}
+};
+
 // Check if an object has key and has length
-var isDefinedNotEmpty = function(object, key) {
-	return key && typeof object[key] !== "undefined" && object[key].length;
+var isDefinedNotEmpty = function(object, key, isObject) {
+	if (!key || !object) {
+		return false;
+	}
+
+	var data = getDataFromArrayKey(object, getKeyArray(key));
+
+	return data && (!!isObject || data.length);
 };
