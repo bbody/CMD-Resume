@@ -22,7 +22,7 @@ const updateVersion = type => {
 };
 
 const setupGit = releaseNumber => {
-	exec(`git reset && git add package.json package-lock.json && git commit -m ":gem::bookmark: ${releaseNumber} release" && git tag -a ${releaseNumber} -m "Release ${releaseNumber}"`, function(error, stout, sterr){
+	exec(`git reset && npm run release && git add package.json package-lock.json dist/* && git commit -m ":gem::bookmark: ${releaseNumber} release" && git tag -a ${releaseNumber} -m "Release ${releaseNumber}"`, function(error, stout, sterr){
 		if (error){
 			console.error(`git setup failed: ${error}`);
 		} else {
@@ -32,7 +32,7 @@ const setupGit = releaseNumber => {
 };
 
 const gitPush = releaseNumber => {
-	exec(`git push --follow-tags`, function(error, stout, sterr){
+	exec(`git push origin master && git push origin ${releaseNumber}`, function(error, stout, sterr){
 		if (error){
 			console.error(`git push failed: ${error}`);
 		} else {
