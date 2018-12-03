@@ -11,7 +11,7 @@ describe("Website load", function() {
 			expect(title).toBe("Command Line Résumé");
 			helper.loadSimpleCMDResume(browser);
 
-			var terminal = $('body.terminal');
+			var terminal = $('body.full-screen-terminal');
 
 			terminal.waitForExist(5000);
 
@@ -24,7 +24,7 @@ describe("Website load", function() {
 		beforeEach(function(){
 			helper.loadSimpleCMDResume(browser);
 
-			$('body.terminal').waitForExist(5000);
+			$('body.full-screen-terminal').waitForExist(5000);
 		});
 
 		it("has welcome message", function(){
@@ -46,7 +46,7 @@ describe("Website load", function() {
 
 			helper.loadExtendedCMDResume(browser);
 
-			$('body.terminal').waitForExist(5000);
+			$('body.full-screen-terminal').waitForExist(5000);
 		});
 
 		it("has a splashscreen", function(){

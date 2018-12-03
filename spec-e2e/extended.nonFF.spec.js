@@ -6,7 +6,7 @@ describe("Name", function() {
 
 		helper.loadExtendedCMDResume(browser);
 
-		$('body.terminal').waitForExist(5000);
+		$('body.full-screen-terminal').waitForExist(5000);
 	});
 
 	it("returns pgpkey", function(){
