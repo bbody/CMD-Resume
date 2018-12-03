@@ -198,25 +198,17 @@ describe("misc", function() {
 		});
 	});
 
-	describe("Get data from object", function() {
-		it("Handles string as a key", function() {
-			expect(getData({"key": "something"}, "key")).toEqual("something");
-		});
-
+	describe("Get array", function() {
 		it("Handles string", function() {
-			expect(getData({"key": "something"}, ["key"])).toEqual("something");
+			expect(getKeyArray("key")).toEqual(["key"]);
 		});
 
 		it("Handles array", function() {
-			expect(getData({"key": {"a": "b"}}, ["key"])).toEqual({"a": "b"});
+			expect(getKeyArray(["key"])).toEqual(["key"]);
 		});
 
-		it("Handles multilevel key returning string", function() {
-			expect(getData({"key": {"a": "b"}}, ["key", "a"])).toEqual("b");
-		});
-
-		it("Handles multilevel key returning array", function() {
-			expect(getData({"key": {"a": {"b": "c"}}}, ["key", "a"])).toEqual({"b": "c"});
+		it("Handles empty array", function() {
+			expect(getKeyArray([])).toEqual([]);
 		});
 	});
 });

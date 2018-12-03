@@ -432,7 +432,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			};
 
 			if (command.type !== self.CMD.SYSTEM) {
-				tempCommand.data = getData(self.data,
+				tempCommand.data = getDataFromArrayKey(self.data,
 					command.data ? command.data : command.name.toLowerCase());
 			}
 

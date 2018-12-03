@@ -22,7 +22,8 @@ var isValidColor = function(color) {
 };
 
 // Get value
-var hasArrayKey = function(data, keys) {
+var getDataFromArrayKey = function(data, keys) {
+	keys = getKeyArray(keys);
 	for (var i = 0; i < keys.length; i++) {
 		var key = keys[i];
 
@@ -51,12 +52,7 @@ var isDefinedNotEmpty = function(object, key, isObject) {
 		return false;
 	}
 
-	var data = hasArrayKey(object, getKeyArray(key));
+	var data = getDataFromArrayKey(object, getKeyArray(key));
 
 	return data && (!!isObject || data.length);
-};
-
-// Get data from object
-var getData = function(object, keys) {
-	return hasArrayKey(object, Array.isArray(keys) ? keys : [keys]);
 };
