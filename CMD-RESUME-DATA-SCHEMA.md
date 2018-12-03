@@ -4,10 +4,10 @@ Outside of the [JSON Resume](https://jsonresume.org/) specifications some additi
 
 ## Properties
 
-- github: A Github user name (string, optional) - will overwrite the social media profile Github (If it exists)
-- pgpkey: A PGP Key separated into lines (array[string], optional)
-- pdf: A link to a PDF resume (string, optional) - will overwrite the social media profile resume (If it exists)
-- splash: A ASCII splash screen split into lines (array[string], optional)
+-   github: A Github user name (string, optional) - will overwrite the social media profile Github (If it exists)
+-   pgpkey: A PGP Key separated into lines (array\[string], optional)
+-   pdf: A link to a PDF resume (string, optional) - will overwrite the social media profile resume (If it exists)
+-   splash: A ASCII splash screen split into lines (array\[string], optional)
 
 *Note:* Ensure strings are properly escaped, please [validate JSON](https://jsonlint.com/) first.
 
