@@ -1,4 +1,4 @@
-/* v5.0.0 of CMD Resume by Brendon Body(https://github.com/bbody/CMD-Resume.git) */
+/* v5.0.1 of CMD Resume by Brendon Body(https://github.com/bbody/CMD-Resume.git) */
 ;(function($){
   "use strict";
   
@@ -88,6 +88,15 @@
   	}
   };
   
+  // Get key array
+  var getKeyArray = function(key) {
+  	if (Array.isArray(key)) {
+  		return key;
+  	} else {
+  		return [key];
+  	}
+  };
+  
   // Get value
   var getDataFromArrayKey = function(data, keys) {
   	keys = getKeyArray(keys);
@@ -102,15 +111,6 @@
   	}
   
   	return data;
-  };
-  
-  // Get key array
-  var getKeyArray = function(key) {
-  	if (Array.isArray(key)) {
-  		return key;
-  	} else {
-  		return [key];
-  	}
   };
   
   // Check if an object has key and has length
