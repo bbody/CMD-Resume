@@ -21,6 +21,15 @@ var isValidColor = function(color) {
 	}
 };
 
+// Get key array
+var getKeyArray = function(key) {
+	if (Array.isArray(key)) {
+		return key;
+	} else {
+		return [key];
+	}
+};
+
 // Get value
 var getDataFromArrayKey = function(data, keys) {
 	keys = getKeyArray(keys);
@@ -35,15 +44,6 @@ var getDataFromArrayKey = function(data, keys) {
 	}
 
 	return data;
-};
-
-// Get key array
-var getKeyArray = function(key) {
-	if (Array.isArray(key)) {
-		return key;
-	} else {
-		return [key];
-	}
 };
 
 // Check if an object has key and has length
