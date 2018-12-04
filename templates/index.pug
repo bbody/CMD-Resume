@@ -1,0 +1,24 @@
+doctype html
+html(lang='en')
+    head
+        title=sitename
+        meta(charset='utf-8')
+        if production
+            meta(name='author', content='Brendon Body - https://github.com/bbody/CMD-Resume')
+            meta(name='Description', content='CMD Resume using JQuery Terminal')
+                
+        include partials/favicons.pug
+
+        script(src=jquery_script_location, type="text/javascript")
+        script(src=cmd_resume_script_location, type="text/javascript")
+        script(src=keyboard_polyfill, type="text/javascript")
+        script(src=jquery_terminal_script_location, type="text/javascript")
+        if init_script_location
+            script(src=init_script_location, type="text/javascript")
+        link(href=jquery_terminal_stylesheet_location, rel='stylesheet')
+
+        if production
+            include partials/analytics.pug
+    body
+        if production
+            include partials/github_banner.pug

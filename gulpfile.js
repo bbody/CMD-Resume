@@ -252,7 +252,7 @@ gulp.task('compile:html', function() {
 		favicon_directory: './favicons'
 	};
 	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
-	return gulp.src('index.pug')
+	return gulp.src('templates/index.pug')
 		.pipe(pug({
 			locals: locals
 		}))
@@ -278,7 +278,7 @@ gulp.task('compile:html:example', function() {
 		favicon_directory: '.'
 	};
 	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
-	return gulp.src('index.pug')
+	return gulp.src('templates/index.pug')
 		.pipe(pug({
 			locals: locals
 		}))
@@ -299,7 +299,7 @@ gulp.task('compile:html:own-example', function() {
 		favicon_directory: '..'
 	};
 	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
-	return gulp.src('index.pug')
+	return gulp.src('templates/index.pug')
 		.pipe(pug({
 			pretty: true,
 			locals: locals
@@ -321,7 +321,7 @@ gulp.task('compile:html:test', function() {
 		favicon_directory: '.'
 	};
 	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
-	return gulp.src('index.pug')
+	return gulp.src('templates/index.pug')
 		.pipe(pug({
 			locals: locals
 		}))
