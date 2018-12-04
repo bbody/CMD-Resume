@@ -1,5 +1,9 @@
 var helper = require('./support/helper.js');
 
+String.prototype.fixSpacing = function() {
+	return this.replace(/ /gi, " ");
+};
+
 describe("Website load", function() {
 	describe("Website title", function() {
 		beforeEach(function(){
@@ -16,7 +20,7 @@ describe("Website load", function() {
 			terminal.waitForExist(5000);
 
 			title = browser.getTitle();
-			expect(title).toBe("Richard Hendriks's Résumé");
+			expect(title.fixSpacing()).toBe("Richard Hendriks's Résumé");
 		});
 
 	});
@@ -31,13 +35,13 @@ describe("Website load", function() {
 		it("has welcome message", function(){
 			var welcomeMessage = browser.getText('.terminal-output div[data-index="0"] div:first-child');
 
-			expect(welcomeMessage).toBe("Welcome to Richard Hendriks's résumé.");
+			expect(welcomeMessage.fixSpacing()).toBe("Welcome to Richard Hendriks's résumé.");
 		});
 
 		it("has help message", function(){
 			var helpMessage = browser.getText('.terminal-output div[data-index="0"] div:last-child');
 
-			expect(helpMessage).toBe("Type help for commands");
+			expect(helpMessage.fixSpacing()).toBe("Type help for commands");
 		});
 	});
 
