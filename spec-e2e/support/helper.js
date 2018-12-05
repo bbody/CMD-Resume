@@ -37,7 +37,7 @@ module.exports = {
 			var activeElement = result.value && (result.value.ELEMENT || result.value["element-6066-11e4-a52e-4f735466cecf"]);
 			// Newer versions of the webdriver like Gecko/IEDriver return the element as "element-6066-11e4-a52e-4f735466cecf" (which is documented in the W3C specs) instead of "ELEMENT".
 			
-			var keys = command.replace(/  /gi, " ").split('');
+			var keys = command.replace(/ /gi, "\t ").split('');
 
 			if (tab){
 				keys.push('\uE004');

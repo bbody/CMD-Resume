@@ -69,6 +69,14 @@ describe("Simple", function() {
 		expect(commandOutput.values.length).toBeGreaterThan(1);
 	});
 
+	it("returns pdf", function(){
+		var beforeOpenTabs = browser.getTabIds().length;
+		var currentWindowHandle = browser.windowHandle();
+		helper.keyboard.typeCommand(browser, 'pdf');
+
+		expect(beforeOpenTabs + 1).toBe(browser.getTabIds().length);
+	});
+
 	describe("man", function(){
 		beforeEach(function(){
 			browser.url('/');
@@ -84,6 +92,23 @@ describe("Simple", function() {
 			var commandOutput = helper.getSingleValue(browser);
 
 			expect(commandOutput).toBe("man: No command entered.");
+		});
+
+		it("handles a command", function(){
+			helper.keyboard.typeCommand(browser, 'man man');
+
+			var commandOutput = helper.getSingleValue(browser);
+
+			expect(commandOutput).toContain("describes what each command does");
+			expect(commandOutput).toContain("man");
+		});
+
+		it("handles invalid command", function(){
+			helper.keyboard.typeCommand(browser, 'man dog');
+
+			var commandOutput = helper.getSingleValue(browser);
+
+			expect(commandOutput).toContain("dog is an unknown command");
 		});
 	});
 });

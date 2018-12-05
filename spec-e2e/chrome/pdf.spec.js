@@ -1,22 +1,15 @@
 var helper = require('./support/helper.js');
 
-describe("Simple", function() {
-	beforeEach(function(){
-		browser.url('/');
-
-		helper.loadSimpleCMDResume(browser);
-
-		$('body.full-screen-terminal').waitForExist(5000);
-	});
-
+describe("PDF", function() {
 	it("returns pdf", function(){
 		var beforeOpenTabs = browser.getTabIds().length;
 		var currentWindowHandle = browser.windowHandle();
 		helper.keyboard.typeCommand(browser, 'pdf');
 
+		// Only seems to work in Chrome
 		browser.switchTab(currentWindowHandle);
 
-		browser.timeoutsImplicitWait(1000);
+		$('body.full-screen-terminal').waitForExist(5000);
 
 		var commandOutput = helper.getSimpleValues(browser);
 
