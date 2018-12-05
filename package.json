@@ -7,7 +7,7 @@
     "jquery-plugin",
     "ecosystem:jquery"
   ],
-  "version": "4.4.4",
+  "version": "5.0.1",
   "author": {
     "name": "Brendon Body",
     "url": "https://github.com/bbody"
@@ -56,8 +56,8 @@
     "jasmine": "^2.99",
     "jasmine-core": "^3.3.0",
     "jquery": "=3.3.1",
-    "jquery-mousewheel": "=3.1.13",
-    "jquery.terminal": "=1.16.1",
+    "jquery.terminal": "=2.0.1",
+    "js-polyfills": "^0.1.42",
     "jshint": "^2.9.6",
     "jshint-stylish": "^2.2.1",
     "karma": "^2.0.5",

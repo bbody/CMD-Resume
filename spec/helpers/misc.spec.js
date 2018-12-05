@@ -113,24 +113,102 @@ describe("misc", function() {
 	});
 
 	describe("Object has key defined and not empty", function() {
-		it("Handles no key", function() {
-			expect(isDefinedNotEmpty({}, "key")).toBeFalsy();
+		describe("String key", function() {
+			it("Handles no key", function() {
+				expect(isDefinedNotEmpty({}, "key")).toBeFalsy();
+			});
+
+			it("Has string with length", function() {
+				expect(isDefinedNotEmpty({"key": ""}, "key")).toBeFalsy();
+			});
+
+			it("Has string with length", function() {
+				expect(isDefinedNotEmpty({"key": "a"}, "key")).toBeTruthy();
+			});
+
+			it("Handles empty array", function() {
+				expect(isDefinedNotEmpty({"key": []}, "key")).toBeFalsy();
+			});
+
+			it("Handles empty array", function() {
+				expect(isDefinedNotEmpty({"key": {}}, "key")).toBeFalsy();
+			});
+
+			it("Handles empty array with object flag", function() {
+				expect(isDefinedNotEmpty({"key": {}}, "key", true)).toBeTruthy();
+			});
+
+			it("Handles array", function() {
+				expect(isDefinedNotEmpty({"key": ["value"]}, "key")).toBeTruthy();
+			});
+
+			it("Has no keys", function() {
+				expect(isDefinedNotEmpty({}, "")).toBeFalsy();
+			});
 		});
 
-		it("Has string with length", function() {
-			expect(isDefinedNotEmpty({"key": ""}, "key")).toBeFalsy();
-		});
+		describe("Array key", function() {
+			it("Handles no key", function() {
+				expect(isDefinedNotEmpty({}, ["key"])).toBeFalsy();
+			});
 
-		it("Has string with length", function() {
-			expect(isDefinedNotEmpty({"key": "a"}, "key")).toBeTruthy();
-		});
+			it("Has string with length", function() {
+				expect(isDefinedNotEmpty({"key": ""}, ["key"])).toBeFalsy();
+			});
 
-		it("Handles empty array", function() {
-			expect(isDefinedNotEmpty({"key": []}, "key")).toBeFalsy();
+			it("Has string with length", function() {
+				expect(isDefinedNotEmpty({"key": "a"}, ["key"])).toBeTruthy();
+			});
+
+			it("Handles empty array", function() {
+				expect(isDefinedNotEmpty({"key": []}, ["key"])).toBeFalsy();
+			});
+
+			it("Handles empty array", function() {
+				expect(isDefinedNotEmpty({"key": {}}, ["key"])).toBeFalsy();
+			});
+
+			it("Handles empty array with object flag", function() {
+				expect(isDefinedNotEmpty({"key": {}}, ["key"], true)).toBeTruthy();
+			});
+
+			it("Handles array", function() {
+				expect(isDefinedNotEmpty({"key": ["value"]}, ["key"])).toBeTruthy();
+			});
+
+			it("Handles multilevel array", function() {
+				expect(isDefinedNotEmpty({"key1": {"key2": "a"}}, ["key1", "key2"])).toBeTruthy();
+			});
+
+			it("Handles multilevel array with object", function() {
+				expect(isDefinedNotEmpty({"key1": {"key2": {}}}, ["key1", "key2"])).toBeFalsy();
+			});
+
+			it("Handles multilevel array with object and allow object", function() {
+				expect(isDefinedNotEmpty({"key1": {"key2": {}}}, ["key1", "key2"], true)).toBeTruthy();
+			});
+
+			it("Handles multilevel array with empty string", function() {
+				expect(isDefinedNotEmpty({"key1": {"key1": ""}}, ["key1", "key2"])).toBeFalsy();
+			});
+
+			it("Has no keys", function() {
+				expect(isDefinedNotEmpty({}, [])).toBeFalsy();
+			});
+		});
+	});
+
+	describe("Get array", function() {
+		it("Handles string", function() {
+			expect(getKeyArray("key")).toEqual(["key"]);
 		});
 
 		it("Handles array", function() {
-			expect(isDefinedNotEmpty({"key": ["value"]}, "key")).toBeTruthy();
+			expect(getKeyArray(["key"])).toEqual(["key"]);
+		});
+
+		it("Handles empty array", function() {
+			expect(getKeyArray([])).toEqual([]);
 		});
 	});
 });
