@@ -86,14 +86,6 @@ describe("Simple", function() {
 			$('body.full-screen-terminal').waitForExist(5000);
 		});
 
-		it("handles no command", function(){
-			helper.keyboard.typeCommand(browser, 'man');
-
-			var commandOutput = helper.getSingleValue(browser);
-
-			expect(commandOutput).toBe("man: No command entered.");
-		});
-
 		it("handles a command", function(){
 			helper.keyboard.typeCommand(browser, 'man man');
 
@@ -109,6 +101,14 @@ describe("Simple", function() {
 			var commandOutput = helper.getSingleValue(browser);
 
 			expect(commandOutput).toContain("dog is an unknown command");
+			expect(commandOutput).toContain("dog");
+		});
+
+		it("handles no command", function(){
+			helper.keyboard.typeCommand(browser, 'man');
+
+			var commandOutput = helper.getSingleValue(browser);
+			expect(commandOutput).toBe("man: No command entered.");
 		});
 	});
 });
