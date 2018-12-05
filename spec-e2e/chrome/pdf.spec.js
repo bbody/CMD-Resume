@@ -1,6 +1,6 @@
 var helper = require('./support/helper.js');
 
-describe("Simple", function() {
+describe("PDF", function() {
 	beforeEach(function(){
 		browser.url('/');
 
@@ -14,9 +14,10 @@ describe("Simple", function() {
 		var currentWindowHandle = browser.windowHandle();
 		helper.keyboard.typeCommand(browser, 'pdf');
 
+		// Only seems to work in Chrome
 		browser.switchTab(currentWindowHandle);
 
-		browser.timeoutsImplicitWait(1000);
+		$('body.full-screen-terminal').waitForExist(5000);
 
 		var commandOutput = helper.getSimpleValues(browser);
 
