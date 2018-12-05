@@ -82,9 +82,20 @@ function getE2EBrowsers(browserList, headless) {
 	browserList.forEach(function(browser) {
 		var capability = {};
 
-		if (browser !== 'chrome') {
-			// Exclude as typing doesn't work in Firefox
-			capability.exclude = ['spec-e2e/*.chromeOnly.spec.js'];
+		if (browser === 'chrome') {
+			capability.include = ['spec-e2e/chrome/*.spec.js'];
+		}
+
+		if (browser === 'firefox') {
+			capability.include = ['spec-e2e/firefox/*.spec.js'];
+		}
+
+		if (browser === 'safari') {
+			capability.include = ['spec-e2e/safari/*.spec.js'];
+		}
+
+		if (browser === 'safari' || browser === 'chrome') {
+			capability.include = ['spec-e2e/chrome-safari/*.spec.js'];
 		}
 
 		if (headless && browser === 'firefox') {
@@ -394,7 +405,7 @@ gulp.task('test:e2e:windows', function() {
 
 gulp.task('test:e2e:macos', function() {
 	return gulp.src('wdio.conf.js').pipe(webdriver({
-		capabilities: getE2EBrowsers(['chrome', 'firefox' , 'safari'])
+		capabilities: getE2EBrowsers(['chrome', 'firefox', 'safari'])
 	}));
 });
 

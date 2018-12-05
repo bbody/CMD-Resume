@@ -42,6 +42,12 @@ exports.config = {
     seleniumArgs: {drivers: Object.assign({}, require('selenium-standalone/lib/default-config').drivers, {firefox: {version: '0.23.0'}})},
     seleniumInstallArgs: {drivers: Object.assign({}, require('selenium-standalone/lib/default-config').drivers, {firefox: {version: '0.23.0'}})},
 
+    drivers: {
+        chrome: {
+            version: '2.39'
+        }
+    },
+
     onComplete: function(exitCode, config, capabilities) {
         process.exit(exitCode);
     },
