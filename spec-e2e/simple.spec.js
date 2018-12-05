@@ -36,22 +36,6 @@ describe("Simple", function() {
 		expect(commandOutput.value).toContain("Richard hails from Tulsa.");
 	});
 
-	it("returns pdf", function(){
-		var beforeOpenTabs = browser.getTabIds().length;
-		var currentWindowHandle = browser.windowHandle();
-		helper.keyboard.typeCommand(browser, 'pdf');
-
-		browser.switchTab(currentWindowHandle);
-
-		browser.timeoutsImplicitWait(1000);
-
-		var commandOutput = helper.getSimpleValues(browser);
-
-		expect(commandOutput.key).toBe("Résumé PDF");
-		expect(commandOutput.value).toBe("http://en.wikipedia.org/wiki/R%C3%A9sum%C3%A9");
-		expect(beforeOpenTabs + 1).toBe(browser.getTabIds().length);
-	});
-
 	it("handles invalid command", function(){
 		helper.keyboard.typeCommand(browser, 'dog');
 
@@ -86,30 +70,20 @@ describe("Simple", function() {
 	});
 
 	describe("man", function(){
+		beforeEach(function(){
+			browser.url('/');
+
+			helper.loadSimpleCMDResume(browser);
+
+			$('body.full-screen-terminal').waitForExist(5000);
+		});
+
 		it("handles no command", function(){
 			helper.keyboard.typeCommand(browser, 'man');
 
 			var commandOutput = helper.getSingleValue(browser);
 
 			expect(commandOutput).toBe("man: No command entered.");
-		});
-
-		it("handles a command", function(){
-			helper.keyboard.typeCommand(browser, 'man man');
-
-			var commandOutput = helper.getSingleValue(browser);
-
-			expect(commandOutput).toContain("describes what each command does");
-			expect(commandOutput).toContain("man");
-		});
-
-		it("handles invalid command", function(){
-			helper.keyboard.typeCommand(browser, 'man dog');
-
-			var commandOutput = helper.getSingleValue(browser);
-
-			expect(commandOutput).toContain("is an unknown command");
-			expect(commandOutput).toContain("dog");
 		});
 	});
 });

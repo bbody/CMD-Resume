@@ -15,7 +15,7 @@ describe("Website load", function() {
 
 			terminal.waitForExist(5000);
 
-			title = browser.getTitle();
+			title = browser.getTitle().replace(/ /gi, " ");
 			expect(title).toBe("Richard Hendriks's Résumé");
 		});
 
@@ -29,13 +29,13 @@ describe("Website load", function() {
 		});
 
 		it("has welcome message", function(){
-			var welcomeMessage = browser.getText('.terminal-output div[data-index="0"] div:first-child');
+			var welcomeMessage = browser.getText('.terminal-output div[data-index="0"] div:first-child').replace(/ /gi, " ");
 
 			expect(welcomeMessage).toBe("Welcome to Richard Hendriks's résumé.");
 		});
 
 		it("has help message", function(){
-			var helpMessage = browser.getText('.terminal-output div[data-index="0"] div:last-child');
+			var helpMessage = browser.getText('.terminal-output div[data-index="0"] div:last-child').replace(/ /gi, " ");
 
 			expect(helpMessage).toBe("Type help for commands");
 		});
