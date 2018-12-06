@@ -18,7 +18,9 @@
 	"strict": true,
 	"trailing": true,
 	"unused": true,
+	"devel": true,
 	"globals": {
-		"escape": true
+		"escape": true,
+		"console.error": true
 	}
 }

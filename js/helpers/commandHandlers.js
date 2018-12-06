@@ -193,40 +193,43 @@ var buildSocialNetwork = function(value) {
 	return value.url ? value.url : false;
 };
 
-var validateCommandType = function(commandType) {
-	return commandType && commandProcessor.hasOwnProperty(commandType);
+var isValidCommandType = function(commandType) {
+	return !!commandType && commandProcessor.hasOwnProperty(commandType);
 };
 
-var validateCommand = function(command) {
+var isValidCommand = function(command) {
 	if (!command.name) {
-		console.error("Command must have name");
+		console.error("Command must have a name");
 		return false;
 	}
 
-	if (!validateCommandType(command.type)) {
-		console.error(command.name +
-			" does not have a valid type [basic, system, array, calculated]");
+	command.name = command.name.toLowerCase();
+
+	if (!command.description) {
+		console.error("'" + command.name + "' does not have a 'description'");
 		return false;
 	}
 
-	if (!validateCommandType(command.description)) {
-		console.error(command.name + " does not have a 'description'");
+	if (!isValidCommandType(command.type)) {
+		console.error("'" + command.name +
+			"' does not have a valid type [basic, system, array, calculated]");
 		return false;
 	}
 
-	if (command.type === CMD.BASIC && !command.data) {
-		console.error("`basic` command type requires 'data'");
+	if (!(command.type === CMD.SYSTEM || command.type === CMD.CALCULATED) &&
+		!command.data) {
+		console.error("'" + command.type + "' command type requires 'data'");
 		return false;
 	}
 
 	if ((command.type === CMD.SYSTEM || command.type === CMD.CALCULATED) &&
 		!command.handler) {
-		console.error("`" + command.type + "` command type requires 'handler'");
+		console.error("'" + command.type + "' command type requires 'handler'");
 		return false;
 	}
 
 	if (command.type === CMD.ARRAY && !command.handlers) {
-		console.error("`array` command type requires 'handlers'");
+		console.error("'array' command type requires 'handlers'");
 		return false;
 	}
 

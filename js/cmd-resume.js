@@ -403,9 +403,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		};
 	};
 
-	self.usersAddCommands = function(commands) {
-		commands.forEach(function(commandOptions, command) {
-			if (validateCommand(command)) {
+	self.addUserCommands = function(commands) {
+		commands.forEach(function(command) {
+			if (isValidCommand(command)) {
 				self.addCommand(command);
 			}
 		});
@@ -449,9 +449,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	self.initCommands = function() {
 		self.initClear();
 		self.addCommands();
-
-		if (options.commands && options.commands.length) {
-			self.usersAddCommands(options.commands);
+		if (options.customCommands && Array.isArray(options.customCommands) &&
+			options.customCommands.length) {
+			self.addUserCommands(options.customCommands);
 		}
 	};
 
@@ -532,6 +532,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		}
 
 		if (options.extraDetails) {
+
 			$.getJSON(options.extraDetails, function(extraResponse) {
 				self.data.pgpkey = extraResponse.pgpkey;
 
@@ -549,6 +550,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 							CONSTANTS.NEW_LINE);
 					}
 				}
+				self.data.extra = extraResponse;
 				self.init(options);
 			});
 		} else {

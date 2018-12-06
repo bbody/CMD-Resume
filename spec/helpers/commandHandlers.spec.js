@@ -580,4 +580,419 @@ describe("commandHandlers", function(){
 			expect(result).toBe(false);
 		});
 	});
+
+	describe("isValidCommandType", function() {
+		it("handles not being a command", function() {
+			expect(isValidCommandType("")).toBe(false);
+		});
+
+		it("handles not being a valid command", function() {
+			expect(isValidCommandType("notACommand")).toBe(false);
+		});
+
+		it("handles being a valid command", function() {
+			expect(isValidCommandType("basic")).toBe(true);
+		});
+	});
+
+	describe("isValidCommand", function() {
+		beforeEach(function() {
+			spyOn(console, 'error');
+		});
+
+		describe("name", function() {
+			it("handles no command name", function() {
+				expect(isValidCommand({})).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("Command must have a name");
+			});
+
+			it("handles null command name", function() {
+				expect(isValidCommand({name: null})).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("Command must have a name");
+			});
+
+			it("handles undefined command name", function() {
+				expect(isValidCommand({name: undefined})).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("Command must have a name");
+			});
+
+			it("handles empty command name", function() {
+				expect(isValidCommand({name: ""})).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("Command must have a name");
+			});
+		});
+
+		describe("describe", function() {
+			it("handles no command name", function() {
+				expect(isValidCommand({name: "command"})).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'command' does not have a 'description'");
+			});
+
+			it("handles null command name", function() {
+				expect(isValidCommand({name: "command", description: null})).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'command' does not have a 'description'");
+			});
+
+			it("handles undefined command name", function() {
+				expect(isValidCommand({name: "command", description: undefined})).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'command' does not have a 'description'");
+			});
+
+			it("handles empty command name", function() {
+				expect(isValidCommand({name: "command", description: ""})).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'command' does not have a 'description'");
+			});
+		});
+
+		describe("type", function() {
+			it("handles no command type", function() {
+				expect(isValidCommand({name: 'command', description: "description"})).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'command' does not have a valid type [basic, system, array, calculated]");
+			});
+
+			it("handles invalid command type", function() {
+				expect(isValidCommand({name: 'command', description: "description", type: 'notACommand'})).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'command' does not have a valid type [basic, system, array, calculated]");
+			});
+
+			it("handles empty command type", function() {
+				expect(isValidCommand({name: 'command', description: "description", type: ''})).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'command' does not have a valid type [basic, system, array, calculated]");
+			});
+
+			it("handles empty command type", function() {
+				expect(isValidCommand({name: 'command', description: "description", type: null})).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'command' does not have a valid type [basic, system, array, calculated]");
+			});
+
+			it("handles empty command type", function() {
+				expect(isValidCommand({name: 'command', description: "description", type: undefined})).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'command' does not have a valid type [basic, system, array, calculated]");
+			});
+		});
+
+		describe("ARRAY type", function() {
+			it("handles no data", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "array"
+				};
+
+				expect(isValidCommand(command)).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'array' command type requires 'data'");
+			});
+
+			it("handles empty data", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "array",
+					data: ""
+				};
+
+				expect(isValidCommand(command)).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'array' command type requires 'data'");
+			});
+
+			it("handles null data", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "array",
+					data: null
+				};
+
+				expect(isValidCommand(command)).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'array' command type requires 'data'");
+			});
+
+			it("handles undefined data", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "array",
+					data: undefined
+				};
+
+				expect(isValidCommand(command)).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'array' command type requires 'data'");
+			});
+
+			it("handles no handler", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "array",
+					data: "something"
+				};
+
+				expect(isValidCommand(command)).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'array' command type requires 'handlers'");
+			});
+
+			it("handles null handler", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "array",
+					data: ["something"],
+					handlers: null
+				};
+
+				expect(isValidCommand(command)).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'array' command type requires 'handlers'");
+			});
+
+			it("handles undefined handler", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "array",
+					data: ["something", "else"],
+					handlers: undefined
+				};
+
+				expect(isValidCommand(command)).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'array' command type requires 'handlers'");
+			});
+
+			it("handles handler", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "array",
+					data: ["something", "else"],
+					handlers: function() {}
+				};
+
+				expect(isValidCommand(command)).toBe(true);
+
+				expect(console.error).not.toHaveBeenCalled();
+			});
+		});
+
+		describe("SYSTEM type", function() {
+			it("handles no handler", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "system"
+				};
+
+				expect(isValidCommand(command)).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'system' command type requires 'handler'");
+			});
+
+			it("handles null handler", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "system",
+					handler: null
+				};
+
+				expect(isValidCommand(command)).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'system' command type requires 'handler'");
+			});
+
+			it("handles undefined handler", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "system",
+					data: ["something", "else"],
+					handler: undefined
+				};
+
+				expect(isValidCommand(command)).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'system' command type requires 'handler'");
+			});
+
+			it("handles handler", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "system",
+					data: ["something", "else"],
+					handler: function() {}
+				};
+
+				expect(isValidCommand(command)).toBe(true);
+
+				expect(console.error).not.toHaveBeenCalled();
+			});
+		});
+
+		describe("CALCULATED type", function() {
+			it("handles no handler", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "calculated"
+				};
+
+				expect(isValidCommand(command)).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'calculated' command type requires 'handler'");
+			});
+
+			it("handles null handler", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "calculated",
+					handler: null
+				};
+
+				expect(isValidCommand(command)).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'calculated' command type requires 'handler'");
+			});
+
+			it("handles undefined handler", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "calculated",
+					handler: undefined
+				};
+
+				expect(isValidCommand(command)).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'calculated' command type requires 'handler'");
+			});
+
+			it("handles handler", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "calculated",
+					handler: function(data) {}
+				};
+
+				expect(isValidCommand(command)).toBe(true);
+
+				expect(console.error).not.toHaveBeenCalled();
+			});
+		});
+
+		describe("BASIC type", function() {
+			it("handles no data", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "basic"
+				};
+
+				expect(isValidCommand(command)).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'basic' command type requires 'data'");
+			});
+
+			it("handles empty data", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "basic",
+					data: ""
+				};
+
+				expect(isValidCommand(command)).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'basic' command type requires 'data'");
+			});
+
+			it("handles null data", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "basic",
+					data: null
+				};
+
+				expect(isValidCommand(command)).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'basic' command type requires 'data'");
+			});
+
+			it("handles undefined data", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "basic",
+					data: undefined
+				};
+
+				expect(isValidCommand(command)).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'basic' command type requires 'data'");
+			});
+
+			it("handles successful", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "basic",
+					data: ["key"]
+				};
+
+				expect(isValidCommand(command)).toBe(true);
+				expect(console.error).not.toHaveBeenCalled();
+			});
+		});
+	});
 });

@@ -155,7 +155,7 @@ gulp.task('serve', function() {
 
 gulp.task('source-check', ['source-check:development', 'source-check:tools', 'source-check:tests']);
 
-gulp.task('source-check:development', ['jshint:development',
+gulp.task('source-check:development', ['build', 'jshint:development',
 	'jscs:development'
 ]);
 
