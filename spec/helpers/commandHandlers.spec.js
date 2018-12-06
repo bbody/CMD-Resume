@@ -871,10 +871,24 @@ describe("commandHandlers", function(){
 		});
 
 		describe("CALCULATED type", function() {
+			it("handles no data", function() {
+				var command = {
+					name: 'command',
+					description: "description",
+					type: "calculated"
+				};
+
+				expect(isValidCommand(command)).toBe(false);
+
+				expect(console.error).toHaveBeenCalled();
+				expect(console.error).toHaveBeenCalledWith("'calculated' command type requires 'data'");
+			});
+
 			it("handles no handler", function() {
 				var command = {
 					name: 'command',
 					description: "description",
+					data: ["key"],
 					type: "calculated"
 				};
 
@@ -888,6 +902,7 @@ describe("commandHandlers", function(){
 				var command = {
 					name: 'command',
 					description: "description",
+					data: ["key"],
 					type: "calculated",
 					handler: null
 				};
@@ -902,6 +917,7 @@ describe("commandHandlers", function(){
 				var command = {
 					name: 'command',
 					description: "description",
+					data: ["key"],
 					type: "calculated",
 					handler: undefined
 				};
@@ -916,6 +932,7 @@ describe("commandHandlers", function(){
 				var command = {
 					name: 'command',
 					description: "description",
+					data: ["key"],
 					type: "calculated",
 					handler: function(data) {}
 				};

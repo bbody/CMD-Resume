@@ -197,6 +197,48 @@ var isValidCommandType = function(commandType) {
 	return !!commandType && commandProcessor.hasOwnProperty(commandType);
 };
 
+var commandValidators = {
+	basic: function(command) {
+		if (!command.data) {
+			console.error("'basic' command type requires 'data'");
+			return false;
+		}
+		return true;
+	},
+	system: function(command) {
+		if (!command.handler) {
+			console.error("'system' command type requires 'handler'");
+			return false;
+		}
+		return true;
+	},
+	calculated: function(command) {
+		if (!command.data) {
+			console.error("'calculated' command type requires 'data'");
+			return false;
+		}
+
+		if (!command.handler) {
+			console.error("'calculated' command type requires 'handler'");
+			return false;
+		}
+
+		return true;
+	},
+	array: function(command) {
+		if (!command.data) {
+			console.error("'array' command type requires 'data'");
+			return false;
+		}
+
+		if (!command.handlers) {
+			console.error("'array' command type requires 'handlers'");
+			return false;
+		}
+		return true;
+	}
+};
+
 var isValidCommand = function(command) {
 	if (!command.name) {
 		console.error("Command must have a name");
@@ -216,23 +258,6 @@ var isValidCommand = function(command) {
 		return false;
 	}
 
-	if (!(command.type === CMD.SYSTEM || command.type === CMD.CALCULATED) &&
-		!command.data) {
-		console.error("'" + command.type + "' command type requires 'data'");
-		return false;
-	}
-
-	if ((command.type === CMD.SYSTEM || command.type === CMD.CALCULATED) &&
-		!command.handler) {
-		console.error("'" + command.type + "' command type requires 'handler'");
-		return false;
-	}
-
-	if (command.type === CMD.ARRAY && !command.handlers) {
-		console.error("'array' command type requires 'handlers'");
-		return false;
-	}
-
-	return true;
+	return commandValidators[command.type](command);
 };
 
