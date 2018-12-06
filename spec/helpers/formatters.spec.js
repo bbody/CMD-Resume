@@ -172,7 +172,7 @@ describe("formatters", function() {
 		});
 
 		it("Doesn\"t override any styles", function() {
-			expect(initStyles(this.defaultStyles, {})).toEqual(this.defaultStyles);
+			expect(initStyles(this.defaultStyles)).toEqual(this.defaultStyles);
 		});
 
 		it("Overrides some styles", function() {

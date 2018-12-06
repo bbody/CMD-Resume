@@ -13,7 +13,7 @@ describe("Volunteer", function(){
 	describe("empty", function(){
 		describe("Without volunteer", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noVolunteer.json", {});
+				$("#cmd-resume").CMDResume("noVolunteer.json");
 			});
 
 			it("Includes the basic splash", function() {
@@ -38,7 +38,7 @@ describe("Volunteer", function(){
 
 		describe("No volunteer", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noName.json", {});
+				$("#cmd-resume").CMDResume("noName.json");
 			});
 
 			it("Includes the basic splash", function() {
@@ -61,7 +61,7 @@ describe("Volunteer", function(){
 
 	describe("all", function(){
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("details.json", {});
+			$("#cmd-resume").CMDResume("details.json");
 		});
 
 		it("should only show one entry", function(){
@@ -85,7 +85,7 @@ describe("Volunteer", function(){
 
 	describe("top", function(){
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("details.json", {});
+			$("#cmd-resume").CMDResume("details.json");
 		});
 
 		it("should only show one entry", function(){
@@ -104,7 +104,7 @@ describe("Volunteer", function(){
 
 	describe("missing parts", function(){
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("volunteer.json", {});
+			$("#cmd-resume").CMDResume("volunteer.json");
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify(loadJSON("volunteerMissing"))

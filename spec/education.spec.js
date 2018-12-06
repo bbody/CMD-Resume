@@ -13,7 +13,7 @@ describe("Education", function(){
 	describe("empty", function(){
 		describe("Without education", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noEducation.json", {});
+				$("#cmd-resume").CMDResume("noEducation.json");
 			});
 
 			it("Includes the basic splash", function() {
@@ -38,7 +38,7 @@ describe("Education", function(){
 
 		describe("No education", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noName.json", {});
+				$("#cmd-resume").CMDResume("noName.json");
 			});
 
 			it("Includes the basic splash", function() {
@@ -61,7 +61,7 @@ describe("Education", function(){
 
 	describe("all", function(){
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("details.json", {});
+			$("#cmd-resume").CMDResume("details.json");
 		});
 
 		it("should only show all entries", function(){
@@ -86,7 +86,7 @@ describe("Education", function(){
 
 	describe("top", function(){
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("details.json", {});
+			$("#cmd-resume").CMDResume("details.json");
 		});
 
 		it("should only show one entry", function(){
@@ -105,7 +105,7 @@ describe("Education", function(){
 
 	describe("missing parts", function(){
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("education.json", {});
+			$("#cmd-resume").CMDResume("education.json");
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify(loadJSON("educationMissing"))
