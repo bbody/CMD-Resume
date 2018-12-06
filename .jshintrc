@@ -20,7 +20,6 @@
 	"unused": true,
 	"devel": true,
 	"globals": {
-		"escape": true,
-		"console.error": true
+		"escape": true
 	}
 }
