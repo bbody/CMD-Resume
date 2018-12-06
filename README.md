@@ -12,14 +12,14 @@ CMD-Resume is a Javascript based command line for demonstrating your resume. [He
 
 ## Setup
 ### Prerequisites
-- [jQuery 3.1.1](https://jquery.com/)
-- [jQuery Terminal v0.11.23](http://terminal.jcubic.pl/)
-- [jQuery Mousewheel v3.1.13](https://github.com/jquery/jquery-mousewheel)
+- [jQuery 3.X.X](https://jquery.com/)
+- [jQuery Terminal 2.0.1](http://terminal.jcubic.pl/)
+- [Keyboard Polyfill](https://rawgit.com/inexorabletash/polyfill/master/keyboard.js)
 
 ### Steps
 1. Include [jQuery](https://jquery.com/)
-2. Include [jQuery Terminal](http://terminal.jcubic.pl/)
-3. Include [jQuery Mousewheel](https://github.com/jquery/jquery-mousewheel)
+2. Include [Keyboard Polyfill](https://rawgit.com/inexorabletash/polyfill/master/keyboard.js)
+3. Include [jQuery Terminal](http://terminal.jcubic.pl/)
 4. Download *cmd-resume.js* ([Download latest version here](https://github.com/bbody/CMD-Resume/releases/latest))
 5. Create a [JSON Resume](https://jsonresume.org/) file and upload to a remote directory or add to your website project
 6. [Optional] Create a custom CMD Resume data file ([Schema here](CMD-RESUME-DATA-SCHEMA.md)) and upload to a remote directory or add to your website project
