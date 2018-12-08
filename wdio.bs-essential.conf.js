@@ -4,15 +4,10 @@ var merge = require('deepmerge');
 
 var capabilities = require('./browserstack/bs-customLaunchers.essential.json').browsers;
 
-var jobId = process && process.env && process.env.TRAVIS_JOB_ID ? process.env.TRAVIS_JOB_ID : "local development";
-var buildName = `UI Build: ${jobId}`
+var jobId = process && process.env && process.env.TRAVIS_BUILD_NUMBER ? process.env.TRAVIS_BUILD_NUMBER : "local development";
+var buildName = `UI ${jobId}`;
 for (var i = 0; i < capabilities.length; i++) {
 	capabilities[i].build = buildName;
-	// capabilities.build = buildName;
-	// capabilities.project = buildName;
-	// capabilities['browserstack.build'] = buildName;
-	// capabilities['browserstack.project'] = buildName;
-	// capabilities['build'] = buildName;
 }
 
 wdioConf.services.push('browserstack');
@@ -23,12 +18,6 @@ exports.config = merge(wdioConf, {
 	browserstackLocal: true,
 	capabilities: capabilities,
 	maxInstances: 5,
-	"browserstack.build": buildName,
-	// 'build': `UI Build: ${process.env.TRAVIS_JOB_ID}`,
-	browserstackOpts: {
-		"build": buildName,
-		"browserstack.build": buildName
-	},
 	// onPrepare: function (config, capabilities) {
 	// 	console.log("Connecting local");
 	// 	return new Promise(function(resolve, reject) {
