@@ -12,7 +12,7 @@ describe("Interests", function(){
 	describe("empty", function(){
 		describe("Without interests", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noVolunteer.json", {});
+				$("#cmd-resume").CMDResume("noVolunteer.json");
 			});
 
 			it("Includes the basic splash", function() {
@@ -34,7 +34,7 @@ describe("Interests", function(){
 
 		describe("No interests", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noName.json", {});
+				$("#cmd-resume").CMDResume("noName.json");
 			});
 
 			it("Includes the basic splash", function() {
@@ -57,7 +57,7 @@ describe("Interests", function(){
 
 	describe("all", function(){
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("details.json", {});
+			$("#cmd-resume").CMDResume("details.json");
 		});
 
 		it("should only show one entry", function(){
@@ -80,7 +80,7 @@ describe("Interests", function(){
 
 	describe("top", function(){
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("details.json", {});
+			$("#cmd-resume").CMDResume("details.json");
 		});
 
 		it("should only show one entry", function(){
@@ -99,7 +99,7 @@ describe("Interests", function(){
 
 	describe("missing parts", function(){
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("interests.json", {});
+			$("#cmd-resume").CMDResume("interests.json");
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify(loadJSON("interestsMissing"))

@@ -13,7 +13,7 @@ describe("Employment", function(){
 	describe("empty", function(){
 		describe("Without employment", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noEmployment.json", {});
+				$("#cmd-resume").CMDResume("noEmployment.json");
 			});
 
 			it("Includes the basic splash", function() {
@@ -38,7 +38,7 @@ describe("Employment", function(){
 
 		describe("No employment", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noName.json", {});
+				$("#cmd-resume").CMDResume("noName.json");
 			});
 
 			it("Includes the basic splash", function() {
@@ -61,7 +61,7 @@ describe("Employment", function(){
 
 	describe("all", function(){
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("details.json", {});
+			$("#cmd-resume").CMDResume("details.json");
 		});
 
 		it("should only show one entry", function(){
@@ -87,7 +87,7 @@ describe("Employment", function(){
 
 	describe("top", function(){
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("details.json", {});
+			$("#cmd-resume").CMDResume("details.json");
 		});
 
 		it("should only show one entry", function(){
@@ -106,7 +106,7 @@ describe("Employment", function(){
 
 	describe("missing parts", function(){
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("employment.json", {});
+			$("#cmd-resume").CMDResume("employment.json");
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify(loadJSON("employment"))

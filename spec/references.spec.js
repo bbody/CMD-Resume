@@ -12,7 +12,7 @@ describe("References", function(){
 	describe("empty", function(){
 		describe("Without references", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noVolunteer.json", {});
+				$("#cmd-resume").CMDResume("noVolunteer.json");
 			});
 
 			it("Includes the basic splash", function() {
@@ -29,7 +29,7 @@ describe("References", function(){
 
 		describe("No references", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noName.json", {});
+				$("#cmd-resume").CMDResume("noName.json");
 			});
 
 			it("Includes the basic splash", function() {
@@ -47,7 +47,7 @@ describe("References", function(){
 
 	describe("all", function(){
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("details.json", {});
+			$("#cmd-resume").CMDResume("details.json");
 		});
 
 		it("should only show one entry", function(){
@@ -66,7 +66,7 @@ describe("References", function(){
 
 	describe("top", function(){
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("details.json", {});
+			$("#cmd-resume").CMDResume("details.json");
 		});
 
 		it("should only show one entry", function(){
@@ -82,7 +82,7 @@ describe("References", function(){
 
 	describe("missing parts", function(){
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("references.json", {});
+			$("#cmd-resume").CMDResume("references.json");
 			jasmine.Ajax.requests.mostRecent().respondWith(successResponse("referencesMissing"));
 			enterCommand("references");
 		});
