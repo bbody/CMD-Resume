@@ -11,7 +11,6 @@ for (var i = 0; i < capabilities.length; i++) {
 	capabilities.project = buildName;
 	capabilities['browserstack.build'] = buildName;
 	capabilities['browserstack.project'] = buildName;
-	capabilities['browserstack.localIdentifier'] = buildName;
 	capabilities['build'] = buildName;
 }
 
@@ -23,12 +22,9 @@ exports.config = merge(wdioConf, {
 	browserstackLocal: true,
 	capabilities: capabilities,
 	maxInstances: 5,
-	'browserstack.localIdentifier': buildName,
 	"browserstack.build": buildName,
 	// 'build': `UI Build: ${process.env.TRAVIS_JOB_ID}`,
 	browserstackOpts: {
-		"local-identifier": buildName,
-		"localIdentifier": buildName,
 		"build": buildName,
 		"browserstack.build": buildName
 	},
