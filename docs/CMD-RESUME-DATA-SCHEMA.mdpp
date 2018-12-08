@@ -14,3 +14,18 @@ Outside of the [JSON Resume](https://jsonresume.org/) specifications some additi
 [Example file](https://github.com/bbody/CMD-Resume/blob/master/responses/extra-details.json), or below:
 
 !INCLUDECODE "responses/extra-details.json" (json)
+
+## Extra commands
+
+Extra commands can be used to add extra functionality, leveraged with optional information you can extend the functionality of CMD Resume to fit your own unique circumstances.
+
+### API
+!INCLUDE "docs/partials/EXTRA_COMMANDS_API.md"
+
+### Overriding commands
+
+Standard commands can be overwritten very easily by ensuring they have the same name. For example, location in the below example.
+
+### Example
+
+!INCLUDECODE "js/examples/example-script.js" (javascript)

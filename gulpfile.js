@@ -98,6 +98,10 @@ function getE2EBrowsers(browserList, headless) {
 			capability.include = ['spec-e2e/chrome-safari/*.spec.js'];
 		}
 
+		if (browser === 'firefox' || browser === 'chrome') {
+			capability.include = ['spec-e2e/chrome-firefox/*.spec.js'];
+		}
+
 		if (headless && browser === 'firefox') {
 			capability['moz:firefoxOptions'] = {
 				args: ['-headless'],
@@ -155,7 +159,7 @@ gulp.task('serve', function() {
 
 gulp.task('source-check', ['source-check:development', 'source-check:tools', 'source-check:tests']);
 
-gulp.task('source-check:development', ['jshint:development',
+gulp.task('source-check:development', ['build', 'jshint:development',
 	'jscs:development'
 ]);
 
