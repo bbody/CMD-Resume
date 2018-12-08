@@ -7,11 +7,12 @@ var capabilities = require('./browserstack/bs-customLaunchers.essential.json').b
 var jobId = process && process.env && process.env.TRAVIS_JOB_ID ? process.env.TRAVIS_JOB_ID : "local development";
 var buildName = `UI Build: ${jobId}`
 for (var i = 0; i < capabilities.length; i++) {
-	capabilities.build = buildName;
-	capabilities.project = buildName;
-	capabilities['browserstack.build'] = buildName;
-	capabilities['browserstack.project'] = buildName;
-	capabilities['build'] = buildName;
+	capabilities[i].build = buildName;
+	// capabilities.build = buildName;
+	// capabilities.project = buildName;
+	// capabilities['browserstack.build'] = buildName;
+	// capabilities['browserstack.project'] = buildName;
+	// capabilities['build'] = buildName;
 }
 
 wdioConf.services.push('browserstack');
