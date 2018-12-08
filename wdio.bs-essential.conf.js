@@ -25,7 +25,8 @@ exports.config = merge(wdioConf, {
 	"browserstack.local": true,
 	'build': `UI Build: ${process.env.TRAVIS_JOB_ID}`,
 	browserstackOpts: {
-		"parallel-runs": 5
+		"parallel-runs": 5,
+		"local-identifier": buildName
 	},
 	// onPrepare: function (config, capabilities) {
 	// 	console.log("Connecting local");
