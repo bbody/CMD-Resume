@@ -63,6 +63,17 @@ $(document).ready(function() {
                         return value.timeperiod;
                     }
                 }
+            },
+            {
+                name: "location",
+                title: "Location",
+                description: "current location",
+                type: "calculated",
+                data: ["basics", "location"],
+                dataIsObject: true,
+                handler: function(data) {
+                    return "The great city of " + data.city;
+                }
             }
         ]
     };
