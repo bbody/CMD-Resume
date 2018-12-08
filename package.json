@@ -107,7 +107,7 @@
     "unit-test:bs:all": "gulp test:karma:browserstack",
     "unit-test:bs:essential": "gulp test:karma:browserstack:essential",
     "ui-test:bs:essential": "gulp test:bs:ui:essential",
-    "test:browserstack": "npm run unit-test:bs:essential && npm run ui-test:bs:essential",
+    "test:browserstack:essential": "npm run unit-test:bs:essential && npm run ui-test:bs:essential",
     "generate:bs-browsers": "node scripts/generate-browserstack-karma-browsers.js",
     "bs:essential": "npm run ui-test:bs:essential",
     "doc:build": "markdown-pp ./docs/README.mdpp -o README.md && markdown-pp ./docs/CMD-RESUME-DATA-SCHEMA.mdpp -o CMD-RESUME-DATA-SCHEMA.md && markdown-pp ./docs/CONTRIBUTING.mdpp -o CONTRIBUTING.md"
