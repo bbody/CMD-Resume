@@ -8,14 +8,19 @@ var jobId = process && process.env && process.env.TRAVIS_JOB_ID ? process.env.TR
 var buildName = `UI Build: ${jobId}`
 for (var i = 0; i < capabilities.length; i++) {
 	capabilities["browserstack.local"] = true;
-	capabilities.build = `UI Build: ${process.env.TRAVIS_JOB_ID}`;
-	capabilities.project = `UI Build: ${process.env.TRAVIS_JOB_ID}`;
+	capabilities.build = buildName;
+	capabilities.project = buildName;
+	capabilities['browserstack.build'] = buildName;
+	capabilities['browserstack.project'] = buildName;
 }
 
 exports.config = merge(wdioConf, {
 	user: process.env.BROWSER_STACK_USERNAME,
 	key: process.env.BROWSER_STACK_ACCESS_KEY,
+	browserstackLocal: true,
 	capabilities: capabilities,
+	"browserstack.local": true,
+	'build': `UI Build: ${process.env.TRAVIS_JOB_ID}`,
 	onPrepare: function (config, capabilities) {
 		console.log("Connecting local");
 		return new Promise(function(resolve, reject) {
@@ -29,6 +34,8 @@ exports.config = merge(wdioConf, {
 		});
 	},
 	onComplete: function (capabilties, specs) {
-		exports.bs_local.stop(function() {});
+		exports.bs_local.stop(function() {
+			console.log("Finished testing.")
+		});
 	}
 });
