@@ -22,10 +22,13 @@ exports.config = merge(wdioConf, {
 	browserstackLocal: true,
 	capabilities: capabilities,
 	maxInstances: 5,
+	'browserstack.localIdentifier': buildName,
+
 	// 'build': `UI Build: ${process.env.TRAVIS_JOB_ID}`,
-	// browserstackOpts: {
-	// 	"local-identifier": buildName
-	// },
+	browserstackOpts: {
+		"local-identifier": buildName,
+		"localIdentifier": buildName
+	},
 	// onPrepare: function (config, capabilities) {
 	// 	console.log("Connecting local");
 	// 	return new Promise(function(resolve, reject) {
