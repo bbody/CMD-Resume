@@ -23,13 +23,6 @@
     },
     {
         "base": "BrowserStack",
-        "browser": "Opera",
-        "os": "Windows",
-        "os_version": "10",
-        "browserstack.local": true
-    },
-    {
-        "base": "BrowserStack",
         "browser": "Chrome",
         "os": "OS X",
         "os_version": "Mojave",
