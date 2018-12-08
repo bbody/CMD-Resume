@@ -12,7 +12,7 @@ describe("Social Media", function(){
 	describe("empty", function(){
 		describe("Without socialmedia", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noVolunteer.json", {});
+				$("#cmd-resume").CMDResume("noVolunteer.json");
 			});
 
 			it("Includes the basic splash", function() {
@@ -34,7 +34,7 @@ describe("Social Media", function(){
 
 		describe("No socialmedia", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noName.json", {});
+				$("#cmd-resume").CMDResume("noName.json");
 			});
 
 			it("Includes the basic splash", function() {
@@ -57,7 +57,7 @@ describe("Social Media", function(){
 
 	describe("all", function(){
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("details.json", {});
+			$("#cmd-resume").CMDResume("details.json");
 		});
 
 		it("should only show one entry", function(){
@@ -80,7 +80,7 @@ describe("Social Media", function(){
 	});
 	describe("missing parts", function(){
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("socialmedia.json", {});
+			$("#cmd-resume").CMDResume("socialmedia.json");
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify(loadJSON("socialmediaMissing"))
@@ -99,7 +99,7 @@ describe("Social Media", function(){
 
 	describe("Email", function(){
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("socialmedia.json", {});
+			$("#cmd-resume").CMDResume("socialmedia.json");
 		});
 		it("Has mailto", function(){
 			jasmine.Ajax.requests.mostRecent().respondWith({
