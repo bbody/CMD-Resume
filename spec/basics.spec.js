@@ -228,7 +228,7 @@ describe("Basics", function() {
 	describe("Location", function() {
 		describe("Featuring location", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("about.json", {});
+				$("#cmd-resume").CMDResume("about.json");
 			});
 
 			it("Includes location", function() {
@@ -354,7 +354,7 @@ describe("Basics", function() {
 
 		describe("Without content", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noName.json", {});
+				$("#cmd-resume").CMDResume("noName.json");
 			});
 
 			it("Returns command error", function() {
@@ -376,7 +376,7 @@ describe("Basics", function() {
 
 		describe("Empty string", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noName.json", {});
+				$("#cmd-resume").CMDResume("noName.json");
 				jasmine.Ajax.requests.mostRecent().respondWith({
 					status: 200,
 					responseText: JSON.stringify(loadJSON("emptyStrings"))
@@ -398,7 +398,7 @@ describe("Basics", function() {
 	describe("Looking For Command", function() {
 		describe("Featuring label", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("justName.json", {});
+				$("#cmd-resume").CMDResume("justName.json");
 			});
 
 			it("Includes the name", function() {
@@ -419,7 +419,7 @@ describe("Basics", function() {
 
 		describe("Without label", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noName.json", {});
+				$("#cmd-resume").CMDResume("noName.json");
 			});
 
 			it("Returns command error", function() {
@@ -441,7 +441,7 @@ describe("Basics", function() {
 
 		describe("Empty label", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noName.json", {});
+				$("#cmd-resume").CMDResume("noName.json");
 				jasmine.Ajax.requests.mostRecent().respondWith({
 					status: 200,
 					responseText: JSON.stringify(loadJSON("emptyStrings"))
