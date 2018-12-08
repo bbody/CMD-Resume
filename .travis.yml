@@ -21,7 +21,7 @@ script:
     if [ $TRAVIS_EVENT_TYPE == "cron" ];then
     npm run test:build && travis_wait 60 npm run unit-test:bs:all
     else
-    travis_wait 30 npm run ui-test:bs:essential
+     & travis_wait 60 gulp test:bs:ui:essential
     fi
   - npm run source-check
 cache:

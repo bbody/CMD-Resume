@@ -432,6 +432,8 @@ gulp.task('test:e2e:pre', ['copy:icons:test', 'compile:html:test', 'copy:json:te
 gulp.task('test:macos', ['test:karma:macos', 'test:e2e:pre', 'test:e2e:macos']);
 gulp.task('test:windows', ['test:karma:windows', 'test:e2e:pre', 'test:e2e:windows']);
 gulp.task('test:linux', ['test:karma:linux', 'test:e2e:pre', 'test:e2e:linux']);
+gulp.task('test:bs:ui:essential', ['test:e2e:pre', 'test:e2e:browserstack:essential']);
+// gulp.task('test:bs:ui', ['test:karma:browserstack', 'test:e2e:pre', 'test:e2e:browserstack']);
 
 // Deployment
 gulp.task('build-gh-pages', ['compile:gh-pages', 'compile:html:example',
