@@ -14,28 +14,34 @@ for (var i = 0; i < capabilities.length; i++) {
 	capabilities['browserstack.project'] = buildName;
 }
 
+wdioConf.services.push('browserstack');
+
 exports.config = merge(wdioConf, {
 	user: process.env.BROWSER_STACK_USERNAME,
 	key: process.env.BROWSER_STACK_ACCESS_KEY,
 	browserstackLocal: true,
 	capabilities: capabilities,
+	maxInstances: 1,
 	"browserstack.local": true,
 	'build': `UI Build: ${process.env.TRAVIS_JOB_ID}`,
-	onPrepare: function (config, capabilities) {
-		console.log("Connecting local");
-		return new Promise(function(resolve, reject) {
-		            exports.bs_local = new browserstack.Local();
-		            exports.bs_local.start({ 'key': exports.config.key }, function(error) {
-		                if (error) return reject(error);
-		                console.log('Connected. Now testing...');
-
-		                resolve();
-		            });
-		});
+	browserstackOpts: {
+		"parallel-runs": 5
 	},
-	onComplete: function (capabilties, specs) {
-		exports.bs_local.stop(function() {
-			console.log("Finished testing.")
-		});
-	}
+	// onPrepare: function (config, capabilities) {
+	// 	console.log("Connecting local");
+	// 	return new Promise(function(resolve, reject) {
+	// 	            exports.bs_local = new browserstack.Local();
+	// 	            exports.bs_local.start({ 'key': exports.config.key }, function(error) {
+	// 	                if (error) return reject(error);
+	// 	                console.log('Connected. Now testing...');
+
+	// 	                resolve();
+	// 	            });
+	// 	});
+	// },
+	// onComplete: function (capabilties, specs) {
+	// 	exports.bs_local.stop(function() {
+	// 		console.log("Finished testing.")
+	// 	});
+	// }
 });
