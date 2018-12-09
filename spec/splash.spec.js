@@ -12,7 +12,7 @@ describe("Splash screen", function() {
 	
 	describe("Featuring name", function() {
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("justName.json", {});
+			$("#cmd-resume").CMDResume("justName.json");
 		});
 
 		it("Includes the name in splash", function() {
@@ -33,7 +33,7 @@ describe("Splash screen", function() {
 
 	describe("Without name", function() {
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("noName.json", {});
+			$("#cmd-resume").CMDResume("noName.json");
 		});
 
 		it("Includes the basic splash", function() {
@@ -51,7 +51,7 @@ describe("Splash screen", function() {
 
 	describe("Empty name", function() {
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("noName.json", {});
+			$("#cmd-resume").CMDResume("noName.json");
 		});
 
 		it("Includes the basic splash", function() {
@@ -115,7 +115,7 @@ describe("Splash screen", function() {
 	describe("Splash Command", function() {
 		describe("Featuring name", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("justName.json", {});
+				$("#cmd-resume").CMDResume("justName.json");
 			});
 
 			it("Includes the name in splash", function() {
@@ -140,7 +140,7 @@ describe("Splash screen", function() {
 
 		describe("Without name", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noName.json", {});
+				$("#cmd-resume").CMDResume("noName.json");
 			});
 
 			it("Includes the basic splash", function() {
@@ -162,7 +162,7 @@ describe("Splash screen", function() {
 
 		describe("Empty name", function() {
 			beforeEach(function() {
-				$("#cmd-resume").CMDResume("noName.json", {});
+				$("#cmd-resume").CMDResume("noName.json");
 			});
 
 			it("Includes the basic splash", function() {
