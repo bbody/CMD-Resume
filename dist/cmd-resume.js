@@ -312,6 +312,23 @@
   	return result;
   };
   
+  var commandProcessor = {
+  	basic: basicHandlerFunction,
+  	array: arrayHandlerFunction,
+  	calculated: calculatedHandlerFunction,
+  	system: systemHandlerFunction
+  };
+  
+  var CMD = {
+  	BASIC: "basic",
+  	ARRAY: "array",
+  	CALCULATED: "calculated",
+  	SYSTEM: "system",
+  	getCommand: function(cmd) {
+  		return commandProcessor[cmd];
+  	}
+  };
+  
   // Format date
   var getDate = function(startDate, endDate) {
   	if (!endDate && !startDate) {
@@ -417,6 +434,75 @@
   	return value.url ? value.url : false;
   };
   
+  var isValidCommandType = function(commandType) {
+  	return !!commandType && commandProcessor.hasOwnProperty(commandType);
+  };
+  
+  var commandValidators = {
+  	basic: function(command) {
+  		if (!command.data) {
+  			console.error("'basic' command type requires 'data'");
+  			return false;
+  		}
+  		return true;
+  	},
+  	system: function(command) {
+  		if (!command.handler) {
+  			console.error("'system' command type requires 'handler'");
+  			return false;
+  		}
+  		return true;
+  	},
+  	calculated: function(command) {
+  		if (!command.data) {
+  			console.error("'calculated' command type requires 'data'");
+  			return false;
+  		}
+  
+  		if (!command.handler) {
+  			console.error("'calculated' command type requires 'handler'");
+  			return false;
+  		}
+  
+  		return true;
+  	},
+  	array: function(command) {
+  		if (!command.data) {
+  			console.error("'array' command type requires 'data'");
+  			return false;
+  		}
+  
+  		if (!command.handlers) {
+  			console.error("'array' command type requires 'handlers'");
+  			return false;
+  		}
+  		return true;
+  	}
+  };
+  
+  var isValidCommand = function(command) {
+  	if (!command.name) {
+  		console.error("Command must have a name");
+  		return false;
+  	}
+  
+  	command.name = command.name.toLowerCase();
+  
+  	if (!command.description) {
+  		console.error("'" + command.name + "' does not have a 'description'");
+  		return false;
+  	}
+  
+  	if (!isValidCommandType(command.type)) {
+  		console.error("'" + command.name +
+  			"' does not have a valid type [basic, system, array, calculated]");
+  		return false;
+  	}
+  
+  	return commandValidators[command.type](command);
+  };
+  
+  
   // Get Github URI based on username
   var getGithubUri = function(username) {
   	// Return empty is username is empty
@@ -487,29 +573,12 @@
   
   	self.commands = {};
   
-  	self.commandProcessor = {
-  		basic: basicHandlerFunction,
-  		array: arrayHandlerFunction,
-  		calculated: calculatedHandlerFunction,
-  		system: systemHandlerFunction
-  	};
-  
-  	self.CMD = {
-  		BASIC: "basic",
-  		ARRAY: "array",
-  		CALCULATED: "calculated",
-  		SYSTEM: "system",
-  		getCommand: function(cmd) {
-  			return self.commandProcessor[cmd];
-  		}
-  	};
-  
   	self.allCommands = [
   		{
   			name: "man",
   			title: "man".setCommand(),
   			description: "describes what each command does",
-  			type: self.CMD.SYSTEM,
+  			type: CMD.SYSTEM,
   			handler: function(command) {
   				if (!command) {
   					return "man:".setCommand() + " No command entered.";
@@ -526,7 +595,7 @@
   		{
   			name: "Help",
   			description: "lists help for all the commands",
-  			type: self.CMD.SYSTEM,
+  			type: CMD.SYSTEM,
   			handler: function() {
   				var commands = "Available Commands:".setTitle();
   				$.map(self.commands, function(value, key) {
@@ -542,20 +611,20 @@
   			name: "Name",
   			description: "owner of the résumé",
   			data: ["basics", "name"],
-  			type: self.CMD.BASIC
+  			type: CMD.BASIC
   		},
   		{
   			name: "About",
   			description: "about me",
   			data: ["basics", "summary"],
-  			type: self.CMD.BASIC
+  			type: CMD.BASIC
   		},
   		{
   			name: "pdf",
   			title: "Résumé PDF",
   			description: "pdf version of the résumé",
   			data: ["basics", "pdfLink"],
-  			type: self.CMD.CALCULATED,
+  			type: CMD.CALCULATED,
   			handler: function(data) {
   				window.open(data);
   				return decodeURIComponent(escape(data)) + CONSTANTS.NEW_LINE +
@@ -567,7 +636,7 @@
   			description: "current location",
   			data: ["basics", "location"],
   			dataIsObject: true,
-  			type: self.CMD.CALCULATED,
+  			type: CMD.CALCULATED,
   			handler: function(data) {
   				var results = [];
   
@@ -590,12 +659,12 @@
   			name: "Label",
   			description: "title",
   			data: ["basics", "label"],
-  			type: self.CMD.BASIC
+  			type: CMD.BASIC
   		},
   		{
   			name: "Education",
   			description: "education history",
-  			type: self.CMD.ARRAY,
+  			type: CMD.ARRAY,
   			handlers: {
   				organisation: function(value) {
   					return value.institution;
@@ -612,7 +681,7 @@
   			name: "Employment",
   			description: "employment history",
   			data: "work",
-  			type: self.CMD.ARRAY,
+  			type: CMD.ARRAY,
   			handlers: {
   				organisation: function(value) {
   					return value.company;
@@ -629,7 +698,7 @@
   			name: "Volunteering",
   			description: "volunteering history",
   			data: "volunteer",
-  			type: self.CMD.ARRAY,
+  			type: CMD.ARRAY,
   			handlers: {
   				organisation: function(value) {
   					return value.organization;
@@ -648,7 +717,7 @@
   			description: "social media profiles",
   			data: ["basics", "profiles"],
   			dataIsObject: true,
-  			type: self.CMD.CALCULATED,
+  			type: CMD.CALCULATED,
   			handler: function(data) {
   				var resultArray = [];
   
@@ -667,7 +736,7 @@
   		{
   			name: "Skills",
   			description: "skills obtained",
-  			type: self.CMD.CALCULATED,
+  			type: CMD.CALCULATED,
   			handler: function(data) {
   				var result = CONSTANTS.EMPTY;
   
@@ -694,7 +763,7 @@
   		{
   			name: "Awards",
   			description: "awards obtained",
-  			type: self.CMD.ARRAY,
+  			type: CMD.ARRAY,
   			handlers: {
   				organisation: function(value) {
   					return value.awarder;
@@ -710,7 +779,7 @@
   		{
   			name: "Publications",
   			description: "publications produced",
-  			type: self.CMD.ARRAY,
+  			type: CMD.ARRAY,
   			handlers: {
   				organisation: function(value) {
   					return value.publisher;
@@ -726,7 +795,7 @@
   		{
   			name: "Languages",
   			description: "languages",
-  			type: self.CMD.ARRAY,
+  			type: CMD.ARRAY,
   			handlers: {
   				organisation: function(value) {
   					return value.language;
@@ -739,7 +808,7 @@
   		{
   			name: "Interests",
   			description: "interests",
-  			type: self.CMD.ARRAY,
+  			type: CMD.ARRAY,
   			handlers: {
   				organisation: function(value) {
   					return value.name ? value.name.setName() : "";
@@ -752,7 +821,7 @@
   		{
   			name: "References",
   			description: "references",
-  			type: self.CMD.ARRAY,
+  			type: CMD.ARRAY,
   			handlers: {
   				organisation: function(value) {
   					return value.name ? value.name.setName() : "";
@@ -766,7 +835,7 @@
   			name: "splash",
   			title: "Splash Screen",
   			description: "print the welcome screen",
-  			type: self.CMD.SYSTEM,
+  			type: CMD.SYSTEM,
   			handler: function() {
   				var results = CONSTANTS.EMPTY;
   
@@ -796,7 +865,7 @@
   			name: "pgpkey",
   			title: "PGP Key",
   			description: "public PGP key",
-  			type: self.CMD.CALCULATED,
+  			type: CMD.CALCULATED,
   			handler: function() {
   				var results = CONSTANTS.EMPTY;
   
@@ -854,9 +923,9 @@
   	};
   
   	self.showTitle = function(commandType, top) {
-  		if (commandType === self.CMD.SYSTEM) {
+  		if (commandType === CMD.SYSTEM) {
   			return false;
-  		} else if (top && (commandType === self.CMD.ARRAY)) {
+  		} else if (top && (commandType === CMD.ARRAY)) {
   			return false;
   		}
   
@@ -871,7 +940,7 @@
   			result += command.title.setTitle();
   		}
   
-  		result += self.CMD.getCommand(command.type)(command, top);
+  		result += CMD.getCommand(command.type)(command, top);
   
   		return result;
   	};
@@ -897,8 +966,17 @@
   		};
   	};
   
+  	self.addUserCommands = function(commands) {
+  		commands.forEach(function(command) {
+  			if (isValidCommand(command)) {
+  				self.addCommand(command);
+  			}
+  		});
+  
+  	};
+  
   	self.addCommand = function(command) {
-  		if (command.type === self.CMD.SYSTEM ||
+  		if (command.type === CMD.SYSTEM ||
   			isDefinedNotEmpty(self.data,
   				command.data ? command.data : command.name.toLowerCase(),
   				!!command.dataIsObject)) {
@@ -908,7 +986,7 @@
   				type: command.type
   			};
   
-  			if (command.type !== self.CMD.SYSTEM) {
+  			if (command.type !== CMD.SYSTEM) {
   				tempCommand.data = getDataFromArrayKey(self.data,
   					command.data ? command.data : command.name.toLowerCase());
   			}
@@ -934,6 +1012,10 @@
   	self.initCommands = function() {
   		self.initClear();
   		self.addCommands();
+  		if (options.customCommands && Array.isArray(options.customCommands) &&
+  			options.customCommands.length) {
+  			self.addUserCommands(options.customCommands);
+  		}
   	};
   
   	self.initSocialMedia = function() {
@@ -969,7 +1051,7 @@
   						name: "Github",
   						title: "Github Repositories",
   						description: "list Github repositories",
-  						type: self.CMD.BASIC,
+  						type: CMD.BASIC,
   						data: "githubCache"
   					});
   				});
@@ -1013,6 +1095,7 @@
   		}
   
   		if (options.extraDetails) {
+  
   			$.getJSON(options.extraDetails, function(extraResponse) {
   				self.data.pgpkey = extraResponse.pgpkey;
   
@@ -1030,6 +1113,7 @@
   							CONSTANTS.NEW_LINE);
   					}
   				}
+  				self.data.extra = extraResponse;
   				self.init(options);
   			});
   		} else {
