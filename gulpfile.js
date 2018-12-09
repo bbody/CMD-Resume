@@ -82,9 +82,24 @@ function getE2EBrowsers(browserList, headless) {
 	browserList.forEach(function(browser) {
 		var capability = {};
 
+		if (browser === 'chrome') {
+			capability.include = ['spec-e2e/chrome/*.spec.js'];
+		}
+
 		if (browser === 'firefox') {
-			// Exclude as typing doesn't work in Firefox
-			capability.exclude = ['spec-e2e/*.nonFF.spec.js'];
+			capability.include = ['spec-e2e/firefox/*.spec.js'];
+		}
+
+		if (browser === 'safari') {
+			capability.include = ['spec-e2e/safari/*.spec.js'];
+		}
+
+		if (browser === 'safari' || browser === 'chrome') {
+			capability.include = ['spec-e2e/chrome-safari/*.spec.js'];
+		}
+
+		if (browser === 'firefox' || browser === 'chrome') {
+			capability.include = ['spec-e2e/chrome-firefox/*.spec.js'];
 		}
 
 		if (headless && browser === 'firefox') {
@@ -144,7 +159,7 @@ gulp.task('serve', function() {
 
 gulp.task('source-check', ['source-check:development', 'source-check:tools', 'source-check:tests']);
 
-gulp.task('source-check:development', ['jshint:development',
+gulp.task('source-check:development', ['compile:development', 'jshint:development',
 	'jscs:development'
 ]);
 
@@ -243,7 +258,7 @@ gulp.task('compile:html', function() {
 	const locals = {
 		production: false,
 		jquery_script_location: 'node_modules/jquery/dist/jquery.js',
-		jquery_mousewheel_script_location: 'node_modules/jquery.terminal/js/jquery.mousewheel-min.js',
+		keyboard_polyfill: 'node_modules/js-polyfills/keyboard.js',
 		jquery_terminal_script_location: 'node_modules/jquery.terminal/js/jquery.terminal.js',
 		init_script_location: 'js/examples/example-script.js',
 		cmd_resume_script_location: 'tmp/js/cmd-resume.js',
@@ -252,7 +267,7 @@ gulp.task('compile:html', function() {
 		favicon_directory: './favicons'
 	};
 	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
-	return gulp.src('index.pug')
+	return gulp.src('templates/index.pug')
 		.pipe(pug({
 			locals: locals
 		}))
@@ -269,7 +284,7 @@ gulp.task('compile:html:example', function() {
 	const locals = {
 		production: true,
 		jquery_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery/${getLibraryVersion('jquery')}/jquery.min.js`,
-		jquery_mousewheel_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/${getLibraryVersion('jquery-mousewheel')}/jquery.mousewheel.min.js`,
+		keyboard_polyfill: `//cdn.rawgit.com/inexorabletash/polyfill/master/keyboard.js`,
 		jquery_terminal_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/${getLibraryVersion('jquery.terminal')}/js/jquery.terminal.min.js`,
 		init_script_location: './js/example-script.js',
 		cmd_resume_script_location: './js/cmd-resume.js',
@@ -278,7 +293,7 @@ gulp.task('compile:html:example', function() {
 		favicon_directory: '.'
 	};
 	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
-	return gulp.src('index.pug')
+	return gulp.src('templates/index.pug')
 		.pipe(pug({
 			locals: locals
 		}))
@@ -290,7 +305,7 @@ gulp.task('compile:html:own-example', function() {
 	const locals = {
 		production: true,
 		jquery_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery/${getLibraryVersion('jquery')}/jquery.min.js`,
-		jquery_mousewheel_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/${getLibraryVersion('jquery-mousewheel')}/jquery.mousewheel.min.js`,
+		keyboard_polyfill: `//cdn.rawgit.com/inexorabletash/polyfill/master/keyboard.js`,
 		jquery_terminal_script_location: `//cdnjs.cloudflare.com/ajax/libs/jquery.terminal/${getLibraryVersion('jquery.terminal')}/js/jquery.terminal.min.js`,
 		init_script_location: './js/own-script.js',
 		cmd_resume_script_location: '../js/cmd-resume.js',
@@ -299,7 +314,7 @@ gulp.task('compile:html:own-example', function() {
 		favicon_directory: '..'
 	};
 	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
-	return gulp.src('index.pug')
+	return gulp.src('templates/index.pug')
 		.pipe(pug({
 			pretty: true,
 			locals: locals
@@ -312,7 +327,7 @@ gulp.task('compile:html:test', function() {
 	const locals = {
 		production: false,
 		jquery_script_location: `./node_modules/jquery/dist/jquery.min.js`,
-		jquery_mousewheel_script_location: `./node_modules/jquery-mousewheel/jquery.mousewheel.js`,
+		keyboard_polyfill: `./node_modules/js-polyfills/keyboard.js`,
 		jquery_terminal_script_location: `./node_modules/jquery.terminal/js/jquery.terminal.min.js`,
 		init_script_location: false, // Allow script to be triggered from code
 		cmd_resume_script_location: './js/cmd-resume.js',
@@ -321,7 +336,7 @@ gulp.task('compile:html:test', function() {
 		favicon_directory: '.'
 	};
 	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
-	return gulp.src('index.pug')
+	return gulp.src('templates/index.pug')
 		.pipe(pug({
 			locals: locals
 		}))
@@ -386,6 +401,14 @@ gulp.task('test:e2e:build', function() {
 	}));
 });
 
+gulp.task('test:e2e:browserstack:essential', function() {
+	return gulp.src('./wdio.browserstack.conf.js').pipe(webdriver({
+		jasmineNodeOpts: {
+			defaultTimeoutInterval: 50000
+		}
+	}));
+});
+
 gulp.task('test:e2e:windows', function() {
 	return gulp.src('wdio.conf.js').pipe(webdriver({
 		capabilities: getE2EBrowsers(['chrome', 'firefox', 'internet explorer', 'MicrosoftEdge'])
@@ -394,7 +417,7 @@ gulp.task('test:e2e:windows', function() {
 
 gulp.task('test:e2e:macos', function() {
 	return gulp.src('wdio.conf.js').pipe(webdriver({
-		capabilities: getE2EBrowsers(['chrome', 'firefox' /*, 'safari'*/])
+		capabilities: getE2EBrowsers(['chrome', 'firefox', 'safari'])
 	}));
 });
 
@@ -413,6 +436,7 @@ gulp.task('test:e2e:pre', ['copy:icons:test', 'compile:html:test', 'copy:json:te
 gulp.task('test:macos', ['test:karma:macos', 'test:e2e:pre', 'test:e2e:macos']);
 gulp.task('test:windows', ['test:karma:windows', 'test:e2e:pre', 'test:e2e:windows']);
 gulp.task('test:linux', ['test:karma:linux', 'test:e2e:pre', 'test:e2e:linux']);
+gulp.task('test:bs:ui:essential', ['test:e2e:pre', 'test:e2e:browserstack:essential']);
 
 // Deployment
 gulp.task('build-gh-pages', ['compile:gh-pages', 'compile:html:example',

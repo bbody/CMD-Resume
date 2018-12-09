@@ -19,9 +19,9 @@ before_script:
 script:
   - |
     if [ $TRAVIS_EVENT_TYPE == "cron" ];then
-    npm run test:build && travis_wait 60 npm run unit-test:bs:all
+    npm run test:build && travis_wait 60 npm run test:browserstack:all
     else
-    npm run test:build && travis_wait 15 npm run unit-test:bs:essential
+    npm run test:build && travis_wait 60 npm run test:browserstack:essential
     fi
   - npm run source-check
 cache:

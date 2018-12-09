@@ -12,7 +12,7 @@ describe("Utilities", function() {
 
 	describe("Invalid commands", function() {
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("details.json", {});
+			$("#cmd-resume").CMDResume("details.json");
 		});
 
 		it("Empty message", function() {
@@ -51,7 +51,7 @@ describe("Utilities", function() {
 				responseText: JSON.stringify(loadJSON("details"))
 			});
 
-			enterCommand("\t\t\t\t");
+			enterCommand("                ");
 
 			var output = getSingleOutput();
 			expect(output).toEqual("No command entered.");
@@ -60,7 +60,7 @@ describe("Utilities", function() {
 
 	describe("clear command", function() {
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("man.json", {});
+			$("#cmd-resume").CMDResume("man.json");
 		});
 
 		it("Empty results", function() {
@@ -76,7 +76,7 @@ describe("Utilities", function() {
 
 	describe("pdf command", function() {
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("man.json", {});
+			$("#cmd-resume").CMDResume("man.json");
 		});
 
 		it("Empty results", function() {
@@ -102,7 +102,7 @@ describe("Utilities", function() {
 
 	describe("man command", function() {
 		beforeEach(function() {
-			$("#cmd-resume").CMDResume("man.json", {});
+			$("#cmd-resume").CMDResume("man.json");
 		});
 
 		it("Valid command", function() {

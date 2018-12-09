@@ -52,3 +52,7 @@ index.html
 
 # Doc diagram
 docs/images/.~lock.merge_graph.odg#
+
+# Browserstack
+browserstack.err
+local.log

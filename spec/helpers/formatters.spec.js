@@ -171,8 +171,8 @@ describe("formatters", function() {
 			expect(initStyles(this.defaultStyles, options)).toEqual(options);
 		});
 
-		it("Doesn\"t override any styles", function() {
-			expect(initStyles(this.defaultStyles, {})).toEqual(this.defaultStyles);
+		it("Doesn't override any styles", function() {
+			expect(initStyles(this.defaultStyles)).toEqual(this.defaultStyles);
 		});
 
 		it("Overrides some styles", function() {

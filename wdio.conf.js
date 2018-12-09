@@ -12,8 +12,8 @@ exports.config = {
     coloredLogs: true,
     deprecationWarnings: true,
     bail: 0,
-    screenshotPath: 'spec-e2e/screenshots'
-    ,baseUrl: 'http://localhost:4567',
+    screenshotPath: 'spec-e2e/screenshots',
+    baseUrl: 'http://localhost:4567',
     waitforTimeout: 1000,
 
     reporters: ['dot'],
@@ -41,6 +41,12 @@ exports.config = {
     // Firefox workaround
     seleniumArgs: {drivers: Object.assign({}, require('selenium-standalone/lib/default-config').drivers, {firefox: {version: '0.23.0'}})},
     seleniumInstallArgs: {drivers: Object.assign({}, require('selenium-standalone/lib/default-config').drivers, {firefox: {version: '0.23.0'}})},
+
+    drivers: {
+        chrome: {
+            version: '2.39'
+        }
+    },
 
     onComplete: function(exitCode, config, capabilities) {
         process.exit(exitCode);

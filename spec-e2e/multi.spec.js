@@ -6,7 +6,7 @@ describe("Simple", function() {
 
 		helper.loadSimpleCMDResume(browser);
 
-		$('body.terminal').waitForExist(5000);
+		$('body.full-screen-terminal').waitForExist(5000);
 	});
 
 	it("returns help", function(){
@@ -109,7 +109,7 @@ describe("Simple", function() {
 		expect(commandOutput.values.length).toBeGreaterThan(0);
 	});
 
-	describe("top", function(){
+	describe("top", function() {
 		it("returns education", function(){
 			helper.keyboard.typeCommand(browser, 'education -top');
 			
