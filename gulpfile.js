@@ -159,7 +159,7 @@ gulp.task('serve', function() {
 
 gulp.task('source-check', ['source-check:development', 'source-check:tools', 'source-check:tests']);
 
-gulp.task('source-check:development', ['build', 'jshint:development',
+gulp.task('source-check:development', ['compile:development', 'jshint:development',
 	'jscs:development'
 ]);
 
@@ -401,6 +401,14 @@ gulp.task('test:e2e:build', function() {
 	}));
 });
 
+gulp.task('test:e2e:browserstack:essential', function() {
+	return gulp.src('./wdio.browserstack.conf.js').pipe(webdriver({
+		jasmineNodeOpts: {
+			defaultTimeoutInterval: 50000
+		}
+	}));
+});
+
 gulp.task('test:e2e:windows', function() {
 	return gulp.src('wdio.conf.js').pipe(webdriver({
 		capabilities: getE2EBrowsers(['chrome', 'firefox', 'internet explorer', 'MicrosoftEdge'])
@@ -428,6 +436,7 @@ gulp.task('test:e2e:pre', ['copy:icons:test', 'compile:html:test', 'copy:json:te
 gulp.task('test:macos', ['test:karma:macos', 'test:e2e:pre', 'test:e2e:macos']);
 gulp.task('test:windows', ['test:karma:windows', 'test:e2e:pre', 'test:e2e:windows']);
 gulp.task('test:linux', ['test:karma:linux', 'test:e2e:pre', 'test:e2e:linux']);
+gulp.task('test:bs:ui:essential', ['test:e2e:pre', 'test:e2e:browserstack:essential']);
 
 // Deployment
 gulp.task('build-gh-pages', ['compile:gh-pages', 'compile:html:example',

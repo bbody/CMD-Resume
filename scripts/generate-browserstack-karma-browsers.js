@@ -14,6 +14,7 @@ var config = require('../browserstack/bs-browsers.config.json');
 var browserMap = {};
 var browserList = [];
 var essentialBrowserList = [];
+var essentialBrowserCapabilityList = [];
 
 for (var os of config.operating_systems) {
 	for (var browser of os.browsers) {
@@ -36,7 +37,8 @@ for (var os of config.operating_systems) {
 				"base": "BrowserStack",
 				"browser": browser.name,
 				"os": os.name,
-				"os_version": os.version
+				"os_version": os.version,
+				'browserstack.local': true
 			};
 
 			// If it is essential and the latest version add to essential list
@@ -45,6 +47,7 @@ for (var os of config.operating_systems) {
 				essentialBrowserList.push(essentialKey);
 				browserList.push(key);
 				browserMap[essentialKey] = browserProfile;
+				essentialBrowserCapabilityList.push(browserProfile);
 			}
 
 			browserMap[key] = {...browserProfile, browser_version: version};
@@ -56,6 +59,12 @@ var content = JSON.stringify(browserMap);
 
 
 fs.writeFile('browserstack/bs-customLaunchers.json', content, function(err, data){
+	if (err) {
+		console.error(err);
+	}
+});
+
+fs.writeFile('browserstack/bs-customLaunchers.essential.json', JSON.stringify({browsers: essentialBrowserCapabilityList}), function(err, data){
 	if (err) {
 		console.error(err);
 	}

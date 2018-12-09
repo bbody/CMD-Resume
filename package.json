@@ -34,6 +34,7 @@
   "devDependencies": {
     "bluebird": "^3.5.3",
     "browserify": "^16.2.3",
+    "browserstack-local": "^1.3.7",
     "chromedriver": "^2.43.3",
     "gulp": "^3.9.1",
     "gulp-codeclimate-reporter": "^1.2.0",
@@ -78,6 +79,7 @@
     "requirejs": "^2.3.6",
     "selenium-standalone": "^6.15.4",
     "watchify": "^3.11.0",
+    "wdio-browserstack-service": "^0.1.18",
     "wdio-chromedriver-service": "^0.1.3",
     "wdio-firefox-profile-service": "^0.1.3",
     "wdio-iedriver-service": "^0.1.0",
@@ -104,7 +106,11 @@
     "lint:travis": "travis lint .travis.yml --skip-completion-check",
     "unit-test:bs:all": "gulp test:karma:browserstack",
     "unit-test:bs:essential": "gulp test:karma:browserstack:essential",
+    "ui-test:bs:essential": "gulp test:bs:ui:essential",
+    "test:browserstack:essential": "npm run unit-test:bs:essential && npm run ui-test:bs:essential",
+    "test:browserstack:all": "npm run unit-test:bs:all && npm run ui-test:bs:essential",
     "generate:bs-browsers": "node scripts/generate-browserstack-karma-browsers.js",
+    "bs:essential": "npm run ui-test:bs:essential",
     "doc:build": "markdown-pp ./docs/README.mdpp -o README.md && markdown-pp ./docs/CMD-RESUME-DATA-SCHEMA.mdpp -o CMD-RESUME-DATA-SCHEMA.md && markdown-pp ./docs/CONTRIBUTING.mdpp -o CONTRIBUTING.md"
   },
   "resolutions": {

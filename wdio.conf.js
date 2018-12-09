@@ -12,8 +12,8 @@ exports.config = {
     coloredLogs: true,
     deprecationWarnings: true,
     bail: 0,
-    screenshotPath: 'spec-e2e/screenshots'
-    ,baseUrl: 'http://localhost:4567',
+    screenshotPath: 'spec-e2e/screenshots',
+    baseUrl: 'http://localhost:4567',
     waitforTimeout: 1000,
 
     reporters: ['dot'],
