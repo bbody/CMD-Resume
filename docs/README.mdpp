@@ -14,7 +14,7 @@ CMD-Resume is a Javascript based command line for demonstrating your resume.
 - [Keyboard Polyfill][polyfill]
 
 ### Steps
-1.  Include [jQuery][]]
+1.  Include [jQuery][]
 
 2.  Include [Keyboard Polyfill][polyfill]
 
