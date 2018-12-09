@@ -14,26 +14,19 @@ CMD-Resume is a Javascript based command line for demonstrating your resume.
 - [Keyboard Polyfill][polyfill]
 
 ### Steps
-1.  Include [jQuery][]
-
-2.  Include [Keyboard Polyfill][polyfill]
-
-3.  Include [jQuery Terminal][]
-
-4.  Download *cmd-resume.js* ([Download latest version here][version])
-
-5.  Create a [JSON Resume][] file and upload to a remote directory or add to
-your website project
-
-6.  \[Optional] Create a
-([custom CMD Resume data file and extra commands][schema]) and upload to a
-remote directory or add to your website project
-
-7.  Initialize CMD Resume. **Note:** Settings and CMD Resume custom data are
-both optional variables
-
-!INCLUDECODE "js/examples/example-script.js" (javascript)
-8.  Upload to website
+1. Include [jQuery][]
+2. Include [Keyboard Polyfill][polyfill]
+3. Include [jQuery Terminal][]
+4. Download *cmd-resume.js* ([Download latest version here][version])
+5. Create a [JSON Resume][] file and upload to a remote directory or add to
+   your website project
+6. \[Optional] Create a
+   ([custom CMD Resume data file and extra commands][schema]) and upload to a
+   remote directory or add to your website project
+7. Initialize CMD Resume. **Note:** Settings and CMD Resume custom data are
+   both optional variables
+   !INCLUDECODE "js/examples/example-script.js" (javascript)
+8. Upload to website
 
 ## Browser Compatibility
 !INCLUDE "docs/partials/BROWSER_COMPATIBILITY.md"

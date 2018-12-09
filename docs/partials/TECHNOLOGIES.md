@@ -17,18 +17,14 @@ which are used to develop, test, build and deploy.
 
 -   Testing
     -   [Karma][] - used for running unit testing across multiple browsers
-
     -   [Jasmine][] - used for unit testing
-
     -   [WebdriverIO][] - used for UI testing
 
     -   Web Browsers (Remote) - browser launchers for running the tests on the
         build server
-        -   [Headless Chrome][chrome]
-
-        -   [Headless Firefox][firefox]
-
-        -   [BrowserStack][browserstack] - run tests across a large group of
+        - [Headless Chrome][chrome]
+        - [Headless Firefox][firefox]
+        - [BrowserStack][browserstack] - run tests across a large group of
             browsers
 
     -   Web Browsers (Local) - browser launchers for running the tests on local
@@ -42,41 +38,30 @@ which are used to develop, test, build and deploy.
         - [Edge][karma edge] (Windows Only)
 
 -   Source Checking
-    -   [JSHint][] - used to pick up simple JavaScript problems which could lead
-        to bugs (differs across code, tests and tooling)
-
-    -   [JSCS][] - used to ensure code style is consistent (differs across code,
-        tests and tooling)
-
-    -   [JSON Lint][] - used to check the JSON files creating the resume
-
-    -   [YAML Lint][] - used to lint the Travis file
-
-    -   [Travis Lint][] - used to lint and verify the Travis file according to
-        Travis' recommended format
-
-    -   [Code Climate][] - used to provide code coverage and code quality
-        analysis
+    - [JSHint][] - used to pick up simple JavaScript problems which could lead
+      to bugs (differs across code, tests and tooling)
+    - [JSCS][] - used to ensure code style is consistent (differs across code,
+      tests and tooling)
+    - [JSON Lint][] - used to check the JSON files creating the resume
+    - [YAML Lint][] - used to lint the Travis file
+    - [Travis Lint][] - used to lint and verify the Travis file according to
+      Travis' recommended format
+    - [Code Climate][] - used to provide code coverage and code quality
+      analysis
 
 -   HTML
     - [PugJs][] - used for building HTML through templating
-
 -   JavaScript
     - [Gulp Uglify][] - used for minifying JavaScript code
-
 -   Markdown
     - [Markdown Preprocessor][md pp] - build Markdown from a preprocessor
-
 -   Deployment
     - [Travis CI][] - used to build, run tests and deploy code
-
 -   Release
-    -   [Github Pages][] - used to host example of CMD-Resume
-
-    -   [Github Releases][] - used to package CMD-Resume and host in releases on
-        Github repository
-
-    -   [NPM][] - used to deploy new code to NPM repository
+    - [Github Pages][] - used to host example of CMD-Resume
+    - [Github Releases][] - used to package CMD-Resume and host in releases on
+      Github repository
+    - [NPM][] - used to deploy new code to NPM repository
 
 For more information a list of dependencies please check
 [package.json][package].

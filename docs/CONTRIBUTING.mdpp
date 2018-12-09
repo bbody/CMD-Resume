@@ -8,37 +8,25 @@ There are no specific rules for submitting issues, however if you can follow the
 This guide assumes you are using a command line, if you want to use other tools
  please refer to your own tools documentation.
 
-1.  Clone the Github repository `git clone https://github.com/bbody/CMD-Resume.git`
-
-2.  Change directory to the repository `cd CMD-Resume`
-
-3.  [Install Node and NPM][install] (if not already installed)
-
-4.  Install the dependencies `npm install` and `npm run setup_local`
-
-5.  Install gulp command line tool `npm i -g gulp-cli` or
+1. Clone the Github repository `git clone https://github.com/bbody/CMD-Resume.git`
+2. Change directory to the repository `cd CMD-Resume`
+3. [Install Node and NPM][install] (if not already installed)
+4. Install the dependencies `npm install` and `npm run setup_local`
+5. Install gulp command line tool `npm i -g gulp-cli` or
 `sudo npm i -g gulp-cli` if the first does not work
-
-6.  Test if the running script works `gulp`
+6. Test if the running script works `gulp`
 
 ### Making changes
-1.  Fork the repository
-
-2.  Create a new branch
-
-3.  Create an issue or ask to be assigned to an issue
-
-4.  Run command `gulp`
-
-5.  Make changes and write tests
-
-6.  Ensure tests and source code checking passes
-
-7.  Commit code (Using format of '[:emoji:][emo] Description of change') by
-default :pencil: is prepended to any commit message without an emoji.
-**Optional:** [Change previous commit message][commit]
-
-8.  Create pull request into main branch
+1. Fork the repository
+2. Create a new branch
+3. Create an issue or ask to be assigned to an issue
+4. Run command `gulp`
+5. Make changes and write tests
+6. Ensure tests and source code checking passes
+7. Commit code (Using format of '[:emoji:][emo] Description of change') by
+   default :pencil: is prepended to any commit message without an emoji.
+   **Optional:** [Change previous commit message][commit]
+8. Create pull request into main branch
 
 ## Technologies
 !INCLUDE "docs/partials/TECHNOLOGIES.md"
