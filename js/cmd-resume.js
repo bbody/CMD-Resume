@@ -10,6 +10,11 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 
 	self.commands = {};
 
+	if (isJsonResumeHosted(primaryEndpoint) &&
+		!isJsonFormat(primaryEndpoint)) {
+		primaryEndpoint += ".json";
+	}
+
 	self.allCommands = [
 		{
 			name: "man",

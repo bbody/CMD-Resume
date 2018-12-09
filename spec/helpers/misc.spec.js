@@ -211,4 +211,68 @@ describe("misc", function() {
 			expect(getKeyArray([])).toEqual([]);
 		});
 	});
+
+	describe("JSON Resume Hosted Check", function() {
+		it("Handles a word", function() {
+			expect(isJsonResumeHosted("something")).toBe(false);
+		});
+
+		it("Handles empty string", function() {
+			expect(isJsonResumeHosted("")).toBe(false);
+		});
+
+		it("Handles null", function() {
+			expect(isJsonResumeHosted(null)).toBe(false);
+		});
+
+		it("Handles undefined", function() {
+			expect(isJsonResumeHosted(undefined)).toBe(false);
+		});
+
+		it("Handles no param", function() {
+			expect(isJsonResumeHosted()).toBe(false);
+		});
+
+		it("Handles https", function() {
+			expect(isJsonResumeHosted("https://registry.jsonresume.org/test.json")).toBe(true);
+		});
+
+		it("Handles http", function() {
+			expect(isJsonResumeHosted("http://registry.jsonresume.org/test.json")).toBe(true);
+		});
+
+		it("Invalid url", function() {
+			expect(isJsonResumeHosted("http://www.example.com/test.json")).toBe(false);
+		});
+	});
+
+	describe("JSON File type", function() {
+		it("Handles a word", function() {
+			expect(isJsonFormat("something")).toBe(false);
+		});
+
+		it("Handles empty string", function() {
+			expect(isJsonFormat("")).toBe(false);
+		});
+
+		it("Handles null", function() {
+			expect(isJsonFormat(null)).toBe(false);
+		});
+
+		it("Handles undefined", function() {
+			expect(isJsonFormat(undefined)).toBe(false);
+		});
+
+		it("Handles no param", function() {
+			expect(isJsonFormat()).toBe(false);
+		});
+
+		it("Handles json ending", function() {
+			expect(isJsonFormat("https://registry.jsonresume.org/test.json")).toBe(true);
+		});
+
+		it("Handles no JSON ending", function() {
+			expect(isJsonFormat("http://registry.jsonresume.org/test")).toBe(false);
+		});
+	});
 });

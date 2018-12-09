@@ -59,7 +59,19 @@ var isDefinedNotEmpty = function(object, key, isObject) {
 
 // Checks is hosted on JSON Resume
 var isJsonResumeHosted = function(url) {
+	if (!url || url.length === 0) {
+		return false;
+	}
+
 	// jscs:disable maximumLineLength
-	return url.match(/((http|https):\/\/)registry.jsonresume\.org\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi);
+	var match = url.match(/((http|https):\/\/)registry.jsonresume\.org\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi);
 	// jscs:enable maximumLineLength
+
+	return !!match && match.length > 0;
+};
+
+// Checks if URL ends with JSON
+var isJsonFormat = function(url) {
+	var SUFFIX = ".json";
+	return !!url && (url.indexOf(SUFFIX, url.length - SUFFIX.length) !== -1);
 };
