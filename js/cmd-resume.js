@@ -473,11 +473,12 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				}
 			} else if (value.network.toLowerCase() === "resume") {
 				self.data.basics.pdfLink = value.url;
-			} else if (isJsonResumeHosted(primaryEndpoint)) {
-				// TODO: Change to PDF when it is fixed
-				self.data.basics.pdfLink = value.url.replace(".json", ".html");
 			}
 		});
+
+		if (!!!self.data.basics.pdfLink && isJsonResumeHosted(primaryEndpoint)) {
+			self.data.basics.pdfLink = getHtmlVersion(primaryEndpoint);
+		}
 	};
 
 	self.initGithub = function() {

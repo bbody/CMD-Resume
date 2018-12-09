@@ -72,6 +72,15 @@ var isJsonResumeHosted = function(url) {
 
 // Checks if URL ends with JSON
 var isJsonFormat = function(url) {
-	var SUFFIX = ".json";
-	return !!url && (url.indexOf(SUFFIX, url.length - SUFFIX.length) !== -1);
+	if (!url || url.length === 0) {
+		return false;
+	}
+
+	var match = url.match(/.json$/);
+	return !!match && match.length > 0;
+};
+
+// Get HTML Version of URL
+var getHtmlVersion = function(url) {
+	return url.replace(/.json$/, ".html");
 };
