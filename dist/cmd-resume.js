@@ -1,4 +1,4 @@
-/* v5.0.1 of CMD Resume by Brendon Body(https://github.com/bbody/CMD-Resume.git) */
+/* v5.1.0 of CMD Resume by Brendon Body(https://github.com/bbody/CMD-Resume.git) */
 ;(function($){
   "use strict";
   
@@ -122,6 +122,34 @@
   	var data = getDataFromArrayKey(object, getKeyArray(key));
   
   	return data && (!!isObject || data.length);
+  };
+  
+  // Checks is hosted on JSON Resume
+  var isJsonResumeHosted = function(url) {
+  	if (!url || url.length === 0) {
+  		return false;
+  	}
+  
+  	// jscs:disable maximumLineLength
+  	var match = url.match(/((http|https):\/\/)registry.jsonresume\.org\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi);
+  	// jscs:enable maximumLineLength
+  
+  	return !!match && match.length > 0;
+  };
+  
+  // Checks if URL ends with JSON
+  var isJsonFormat = function(url) {
+  	if (!url || url.length === 0) {
+  		return false;
+  	}
+  
+  	var match = url.match(/.json$/);
+  	return !!match && match.length > 0;
+  };
+  
+  // Get HTML Version of URL
+  var getHtmlVersion = function(url) {
+  	return url.replace(/.json$/, ".html");
   };
   
   // Calculate the formatting
@@ -572,6 +600,11 @@
   	var self = {};
   
   	self.commands = {};
+  
+  	if (isJsonResumeHosted(primaryEndpoint) &&
+  		!isJsonFormat(primaryEndpoint)) {
+  		primaryEndpoint += ".json";
+  	}
   
   	self.allCommands = [
   		{
@@ -1033,6 +1066,10 @@
   				self.data.basics.pdfLink = value.url;
   			}
   		});
+  
+  		if (!!!self.data.basics.pdfLink && isJsonResumeHosted(primaryEndpoint)) {
+  			self.data.basics.pdfLink = getHtmlVersion(primaryEndpoint);
+  		}
   	};
   
   	self.initGithub = function() {
