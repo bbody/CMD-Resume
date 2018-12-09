@@ -10,6 +10,11 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 
 	self.commands = {};
 
+	if (isJsonResumeHosted(primaryEndpoint) &&
+		!isJsonFormat(primaryEndpoint)) {
+		primaryEndpoint += ".json";
+	}
+
 	self.allCommands = [
 		{
 			name: "man",
@@ -470,6 +475,10 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				self.data.basics.pdfLink = value.url;
 			}
 		});
+
+		if (!!!self.data.basics.pdfLink && isJsonResumeHosted(primaryEndpoint)) {
+			self.data.basics.pdfLink = getHtmlVersion(primaryEndpoint);
+		}
 	};
 
 	self.initGithub = function() {
