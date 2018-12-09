@@ -166,7 +166,7 @@ gulp.task('source-check:development', ['compile:development', 'jshint:developmen
 
 gulp.task('source-check:tools', ['jshint:tools', 'jscs:tools']);
 
-gulp.task('source-check:tests', ['jshint:tests', 'jscs:tests', 'jsonlint']);
+gulp.task('source-check:tests', ['jshint:tests', 'jscs:tests', 'jsonlint', 'mdlint']);
 
 gulp.task('jshint:development', function() {
   return gulp.src(OUTPUT)
@@ -211,9 +211,14 @@ gulp.task('jscs:tests', function() {
 });
 
 gulp.task('jsonlint', function() {
-	gulp.src(['**/*.json', '!node_modules/**'])
-		.pipe(jsonlint())
-		.pipe(jsonlint.report('verbose'));
+  gulp.src(['**/*.json', '!node_modules/**'])
+    .pipe(jsonlint())
+    .pipe(jsonlint.report('verbose'));
+});
+
+gulp.task('mdlint', function() {
+  gulp.src(['docs/*.mdpp', 'docs/partials/*.md'])
+    .pipe(remark());
 });
 
 gulp.task('copy:example-script', function() {
