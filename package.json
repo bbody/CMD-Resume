@@ -102,7 +102,7 @@
     "source-check": "gulp source-check && npm run lint:yaml && npm run lint:travis",
     "setup": "gem install travis -v 1.8.9 --no-rdoc --no-ri && sudo pip install yamllint",
     "setup_local": "pip install MarkdownPP && npm run setup",
-    "lint:yaml": "yamllint .travis.yml",
+    "lint:yaml": "yamllint .travis.yml docs/.remarkrc.yaml .yamllint",
     "lint:travis": "travis lint .travis.yml --skip-completion-check",
     "unit-test:bs:all": "gulp test:karma:browserstack",
     "unit-test:bs:essential": "gulp test:karma:browserstack:essential",
