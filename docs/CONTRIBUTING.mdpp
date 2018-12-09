@@ -49,16 +49,16 @@ Run the command `node scripts/release.js {version type}`, where the version type
 
 Releases to:
 - [Github Release][release]
-- [NPM][npm]
-- [Github Pages][github pages]
+- [NPM][]
+- [Github Pages][]
 
 *Note:* Releasing can only be performed by a project admin.
 
+[commit]: https://help.github.com/articles/changing-a-commit-message/
+[emo]: https://github.com/slashsBin/styleguide-git-commit-message
+[github pages]: https://cmd-resume.bbody.io/
 [guide]: https://upthemes.com/blog/2014/02/writing-useful-github-issues/
 [install]: https://docs.npmjs.com/getting-started/installing-node
-[emo]: https://github.com/slashsBin/styleguide-git-commit-message
-[commit]: https://help.github.com/articles/changing-a-commit-message/
-[version]: https://semver.org/
-[release]: https://github.com/bbody/CMD-Resume/releases
 [npm]: https://www.npmjs.com/package/cmd-resume
-[github pages]: https://cmd-resume.bbody.io/
+[release]: https://github.com/bbody/CMD-Resume/releases
+[version]: https://semver.org/

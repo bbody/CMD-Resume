@@ -1,6 +1,6 @@
 # Optional Information
 
-Outside of the [JSON Resume][resume] specifications some
+Outside of the [JSON Resume][] specifications some
 additional data can be provided.
 
 ## Properties
@@ -16,7 +16,7 @@ additional data can be provided.
 -   splash: A ASCII splash screen split into lines (array\[string], optional)
 
 *Note:* Ensure strings are properly escaped, please
-[validate JSON][json validate] first.
+[validate JSON][json lint] first.
 
 [Example file][example], or below:
 
@@ -24,19 +24,22 @@ additional data can be provided.
 
 ## Extra commands
 
-Extra commands can be used to add extra functionality, leveraged with optional information you can extend the functionality of CMD Resume to fit your own unique circumstances.
+Extra commands can be used to add extra functionality, leveraged with optional
+information you can extend the functionality of CMD Resume to fit your own
+unique circumstances.
 
 ### API
 !INCLUDE "docs/partials/EXTRA_COMMANDS_API.md"
 
 ### Overriding commands
 
-Standard commands can be overwritten very easily by ensuring they have the same name. For example, location in the below example.
+Standard commands can be overwritten very easily by ensuring they have the same
+name. For example, location in the below example.
 
 ### Example
 
 !INCLUDECODE "js/examples/example-script.js" (javascript)
 
-[resume]: https://jsonresume.org/
-[json validate]: https://jsonlint.com/
 [example]: https://github.com/bbody/CMD-Resume/blob/master/responses/extra-details.json
+[json lint]: https://jsonlint.com/
+[json resume]: https://jsonresume.org/
