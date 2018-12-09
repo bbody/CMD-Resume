@@ -27,7 +27,8 @@
         "os": "Windows",
         "os_version": "10",
         "browserstack.local": true,
-        "browserstack.selenium_version": "3.5.2"
+        "browserstack.selenium_version": "3.5.2",
+        "browserstack.ie.driver": "3.141.0"
     },
     {
         "base": "BrowserStack",
