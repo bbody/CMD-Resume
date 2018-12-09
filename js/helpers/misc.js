@@ -56,3 +56,10 @@ var isDefinedNotEmpty = function(object, key, isObject) {
 
 	return data && (!!isObject || data.length);
 };
+
+// Checks is hosted on JSON Resume
+var isJsonResumeHosted = function(url) {
+	// jscs:disable maximumLineLength
+	return url.match(/((http|https):\/\/)registry.jsonresume\.org\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi);
+	// jscs:enable maximumLineLength
+};
