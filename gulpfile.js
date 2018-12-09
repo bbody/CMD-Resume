@@ -398,7 +398,7 @@ gulp.task('test:e2e:build', function() {
 });
 
 gulp.task('test:e2e:browserstack:essential', function() {
-	return gulp.src('./wdio.bs-essential.conf.js').pipe(webdriver({
+	return gulp.src('./wdio.browserstack.conf.js').pipe(webdriver({
 		jasmineNodeOpts: {
 			defaultTimeoutInterval: 50000
 		}
