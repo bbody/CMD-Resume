@@ -10,29 +10,12 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 
 	self.commands = {};
 
-	self.commandProcessor = {
-		basic: basicHandlerFunction,
-		array: arrayHandlerFunction,
-		calculated: calculatedHandlerFunction,
-		system: systemHandlerFunction
-	};
-
-	self.CMD = {
-		BASIC: "basic",
-		ARRAY: "array",
-		CALCULATED: "calculated",
-		SYSTEM: "system",
-		getCommand: function(cmd) {
-			return self.commandProcessor[cmd];
-		}
-	};
-
 	self.allCommands = [
 		{
 			name: "man",
 			title: "man".setCommand(),
 			description: "describes what each command does",
-			type: self.CMD.SYSTEM,
+			type: CMD.SYSTEM,
 			handler: function(command) {
 				if (!command) {
 					return "man:".setCommand() + " No command entered.";
@@ -49,7 +32,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Help",
 			description: "lists help for all the commands",
-			type: self.CMD.SYSTEM,
+			type: CMD.SYSTEM,
 			handler: function() {
 				var commands = "Available Commands:".setTitle();
 				$.map(self.commands, function(value, key) {
@@ -65,20 +48,20 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			name: "Name",
 			description: "owner of the résumé",
 			data: ["basics", "name"],
-			type: self.CMD.BASIC
+			type: CMD.BASIC
 		},
 		{
 			name: "About",
 			description: "about me",
 			data: ["basics", "summary"],
-			type: self.CMD.BASIC
+			type: CMD.BASIC
 		},
 		{
 			name: "pdf",
 			title: "Résumé PDF",
 			description: "pdf version of the résumé",
 			data: ["basics", "pdfLink"],
-			type: self.CMD.CALCULATED,
+			type: CMD.CALCULATED,
 			handler: function(data) {
 				window.open(data);
 				return decodeURIComponent(escape(data)) + CONSTANTS.NEW_LINE +
@@ -90,7 +73,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			description: "current location",
 			data: ["basics", "location"],
 			dataIsObject: true,
-			type: self.CMD.CALCULATED,
+			type: CMD.CALCULATED,
 			handler: function(data) {
 				var results = [];
 
@@ -113,12 +96,12 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			name: "Label",
 			description: "title",
 			data: ["basics", "label"],
-			type: self.CMD.BASIC
+			type: CMD.BASIC
 		},
 		{
 			name: "Education",
 			description: "education history",
-			type: self.CMD.ARRAY,
+			type: CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
 					return value.institution;
@@ -135,7 +118,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			name: "Employment",
 			description: "employment history",
 			data: "work",
-			type: self.CMD.ARRAY,
+			type: CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
 					return value.company;
@@ -152,7 +135,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			name: "Volunteering",
 			description: "volunteering history",
 			data: "volunteer",
-			type: self.CMD.ARRAY,
+			type: CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
 					return value.organization;
@@ -171,7 +154,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			description: "social media profiles",
 			data: ["basics", "profiles"],
 			dataIsObject: true,
-			type: self.CMD.CALCULATED,
+			type: CMD.CALCULATED,
 			handler: function(data) {
 				var resultArray = [];
 
@@ -190,7 +173,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Skills",
 			description: "skills obtained",
-			type: self.CMD.CALCULATED,
+			type: CMD.CALCULATED,
 			handler: function(data) {
 				var result = CONSTANTS.EMPTY;
 
@@ -217,7 +200,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Awards",
 			description: "awards obtained",
-			type: self.CMD.ARRAY,
+			type: CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
 					return value.awarder;
@@ -233,7 +216,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Publications",
 			description: "publications produced",
-			type: self.CMD.ARRAY,
+			type: CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
 					return value.publisher;
@@ -249,7 +232,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Languages",
 			description: "languages",
-			type: self.CMD.ARRAY,
+			type: CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
 					return value.language;
@@ -262,7 +245,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "Interests",
 			description: "interests",
-			type: self.CMD.ARRAY,
+			type: CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
 					return value.name ? value.name.setName() : "";
@@ -275,7 +258,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		{
 			name: "References",
 			description: "references",
-			type: self.CMD.ARRAY,
+			type: CMD.ARRAY,
 			handlers: {
 				organisation: function(value) {
 					return value.name ? value.name.setName() : "";
@@ -289,7 +272,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			name: "splash",
 			title: "Splash Screen",
 			description: "print the welcome screen",
-			type: self.CMD.SYSTEM,
+			type: CMD.SYSTEM,
 			handler: function() {
 				var results = CONSTANTS.EMPTY;
 
@@ -319,7 +302,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			name: "pgpkey",
 			title: "PGP Key",
 			description: "public PGP key",
-			type: self.CMD.CALCULATED,
+			type: CMD.CALCULATED,
 			handler: function() {
 				var results = CONSTANTS.EMPTY;
 
@@ -377,9 +360,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	};
 
 	self.showTitle = function(commandType, top) {
-		if (commandType === self.CMD.SYSTEM) {
+		if (commandType === CMD.SYSTEM) {
 			return false;
-		} else if (top && (commandType === self.CMD.ARRAY)) {
+		} else if (top && (commandType === CMD.ARRAY)) {
 			return false;
 		}
 
@@ -394,7 +377,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			result += command.title.setTitle();
 		}
 
-		result += self.CMD.getCommand(command.type)(command, top);
+		result += CMD.getCommand(command.type)(command, top);
 
 		return result;
 	};
@@ -420,8 +403,17 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		};
 	};
 
+	self.addUserCommands = function(commands) {
+		commands.forEach(function(command) {
+			if (isValidCommand(command)) {
+				self.addCommand(command);
+			}
+		});
+
+	};
+
 	self.addCommand = function(command) {
-		if (command.type === self.CMD.SYSTEM ||
+		if (command.type === CMD.SYSTEM ||
 			isDefinedNotEmpty(self.data,
 				command.data ? command.data : command.name.toLowerCase(),
 				!!command.dataIsObject)) {
@@ -431,7 +423,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				type: command.type
 			};
 
-			if (command.type !== self.CMD.SYSTEM) {
+			if (command.type !== CMD.SYSTEM) {
 				tempCommand.data = getDataFromArrayKey(self.data,
 					command.data ? command.data : command.name.toLowerCase());
 			}
@@ -457,6 +449,10 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 	self.initCommands = function() {
 		self.initClear();
 		self.addCommands();
+		if (options.customCommands && Array.isArray(options.customCommands) &&
+			options.customCommands.length) {
+			self.addUserCommands(options.customCommands);
+		}
 	};
 
 	self.initSocialMedia = function() {
@@ -492,7 +488,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 						name: "Github",
 						title: "Github Repositories",
 						description: "list Github repositories",
-						type: self.CMD.BASIC,
+						type: CMD.BASIC,
 						data: "githubCache"
 					});
 				});
@@ -536,6 +532,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 		}
 
 		if (options.extraDetails) {
+
 			$.getJSON(options.extraDetails, function(extraResponse) {
 				self.data.pgpkey = extraResponse.pgpkey;
 
@@ -553,6 +550,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 							CONSTANTS.NEW_LINE);
 					}
 				}
+				self.data.extra = extraResponse;
 				self.init(options);
 			});
 		} else {

@@ -69,14 +69,6 @@ describe("Simple", function() {
 		expect(commandOutput.values.length).toBeGreaterThan(1);
 	});
 
-	it("returns pdf", function(){
-		var beforeOpenTabs = browser.getTabIds().length;
-		var currentWindowHandle = browser.windowHandle();
-		helper.keyboard.typeCommand(browser, 'pdf');
-
-		expect(beforeOpenTabs + 1).toBe(browser.getTabIds().length);
-	});
-
 	describe("man", function(){
 		beforeEach(function(){
 			browser.url('/');

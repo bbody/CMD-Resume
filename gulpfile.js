@@ -98,6 +98,10 @@ function getE2EBrowsers(browserList, headless) {
 			capability.include = ['spec-e2e/chrome-safari/*.spec.js'];
 		}
 
+		if (browser === 'firefox' || browser === 'chrome') {
+			capability.include = ['spec-e2e/chrome-firefox/*.spec.js'];
+		}
+
 		if (headless && browser === 'firefox') {
 			capability['moz:firefoxOptions'] = {
 				args: ['-headless'],

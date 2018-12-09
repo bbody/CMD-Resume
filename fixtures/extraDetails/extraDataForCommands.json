@@ -1,0 +1,24 @@
+{
+    "spiritanimal": "Cassowary",
+    "countriestravelledto": [
+    {
+        "name": "USA",
+        "cities": ["Chicago", "New York", "Los Angeles"],
+        "timeperiod": "2018"
+    },
+    {
+        "name": "Canada",
+        "cities": ["Toronto", "Vancouver"],
+        "timeperiod": "2017"
+    },
+    {
+        "name": "Australia",
+        "cities": ["Brisbane", "Sydney", "Melbourne"],
+        "timeperiod": "All my life"
+    }],
+    "project_start":
+    {
+        "unixtime": 1378645853000,
+        "motivation": "try and find a job"
+    }
+}
