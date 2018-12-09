@@ -32,7 +32,7 @@ CMD-Resume is a Javascript based command line for demonstrating your resume.
 - [Keyboard Polyfill][polyfill]
 
 ### Steps
-1.  Include [jQuery][]]
+1.  Include [jQuery][]
 
 2.  Include [Keyboard Polyfill][polyfill]
 
@@ -138,7 +138,7 @@ $(document).ready(function() {
 
 ## Browser Compatibility
 | ![Chrome][] | ![Firefox][] | ![Edge][] | ![Safari][] | ![Opera][] | ![IE][]   |
-|: --------- :|: ---------- :|: ------- :|: --------- :|: -------- :|: ------- :|
+|:-----------:|:------------:|:---------:|:-----------:|:----------:|:---------:|
 | 70 - 68 ✔   | 63 - 61 ✔    | 17 - 15 ✔ | 12 - 10 ✔   | 56 - 54 ✔  | 11 - 10 ✔ |
 
 Assets from [Browser Logos][].
