@@ -156,7 +156,8 @@ $(document).ready(function() {
                 description: "checks if geolocation is enabled",
                 type: "system",
                 handler: function() {
-                    return "Geolocation is " + (navigator.geolocation ?  "" : "not ") + "supported for this browser";
+                    return "Geolocation is " + (navigator.geolocation ?  "" : "not ") +
+                        "supported for this browser";
                 }
             },
             {
