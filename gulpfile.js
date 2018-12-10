@@ -61,7 +61,7 @@ function compiledCode(destination, minified, versioned) {
 		.pipe(concat(minified ? 'cmd-resume.min.js' : 'cmd-resume.js'));
 
 	stream.pipe(inject.prepend(';(function($){\n"use strict";\n\n'))
-		.pipe(inject.afterEach('\n', '	'))
+		.pipe(inject.afterEach('\n', '  '))
 		.pipe(inject.append('\n}(jQuery));'));
 
 	if (minified) {
