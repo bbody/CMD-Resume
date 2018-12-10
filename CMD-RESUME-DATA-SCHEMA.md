@@ -5,15 +5,12 @@ additional data can be provided.
 
 ## Properties
 
--   github: A Github user name (string, optional) - will overwrite the social
-    media profile Github (If it exists)
-
--   pgpkey: A PGP Key separated into lines (array\[string], optional)
-
--   pdf: A link to a PDF resume (string, optional) - will overwrite the social
-    media profile resume (If it exists)
-
--   splash: A ASCII splash screen split into lines (array\[string], optional)
+- github: A Github user name (string, optional) - will overwrite the social
+  media profile Github (If it exists)
+- pgpkey: A PGP Key separated into lines (array\[string], optional)
+- pdf: A link to a PDF resume (string, optional) - will overwrite the social
+  media profile resume (If it exists)
+- splash: A ASCII splash screen split into lines (array\[string], optional)
 
 *Note:* Ensure strings are properly escaped, please
 [validate JSON][json lint] first.
@@ -110,17 +107,14 @@ unique circumstances.
 ### API
 #### Types of commands
 
--   `basic` - a basic command that will just return the string value of data
-    argument
-
--   `system` - a command that will not rely on any data and purely uses the
-    browse or jQuery Terminal API
-
--   `calculated` - a command that will perform a basic operation on the data
-    argument
-
--   `array` - a command that will take an array and perform a series of
-    operations to display it
+- `basic` - a basic command that will just return the string value of data
+   argument
+- `system` - a command that will not rely on any data and purely uses the
+   browse or jQuery Terminal API
+- `calculated` - a command that will perform a basic operation on the data
+   argument
+- `array` - a command that will take an array and perform a series of
+   operations to display it
 
 #### Required parameters
 

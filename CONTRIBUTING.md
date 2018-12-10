@@ -8,37 +8,25 @@ There are no specific rules for submitting issues, however if you can follow the
 This guide assumes you are using a command line, if you want to use other tools
  please refer to your own tools documentation.
 
-1.  Clone the Github repository `git clone https://github.com/bbody/CMD-Resume.git`
-
-2.  Change directory to the repository `cd CMD-Resume`
-
-3.  [Install Node and NPM][install] (if not already installed)
-
-4.  Install the dependencies `npm install` and `npm run setup_local`
-
-5.  Install gulp command line tool `npm i -g gulp-cli` or
+1. Clone the Github repository `git clone https://github.com/bbody/CMD-Resume.git`
+2. Change directory to the repository `cd CMD-Resume`
+3. [Install Node and NPM][install] (if not already installed)
+4. Install the dependencies `npm install` and `npm run setup_local`
+5. Install gulp command line tool `npm i -g gulp-cli` or
 `sudo npm i -g gulp-cli` if the first does not work
-
-6.  Test if the running script works `gulp`
+6. Test if the running script works `gulp`
 
 ### Making changes
-1.  Fork the repository
-
-2.  Create a new branch
-
-3.  Create an issue or ask to be assigned to an issue
-
-4.  Run command `gulp`
-
-5.  Make changes and write tests
-
-6.  Ensure tests and source code checking passes
-
-7.  Commit code (Using format of '[:emoji:][emo] Description of change') by
-default :pencil: is prepended to any commit message without an emoji.
-**Optional:** [Change previous commit message][commit]
-
-8.  Create pull request into main branch
+1. Fork the repository
+2. Create a new branch
+3. Create an issue or ask to be assigned to an issue
+4. Run command `gulp`
+5. Make changes and write tests
+6. Ensure tests and source code checking passes
+7. Commit code (Using format of '[:emoji:][emo] Description of change') by
+   default :pencil: is prepended to any commit message without an emoji.
+   **Optional:** [Change previous commit message][commit]
+8. Create pull request into main branch
 
 ## Technologies
 Despite CMD-Resume being quite simple there are quite a few packages and tools
@@ -46,36 +34,33 @@ which are used to develop, test, build and deploy.
 
 ![Build Flow][]
 
--   Run Dependencies
+- Run Dependencies
     - [jQuery Terminal][] - required for getting a terminal inside web browser
     - [jQuery Mousewheel][] - optional for improving mousewheel functionality
     - [jQuery][] - required for libraries and for core CMD-Resume functions
 
--   Dependency Management
+
+- Dependency Management
     - [NodeJS][node] - required for running NPM
     - [NPM][] - required for installing dependencies
 
--   Building
+
+- Building
     - [Gulp][] - required for running tasks for development and deployment
 
--   Testing
-    -   [Karma][] - used for running unit testing across multiple browsers
 
-    -   [Jasmine][] - used for unit testing
-
-    -   [WebdriverIO][] - used for UI testing
-
-    -   Web Browsers (Remote) - browser launchers for running the tests on the
-        build server
-        -   [Headless Chrome][chrome]
-
-        -   [Headless Firefox][firefox]
-
-        -   [BrowserStack][browserstack] - run tests across a large group of
+- Testing
+    - [Karma][] - used for running unit testing across multiple browsers
+    - [Jasmine][] - used for unit testing
+    - [WebdriverIO][] - used for UI testing
+    - Web Browsers (Remote) - browser launchers for running the tests on the
+      build server
+        - [Headless Chrome][chrome]
+        - [Headless Firefox][firefox]
+        - [BrowserStack][browserstack] - run tests across a large group of
             browsers
-
-    -   Web Browsers (Local) - browser launchers for running the tests on local
-        machine
+    - Web Browsers (Local) - browser launchers for running the tests on local
+      machine
         - [Headless Chrome][chrome]
         - [Headless Firefox][firefox]
         - [Chrome][karma chrome]
@@ -84,42 +69,35 @@ which are used to develop, test, build and deploy.
         - [Internet Explorer][karma ie] (Windows Only)
         - [Edge][karma edge] (Windows Only)
 
--   Source Checking
-    -   [JSHint][] - used to pick up simple JavaScript problems which could lead
-        to bugs (differs across code, tests and tooling)
 
-    -   [JSCS][] - used to ensure code style is consistent (differs across code,
-        tests and tooling)
+- Source Checking
+    - [JSHint][] - used to pick up simple JavaScript problems which could lead
+      to bugs (differs across code, tests and tooling)
+    - [JSCS][] - used to ensure code style is consistent (differs across code,
+      tests and tooling)
+    - [JSON Lint][] - used to check the JSON files creating the resume
+    - [YAML Lint][] - used to lint the Travis file
+    - [Travis Lint][] - used to lint and verify the Travis file according to
+      Travis' recommended format
+    - [Code Climate][] - used to provide code coverage and code quality
+      analysis
 
-    -   [JSON Lint][] - used to check the JSON files creating the resume
 
-    -   [YAML Lint][] - used to lint the Travis file
-
-    -   [Travis Lint][] - used to lint and verify the Travis file according to
-        Travis' recommended format
-
-    -   [Code Climate][] - used to provide code coverage and code quality
-        analysis
-
--   HTML
+- HTML
     - [PugJs][] - used for building HTML through templating
-
--   JavaScript
+- JavaScript
     - [Gulp Uglify][] - used for minifying JavaScript code
-
--   Markdown
+- Markdown
     - [Markdown Preprocessor][md pp] - build Markdown from a preprocessor
-
--   Deployment
+- Deployment
     - [Travis CI][] - used to build, run tests and deploy code
 
--   Release
-    -   [Github Pages][] - used to host example of CMD-Resume
 
-    -   [Github Releases][] - used to package CMD-Resume and host in releases on
-        Github repository
-
-    -   [NPM][] - used to deploy new code to NPM repository
+- Release
+    - [Github Pages][] - used to host example of CMD-Resume
+    - [Github Releases][] - used to package CMD-Resume and host in releases on
+      Github repository
+    - [NPM][] - used to deploy new code to NPM repository
 
 For more information a list of dependencies please check
 [package.json][package].

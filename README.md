@@ -32,109 +32,19 @@ CMD-Resume is a Javascript based command line for demonstrating your resume.
 - [Keyboard Polyfill][polyfill]
 
 ### Steps
-1.  Include [jQuery][]
-
-2.  Include [Keyboard Polyfill][polyfill]
-
-3.  Include [jQuery Terminal][]
-
-4.  Download *cmd-resume.js* ([Download latest version here][version])
-
-5.  Create a [JSON Resume][] file and upload to a remote directory or add to
-your website project
-
-6.  \[Optional] Create a
-([custom CMD Resume data file and extra commands][schema]) and upload to a
-remote directory or add to your website project
-
-7.  Initialize CMD Resume. **Note:** Settings and CMD Resume custom data are
-both optional variables
-
-```javascript
-$(document).ready(function() {
-    var settings = {
-        showForks: false,
-        title: {
-            color: "white",
-            bold: false,
-            italic: true
-        },
-        command: {
-            color: "green",
-            bold: true,
-            italic: false,
-            backgroundColor: "pink"
-        },
-        name: {
-            color: "purple"
-        },
-        extraDetails: "responses/extra-details.json",
-        customCommands: [
-            {
-                name: "spiritanimal",
-                title: "Spirit Animal",
-                description: "the animal I most identify with",
-                type: "basic",
-                data: ["extra", "spiritanimal"]
-            },
-            {
-                name: "geolocation",
-                title: "Geolocation",
-                description: "checks if geolocation is enabled",
-                type: "system",
-                handler: function() {
-                    return "Geolocation is " + (navigator.geolocation ?  "" : "not ") +
-                        "supported for this browser";
-                }
-            },
-            {
-                name: "projectyears",
-                title: "Project Years",
-                description: "years since the project started",
-                type: "calculated",
-                data: ["extra", "project_start"],
-                dataIsObject: true,
-                handler: function(value) {
-                    var startYear = (new Date(value.unixtime)).getFullYear();
-                    var endYear = (new Date()).getFullYear();
-                    return "Started " + (endYear - startYear) + " years ago to " + value.motivation;
-                }
-            },
-            {
-                name: "countries",
-                title: "Countries",
-                description: "countries that I've been to",
-                type: "array",
-                data: ["extra", "countriestravelledto"],
-                handlers: {
-                    organisation: function(value) {
-                        return value.name;
-                    },
-                    title: function(value) {
-                        return value.cities.join(", ");
-                    },
-                    date: function(value) {
-                        return value.timeperiod;
-                    }
-                }
-            },
-            {
-                name: "location",
-                title: "Location",
-                description: "current location",
-                type: "calculated",
-                data: ["basics", "location"],
-                dataIsObject: true,
-                handler: function(data) {
-                    return "The great city of " + data.city;
-                }
-            }
-        ]
-    };
-    $("body").CMDResume("responses/details.json", settings);
-});
-```
-8.  Upload to website
+1. Include [jQuery][]
+2. Include [Keyboard Polyfill][polyfill]
+3. Include [jQuery Terminal][]
+4. Download *cmd-resume.js* ([Download latest version here][version])
+5. Create a [JSON Resume][] file and upload to a remote directory or add to
+   your website project
+6. \[Optional] Create a
+   ([custom CMD Resume data file and extra commands][schema]) and upload to a
+   remote directory or add to your website project
+7. Initialize CMD Resume. **Note:** Settings and CMD Resume custom data are
+   both optional variables
+   !INCLUDECODE "js/examples/example-script.js" (javascript)
+8. Upload to website
 
 ## Browser Compatibility
 | ![Chrome][] | ![Firefox][] | ![Edge][] | ![Safari][] | ![Opera][] | ![IE][]   |
