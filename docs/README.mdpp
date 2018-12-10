@@ -25,7 +25,7 @@ CMD-Resume is a Javascript based command line for demonstrating your resume.
    remote directory or add to your website project
 7. Initialize CMD Resume. **Note:** Settings and CMD Resume custom data are
    both optional variables
-   !INCLUDECODE "js/examples/example-script.js" (javascript)
+!INCLUDECODE "js/examples/example-script.js" (javascript)
 8. Upload to website
 
 ## Browser Compatibility
