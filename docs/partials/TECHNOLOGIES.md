@@ -3,32 +3,33 @@ which are used to develop, test, build and deploy.
 
 ![Build Flow][]
 
--   Run Dependencies
+- Run Dependencies
     - [jQuery Terminal][] - required for getting a terminal inside web browser
     - [jQuery Mousewheel][] - optional for improving mousewheel functionality
     - [jQuery][] - required for libraries and for core CMD-Resume functions
 
--   Dependency Management
+
+- Dependency Management
     - [NodeJS][node] - required for running NPM
     - [NPM][] - required for installing dependencies
 
--   Building
+
+- Building
     - [Gulp][] - required for running tasks for development and deployment
 
--   Testing
-    -   [Karma][] - used for running unit testing across multiple browsers
-    -   [Jasmine][] - used for unit testing
-    -   [WebdriverIO][] - used for UI testing
 
-    -   Web Browsers (Remote) - browser launchers for running the tests on the
-        build server
+- Testing
+    - [Karma][] - used for running unit testing across multiple browsers
+    - [Jasmine][] - used for unit testing
+    - [WebdriverIO][] - used for UI testing
+    - Web Browsers (Remote) - browser launchers for running the tests on the
+      build server
         - [Headless Chrome][chrome]
         - [Headless Firefox][firefox]
         - [BrowserStack][browserstack] - run tests across a large group of
             browsers
-
-    -   Web Browsers (Local) - browser launchers for running the tests on local
-        machine
+    - Web Browsers (Local) - browser launchers for running the tests on local
+      machine
         - [Headless Chrome][chrome]
         - [Headless Firefox][firefox]
         - [Chrome][karma chrome]
@@ -37,7 +38,8 @@ which are used to develop, test, build and deploy.
         - [Internet Explorer][karma ie] (Windows Only)
         - [Edge][karma edge] (Windows Only)
 
--   Source Checking
+
+- Source Checking
     - [JSHint][] - used to pick up simple JavaScript problems which could lead
       to bugs (differs across code, tests and tooling)
     - [JSCS][] - used to ensure code style is consistent (differs across code,
@@ -49,15 +51,18 @@ which are used to develop, test, build and deploy.
     - [Code Climate][] - used to provide code coverage and code quality
       analysis
 
--   HTML
+
+- HTML
     - [PugJs][] - used for building HTML through templating
--   JavaScript
+- JavaScript
     - [Gulp Uglify][] - used for minifying JavaScript code
--   Markdown
+- Markdown
     - [Markdown Preprocessor][md pp] - build Markdown from a preprocessor
--   Deployment
+- Deployment
     - [Travis CI][] - used to build, run tests and deploy code
--   Release
+
+
+- Release
     - [Github Pages][] - used to host example of CMD-Resume
     - [Github Releases][] - used to package CMD-Resume and host in releases on
       Github repository
