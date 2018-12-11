@@ -23,6 +23,13 @@
     },
     {
         "base": "BrowserStack",
+        "browser": "Safari",
+        "os": "OS X",
+        "os_version": "Mojave",
+        "browserstack.local": true
+    },
+    {
+        "base": "BrowserStack",
         "browser": "Chrome",
         "os": "OS X",
         "os_version": "Mojave",
