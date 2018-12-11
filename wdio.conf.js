@@ -13,7 +13,7 @@ exports.config = {
     deprecationWarnings: true,
     bail: 0,
     screenshotPath: 'spec-e2e/screenshots',
-    baseUrl: 'http://localhost:5000',
+    baseUrl: 'http://localhost:63342',
     waitforTimeout: 1000,
 
     reporters: ['dot'],
@@ -36,7 +36,7 @@ exports.config = {
         { mount: '/', path: './test_tmp' },
         { mount: '/node_modules', path: './node_modules' }
     ],
-    staticServerPort: 5000,
+    staticServerPort: 63342,
 
     // Firefox workaround
     seleniumArgs: {drivers: Object.assign({}, require('selenium-standalone/lib/default-config').drivers, {firefox: {version: '0.23.0'}})},
