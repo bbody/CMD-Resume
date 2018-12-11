@@ -17,6 +17,13 @@
     },
     {
         "base": "BrowserStack",
+        "browser": "Edge",
+        "os": "Windows",
+        "os_version": "10",
+        "browserstack.local": true
+    },
+    {
+        "base": "BrowserStack",
         "browser": "Safari",
         "os": "OS X",
         "os_version": "Mojave",
