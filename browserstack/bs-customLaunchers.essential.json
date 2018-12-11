@@ -3,7 +3,7 @@
     {
         "base": "BrowserStack",
         "browser": "Chrome",
-        "br_version": "70.0",
+        "browser_version": "70.0",
         "os": "Windows",
         "os_version": "10",
         "browserstack.local": true
