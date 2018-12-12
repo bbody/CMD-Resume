@@ -1,17 +1,21 @@
 # Optional Information
 
-Outside of the [JSON Resume](https://jsonresume.org/) specifications some additional data can be provided.
+Outside of the [JSON Resume][] specifications some
+additional data can be provided.
 
 ## Properties
 
-- github: A Github user name (string, optional) - will overwrite the social media profile Github (If it exists)
-- pgpkey: A PGP Key separated into lines (array[string], optional)
-- pdf: A link to a PDF resume (string, optional) - will overwrite the social media profile resume (If it exists)
-- splash: A ASCII splash screen split into lines (array[string], optional)
+- github: A Github user name (string, optional) - will overwrite the social
+  media profile Github (If it exists)
+- pgpkey: A PGP Key separated into lines (array\[string], optional)
+- pdf: A link to a PDF resume (string, optional) - will overwrite the social
+  media profile resume (If it exists)
+- splash: A ASCII splash screen split into lines (array\[string], optional)
 
-*Note:* Ensure strings are properly escaped, please [validate JSON](https://jsonlint.com/) first.
+*Note:* Ensure strings are properly escaped, please
+[validate JSON][json lint] first.
 
-[Example file](https://github.com/bbody/CMD-Resume/blob/master/responses/extra-details.json), or below:
+[Example file][example], or below:
 
 ```json
 {
@@ -96,30 +100,38 @@ Outside of the [JSON Resume](https://jsonresume.org/) specifications some additi
 
 ## Extra commands
 
-Extra commands can be used to add extra functionality, leveraged with optional information you can extend the functionality of CMD Resume to fit your own unique circumstances.
+Extra commands can be used to add extra functionality, leveraged with optional
+information you can extend the functionality of CMD Resume to fit your own
+unique circumstances.
 
 ### API
 #### Types of commands
 
-* `basic` - a basic command that will just return the string value of data argument
-* `system` - a command that will not rely on any data and purely uses the browse or jQuery Terminal API
-* `calculated` - a command that will perform a basic operation on the data argument
-* `array` - a command that will take an array and perform a series of operations to display it
+- `basic` - a basic command that will just return the string value of data
+   argument
+- `system` - a command that will not rely on any data and purely uses the
+   browse or jQuery Terminal API
+- `calculated` - a command that will perform a basic operation on the data
+   argument
+- `array` - a command that will take an array and perform a series of
+   operations to display it
 
 #### Required parameters
 
-type | name | title | description | data | handler | handlers |
---- |:---:|:---:|:---:|:---:|:---:|:---:|
-basic | ✔ | - | ✔ | ✔ | ✖ | ✖ |
-system | ✔ | - | ✔ | ✖ | ✔ | ✖ |
-calculated | ✔ | - | ✔ | ✔ | ✔ | ✖ |
-array | ✔ | - | ✔ | ✔ | ✖ | ✔ |
+| type       | name | title | description | data | handler | handlers |
+| ---------- |:----:|:-----:|:-----------:|:----:|:-------:|:--------:|
+| basic      | ✔    | -     | ✔           | ✔    | ✖       | ✖        |
+| system     | ✔    | -     | ✔           | ✖    | ✔       | ✖        |
+| calculated | ✔    | -     | ✔           | ✔    | ✔       | ✖        |
+| array      | ✔    | -     | ✔           | ✔    | ✖       | ✔        |
 
-*Note:* `title` is never a required field and will default to the same value as `name`
+*Note:* `title` is never a required field and will default to the same value as
+`name`
 
 ### Overriding commands
 
-Standard commands can be overwritten very easily by ensuring they have the same name. For example, location in the below example.
+Standard commands can be overwritten very easily by ensuring they have the same
+name. For example, location in the below example.
 
 ### Example
 
@@ -207,3 +219,7 @@ $(document).ready(function() {
     $("body").CMDResume("responses/details.json", settings);
 });
 ```
+
+[example]: https://github.com/bbody/CMD-Resume/blob/master/responses/extra-details.json
+[json lint]: https://jsonlint.com/
+[json resume]: https://jsonresume.org/

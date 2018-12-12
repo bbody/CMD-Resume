@@ -2,24 +2,29 @@
 
 # CMD Resume
 ## Description
-CMD-Resume is a Javascript based command line for demonstrating your resume. [Here](http://cmd-resume.bbody.io/) is an example of a resume in a command line.
+CMD-Resume is a Javascript based command line for demonstrating your resume.
+[Here][cmd example] is an example of a resume in a command line.
 
-![CMD Resume Screenshot](https://raw.githubusercontent.com/bbody/CMD-Resume/master/docs/images/output.gif "CMD Resume Screenshot")
+![CMD Resume Screenshot][cmd example image]
 
 ## Setup
 ### Prerequisites
-- [jQuery 3.X.X](https://jquery.com/)
-- [jQuery Terminal 2.0.1](http://terminal.jcubic.pl/)
-- [Keyboard Polyfill](https://rawgit.com/inexorabletash/polyfill/master/keyboard.js)
+- [jQuery 3.X.X][jquery]
+- [jQuery Terminal 2.0.1][jquery terminal]
+- [Keyboard Polyfill][polyfill]
 
 ### Steps
-1. Include [jQuery](https://jquery.com/)
-2. Include [Keyboard Polyfill](https://rawgit.com/inexorabletash/polyfill/master/keyboard.js)
-3. Include [jQuery Terminal](http://terminal.jcubic.pl/)
-4. Download *cmd-resume.js* ([Download latest version here](https://github.com/bbody/CMD-Resume/releases/latest))
-5. Create a [JSON Resume](https://jsonresume.org/) file and upload to a remote directory or add to your website project
-6. [Optional] Create a ([custom CMD Resume data file and extra commands](CMD-RESUME-DATA-SCHEMA.md)) and upload to a remote directory or add to your website project
-7. Initialize CMD Resume. **Note:** Settings and CMD Resume custom data are both optional variables
+1. Include [jQuery][]
+2. Include [Keyboard Polyfill][polyfill]
+3. Include [jQuery Terminal][]
+4. Download *cmd-resume.js* ([Download latest version here][version])
+5. Create a [JSON Resume][] file and upload to a remote directory or add to
+   your website project
+6. \[Optional] Create a
+   ([custom CMD Resume data file and extra commands][schema]) and upload to a
+   remote directory or add to your website project
+7. Initialize CMD Resume. **Note:** Settings and CMD Resume custom data are
+   both optional variables
 !INCLUDECODE "js/examples/example-script.js" (javascript)
 8. Upload to website
 
@@ -27,9 +32,23 @@ CMD-Resume is a Javascript based command line for demonstrating your resume. [He
 !INCLUDE "docs/partials/BROWSER_COMPATIBILITY.md"
 
 ## Bugs and suggestions
-If you find any bugs or have any suggestions on how to improve CMD Resume please post in the [Github issues](https://github.com/bbody/CMD-Resume/issues).
+If you find any bugs or have any suggestions on how to improve CMD Resume please
+post in the [Github issues][issues].
 
 ## How to contribute
-If you wish to work on existing issues please check out the [Github issues](https://github.com/bbody/CMD-Resume/issues).
+If you wish to work on existing issues please check out the
+[Github issues][issues].
 
-If you wish to contribute feel please read the [Contribution Guide](CONTRIBUTING.md).
+If you wish to contribute feel please read the [Contribution Guide][contribute].
+
+[cmd example]: http://cmd-resume.bbody.io/
+[cmd example image]: https://raw.githubusercontent.com/bbody/CMD-Resume/master/docs/images/output.gif "CMD Resume Screenshot"
+[contribute]: CONTRIBUTING.md
+[issues]: https://github.com/bbody/CMD-Resume/issues
+[jquery]: https://jquery.com/
+[jquery mousewheel]: https://github.com/jquery/jquery-mousewheel
+[jquery terminal]: http://terminal.jcubic.pl/
+[json resume]: https://jsonresume.org/
+[polyfill]: https://rawgit.com/inexorabletash/polyfill/master/keyboard.js
+[schema]: CMD-RESUME-DATA-SCHEMA.md
+[version]: https://github.com/bbody/CMD-Resume/releases/latest

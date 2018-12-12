@@ -3,6 +3,7 @@
     {
         "base": "BrowserStack",
         "browser": "Chrome",
+        "browser_version": "70.0",
         "os": "Windows",
         "os_version": "10",
         "browserstack.local": true
@@ -19,6 +20,13 @@
         "browser": "Edge",
         "os": "Windows",
         "os_version": "10",
+        "browserstack.local": true
+    },
+    {
+        "base": "BrowserStack",
+        "browser": "Safari",
+        "os": "OS X",
+        "os_version": "Mojave",
         "browserstack.local": true
     },
     {
