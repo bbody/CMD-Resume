@@ -1,6 +1,6 @@
 /* File: gulpfile.js */
 
-// Dependancies
+// Dependencies
 var gulp = require('gulp'),
 	jshint = require('gulp-jshint'),
 	uglify = require('gulp-uglify'),
@@ -11,6 +11,7 @@ var gulp = require('gulp'),
 	Server = require('karma').Server,
 	pug = require('gulp-pug'),
 	jsonlint = require('gulp-json-lint'),
+	remark = require('gulp-remark'),
 	webdriver = require('gulp-webdriver'),
 	package = require('./package.json');
 
@@ -165,7 +166,7 @@ gulp.task('source-check:development', ['compile:development', 'jshint:developmen
 
 gulp.task('source-check:tools', ['jshint:tools', 'jscs:tools']);
 
-gulp.task('source-check:tests', ['jshint:tests', 'jscs:tests', 'jsonlint']);
+gulp.task('source-check:tests', ['jshint:tests', 'jscs:tests', 'jsonlint', 'mdlint']);
 
 gulp.task('jshint:development', function() {
 	return gulp.src(OUTPUT)
@@ -213,6 +214,11 @@ gulp.task('jsonlint', function() {
 	gulp.src(['**/*.json', '!node_modules/**'])
 		.pipe(jsonlint())
 		.pipe(jsonlint.report('verbose'));
+});
+
+gulp.task('mdlint', function() {
+	gulp.src(['docs/*.mdpp', 'docs/partials/*.md'])
+		.pipe(remark());
 });
 
 gulp.task('copy:example-script', function() {
