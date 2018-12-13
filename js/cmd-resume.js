@@ -521,10 +521,6 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 
 		self.settings = {
 			greetings: self.commands.splash.handler(),
-			onBlur: function() {
-				// Prevent loosing focus
-				return false;
-			},
 			completion: self.commandList
 		};
 	};

@@ -7,7 +7,7 @@
     "jquery-plugin",
     "ecosystem:jquery"
   ],
-  "version": "5.2.0",
+  "version": "5.3.0",
   "author": {
     "name": "Brendon Body",
     "url": "https://github.com/bbody"
