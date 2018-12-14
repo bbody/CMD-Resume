@@ -45,6 +45,7 @@ before_deploy:
   - npm run release
   - npm run gh-pages
   - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
+  - npm run doc:build
 deploy:
   - provider: releases
     skip_cleanup: true
@@ -72,6 +73,8 @@ deploy:
     on:
       branch: master
       tags: true
+  - provider: script
+    script: node scripts/doc-release.js
 after_success:
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < coverage/lcov.info
