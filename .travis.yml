@@ -38,7 +38,6 @@ addons:
     packages:
       - g++-4.8
       - code_climate
-      - python3
 before_install:
   - jdk_switcher use oraclejdk8
   - npm run setup
@@ -47,6 +46,7 @@ before_deploy:
   - npm run gh-pages
   - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
   - npm run doc:build
+  - pip install pyOpenSSL ndg-httpsclient pyasn1
 deploy:
   - provider: releases
     skip_cleanup: true
