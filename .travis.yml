@@ -75,7 +75,7 @@ deploy:
       branch: master
       tags: true
   - provider: script
-    script: git add CMD-RESUME-DATA-SCHEMA.md README.md CONTRIBUTING.md && git commit -m ":books: Compile documentation" && git push origin doc-build
+    script: node scripts/doc-release.js
     on:
       branch: doc-build
 after_success:
