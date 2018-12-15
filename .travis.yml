@@ -12,7 +12,7 @@ before_script:
   - >
     wget
     https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-  - sudo dpkg -i google-chrome*.deb¡
+  - sudo dpkg -i google-chrome*.deb
   - sudo apt install firefox
   - npm install
   - npm install -g gulp-cli
