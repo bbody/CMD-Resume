@@ -40,7 +40,6 @@ addons:
       - code_climate
 before_install:
   - jdk_switcher use oraclejdk8
-  - pip install --upgrade pip
   - npm run setup
 before_deploy:
   - npm run release
