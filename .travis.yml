@@ -16,6 +16,7 @@ before_script:
   - sudo apt install firefox
   - npm install
   - npm install -g gulp-cli
+  - sudo pip install MarkdownPP
 script:
   - |
     if [ $TRAVIS_EVENT_TYPE == "cron" ];then
