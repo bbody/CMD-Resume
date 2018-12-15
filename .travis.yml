@@ -17,14 +17,6 @@ before_script:
   - npm install
   - npm install -g gulp-cli
   - sudo pip install MarkdownPP
-script:
-  - |
-    if [ $TRAVIS_EVENT_TYPE == "cron" ];then
-    npm run test:build && travis_wait 60 npm run test:browserstack:all
-    else
-    npm run test:build && travis_wait 60 npm run test:browserstack:essential
-    fi
-  - npm run source-check
 cache:
   directories:
     - node_modules

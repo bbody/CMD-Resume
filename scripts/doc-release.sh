@@ -6,8 +6,10 @@ setup_git() {
 }
 
 commit_website_files() {
-  git checkout doc-build
-  git add CMD-RESUME-DATA-SCHEMA.md README.md CONTRIBUTING.md
+  git checkout doc-build HEAD
+  git add CMD-RESUME-DATA-SCHEMA.md
+  git add README.md
+  git add CONTRIBUTING.md
   git commit --message ":books: Compile documentation"
 }
 
