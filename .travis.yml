@@ -12,7 +12,7 @@ before_script:
   - >
     wget
     https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-  - sudo dpkg -i google-chrome*.deb
+  - sudo dpkg -i google-chrome*.deb¡
   - sudo apt install firefox
   - npm install
   - npm install -g gulp-cli
@@ -67,9 +67,7 @@ deploy:
       branch: master
       tags: true
   - provider: script
-    script:
-      - git config --global user.email "travis@travis-ci.org"
-      - git config --global user.name "Travis CI"
+    script: bash scripts/doc-release.sh
     skip_cleanup: true
     on:
       branch: doc-build
