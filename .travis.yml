@@ -67,7 +67,7 @@ deploy:
       branch: master
       tags: true
   - provider: script
-    script: bash scripts/doc-release.sh
+    script: echo "HELLO";
     skip_cleanup: true
     on:
       branch: doc-build
