@@ -11,11 +11,13 @@ commit_website_files() {
   git add CMD-RESUME-DATA-SCHEMA.md
   git add README.md
   git add CONTRIBUTING.md
-  git commit --message ":books: Compile documentation"
+  git commit --message ":books: Compile documentation for version v${PACKAGE_VERSION}"
+  git add dist/*
+  git commit --message ":gem::bookmark: Compile for v${PACKAGE_VERSION} release"
 }
 
 upload_files() {
-  git remote add origin https://${GH_TOKEN}@github.com/bbody/CMD-Resume.git > /dev/null 2>&1
+  git remote add origin https://bbody:${GH_TOKEN}@github.com/bbody/CMD-Resume.git > /dev/null 2>&1
   git push --quiet --set-upstream origin doc-build 
 }
 
