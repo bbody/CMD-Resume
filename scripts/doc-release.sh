@@ -2,7 +2,7 @@
 PACKAGE_VERSION=$1
 GH_TOKEN=$2
 
-git config --global user.email "travis@travis-ci.org"
+git config --global user.email "support@travis-ci.org"
 git config --global user.name "Travis CI"
 
 git checkout doc-build
