@@ -1,4 +1,4 @@
-/* v5.1.0 of CMD Resume by Brendon Body(https://github.com/bbody/CMD-Resume.git) */
+/* v5.2.0 of CMD Resume by Brendon Body(https://github.com/bbody/CMD-Resume.git) */
 ;(function($){
   "use strict";
   
