@@ -217,7 +217,7 @@ gulp.task('jsonlint', function() {
 });
 
 gulp.task('mdlint', function() {
-	gulp.src(['docs/*.mdpp', 'docs/partials/*.md'])
+	return gulp.src(['docs/*.mdpp', 'docs/partials/*.md'])
 		.pipe(remark());
 });
 
