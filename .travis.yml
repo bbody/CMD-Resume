@@ -67,7 +67,7 @@ deploy:
       branch: master
       tags: true
   - provider: script
-    script: scripts/doc-release.sh $PACKAGE_VERSION $GITHUB_TOKEN
+    script: scripts/doc-release.sh $PACKAGE_VERSION $GH_TOKEN
     skip_cleanup: true
     on:
       branch: doc-build
