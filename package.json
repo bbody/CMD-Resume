@@ -46,7 +46,7 @@
     "gulp-inject-string": "^1.1.0",
     "gulp-jscs": "^4.0.0",
     "gulp-jshint": "^2.0.4",
-    "gulp-json-lint": "^0.1.0",
+    "gulp-jsonlint": "^1.2.2",
     "gulp-pug": "^4.0.1",
     "gulp-remark": "^6.0.2",
     "gulp-rename": "^1.4.0",
