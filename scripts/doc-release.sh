@@ -11,9 +11,9 @@ commit_website_files() {
   git add CMD-RESUME-DATA-SCHEMA.md
   git add README.md
   git add CONTRIBUTING.md
-  git commit --message ":books: Compile documentation for version v${PACKAGE_VERSION}"
+  git commit --message ":books: Compile documentation for version version $PACKAGE_VERSION"
   git add dist/*
-  git commit --message ":gem::bookmark: Compile for v${PACKAGE_VERSION} release"
+  git commit --message ":gem::bookmark: Compile for version $PACKAGE_VERSION release"
 }
 
 upload_files() {
