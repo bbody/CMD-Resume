@@ -1,6 +1,6 @@
 #!/bin/sh
-PACKAGE_VERSION=$(eval echo $PACKAGE_VERSION)
-GH_TOKEN=$(eval echo $GH_TOKEN)
+PACKAGE_VERSION=$1
+GH_TOKEN=$2
 
 git config --global user.email "travis@travis-ci.org"
 git config --global user.name "Travis CI"
