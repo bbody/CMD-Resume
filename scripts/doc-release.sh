@@ -7,6 +7,7 @@ setup_git() {
 
 commit_website_files() {
   git checkout doc-build
+  git reset
   git add CMD-RESUME-DATA-SCHEMA.md
   git add README.md
   git add CONTRIBUTING.md
@@ -20,4 +21,4 @@ upload_files() {
 
 setup_git
 commit_website_files
-# upload_files
+upload_files
