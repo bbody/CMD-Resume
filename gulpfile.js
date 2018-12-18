@@ -174,17 +174,17 @@ function jscsTests() {
 		.pipe(jscs.reporter('fail'));
 }
 
-gulp.task('jsonlint', function() {
+function jsonLint() {
 	return gulp.src(['**/*.json', '!node_modules/**'])
 		.pipe(jsonlint())
 		.pipe(jsonlint.reporter())
 		.pipe(jsonlint.failOnError());
-});
+}
 
-gulp.task('mdlint', function() {
+function mdlint() {
 	return gulp.src(['docs/*.mdpp', 'docs/partials/*.md'])
 		.pipe(remark());
-})
+}
 
 function copyExampleScript() {
 	return gulp.src(['js/examples/example-script.js'])
@@ -350,7 +350,7 @@ const sourceCheckDevelopment = gulp.series(compileDevelopment, jsHintDevelopment
 
 const sourceCheckTools = gulp.series(jshintTools, jscsTools);
 
-const sourceCheckTests = gulp.series(jshintTests, jscsTests, mdlint); //jsonlint
+const sourceCheckTests = gulp.series(jshintTests, jscsTests, jsonLint, mdlint);
 
 const sourceCheck = gulp.series(sourceCheckDevelopment, sourceCheckTools, sourceCheckTests);
 
