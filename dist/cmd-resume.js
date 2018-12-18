@@ -1,4 +1,4 @@
-/* v5.3.0 of CMD Resume by Brendon Body(https://github.com/bbody/CMD-Resume.git) */
+/* v5.1.0 of CMD Resume by Brendon Body(https://github.com/bbody/CMD-Resume.git) */
 ;(function($){
   "use strict";
   
@@ -1112,6 +1112,10 @@
   
   		self.settings = {
   			greetings: self.commands.splash.handler(),
+  			onBlur: function() {
+  				// Prevent loosing focus
+  				return false;
+  			},
   			completion: self.commandList
   		};
   	};
