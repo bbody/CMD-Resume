@@ -10,7 +10,7 @@ var gulp = require('gulp'),
 	jscs = require('gulp-jscs'),
 	Server = require('karma').Server,
 	pug = require('gulp-pug'),
-	// jsonlint = require('gulp-json-lint'),
+	jsonlint = require('gulp-jsonlint'),
 	remark = require('gulp-remark'),
 	webdriver = require('gulp-webdriver'),
 	package = require('./package.json');
@@ -174,18 +174,17 @@ function jscsTests() {
 		.pipe(jscs.reporter('fail'));
 }
 
-// gulp.task('jsonlint', function() {
-// function jsonlint(done) {
-// 	gulp.src(['**/*.json', '!node_modules/**'])
-// 		.pipe(jsonlint())
-// 		.pipe(jsonlint.report('verbose'));
-// 	done();
-// }
+gulp.task('jsonlint', function() {
+	return gulp.src(['**/*.json', '!node_modules/**'])
+		.pipe(jsonlint())
+		.pipe(jsonlint.reporter())
+		.pipe(jsonlint.failOnError());
+});
 
-function mdlint() {
+gulp.task('mdlint', function() {
 	return gulp.src(['docs/*.mdpp', 'docs/partials/*.md'])
 		.pipe(remark());
-}
+})
 
 function copyExampleScript() {
 	return gulp.src(['js/examples/example-script.js'])
