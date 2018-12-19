@@ -21,6 +21,8 @@ script:
   - |
     if [ $TRAVIS_EVENT_TYPE == "cron" ];then
     npm run test:build && travis_wait 60 npm run test:browserstack:all
+    elsif [ $TRAVIS_PULL_REQUEST == "pull" && !$TRAVIS_SECURE_ENV_VARS ];then
+    npm run test:build
     else
     npm run test:build && travis_wait 60 npm run test:browserstack:essential
     fi
