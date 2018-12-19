@@ -103,7 +103,7 @@
     "release": "gulp release",
     "gh-pages": "gulp build-gh-pages",
     "source-check": "gulp source-check && npm run lint:yaml && npm run lint:travis",
-    "setup": "gem install travis -v 1.8.9 --no-rdoc && sudo pip install yamllint",
+    "setup": "gem install travis -v 1.8.9 && sudo pip install yamllint",
     "setup_local": "npm run setup && pip install MarkdownPP",
     "lint:yaml": "yamllint -c .yamllint .travis.yml docs/.remarkrc.yaml .yamllint",
     "lint:travis": "travis lint .travis.yml --skip-completion-check",
