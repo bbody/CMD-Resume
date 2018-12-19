@@ -1,13 +1,16 @@
+### Unit Tests
 | ![Chrome][] | ![Firefox][] | ![Edge][] | ![Safari][] | ![Opera][] | ![IE][]   |
 |:-----------:|:------------:|:---------:|:-----------:|:----------:|:---------:|
-| 70 - 68 ✔   | 63 - 61 ✔    | 17 - 15 ✔ | 12 - 10 ✔   | 56 - 54 ✔  | 11 - 10 ✔ |
+| Latest 3 ✔   | Latest 3 ✔    | Latest 3 ✔ | Latest 3 ✔   | Latest 3 ✔  | 11 - 10 ✔ |
+
+### UI Tests
+| ![Chrome][] | ![Firefox][] | ![Edge][] | ![Safari][] |
+|:-----------:|:------------:|:---------:|:-----------:|
+| Latest ✔   | Latest ✔    | Latest ✔ | Latest ✔   |
 
 Assets from [Browser Logos][].
 
-Currently only unit tests are run on [BrowserStack][].
-
 [browser logos]: https://github.com/alrra/browser-logos
-[browserstack]: https://www.browserstack.com/
 [chrome]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png
 [edge]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png
 [firefox]: https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png
