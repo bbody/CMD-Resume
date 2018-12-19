@@ -68,9 +68,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			data: ["basics", "pdfLink"],
 			type: CMD.CALCULATED,
 			handler: function(data) {
-				window.open(data);
-				return decodeURIComponent(escape(data)) + CONSTANTS.NEW_LINE +
-				"Hint: May need to allow pop-ups.";
+				return decodeURIComponent(escape(data)) + CONSTANTS.NEW_LINE;
 			}
 		},
 		{
