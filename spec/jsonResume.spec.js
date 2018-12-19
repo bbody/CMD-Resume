@@ -3,7 +3,6 @@ describe("Basics", function() {
 		var div = $("<div id='cmd-resume'></div>");
 		$("body").append(div);
 		jasmine.Ajax.install();
-		spyOn(window, 'open');
 	});
 
 	afterEach(function() {
@@ -25,10 +24,6 @@ describe("Basics", function() {
 
 		enterCommand("pdf");
 
-		expect(window.open).toHaveBeenCalled();
-
-		expect(window.open).toHaveBeenCalledWith("http://registry.jsonresume.org/test.html");
-
 		var output = pdf.fullCommandOutput();
 
 		expect(output.command).toEqual("Résumé PDF");
@@ -49,10 +44,6 @@ describe("Basics", function() {
 		expect(mostRecentRequest.url).toBe("http://registry.jsonresume.org/test.json");
 
 		enterCommand("pdf");
-
-		expect(window.open).toHaveBeenCalled();
-
-		expect(window.open).toHaveBeenCalledWith("http://registry.jsonresume.org/test.html");
 
 		var output = pdf.fullCommandOutput();
 

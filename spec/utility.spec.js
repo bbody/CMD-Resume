@@ -85,12 +85,7 @@ describe("Utilities", function() {
 				responseText: JSON.stringify(loadJSON("details"))
 			});
 
-			spyOn(window, 'open');
-
 			enterCommand("pdf");
-
-			expect(window.open).toHaveBeenCalled();
-			expect(window.open).toHaveBeenCalledWith("https://en.wikipedia.org/wiki/R%C3%A9sum%C3%A9");
 
 			var output = pdf.fullCommandOutput();
 
