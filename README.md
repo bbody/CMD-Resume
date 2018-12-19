@@ -131,14 +131,14 @@ $(document).ready(function() {
 
 ## Browser Compatibility
 ### Unit Tests
-| ![Chrome][] | ![Firefox][] | ![Edge][] | ![Safari][] | ![Opera][] | ![IE][]   |
-|:-----------:|:------------:|:---------:|:-----------:|:----------:|:---------:|
-| Latest 3 ✔   | Latest 3 ✔    | Latest 3 ✔ | Latest 3 ✔   | Latest 3 ✔  | 11 - 10 ✔ |
+| ![Chrome][] | ![Firefox][] | ![Edge][]  | ![Safari][] | ![Opera][] | ![IE][]   |
+|:-----------:|:------------:|:----------:|:-----------:|:----------:|:---------:|
+| Latest 3 ✔  | Latest 3 ✔   | Latest 3 ✔ | Latest 3 ✔  | Latest 3 ✔ | 11 - 10 ✔ |
 
 ### UI Tests
 | ![Chrome][] | ![Firefox][] | ![Edge][] | ![Safari][] |
 |:-----------:|:------------:|:---------:|:-----------:|
-| Latest ✔   | Latest ✔    | Latest ✔ | Latest ✔   |
+| Latest ✔    | Latest ✔     | Latest ✔  | Latest ✔    |
 
 Assets from [Browser Logos][].
 
