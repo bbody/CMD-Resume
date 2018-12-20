@@ -68,7 +68,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			data: ["basics", "pdfLink"],
 			type: CMD.CALCULATED,
 			handler: function(data) {
-				return decodeURIComponent(escape(data)) + CONSTANTS.NEW_LINE;
+				return decodeURIComponent(escape(data));
 			}
 		},
 		{

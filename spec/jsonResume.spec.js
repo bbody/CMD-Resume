@@ -28,7 +28,6 @@ describe("Basics", function() {
 
 		expect(output.command).toEqual("Résumé PDF");
 		expect(output.values[0]).toEqual("http://registry.jsonresume.org/test.html");
-		expect(output.values[1]).toEqual("Hint: May need to allow pop-ups.");
 	});
 
 	it("calls full url", function() {
@@ -49,6 +48,5 @@ describe("Basics", function() {
 
 		expect(output.command).toEqual("Résumé PDF");
 		expect(output.values[0]).toEqual("http://registry.jsonresume.org/test.html");
-		expect(output.values[1]).toEqual("Hint: May need to allow pop-ups.");
 	});
 });
