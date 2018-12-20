@@ -1,4 +1,4 @@
-/* v5.3.1 of CMD Resume by Brendon Body(https://github.com/bbody/CMD-Resume.git) */
+/* v5.4.0 of CMD Resume by Brendon Body(https://github.com/bbody/CMD-Resume.git) */
 ;(function($){
   "use strict";
   
@@ -659,9 +659,7 @@
   			data: ["basics", "pdfLink"],
   			type: CMD.CALCULATED,
   			handler: function(data) {
-  				window.open(data);
-  				return decodeURIComponent(escape(data)) + CONSTANTS.NEW_LINE +
-  				"Hint: May need to allow pop-ups.";
+  				return decodeURIComponent(escape(data));
   			}
   		},
   		{
