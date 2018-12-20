@@ -91,7 +91,6 @@ describe("Utilities", function() {
 
 			expect(output.command).toEqual("Résumé PDF");
 			expect(output.values[0]).toEqual("https://en.wikipedia.org/wiki/R%C3%A9sum%C3%A9");
-			expect(output.values[1]).toEqual("Hint: May need to allow pop-ups.");
 		});
 	});
 
