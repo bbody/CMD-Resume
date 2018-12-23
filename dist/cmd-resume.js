@@ -1,4 +1,4 @@
-/* v5.4.0 of CMD Resume by Brendon Body(https://github.com/bbody/CMD-Resume.git) */
+/* v5.4.1 of CMD Resume by Brendon Body(https://github.com/bbody/CMD-Resume.git) */
 ;(function($){
   "use strict";
   
@@ -600,6 +600,9 @@
   	var self = {};
   
   	self.commands = {};
+  
+  	// Set background colour to black
+  	$(element).css("background-color", "black");
   
   	if (isJsonResumeHosted(primaryEndpoint) &&
   		!isJsonFormat(primaryEndpoint)) {
