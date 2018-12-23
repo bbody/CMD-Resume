@@ -24,6 +24,15 @@
     },
     {
         "base": "BrowserStack",
+        "browser": "IE",
+        "os": "Windows",
+        "os_version": "10",
+        "browserstack.local": true,
+        "browserstack.selenium_version": "3.5.2",
+        "specs": ["spec-e2e/siteLoad.spec.js"]
+    },
+    {
+        "base": "BrowserStack",
         "browser": "Safari",
         "os": "OS X",
         "os_version": "Mojave",
