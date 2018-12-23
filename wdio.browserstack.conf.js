@@ -23,5 +23,6 @@ exports.config = merge(wdioConf, {
 	key: process.env.BROWSER_STACK_ACCESS_KEY,
 	browserstackLocal: true,
 	capabilities: capabilities,
-	maxInstances: 5
+	maxInstances: 5,
+	bail: 1
 });
