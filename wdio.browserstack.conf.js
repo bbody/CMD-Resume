@@ -9,9 +9,13 @@ var jobId = process && process.env && process.env.TRAVIS_BUILD_NUMBER ? process.
 var buildName = `UI ${jobId}`;
 for (var i = 0; i < capabilities.length; i++) {
 	capabilities[i].build = buildName;
+	if (!capabilities[i].specs) {
+		capabilities[i].specs = "spec-e2e/*.spec.js";
+	}
 }
 
 wdioConf.services.push('browserstack');
+wdioConf.specs = [];
 
 exports.config = merge(wdioConf, {
 	user: process.env.BROWSER_STACK_USERNAME,
