@@ -41,6 +41,14 @@ for (var os of config.operating_systems) {
 				'browserstack.local': true
 			};
 
+			if (browser.spec) {
+				browserProfile.spec = browser.spec;
+			}
+
+			if (browser["browserstack.selenium_version"]) {
+				browserProfile["browserstack.selenium_version"] = browser["browserstack.selenium_version"];
+			}
+
 			// If it is essential and the latest version add to essential list
 			if (browser.essential) {
 				var essentialKey = `bs__${os.name.replace(' ', '-')}_${os.version.replace(' ', '-')}__${browser.name}_Latest`;
