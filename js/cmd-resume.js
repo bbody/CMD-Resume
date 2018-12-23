@@ -10,6 +10,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 
 	self.commands = {};
 
+	// Set background colour to black
+	$(element).css("background-color", "black");
+
 	if (isJsonResumeHosted(primaryEndpoint) &&
 		!isJsonFormat(primaryEndpoint)) {
 		primaryEndpoint += ".json";
