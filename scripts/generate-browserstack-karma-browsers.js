@@ -41,8 +41,8 @@ for (var os of config.operating_systems) {
 				'browserstack.local': true
 			};
 
-			if (browser.spec) {
-				browserProfile.spec = browser.spec;
+			if (browser.specs) {
+				browserProfile.specs = browser.specs;
 			}
 
 			if (browser["browserstack.selenium_version"]) {
