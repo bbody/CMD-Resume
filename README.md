@@ -4,7 +4,6 @@
 [![devDependencies Status][devdep img]][devdep]
 [![npm version][npm version img]][npm version]
 [![BrowserStack Status][browserstack img]][browserstack]
-[![License][license type img]][license]
 
 [browserstack]: https://www.browserstack.com/automate/public-build/TXJtSnFra2t1em56djV0cDNHbXBWQ0F1S2ZwWFNndG0rQTlySU5YaUZaUT0tLTFsTlp3ZUcrT29rMUNPcXhtbHRpNXc9PQ==--8f9c890ea5f00b2700273a981af403651fea3f65
 [browserstack img]: https://www.browserstack.com/automate/badge.svg?badge_key=TXJtSnFra2t1em56djV0cDNHbXBWQ0F1S2ZwWFNndG0rQTlySU5YaUZaUT0tLTFsTlp3ZUcrT29rMUNPcXhtbHRpNXc9PQ==--8f9c890ea5f00b2700273a981af403651fea3f65
@@ -18,7 +17,6 @@
 [test cover img]: https://api.codeclimate.com/v1/badges/245ed2739858462f5337/test_coverage
 [travis build img]: https://travis-ci.org/bbody/CMD-Resume.svg?branch=master
 [travis]: https://travis-ci.org/bbody/CMD-Resume
-[license]: https://img.shields.io/github/license/bbody/CMD-Resume.svg
 
 # CMD Resume
 ## Description
@@ -132,15 +130,9 @@ $(document).ready(function() {
 8. Upload to website
 
 ## Browser Compatibility
-### Unit Tests
-| ![Chrome][] | ![Firefox][] | ![Edge][]  | ![Safari][] | ![Opera][] | ![IE][]   |
-|:-----------:|:------------:|:----------:|:-----------:|:----------:|:---------:|
-| Latest 3 ✔  | Latest 3 ✔   | Latest 3 ✔ | Latest 3 ✔  | Latest 3 ✔ | 11 - 10 ✔ |
-
-### UI Tests
-| ![Chrome][] | ![Firefox][] | ![Edge][] | ![Safari][] |
-|:-----------:|:------------:|:---------:|:-----------:|
-| Latest ✔    | Latest ✔     | Latest ✔  | Latest ✔    |
+| ![Chrome][] | ![Firefox][] | ![Edge][]  | ![Safari][] | ![IE][]   |
+|:-----------:|:------------:|:----------:|:-----------:|:---------:|
+| Latest 3 ✔  | Latest 3 ✔   | Latest 3 ✔ | Latest 3 ✔  | 11 - 10 ✔ |
 
 Assets from [Browser Logos][].
 
