@@ -445,12 +445,6 @@ const testLinux = gulp.series(testKarmaLinux, testE2EPre, testE2ELinux);
 
 const testBSUIEssential = gulp.series(testE2EPre, testE2EBrowserstackEssential);
 
-// Deployment
-// gulp.task('build-gh-pages', ['compile:gh-pages', 'compile:html:example',
-// 	'compile:html:own-example', 'copy:json:build', 'copy:icons:build', 'copy:example-script',
-// 	'copy:own-script'
-// ]);
-
 function compileGHPages() {
 	return compiledCode('tmp/js', false, false);
 }
@@ -463,29 +457,35 @@ var localTest = {
 
 const buildGHPages = gulp.series(compileGHPages, compileHTMLExample, compileHTMLOwnExample, copyJSONBuild, copyIconsBuild, copyExampleScript, copyOwnScript);
 
-// gulp.task('deploy', ['build-gh-pages', 'gh-pages']);
-
 function testLocal(done) {
-	const func = localTest[OPERATING_SYSTEM];
-	func();
+	localTest[OPERATING_SYSTEM]();
 	done();
 }
 
 module.exports = {
 	'default': develop,
-	buildGHPages,
-	develop,
-	release,
-	sourceCheck,
-	testBSUIEssential,
-	testE2E,
-	testE2EPre,
-	testE2EBuild,
-	testKarmaBuild,
-	testKarmaBrowserstack,
-	testKarmaBrowserstackEssential,
-	testLocal,
-	testLinux,
-	testMacOS,
-	testWindows
+
+	// Build tasks
+	'build:gh_pages': buildGHPages,
+	'build:release': release,
+	'build:e2e_prepare': testE2EPre,
+
+	// Lint tasks
+	'lint:all': sourceCheck,
+
+	// Unit tests
+	'test:unit:build': testKarmaBuild,
+	'test:unit:bs_all': testKarmaBrowserstack,
+	'test:unit:bs_essential': testKarmaBrowserstackEssential,
+
+	// UI tests
+	'test:e2e:build': testE2EBuild,
+	'test:e2e:local': testE2E,
+	'test:e2e:bs_essential': testBSUIEssential,
+
+	// Combined tests
+	'test:all:local': testLocal,
+	'test:all:linux': testLinux,
+	'test:all:mac_os': testMacOS,
+	'test:all:windows': testWindows
 };

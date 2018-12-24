@@ -92,29 +92,19 @@
     "webdriverio": "^4.14.0"
   },
   "scripts": {
-    "test": "npm run unit-test && npm run e2e",
-    "test:build": "gulp test:karma:build && gulp test:e2e:pre && gulp test:e2e:build",
-    "test:macos": "gulp test:macos",
-    "test:linux": "gulp test:linux",
-    "test:windows": "test:windows",
-    "unit-test": "gulp test:karma:build",
-    "e2e": "gulp test:e2e:pre && gulp test:e2e",
-    "e2e:linux": "gulp test:e2e:pre && gulp test:e2e:linux",
-    "release": "gulp release",
-    "gh-pages": "gulp build-gh-pages",
-    "source-check": "gulp source-check && npm run lint:yaml && npm run lint:travis",
     "setup": "gem install travis -v 1.8.9 && sudo pip install yamllint",
     "setup_local": "npm run setup && pip install MarkdownPP",
+
+    "test": "gulp test:unit:build && gulp build:e2e_prepare && gulp test:e2e:build",
+    "test:all:bs_essential": "gulp test:unit:bs_essential && gulp test:e2e:bs_essential",
+    "test:all:bs_all": "gulp test:unit:bs_all && gulp test:e2e:bs_essential",
+
     "lint:yaml": "yamllint -c .yamllint .travis.yml docs/.remarkrc.yaml .yamllint",
     "lint:travis": "travis lint .travis.yml --skip-completion-check",
-    "unit-test:bs:all": "gulp test:karma:browserstack",
-    "unit-test:bs:essential": "gulp test:karma:browserstack:essential",
-    "ui-test:bs:essential": "gulp test:bs:ui:essential",
-    "test:browserstack:essential": "npm run unit-test:bs:essential && npm run ui-test:bs:essential",
-    "test:browserstack:all": "npm run unit-test:bs:all && npm run ui-test:bs:essential",
-    "generate:bs-browsers": "node scripts/generate-browserstack-karma-browsers.js",
-    "bs:essential": "npm run ui-test:bs:essential",
-    "doc:build": "markdown-pp ./docs/README.mdpp -o README.md && markdown-pp ./docs/CMD-RESUME-DATA-SCHEMA.mdpp -o CMD-RESUME-DATA-SCHEMA.md && markdown-pp ./docs/CONTRIBUTING.mdpp -o CONTRIBUTING.md"
+    "lint:all": "gulp lint:all && npm run lint:yaml && npm run lint:travis",
+
+    "build:doc": "markdown-pp ./docs/README.mdpp -o README.md && markdown-pp ./docs/CMD-RESUME-DATA-SCHEMA.mdpp -o CMD-RESUME-DATA-SCHEMA.md && markdown-pp ./docs/CONTRIBUTING.mdpp -o CONTRIBUTING.md",
+    "build:browsers": "node scripts/generate-browserstack-karma-browsers.js"
   },
   "resolutions": {
     "natives": "1.1.3"
@@ -122,8 +112,8 @@
   "husky": {
     "hooks": {
       "prepare-commit-msg": "hooks/prepare-commit-msg ${HUSKY_GIT_PARAMS}",
-      "pre-commit": "npm run source-check",
-      "pre-push": "gulp test:local"
+      "pre-commit": "npm run lint:all",
+      "pre-push": "gulp test:all:local"
     }
   }
 }
