@@ -55,8 +55,10 @@ for (var os of config.operating_systems) {
 				var essentialKey = `bs__${os.name.replace(' ', '-')}_${os.version.replace(' ', '-')}__${browser.name}_Latest`;
 				essentialBrowserList.push(essentialKey);
 				browserList.push(key);
-				browserMap[essentialKey] = browserProfile;
-				essentialBrowserCapabilityList.push(browserProfile);
+				if (!browserMap[essentialKey]) {
+					browserMap[essentialKey] = browserProfile;
+					essentialBrowserCapabilityList.push(browserProfile);
+				}
 			}
 
 			var fullProfile = {...browserProfile, browser_version: version};
