@@ -15,6 +15,7 @@ var browserMap = {};
 var browserList = [];
 var essentialBrowserList = [];
 var essentialBrowserCapabilityList = [];
+var fullBrowserCapabilityList = [];
 
 for (var os of config.operating_systems) {
 	for (var browser of os.browsers) {
@@ -58,7 +59,10 @@ for (var os of config.operating_systems) {
 				essentialBrowserCapabilityList.push(browserProfile);
 			}
 
-			browserMap[key] = {...browserProfile, browser_version: version};
+			var fullProfile = {...browserProfile, browser_version: version};
+			
+			fullBrowserCapabilityList.push(fullProfile);
+			browserMap[key] = fullProfile;
 		}
 	}
 }
@@ -73,6 +77,12 @@ fs.writeFile('browserstack/bs-customLaunchers.json', content, function(err, data
 });
 
 fs.writeFile('browserstack/bs-customLaunchers.essential.json', JSON.stringify({browsers: essentialBrowserCapabilityList}), function(err, data){
+	if (err) {
+		console.error(err);
+	}
+});
+
+fs.writeFile('browserstack/bs-customLaunchers.all.json', JSON.stringify({browsers: fullBrowserCapabilityList}), function(err, data){
 	if (err) {
 		console.error(err);
 	}
