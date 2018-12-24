@@ -96,8 +96,8 @@
     "setup_local": "npm run setup && pip install MarkdownPP",
 
     "test": "gulp test:unit:build && gulp build:e2e_prepare && gulp test:e2e:build",
-    "test:all:bs_essential": "gulp test:unit:bs_essential && gulp test:e2e:bs_all",
-    "test:all:bs_all": "gulp test:unit:bs_all && gulp test:e2e:bs_essential",
+    "test:all:bs_essential": "gulp test:unit:bs_essential && gulp test:e2e:bs_essential",
+    "test:all:bs_all": "gulp test:unit:bs_all && gulp test:e2e:bs_all",
 
     "lint:yaml": "yamllint -c .yamllint .travis.yml docs/.remarkrc.yaml .yamllint",
     "lint:travis": "travis lint .travis.yml --skip-completion-check",

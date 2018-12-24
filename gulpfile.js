@@ -453,6 +453,7 @@ const testWindows = gulp.series(testKarmaWindows, testE2EPre, testE2EWindows);
 const testLinux = gulp.series(testKarmaLinux, testE2EPre, testE2ELinux);
 
 const testBSUIEssential = gulp.series(testE2EPre, testE2EBrowserstackEssential);
+const testBSUIAll = gulp.series(testE2EPre, testE2EBrowserstackAll);
 
 function compileGHPages() {
 	return compiledCode('tmp/js', false, false);
@@ -491,7 +492,7 @@ module.exports = {
 	'test:e2e:build': testE2EBuild,
 	'test:e2e:local': testE2E,
 	'test:e2e:bs_essential': testBSUIEssential,
-	'test:e2e:bs_all': testE2EBrowserstackAll,
+	'test:e2e:bs_all': testBSUIAll,
 
 	// Combined tests
 	'test:all:local': testLocal,
