@@ -1,8 +1,7 @@
-var browserstack = require('browserstack-local');
-let wdioConf = require("./wdio.conf.js").config;
+let wdioConf = require("./wdio.browserstack.base.conf.js").config;
 var merge = require('deepmerge');
 
-var capabilities = require('./browserstack/bs-customLaunchers.all.json').browsers;
+var capabilities = require('./browserstack/bs-customLaunchers.essential.json').browsers;
 
 // Set a build name based off build number
 var jobId = process && process.env && process.env.TRAVIS_BUILD_NUMBER ? process.env.TRAVIS_BUILD_NUMBER : "local_development";
@@ -14,14 +13,6 @@ for (var i = 0; i < capabilities.length; i++) {
 	}
 }
 
-wdioConf.services.push('browserstack');
-wdioConf.specs = [];
-
 exports.config = merge(wdioConf, {
-	user: process.env.BROWSER_STACK_USERNAME,
-	key: process.env.BROWSER_STACK_ACCESS_KEY,
-	browserstackLocal: true,
-	capabilities: capabilities,
-	maxInstances: 5,
-	bail: 1
+	capabilities: capabilities
 });
