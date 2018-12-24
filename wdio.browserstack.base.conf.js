@@ -11,5 +11,20 @@ exports.config = merge(wdioConf, {
 	browserstackLocal: true,
 	capabilities: capabilities,
 	maxInstances: 5,
-	bail: 1
+	bail: 1,
+	getBrowserList: function(fileName) {
+		var capabilities = require(fileName).browsers;
+
+		// Set a build name based off build number
+		var jobId = process && process.env && process.env.TRAVIS_BUILD_NUMBER ? process.env.TRAVIS_BUILD_NUMBER : "local_development";
+		var buildName = `UI ${jobId}`;
+		for (var i = 0; i < capabilities.length; i++) {
+			capabilities[i].build = buildName;
+			if (!capabilities[i].specs) {
+				capabilities[i].specs = ["spec-e2e/*.spec.js"];
+			}
+		}
+
+		return capabilities;
+	}
 });
