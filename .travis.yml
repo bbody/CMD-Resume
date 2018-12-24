@@ -42,8 +42,8 @@ before_install:
   - jdk_switcher use oraclejdk8
   - npm run setup
 before_deploy:
-  - gulp release
-  - gulp build-gh-pages
+  - gulp build:release
+  - gulp build:gh_pages
   - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
 deploy:
   - provider: releases
