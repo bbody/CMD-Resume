@@ -20,9 +20,9 @@ before_script:
 script:
   - |
     if [ $TRAVIS_EVENT_TYPE == "cron" ];then
-    npm test && travis_wait 60 npm run test:browserstack:all
+    npm test && travis_wait 60 npm run test:all:bs_all
     elif $TRAVIS_SECURE_ENV_VARS ;then
-    npm test && travis_wait 60 npm run test:browserstack:essential
+    npm test && travis_wait 60 npm run test:all:bs_essential
     else
     npm test
     fi
@@ -48,7 +48,7 @@ before_deploy:
   - gulp build:release
   - gulp build:gh_pages
   - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
-  - npm run doc:build
+  - npm run build:doc
 deploy:
   - provider: releases
     skip_cleanup: true
