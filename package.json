@@ -7,7 +7,7 @@
     "jquery-plugin",
     "ecosystem:jquery"
   ],
-  "version": "5.2.0",
+  "version": "5.4.1",
   "author": {
     "name": "Brendon Body",
     "url": "https://github.com/bbody"
@@ -93,23 +93,23 @@
   },
   "scripts": {
     "test": "npm run unit-test && npm run e2e",
-    "test:build": "gulp testKarmaBuild && gulp testE2EPre && gulp testE2EBuild",
-    "test:macos": "gulp testMacOS",
-    "test:linux": "gulp testLinux",
-    "test:windows": "gulp testWindows",
-    "unit-test": "gulp testKarmaBuild",
-    "e2e": "gulp testE2EPre && gulp testE2E",
-    "e2e:linux": "gulp testE2EPre && gulp testE2ELinux",
+    "test:build": "gulp test:karma:build && gulp test:e2e:pre && gulp test:e2e:build",
+    "test:macos": "gulp test:macos",
+    "test:linux": "gulp test:linux",
+    "test:windows": "test:windows",
+    "unit-test": "gulp test:karma:build",
+    "e2e": "gulp test:e2e:pre && gulp test:e2e",
+    "e2e:linux": "gulp test:e2e:pre && gulp test:e2e:linux",
     "release": "gulp release",
-    "gh-pages": "gulp buildGHPages",
-    "source-check": "gulp sourceCheck && npm run lint:yaml && npm run lint:travis",
-    "setup": "gem install travis -v 1.8.9 --no-rdoc --no-ri && sudo pip install yamllint",
-    "setup_local": "pip install MarkdownPP && npm run setup",
+    "gh-pages": "gulp build-gh-pages",
+    "source-check": "gulp source-check && npm run lint:yaml && npm run lint:travis",
+    "setup": "gem install travis -v 1.8.9 && sudo pip install yamllint",
+    "setup_local": "npm run setup && pip install MarkdownPP",
     "lint:yaml": "yamllint -c .yamllint .travis.yml docs/.remarkrc.yaml .yamllint",
     "lint:travis": "travis lint .travis.yml --skip-completion-check",
-    "unit-test:bs:all": "gulp testKarmaBrowserstack",
-    "unit-test:bs:essential": "gulp testKarmaBrowserstackEssential",
-    "ui-test:bs:essential": "gulp testBSUIEssential",
+    "unit-test:bs:all": "gulp test:karma:browserstack",
+    "unit-test:bs:essential": "gulp test:karma:browserstack:essential",
+    "ui-test:bs:essential": "gulp test:bs:ui:essential",
     "test:browserstack:essential": "npm run unit-test:bs:essential && npm run ui-test:bs:essential",
     "test:browserstack:all": "npm run unit-test:bs:all && npm run ui-test:bs:essential",
     "generate:bs-browsers": "node scripts/generate-browserstack-karma-browsers.js",
@@ -123,7 +123,7 @@
     "hooks": {
       "prepare-commit-msg": "hooks/prepare-commit-msg ${HUSKY_GIT_PARAMS}",
       "pre-commit": "npm run source-check",
-      "pre-push": "gulp testLocal"
+      "pre-push": "gulp test:local"
     }
   }
 }
