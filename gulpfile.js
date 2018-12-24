@@ -183,7 +183,7 @@ function jsonLint() {
 
 function mdlint() {
 	return gulp.src(['docs/*.mdpp', 'docs/partials/*.md'])
-		.pipe(remark());
+		.pipe(remark({frail: true}));
 }
 
 function copyExampleScript() {
@@ -401,7 +401,16 @@ function testE2EBuild(done) {
 }
 
 function testE2EBrowserstackEssential(done) {
-	gulp.src('./wdio.browserstack.conf.js').pipe(webdriver({
+	gulp.src('./wdio.browserstack.essential.conf.js').pipe(webdriver({
+		jasmineNodeOpts: {
+			defaultTimeoutInterval: 50000
+		}
+	}));
+	done();
+}
+
+function testE2EBrowserstackAll(done) {
+	gulp.src('./wdio.browserstack.all.conf.js').pipe(webdriver({
 		jasmineNodeOpts: {
 			defaultTimeoutInterval: 50000
 		}
@@ -482,6 +491,7 @@ module.exports = {
 	'test:e2e:build': testE2EBuild,
 	'test:e2e:local': testE2E,
 	'test:e2e:bs_essential': testBSUIEssential,
+	'test:e2e:bs_all': testE2EBrowserstackAll,
 
 	// Combined tests
 	'test:all:local': testLocal,

@@ -16,12 +16,15 @@ before_script:
   - sudo apt install firefox
   - npm install
   - npm install -g gulp-cli
+  - sudo pip install MarkdownPP
 script:
   - |
     if [ $TRAVIS_EVENT_TYPE == "cron" ];then
-    npm test && travis_wait 60 npm run test:all:bs_all
+    npm run test:build && travis_wait 60 npm run test:browserstack:all
+    elif $TRAVIS_SECURE_ENV_VARS ;then
+    npm run test:build && travis_wait 60 npm run test:browserstack:essential
     else
-    npm test && travis_wait 60 npm run test:all:bs_essential
+    npm run test:build
     fi
   - npm run lint:all
 cache:
@@ -45,6 +48,7 @@ before_deploy:
   - gulp build:release
   - gulp build:gh_pages
   - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
+  - npm run doc:build
 deploy:
   - provider: releases
     skip_cleanup: true
@@ -72,6 +76,12 @@ deploy:
     on:
       branch: master
       tags: true
+  - provider: script
+    script: scripts/doc-release.sh $PACKAGE_VERSION $GH_TOKEN
+    skip_cleanup: true
+    on:
+      branch: master
+      tags: false
 after_success:
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < coverage/lcov.info

@@ -1,4 +1,4 @@
-/* v5.1.0 of CMD Resume by Brendon Body(https://github.com/bbody/CMD-Resume.git) */
+/* v5.4.1 of CMD Resume by Brendon Body(https://github.com/bbody/CMD-Resume.git) */
 ;(function($){
   "use strict";
   
@@ -601,6 +601,9 @@
   
   	self.commands = {};
   
+  	// Set background colour to black
+  	$(element).css("background-color", "black");
+  
   	if (isJsonResumeHosted(primaryEndpoint) &&
   		!isJsonFormat(primaryEndpoint)) {
   		primaryEndpoint += ".json";
@@ -659,9 +662,7 @@
   			data: ["basics", "pdfLink"],
   			type: CMD.CALCULATED,
   			handler: function(data) {
-  				window.open(data);
-  				return decodeURIComponent(escape(data)) + CONSTANTS.NEW_LINE +
-  				"Hint: May need to allow pop-ups.";
+  				return decodeURIComponent(escape(data));
   			}
   		},
   		{
@@ -1112,10 +1113,6 @@
   
   		self.settings = {
   			greetings: self.commands.splash.handler(),
-  			onBlur: function() {
-  				// Prevent loosing focus
-  				return false;
-  			},
   			completion: self.commandList
   		};
   	};

@@ -3,7 +3,6 @@ describe("Basics", function() {
 		var div = $("<div id='cmd-resume'></div>");
 		$("body").append(div);
 		jasmine.Ajax.install();
-		spyOn(window, 'open');
 	});
 
 	afterEach(function() {
@@ -25,15 +24,10 @@ describe("Basics", function() {
 
 		enterCommand("pdf");
 
-		expect(window.open).toHaveBeenCalled();
-
-		expect(window.open).toHaveBeenCalledWith("http://registry.jsonresume.org/test.html");
-
 		var output = pdf.fullCommandOutput();
 
 		expect(output.command).toEqual("Résumé PDF");
 		expect(output.values[0]).toEqual("http://registry.jsonresume.org/test.html");
-		expect(output.values[1]).toEqual("Hint: May need to allow pop-ups.");
 	});
 
 	it("calls full url", function() {
@@ -50,14 +44,9 @@ describe("Basics", function() {
 
 		enterCommand("pdf");
 
-		expect(window.open).toHaveBeenCalled();
-
-		expect(window.open).toHaveBeenCalledWith("http://registry.jsonresume.org/test.html");
-
 		var output = pdf.fullCommandOutput();
 
 		expect(output.command).toEqual("Résumé PDF");
 		expect(output.values[0]).toEqual("http://registry.jsonresume.org/test.html");
-		expect(output.values[1]).toEqual("Hint: May need to allow pop-ups.");
 	});
 });

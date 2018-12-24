@@ -6,19 +6,19 @@
 			"browsers": [
 				{
 					"name": "Chrome",
-					"newest": 70,
+					"newest": 71,
 					"enabled": true,
 					"essential": true
 				},
 				{
 					"name": "Firefox",
-					"newest": 63,
+					"newest": 64,
 					"enabled": true,
 					"essential": true
 				},
 				{
 					"name": "Edge",
-					"newest": 17,
+					"newest": 16,
 					"enabled": true,
 					"essential": true
 				},
@@ -26,13 +26,9 @@
 					"name": "IE",
 					"versions": ["11"],
 					"enabled": true,
-					"essential": true
-				},
-				{
-					"name": "Opera",
-					"newest": 56,
-					"enabled": true,
-					"essential": true
+					"essential": true,
+					"browserstack.selenium_version": "3.5.2",
+        			"specs": ["spec-e2e/siteLoad.spec.js"]
 				}
 			]
 		},
@@ -42,23 +38,20 @@
 			"browsers": [
 				{
 					"name": "Chrome",
-					"newest": 70,
+					"newest": 71,
 					"enabled": true
 				},
 				{
 					"name": "Firefox",
-					"newest": 63,
+					"newest": 64,
 					"enabled": true
 				},
 				{
 					"name": "IE",
 					"versions": ["11"],
-					"enabled": true
-				},
-				{
-					"name": "Opera",
-					"newest": 56,
-					"enabled": true
+					"enabled": true,
+					"browserstack.selenium_version": "3.5.2",
+        			"specs": ["spec-e2e/siteLoad.spec.js"]
 				}
 			]
 		},
@@ -68,23 +61,20 @@
 			"browsers": [
 				{
 					"name": "Chrome",
-					"newest": 70,
+					"newest": 71,
 					"enabled": true
 				},
 				{
 					"name": "Firefox",
-					"newest": 63,
+					"newest": 64,
 					"enabled": true
 				},
 				{
 					"name": "IE",
 					"versions": ["10"],
-					"enabled": true
-				},
-				{
-					"name": "Opera",
-					"newest": 56,
-					"enabled": true
+					"enabled": true,
+					"browserstack.selenium_version": "3.5.2",
+        			"specs": ["spec-e2e/siteLoad.spec.js"]
 				}
 			]
 		},
@@ -94,24 +84,21 @@
 			"browsers": [
 				{
 					"name": "Chrome",
-					"newest": 70,
+					"newest": 71,
 					"enabled": true
 				},
 				{
 					"name": "Firefox",
-					"newest": 63,
+					"newest": 64,
 					"enabled": true
 				},
 				{
 					"name": "IE",
 					"newest": 11,
 					"oldest": 10,
-					"enabled": true
-				},
-				{
-					"name": "Opera",
-					"newest": 56,
-					"enabled": true
+					"enabled": true,
+					"browserstack.selenium_version": "3.5.2",
+        			"specs": ["spec-e2e/siteLoad.spec.js"]
 				}
 			]
 		},
@@ -121,25 +108,19 @@
 			"browsers": [
 				{
 					"name": "Chrome",
-					"newest": 70,
+					"newest": 71,
 					"enabled": true,
 					"essential": true
 				},
 				{
 					"name": "Firefox",
-					"newest": 63,
+					"newest": 64,
 					"enabled": true,
 					"essential": true
 				},
 				{
 					"name": "Safari",
 					"versions": ["12"],
-					"enabled": true,
-					"essential": true
-				},
-				{
-					"name": "Opera",
-					"newest": 56,
 					"enabled": true,
 					"essential": true
 				}
@@ -151,22 +132,17 @@
 			"browsers": [
 				{
 					"name": "Chrome",
-					"newest": 70,
+					"newest": 71,
 					"enabled": true
 				},
 				{
 					"name": "Firefox",
-					"newest": 63,
+					"newest": 64,
 					"enabled": true
 				},
 				{
 					"name": "Safari",
 					"versions": ["11.1"],
-					"enabled": true
-				},
-				{
-					"name": "Opera",
-					"newest": 56,
 					"enabled": true
 				}
 			]
@@ -177,23 +153,20 @@
 			"browsers": [
 				{
 					"name": "Chrome",
-					"newest": 70,
+					"newest": 71,
 					"enabled": true
 				},
 				{
 					"name": "Firefox",
-					"newest": 63,
+					"newest": 64,
 					"enabled": true
 				},
 				{
 					"name": "Safari",
 					"versions": ["10.1"],
-					"enabled": true
-				},
-				{
-					"name": "Opera",
-					"newest": 56,
-					"enabled": true
+					"enabled": true,
+					"browserstack.selenium_version": "3.5.2",
+					"specs": ["spec-e2e/siteLoad.spec.js"]
 				}
 			]
 		},
@@ -203,23 +176,20 @@
 			"browsers": [
 				{
 					"name": "Chrome",
-					"newest": 70,
+					"newest": 71,
 					"enabled": true
 				},
 				{
 					"name": "Firefox",
-					"newest": 63,
+					"newest": 64,
 					"enabled": true
 				},
 				{
 					"name": "Safari",
 					"versions": ["9.1"],
-					"enabled": false
-				},
-				{
-					"name": "Opera",
-					"newest": 56,
-					"enabled": true
+					"enabled": true,
+					"browserstack.selenium_version": "3.5.2",
+					"specs": ["spec-e2e/siteLoad.spec.js"]
 				}
 			]
 		}

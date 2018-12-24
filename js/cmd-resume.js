@@ -10,6 +10,9 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 
 	self.commands = {};
 
+	// Set background colour to black
+	$(element).css("background-color", "black");
+
 	if (isJsonResumeHosted(primaryEndpoint) &&
 		!isJsonFormat(primaryEndpoint)) {
 		primaryEndpoint += ".json";
@@ -68,9 +71,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 			data: ["basics", "pdfLink"],
 			type: CMD.CALCULATED,
 			handler: function(data) {
-				window.open(data);
-				return decodeURIComponent(escape(data)) + CONSTANTS.NEW_LINE +
-				"Hint: May need to allow pop-ups.";
+				return decodeURIComponent(escape(data));
 			}
 		},
 		{
@@ -521,10 +522,6 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 
 		self.settings = {
 			greetings: self.commands.splash.handler(),
-			onBlur: function() {
-				// Prevent loosing focus
-				return false;
-			},
 			completion: self.commandList
 		};
 	};
