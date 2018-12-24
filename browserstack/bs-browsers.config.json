@@ -164,7 +164,8 @@
 				{
 					"name": "Safari",
 					"versions": ["10.1"],
-					"enabled": true
+					"enabled": true,
+					"browserstack.selenium_version": "3.5.2"
 				}
 			]
 		},
@@ -185,7 +186,8 @@
 				{
 					"name": "Safari",
 					"versions": ["9.1"],
-					"enabled": false
+					"enabled": true,
+					"browserstack.selenium_version": "3.5.2"
 				}
 			]
 		}
