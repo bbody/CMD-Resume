@@ -124,143 +124,107 @@ function getE2EBrowsers(browserList, headless) {
 	return capabilities;
 }
 
-gulp.task('test:local', [`test:${OPERATING_SYSTEM}`]);
-
-// Default Gulp task is develop
-gulp.task('default', ['develop']);
-
-// Task for development
-gulp.task('develop', ['watch', 'build', 'serve']);
-
-// Task for test
-gulp.task('test', ['watch', 'build', 'test:karma:build', 'coverage']);
-
-// Build the project
-gulp.task('build', ['compile:html', // 'test:karma:build',
-	'compile:development', 'copy:json:build', 'copy:icons:build'
-]);
-
-gulp.task('release', ['compile:release:minified', 'compile:release']);
-
-// Watch important files
-gulp.task('watch', function() {
-	gulp.watch(['js/**/*.js', 'index.html', 'spec/*.js', 'karma.conf.js'], ['build']);
-});
-
-// Serve the for development
-gulp.task('serve', function() {
+function serve() {
 	gulp.src('./')
 		.pipe(webserver({
 			livereload: true,
 			open: true
 		}));
-});
+}
 
-// Source code checking
-
-gulp.task('source-check', ['source-check:development', 'source-check:tools', 'source-check:tests']);
-
-gulp.task('source-check:development', ['compile:development', 'jshint:development',
-	'jscs:development'
-]);
-
-gulp.task('source-check:tools', ['jshint:tools', 'jscs:tools']);
-
-gulp.task('source-check:tests', ['jshint:tests', 'jscs:tests', 'jsonlint', 'mdlint']);
-
-gulp.task('jshint:development', function() {
+function jsHintDevelopment() {
 	return gulp.src(OUTPUT)
 		.pipe(jshint())
 		.pipe(jshint.reporter('jshint-stylish'))
 		.pipe(jshint.reporter('fail'));
-});
+}
 
-gulp.task('jshint:tools', function() {
+function jshintTools() {
 	return gulp.src(TOOLS)
 		.pipe(jshint('./.jshintrc-tools'))
 		.pipe(jshint.reporter('jshint-stylish'))
 		.pipe(jshint.reporter('fail'));
-});
+}
 
-gulp.task('jshint:tests', function() {
+function jshintTests() {
 	return gulp.src(TESTS)
 		.pipe(jshint('./spec/.jshintrc'))
 		.pipe(jshint.reporter('jshint-stylish'))
 		.pipe(jshint.reporter('fail'));
-});
+}
 
-gulp.task('jscs:development', function() {
+function JscsDevelopment() {
 	return gulp.src(SOURCE)
 		.pipe(jscs())
 		.pipe(jscs.reporter())
 		.pipe(jscs.reporter('fail'));
-});
+}
 
-gulp.task('jscs:tools', function() {
+function jscsTools() {
 	return gulp.src(TOOLS)
 		.pipe(jscs({configPath: './.jscsrc-tools'}))
 		.pipe(jscs.reporter())
 		.pipe(jscs.reporter('fail'));
-});
+}
 
-gulp.task('jscs:tests', function() {
+function jscsTests() {
 	return gulp.src(TESTS)
 		.pipe(jscs({configPath: './spec/.jscsrc'}))
 		.pipe(jscs.reporter())
 		.pipe(jscs.reporter('fail'));
-});
+}
 
-gulp.task('jsonlint', function() {
+function jsonLint() {
 	return gulp.src(['**/*.json', '!node_modules/**'])
 		.pipe(jsonlint())
 		.pipe(jsonlint.reporter())
 		.pipe(jsonlint.failOnError());
-});
+}
 
-gulp.task('mdlint', function() {
+function mdlint() {
 	return gulp.src(['docs/*.mdpp', 'docs/partials/*.md'])
 		.pipe(remark({frail: true}));
-});
+}
 
-gulp.task('copy:example-script', function() {
+function copyExampleScript() {
 	return gulp.src(['js/examples/example-script.js'])
 		.pipe(gulp.dest('tmp/js'));
-});
+}
 
-gulp.task('copy:own-script', function() {
+function copyOwnScript() {
 	return gulp.src(['js/examples/own-script.js'])
 		.pipe(gulp.dest('tmp/me/js'));
-});
+}
 
 // Copy JSON files to tmp
-gulp.task('copy:json:build', function() {
+function copyJSONBuild() {
 	return gulp.src(['responses/*.json'])
 		.pipe(gulp.dest('tmp/responses'));
-});
+}
 
-gulp.task('copy:json:test', function() {
+function copyJSONTest() {
 	return gulp.src(['responses/*.json'])
 		.pipe(gulp.dest('test_tmp/responses'));
-});
+}
 
-gulp.task('copy:js:test', function() {
+function copyJSTest() {
 	return gulp.src(['dist/cmd-resume.js'])
 		.pipe(gulp.dest('test_tmp/js'));
-});
+}
 
 // Copy favicon to tmp
-gulp.task('copy:icons:test', function() {
+function copyIconsTest() {
 	return gulp.src('favicons/*')
 		.pipe(gulp.dest('test_tmp'));
-});
+}
 
-gulp.task('copy:icons:build', function() {
+function copyIconsBuild() {
 	return gulp.src('favicons/*')
 		.pipe(gulp.dest('tmp'));
-});
+}
 
 // Compile HTML
-gulp.task('compile:html', function() {
+function compileHTML() {
 	// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 	const locals = {
 		production: false,
@@ -279,14 +243,14 @@ gulp.task('compile:html', function() {
 			locals: locals
 		}))
 		.pipe(gulp.dest('./'));
-});
+}
 
 let getLibraryVersion = libraryName => {
 	let version = package.devDependencies[libraryName];
 	return version.replace('=', '');
 };
 
-gulp.task('compile:html:example', function() {
+function compileHTMLExample() {
 	// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 	const locals = {
 		production: true,
@@ -305,9 +269,9 @@ gulp.task('compile:html:example', function() {
 			locals: locals
 		}))
 		.pipe(gulp.dest('./tmp'));
-});
+}
 
-gulp.task('compile:html:own-example', function() {
+function compileHTMLOwnExample() {
 	// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 	const locals = {
 		production: true,
@@ -327,9 +291,9 @@ gulp.task('compile:html:own-example', function() {
 			locals: locals
 		}))
 		.pipe(gulp.dest('./tmp/me'));
-});
+}
 
-gulp.task('compile:html:test', function() {
+function compileHTMLTest() {
 	// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 	const locals = {
 		production: false,
@@ -348,20 +312,47 @@ gulp.task('compile:html:test', function() {
 			locals: locals
 		}))
 		.pipe(gulp.dest('./test_tmp'));
-});
+}
 
 // Compile JavaScript
-gulp.task('compile:release:minified', function() {
+function compileReleaseMinified() {
 	return compiledCode('./dist', true, true);
-});
+}
 
-gulp.task('compile:release', function() {
+function compileRelease() {
 	return compiledCode('./dist', false, true);
-});
+}
 
-gulp.task('compile:development', function() {
+function compileDevelopment() {
 	return compiledCode('./tmp/js', false, false);
-});
+}
+
+const build = gulp.series(compileHTML, compileDevelopment, copyJSONBuild, copyIconsBuild);
+
+function watch() {
+	gulp.watch(['js/**/*.js', 'index.html', 'spec/*.js', 'karma.conf.js'], build);
+}
+
+// Task for development
+const develop = gulp.series(watch, build, serve);
+
+// Task for test
+// const test = gulp.series(watch, build, testKarmaBuild); // coverage
+
+// Build the project
+// gulp.task('build', ['compile:html', // 'test:karma:build',
+// 	'compile:development', 'copy:json:build', 'copy:icons:build'
+// ]);
+
+const release = gulp.series(compileReleaseMinified, compileRelease);
+
+const sourceCheckDevelopment = gulp.series(compileDevelopment, jsHintDevelopment, JscsDevelopment);
+
+const sourceCheckTools = gulp.series(jshintTools, jscsTools);
+
+const sourceCheckTests = gulp.series(jshintTests, jscsTests, jsonLint, mdlint);
+
+const sourceCheck = gulp.series(sourceCheckDevelopment, sourceCheckTools, sourceCheckTests);
 
 let runTests = (browsers, done) => {
 	new Server({
@@ -372,95 +363,140 @@ let runTests = (browsers, done) => {
 };
 
 // Testing
-gulp.task('test:karma:build', function(done) {
+function testKarmaBuild(done) {
 	return runTests(['CustomChromeHeadless', 'FirefoxHeadless'],
 		done);
-});
+}
 
-gulp.task('test:karma:browserstack', function(done) {
+function testKarmaBrowserstack(done) {
 	var browsers = require('./browserstack/bs-browerList.json').browsers;
 	return runTests(browsers, done);
-});
+}
 
-gulp.task('test:karma:browserstack:essential', function(done) {
+function testKarmaBrowserstackEssential(done) {
 	var browsers = require('./browserstack/bs-browerList-essential.json').browsers;
 	return runTests(browsers, done);
-});
+}
 
-gulp.task('test:karma:linux', function(done) {
+function testKarmaLinux(done) {
 	return runTests(['Chrome', 'Firefox'], done);
-});
+}
 
-gulp.task('test:karma:macos', function(done) {
+function testKarmaMacOS(done) {
 	return runTests(['Chrome', 'Firefox', 'Safari'], done);
-});
+}
 
-gulp.task('test:karma:windows', function(done) {
+function testKarmaWindows(done) {
 	return runTests(['Chrome', 'Firefox', 'IE', 'Edge'], done);
-});
+}
 
-gulp.task('test:e2e:build', function() {
-	return gulp.src('wdio.conf.js').pipe(webdriver({
+function testE2EBuild(done) {
+	gulp.src('wdio.conf.js').pipe(webdriver({
 		jasmineNodeOpts: {
 			defaultTimeoutInterval: 50000
 		},
 		capabilities: getE2EBrowsers(['chrome', 'firefox'], true)
 	}));
-});
+	done();
+}
 
-gulp.task('test:e2e:browserstack:essential', function() {
-	return gulp.src('./wdio.browserstack.essential.conf.js').pipe(webdriver({
+function testE2EBrowserstackEssential(done) {
+	gulp.src('./wdio.browserstack.essential.conf.js').pipe(webdriver({
 		jasmineNodeOpts: {
 			defaultTimeoutInterval: 50000
 		}
 	}));
-});
+	done();
+}
 
-gulp.task('test:e2e:browserstack:all', function() {
-	return gulp.src('./wdio.browserstack.all.conf.js').pipe(webdriver({
+function testE2EBrowserstackAll(done) {
+	gulp.src('./wdio.browserstack.all.conf.js').pipe(webdriver({
 		jasmineNodeOpts: {
 			defaultTimeoutInterval: 50000
 		}
 	}));
-});
+	done();
+}
 
-gulp.task('test:e2e:windows', function() {
-	return gulp.src('wdio.conf.js').pipe(webdriver({
+function testE2EWindows(done) {
+	gulp.src('wdio.conf.js').pipe(webdriver({
 		capabilities: getE2EBrowsers(['chrome', 'firefox', 'internet explorer', 'MicrosoftEdge'])
 	}));
-});
+	done();
+}
 
-gulp.task('test:e2e:macos', function() {
-	return gulp.src('wdio.conf.js').pipe(webdriver({
+function testE2EMacOS(done) {
+	gulp.src('wdio.conf.js').pipe(webdriver({
 		capabilities: getE2EBrowsers(['chrome', 'firefox', 'safari'])
 	}));
-});
+	done();
+}
 
-gulp.task('test:e2e:linux', function() {
-	return gulp.src('wdio.conf.js').pipe(webdriver({
+function testE2ELinux(done) {
+	gulp.src('wdio.conf.js').pipe(webdriver({
 		capabilities: getE2EBrowsers(['chrome', 'firefox'])
 	}));
-});
+	done();
+}
 
-gulp.task('test:e2e', function() {
-	return gulp.src('wdio.conf.js').pipe(webdriver());
-});
+function testE2E(done) {
+	gulp.src('wdio.conf.js').pipe(webdriver());
+	done();
+}
 
-gulp.task('test:e2e:pre', ['copy:icons:test', 'compile:html:test', 'copy:json:test', 'copy:js:test']);
+const testE2EPre = gulp.series(copyIconsTest, compileHTMLTest, copyJSONTest, copyJSTest);
 
-gulp.task('test:macos', ['test:karma:macos', 'test:e2e:pre', 'test:e2e:macos']);
-gulp.task('test:windows', ['test:karma:windows', 'test:e2e:pre', 'test:e2e:windows']);
-gulp.task('test:linux', ['test:karma:linux', 'test:e2e:pre', 'test:e2e:linux']);
-gulp.task('test:bs:ui:essential', ['test:e2e:pre', 'test:e2e:browserstack:essential']);
+const testMacOS = gulp.series(testKarmaMacOS, testE2EPre, testE2EMacOS);
 
-// Deployment
-gulp.task('build-gh-pages', ['compile:gh-pages', 'compile:html:example',
-	'compile:html:own-example', 'copy:json:build', 'copy:icons:build', 'copy:example-script',
-	'copy:own-script'
-]);
+const testWindows = gulp.series(testKarmaWindows, testE2EPre, testE2EWindows);
 
-gulp.task('deploy', ['build-gh-pages', 'gh-pages']);
+const testLinux = gulp.series(testKarmaLinux, testE2EPre, testE2ELinux);
 
-gulp.task('compile:gh-pages', function() {
+const testBSUIEssential = gulp.series(testE2EPre, testE2EBrowserstackEssential);
+const testBSUIAll = gulp.series(testE2EPre, testE2EBrowserstackAll);
+
+function compileGHPages() {
 	return compiledCode('tmp/js', false, false);
-});
+}
+
+var localTest = {
+	'macos': testMacOS,
+	'windows': testWindows,
+	'linux': testLinux
+};
+
+const buildGHPages = gulp.series(compileGHPages, compileHTMLExample, compileHTMLOwnExample, copyJSONBuild, copyIconsBuild, copyExampleScript, copyOwnScript);
+
+function testLocal(done) {
+	localTest[OPERATING_SYSTEM]();
+	done();
+}
+
+module.exports = {
+	'default': develop,
+
+	// Build tasks
+	'build:gh_pages': buildGHPages,
+	'build:release': release,
+	'build:e2e_prepare': testE2EPre,
+
+	// Lint tasks
+	'lint:all': sourceCheck,
+
+	// Unit tests
+	'test:unit:build': testKarmaBuild,
+	'test:unit:bs_all': testKarmaBrowserstack,
+	'test:unit:bs_essential': testKarmaBrowserstackEssential,
+
+	// UI tests
+	'test:e2e:build': testE2EBuild,
+	'test:e2e:local': testE2E,
+	'test:e2e:bs_essential': testBSUIEssential,
+	'test:e2e:bs_all': testBSUIAll,
+
+	// Combined tests
+	'test:all:local': testLocal,
+	'test:all:linux': testLinux,
+	'test:all:mac_os': testMacOS,
+	'test:all:windows': testWindows
+};

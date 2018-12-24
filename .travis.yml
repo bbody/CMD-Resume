@@ -20,13 +20,13 @@ before_script:
 script:
   - |
     if [ $TRAVIS_EVENT_TYPE == "cron" ];then
-    npm run test:build && travis_wait 60 npm run test:browserstack:all
+    npm test && travis_wait 60 npm run test:all:bs_all
     elif $TRAVIS_SECURE_ENV_VARS ;then
-    npm run test:build && travis_wait 60 npm run test:browserstack:essential
+    npm test && travis_wait 60 npm run test:all:bs_essential
     else
-    npm run test:build
+    npm test
     fi
-  - npm run source-check
+  - npm run lint:all
 cache:
   directories:
     - node_modules
@@ -45,10 +45,10 @@ before_install:
   - jdk_switcher use oraclejdk8
   - npm run setup
 before_deploy:
-  - npm run release
-  - npm run gh-pages
+  - gulp build:release
+  - gulp build:gh_pages
   - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
-  - npm run doc:build
+  - npm run build:doc
 deploy:
   - provider: releases
     skip_cleanup: true
