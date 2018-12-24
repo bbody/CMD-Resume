@@ -165,7 +165,8 @@
 					"name": "Safari",
 					"versions": ["10.1"],
 					"enabled": true,
-					"browserstack.selenium_version": "3.5.2"
+					"browserstack.selenium_version": "3.5.2",
+					"specs": ["spec-e2e/siteLoad.spec.js"]
 				}
 			]
 		},
@@ -187,7 +188,8 @@
 					"name": "Safari",
 					"versions": ["9.1"],
 					"enabled": true,
-					"browserstack.selenium_version": "3.5.2"
+					"browserstack.selenium_version": "3.5.2",
+					"specs": ["spec-e2e/siteLoad.spec.js"]
 				}
 			]
 		}
