@@ -7,7 +7,8 @@
         "os_version": "Sierra",
         "browserstack.local": true,
         "browserstack.selenium_version": "3.5.2",
-        "browser_version": "10.1"
+        "browser_version": "10.1",
+        "specs": ["spec-e2e/siteLoad.spec.js"]
     },
     {
         "base": "BrowserStack",
@@ -16,6 +17,7 @@
         "os_version": "El Capitan",
         "browserstack.local": true,
         "browserstack.selenium_version": "3.5.2",
-        "browser_version": "9.1"
+        "browser_version": "9.1",
+        "specs": ["spec-e2e/siteLoad.spec.js"]
     }]
 }
