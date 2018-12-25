@@ -20,7 +20,7 @@ var fullBrowserCapabilityList = [];
 for (var os of config.operating_systems) {
 	for (var browser of os.browsers) {
 		if (!browser.versions){
-			var oldestVersion = browser.oldest ? browser.oldest : browser.newest - 2;
+			var oldestVersion = browser.oldest ? browser.oldest : browser.newest - 1;
 			browser.versions = getListOfVersions(oldestVersion, browser.newest);
 		}
 
