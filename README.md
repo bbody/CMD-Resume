@@ -132,7 +132,7 @@ $(document).ready(function() {
 ## Browser Compatibility
 | ![Chrome][] | ![Firefox][] | ![Edge][]  | ![Safari][] | ![IE][]   |
 |:-----------:|:------------:|:----------:|:-----------:|:---------:|
-| Latest 3 ✔  | Latest 3 ✔   | Latest 3 ✔ | Latest 3 ✔  | 11 - 10 ✔ |
+| 71 & 70 ✔   | 64 & 63 ✔    | 16 & 15 ✔  | 11 - 9 ✔    | 11 & 10 ✔ |
 
 Assets from [Browser Logos][].
 
