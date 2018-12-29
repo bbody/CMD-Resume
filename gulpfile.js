@@ -391,12 +391,22 @@ function testKarmaWindows(done) {
 }
 
 function testE2EBuild(done) {
-	gulp.src('wdio.conf.js').pipe(webdriver({
-		jasmineNodeOpts: {
-			defaultTimeoutInterval: 50000
-		},
-		capabilities: getE2EBrowsers(['chrome', 'firefox'], true)
-	}));
+	if (process.env.TRAVIS_EVENT_TYPE === 'pull_request') {
+		// Only run visual regression on PR
+		gulp.src('wdio.visualregression.conf.js').pipe(webdriver({
+			jasmineNodeOpts: {
+				defaultTimeoutInterval: 50000
+			},
+			capabilities: getE2EBrowsers(['chrome', 'firefox'], true)
+		}));
+	} else {
+		gulp.src('wdio.conf.js').pipe(webdriver({
+			jasmineNodeOpts: {
+				defaultTimeoutInterval: 50000
+			},
+			capabilities: getE2EBrowsers(['chrome', 'firefox'], true)
+		}));
+	}
 	done();
 }
 
