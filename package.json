@@ -48,6 +48,7 @@
     "gulp-jshint": "^2.0.4",
     "gulp-jsonlint": "^1.2.2",
     "gulp-pug": "^4.0.1",
+    "gulp-pug-linter": "^1.1.0",
     "gulp-remark": "^6.0.2",
     "gulp-rename": "^1.4.0",
     "gulp-uglify": "^3.0.1",
