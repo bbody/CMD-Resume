@@ -49,7 +49,7 @@ module.exports = {
 		}
 	},
 	assertDiff(browser, expect) {
-		if (process && process.env && process.env.TRAVIS_EVENT_TYPE === "pull_request") {
+		if (browser.checkDocument) {
 			var results = browser.checkDocument();
 			results.forEach((result) => expect(result.isExactSameImage).toBe(true));
 		}

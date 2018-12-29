@@ -5,7 +5,8 @@ var VisualRegressionCompare = require('wdio-visual-regression-service/compare');
 function getScreenshotName(basePath) {
 	return function(context) {
 		var testName = context.test.fullName.replace(/ /gi, '_');
-		var browserName = context.browser.name;
+		// For some reason it thinks I am running Safari
+		var browserName = context.browser.name === 'Safari' ? 'Chrome' : context.browser.name;
 
 		return path.join(basePath, `${testName}__${browserName}.png`);
 	};
