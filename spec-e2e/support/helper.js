@@ -47,5 +47,11 @@ module.exports = {
 			     browser.elementIdValue(activeElement, [...keys, '\uE006']);
 			}
 		}
+	},
+	assertDiff(browser, expect) {
+		if (process.env.TRAVIS_EVENT_TYPE === 'pull_request') {
+			var results = browser.checkDocument();
+			results.forEach((result) => expect(result.isExactSameImage).toBe(true));
+		}
 	}
 };

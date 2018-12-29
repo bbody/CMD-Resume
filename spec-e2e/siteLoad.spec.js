@@ -13,10 +13,13 @@ describe("Website load", function() {
 
 			var terminal = $('body.full-screen-terminal');
 
-			terminal.waitForExist(5000);
+			// terminal.waitForExist(5000);
 
 			title = browser.getTitle().replace(/ /gi, " ");
+			
 			expect(title).toBe("Richard Hendriks's Résumé");
+			
+			helper.assertDiff(browser, expect);
 		});
 
 	});
@@ -32,12 +35,15 @@ describe("Website load", function() {
 			var welcomeMessage = browser.getText('.terminal-output div[data-index="0"] div:first-child').replace(/ /gi, " ");
 
 			expect(welcomeMessage).toBe("Welcome to Richard Hendriks's résumé.");
+			helper.assertDiff(browser, expect);
 		});
 
 		it("has help message", function(){
 			var helpMessage = browser.getText('.terminal-output div[data-index="0"] div:last-child').replace(/ /gi, " ");
 
 			expect(helpMessage).toBe("Type help for commands");
+
+			helper.assertDiff(browser, expect);
 		});
 	});
 
@@ -54,6 +60,7 @@ describe("Website load", function() {
 			var splash = $$('.terminal-output div[data-index="0"] div');
 
 			expect(splash.length).toBeGreaterThan(5);
+			helper.assertDiff(browser, expect);
 		});
 	});
 });

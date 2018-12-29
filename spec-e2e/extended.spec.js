@@ -16,13 +16,15 @@ describe("Name", function() {
 
 		expect(commandOutput.key).toBe("PGP Key");
 		expect(commandOutput.values.length).toBeGreaterThan(1);
+		helper.assertDiff(browser, expect);
 	});
 
-	it("returns pgpkey", function(){
+	it("returns splash screen", function(){
 		helper.keyboard.typeCommand(browser, 'splash');
 		
 		var commandOutput = helper.getMultiValues(browser);
 
 		expect(commandOutput.values.length).toBeGreaterThan(5);
+		helper.assertDiff(browser, expect);
 	});
 });
