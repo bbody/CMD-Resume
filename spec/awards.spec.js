@@ -1,4 +1,4 @@
-describe("Awards", function(){
+describe("Awards", function() {
 	beforeEach(function() {
 		var div = $("<div id='cmd-resume'></div>");
 		$("body").append(div);
@@ -9,7 +9,7 @@ describe("Awards", function(){
 		$("#cmd-resume").remove();
 		jasmine.Ajax.uninstall();
 	});
-	describe("empty", function(){
+	describe("empty", function() {
 		describe("Without volunteer", function() {
 			beforeEach(function() {
 				$("#cmd-resume").CMDResume("noVolunteer.json");
@@ -55,12 +55,12 @@ describe("Awards", function(){
 		});
 	});
 
-	describe("all", function(){
+	describe("all", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("details.json");
 		});
 
-		it("should only show one entry", function(){
+		it("should only show one entry", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify(loadJSON("awards"))
@@ -79,12 +79,12 @@ describe("Awards", function(){
 		});
 	});
 
-	describe("top", function(){
+	describe("top", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("details.json");
 		});
 
-		it("should only show one entry", function(){
+		it("should only show one entry", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify(loadJSON("details"))
@@ -98,7 +98,7 @@ describe("Awards", function(){
 		});
 	});
 
-	describe("missing parts", function(){
+	describe("missing parts", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("volunteer.json");
 			jasmine.Ajax.requests.mostRecent().respondWith({
@@ -107,15 +107,15 @@ describe("Awards", function(){
 			});
 			enterCommand("awards");
 		});
-		it("Missing title", function(){
+		it("Missing title", function() {
 			var output = fullCommandOutput();
 			expect(output.values[0]).toEqual("Awarder 1    Date 1");
 		});
-		it("Missing date", function(){
+		it("Missing date", function() {
 			var output = fullCommandOutput();
 			expect(output.values[1]).toEqual("Awarder 2    Title 2");
 		});
-		it("Missing awarder", function(){
+		it("Missing awarder", function() {
 			var output = fullCommandOutput();
 			expect(output.values[2]).toEqual("Title 3    Date 3");
 		});

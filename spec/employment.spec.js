@@ -1,4 +1,4 @@
-describe("Employment", function(){
+describe("Employment", function() {
 	beforeEach(function() {
 		var div = $("<div id='cmd-resume'></div>");
 		$("body").append(div);
@@ -9,8 +9,8 @@ describe("Employment", function(){
 		$("#cmd-resume").remove();
 		jasmine.Ajax.uninstall();
 	});
-	
-	describe("empty", function(){
+
+	describe("empty", function() {
 		describe("Without employment", function() {
 			beforeEach(function() {
 				$("#cmd-resume").CMDResume("noEmployment.json");
@@ -59,12 +59,12 @@ describe("Employment", function(){
 		});
 	});
 
-	describe("all", function(){
+	describe("all", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("details.json");
 		});
 
-		it("should only show one entry", function(){
+		it("should only show one entry", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify(loadJSON("details"))
@@ -85,12 +85,12 @@ describe("Employment", function(){
 		});
 	});
 
-	describe("top", function(){
+	describe("top", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("details.json");
 		});
 
-		it("should only show one entry", function(){
+		it("should only show one entry", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify(loadJSON("details"))
@@ -104,7 +104,7 @@ describe("Employment", function(){
 		});
 	});
 
-	describe("missing parts", function(){
+	describe("missing parts", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("employment.json");
 			jasmine.Ajax.requests.mostRecent().respondWith({
@@ -113,23 +113,23 @@ describe("Employment", function(){
 			});
 			enterCommand("employment");
 		});
-		it("Missing end date", function(){
+		it("Missing end date", function() {
 			var output = fullCommandOutput();
 			expect(output.values[0]).toEqual("Pied Piper    CEO    2013-12-01 - Present");
 		});
-		it("Missing start date", function(){
+		it("Missing start date", function() {
 			var output = fullCommandOutput();
 			expect(output.values[1]).toEqual("Pied Piper    CTO    Until 2014-12-01");
 		});
-		it("Missing both dates", function(){
+		it("Missing both dates", function() {
 			var output = fullCommandOutput();
 			expect(output.values[2]).toEqual("Pied Piper    Programmer");
 		});
-		it("Missing title", function(){
+		it("Missing title", function() {
 			var output = fullCommandOutput();
 			expect(output.values[3]).toEqual("Pied Piper    2013-12-01 - 2014-12-01");
 		});
-		it("Missing company", function(){
+		it("Missing company", function() {
 			var output = fullCommandOutput();
 			expect(output.values[4]).toEqual("Entrepreneur    2013-12-01 - 2014-12-01");
 		});

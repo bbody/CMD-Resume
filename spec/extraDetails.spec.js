@@ -12,8 +12,8 @@ describe("Extra details", function() {
 
 	describe("PGP", function() {
 		beforeEach(function() {
-			jasmine.Ajax.stubRequest('emptyStrings.json').andReturn(successResponse("emptyStrings"));
-			jasmine.Ajax.stubRequest('pgp.json').andReturn(successResponse("extraDetails/pgp"));
+			jasmine.Ajax.stubRequest("emptyStrings.json").andReturn(successResponse("emptyStrings"));
+			jasmine.Ajax.stubRequest("pgp.json").andReturn(successResponse("extraDetails/pgp"));
 
 			$("#cmd-resume").CMDResume("emptyStrings.json", {extraDetails: "pgp.json"});
 		});
@@ -32,9 +32,9 @@ describe("Extra details", function() {
 
 	describe("Github User Override", function() {
 		beforeEach(function() {
-			jasmine.Ajax.stubRequest('details.json').andReturn(successResponse("emptyStrings"));
-			jasmine.Ajax.stubRequest('github.json').andReturn(successResponse("extraDetails/github"));
-			jasmine.Ajax.stubRequest('https://api.github.com/users/example/repos').andReturn(successResponse("github/override"));
+			jasmine.Ajax.stubRequest("details.json").andReturn(successResponse("emptyStrings"));
+			jasmine.Ajax.stubRequest("github.json").andReturn(successResponse("extraDetails/github"));
+			jasmine.Ajax.stubRequest("https://api.github.com/users/example/repos").andReturn(successResponse("github/override"));
 
 			$("#cmd-resume").CMDResume("details.json", {extraDetails: "github.json"});
 		});
@@ -52,9 +52,9 @@ describe("Extra details", function() {
 
 	describe("Github Empty Response", function() {
 		beforeEach(function() {
-			jasmine.Ajax.stubRequest('details.json').andReturn(successResponse("emptyStrings"));
-			jasmine.Ajax.stubRequest('github.json').andReturn(successResponse("extraDetails/github"));
-			jasmine.Ajax.stubRequest('https://api.github.com/users/example/repos').andReturn({});
+			jasmine.Ajax.stubRequest("details.json").andReturn(successResponse("emptyStrings"));
+			jasmine.Ajax.stubRequest("github.json").andReturn(successResponse("extraDetails/github"));
+			jasmine.Ajax.stubRequest("https://api.github.com/users/example/repos").andReturn({});
 
 			$("#cmd-resume").CMDResume("details.json", {extraDetails: "github.json"});
 		});

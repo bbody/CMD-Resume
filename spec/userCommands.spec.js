@@ -1,12 +1,12 @@
-describe("User Commands", function(){
+describe("User Commands", function() {
 	beforeEach(function() {
 		var div = $("<div id='cmd-resume'></div>");
 		$("body").append(div);
 		jasmine.Ajax.install();
-		spyOn(console, 'error');
+		spyOn(console, "error");
 
-		jasmine.Ajax.stubRequest('json').andReturn(successResponse("details"));
-		jasmine.Ajax.stubRequest('extra-commands.json').andReturn(successResponse("extraDetails/extraDataForCommands"));
+		jasmine.Ajax.stubRequest("json").andReturn(successResponse("details"));
+		jasmine.Ajax.stubRequest("extra-commands.json").andReturn(successResponse("extraDetails/extraDataForCommands"));
 	});
 
 	afterEach(function() {
@@ -14,7 +14,7 @@ describe("User Commands", function(){
 		jasmine.Ajax.uninstall();
 	});
 
-	describe("No Commands", function(){
+	describe("No Commands", function() {
 		it("handles empty array", function() {
 			$("#cmd-resume").CMDResume("json", {customCommands: []});
 
@@ -56,12 +56,12 @@ describe("User Commands", function(){
 	it("handles basic command", function() {
 		var commands = [
 			{
-                name: "spiritanimal",
-                title: "Spirit Animal",
-                description: "the animal I most identify with",
-                type: "basic",
-                data: ["extra", "spiritanimal"]
-            }
+				name: "spiritanimal",
+				title: "Spirit Animal",
+				description: "the animal I most identify with",
+				type: "basic",
+				data: ["extra", "spiritanimal"]
+			}
 		];
 
 		$("#cmd-resume").CMDResume("json", {customCommands: commands, extraDetails: "extra-commands.json"});
@@ -87,12 +87,12 @@ describe("User Commands", function(){
 		var commands = [
 			{
 				name: "geolocation",
-                title: "Geolocation",
-                description: "checks if geolocation is enabled",
-                type: "system",
-                handler: function() {
-                    return "Geolocation is " + (navigator.geolocation ?  "" : "not ") + "supported for this browser";
-                }
+				title: "Geolocation",
+				description: "checks if geolocation is enabled",
+				type: "system",
+				handler: function() {
+					return "Geolocation is " + (navigator.geolocation ?  "" : "not ") + "supported for this browser";
+				}
 			}
 		];
 
@@ -119,18 +119,18 @@ describe("User Commands", function(){
 
 		var commands = [
 			{
-                name: "projectyears",
-                title: "Project Years",
-                description: "years since the project started",
-                type: "calculated",
-                data: ["extra", "project_start"],
-                dataIsObject: true,
-                handler: function(value) {
-                    var startYear = (new Date(value.unixtime)).getFullYear();
-                    var endYear = (new Date()).getFullYear();
-                    return "Started " + (endYear - startYear) + " years ago to " + value.motivation;
-                }
-            }
+				name: "projectyears",
+				title: "Project Years",
+				description: "years since the project started",
+				type: "calculated",
+				data: ["extra", "project_start"],
+				dataIsObject: true,
+				handler: function(value) {
+					var startYear = (new Date(value.unixtime)).getFullYear();
+					var endYear = (new Date()).getFullYear();
+					return "Started " + (endYear - startYear) + " years ago to " + value.motivation;
+				}
+			}
 		];
 
 		$("#cmd-resume").CMDResume("json", {customCommands: commands, extraDetails: "extra-commands.json"});
@@ -155,23 +155,23 @@ describe("User Commands", function(){
 
 		var commands = [
 			{
-                name: "countries",
-                title: "Countries",
-                description: "countries that I've been to",
-                type: "array",
-                data: ["extra", "countriestravelledto"],
-                handlers: {
-                    organisation: function(value) {
-                        return value.name;
-                    },
-                    title: function(value) {
-                        return value.cities.join(", ");
-                    },
-                    date: function(value) {
-                        return value.timeperiod;
-                    }
-                }
-            }
+				name: "countries",
+				title: "Countries",
+				description: "countries that I've been to",
+				type: "array",
+				data: ["extra", "countriestravelledto"],
+				handlers: {
+					organisation: function(value) {
+						return value.name;
+					},
+					title: function(value) {
+						return value.cities.join(", ");
+					},
+					date: function(value) {
+						return value.timeperiod;
+					}
+				}
+			}
 		];
 
 		$("#cmd-resume").CMDResume("json", {customCommands: commands, extraDetails: "extra-commands.json"});

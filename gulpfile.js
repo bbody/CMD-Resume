@@ -15,13 +15,22 @@ var gulp = require('gulp'),
 	webdriver = require('gulp-webdriver'),
 	package = require('./package.json');
 
-var TOOLS = ['karma.conf.js', 'gulpfile.js'];
-var TESTS = ['spec/*-spec.js'];
+var TOOLS = ['*.conf.js', 'gulpfile.js', 'scripts/*.js', 'js/examples/*.js'];
+var UNIT_TESTS = ['spec/**/*.spec.js', 'spec/support/*.js'];
+var UI_TESTS = ['spec-e2e/**/*.spec.js', 'spec-e2e/support/*.js'];
 var SOURCE = ['js/helpers/constants.js', 'js/helpers/misc.js',
 	'js/helpers/formatters.js', 'js/helpers/commandHandlers.js',
 	'js/helpers/github.js',
-	'js/cmd-resume.js'];
-var OUTPUT = ['./tmp/js/cmd-resume.js'];
+	'js/cmd-resume.js'
+];
+var JS_SOURCE = ['js/cmd-resume.js', 'js/helpers/*.js'];
+var OUTPUT = ['tmp/js/cmd-resume.js'];
+var JSON = ['browserstack/*.json', 'fixtures/*.json', 'responses/*.json',
+	'fixtures/*.json', 'spec/.jscsrc*', '.jshintrc-*', '..jscsrc-*',
+	'spec/.jshintrc', 'spec-e2e/.jscsrc', 'spec-e2e/.jshintrc'
+];
+var MARKDOWN = ['docs/**/*.mdpp'];
+// var YAML = ['**/*.yaml', '!node_modules/**'];
 
 function getCurrentOperatingSystem() {
 	var os = require('os');
@@ -83,26 +92,6 @@ function getE2EBrowsers(browserList, headless) {
 	browserList.forEach(function(browser) {
 		var capability = {};
 
-		if (browser === 'chrome') {
-			capability.include = ['spec-e2e/chrome/*.spec.js'];
-		}
-
-		if (browser === 'firefox') {
-			capability.include = ['spec-e2e/firefox/*.spec.js'];
-		}
-
-		if (browser === 'safari') {
-			capability.include = ['spec-e2e/safari/*.spec.js'];
-		}
-
-		if (browser === 'safari' || browser === 'chrome') {
-			capability.include = ['spec-e2e/chrome-safari/*.spec.js'];
-		}
-
-		if (browser === 'firefox' || browser === 'chrome') {
-			capability.include = ['spec-e2e/chrome-firefox/*.spec.js'];
-		}
-
 		if (headless && browser === 'firefox') {
 			capability['moz:firefoxOptions'] = {
 				args: ['-headless'],
@@ -132,95 +121,130 @@ function serve() {
 		}));
 }
 
-function jsHintDevelopment() {
-	return gulp.src(OUTPUT)
+function jsHintDevelopment(done) {
+	gulp.src(OUTPUT)
 		.pipe(jshint())
 		.pipe(jshint.reporter('jshint-stylish'))
 		.pipe(jshint.reporter('fail'));
+	done();
 }
 
-function jshintTools() {
-	return gulp.src(TOOLS)
+function jshintTools(done) {
+	gulp.src(TOOLS)
 		.pipe(jshint('./.jshintrc-tools'))
 		.pipe(jshint.reporter('jshint-stylish'))
 		.pipe(jshint.reporter('fail'));
+	done();
 }
 
-function jshintTests() {
-	return gulp.src(TESTS)
+function jshintUnitTests(done) {
+	gulp.src(UNIT_TESTS)
 		.pipe(jshint('./spec/.jshintrc'))
 		.pipe(jshint.reporter('jshint-stylish'))
 		.pipe(jshint.reporter('fail'));
+	done();
 }
 
-function JscsDevelopment() {
-	return gulp.src(SOURCE)
+function jshintUITests(done) {
+	gulp.src(UI_TESTS)
+		.pipe(jshint('./spec-e2e/.jshintrc'))
+		.pipe(jshint.reporter('jshint-stylish'))
+		.pipe(jshint.reporter('fail'));
+	done();
+}
+
+var jshintTests = gulp.parallel(jshintUnitTests, jshintUITests);
+
+function jscsDevelopment(done) {
+	gulp.src(SOURCE)
 		.pipe(jscs())
 		.pipe(jscs.reporter())
 		.pipe(jscs.reporter('fail'));
+	done();
 }
 
-function jscsTools() {
-	return gulp.src(TOOLS)
+function jscsTools(done) {
+	gulp.src(TOOLS)
 		.pipe(jscs({configPath: './.jscsrc-tools'}))
 		.pipe(jscs.reporter())
 		.pipe(jscs.reporter('fail'));
+	done();
 }
 
-function jscsTests() {
-	return gulp.src(TESTS)
+function jscsUnitTests(done) {
+	gulp.src(UNIT_TESTS)
 		.pipe(jscs({configPath: './spec/.jscsrc'}))
 		.pipe(jscs.reporter())
 		.pipe(jscs.reporter('fail'));
+	done();
 }
 
-function jsonLint() {
-	return gulp.src(['**/*.json', '!node_modules/**'])
+function jscsUITests(done) {
+	gulp.src(UI_TESTS)
+		.pipe(jscs({configPath: './spec-e2e/.jscsrc'}))
+		.pipe(jscs.reporter())
+		.pipe(jscs.reporter('fail'));
+	done();
+}
+
+var jscsTests = gulp.parallel(jscsUnitTests, jscsUITests);
+
+function jsonLint(done) {
+	gulp.src(JSON)
 		.pipe(jsonlint())
 		.pipe(jsonlint.reporter())
 		.pipe(jsonlint.failOnError());
+	done();
 }
 
-function mdlint() {
-	return gulp.src(['docs/*.mdpp', 'docs/partials/*.md'])
+function mdlint(done) {
+	gulp.src(MARKDOWN)
 		.pipe(remark({frail: true}));
+	done();
 }
 
-function copyExampleScript() {
-	return gulp.src(['js/examples/example-script.js'])
+function copyExampleScript(done) {
+	gulp.src(['js/examples/example-script.js'])
 		.pipe(gulp.dest('tmp/js'));
+	done();
 }
 
-function copyOwnScript() {
-	return gulp.src(['js/examples/own-script.js'])
+function copyOwnScript(done) {
+	gulp.src(['js/examples/own-script.js'])
 		.pipe(gulp.dest('tmp/me/js'));
+	done();
 }
 
 // Copy JSON files to tmp
-function copyJSONBuild() {
-	return gulp.src(['responses/*.json'])
+function copyJSONBuild(done) {
+	gulp.src(['responses/*.json'])
 		.pipe(gulp.dest('tmp/responses'));
+	done();
 }
 
-function copyJSONTest() {
-	return gulp.src(['responses/*.json'])
+function copyJSONTest(done) {
+	gulp.src(['responses/*.json'])
 		.pipe(gulp.dest('test_tmp/responses'));
+	done();
 }
 
-function copyJSTest() {
-	return gulp.src(['dist/cmd-resume.js'])
+function copyJSTest(done) {
+	gulp.src(['dist/cmd-resume.js'])
 		.pipe(gulp.dest('test_tmp/js'));
+	done();
 }
 
 // Copy favicon to tmp
-function copyIconsTest() {
-	return gulp.src('favicons/*')
+function copyIconsTest(done) {
+	gulp.src('favicons/*')
 		.pipe(gulp.dest('test_tmp'));
+	done();
 }
 
-function copyIconsBuild() {
-	return gulp.src('favicons/*')
+function copyIconsBuild(done) {
+	gulp.src('favicons/*')
 		.pipe(gulp.dest('tmp'));
+	done();
 }
 
 // Compile HTML
@@ -250,7 +274,7 @@ let getLibraryVersion = libraryName => {
 	return version.replace('=', '');
 };
 
-function compileHTMLExample() {
+function compileHTMLExample(done) {
 	// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 	const locals = {
 		production: true,
@@ -264,14 +288,15 @@ function compileHTMLExample() {
 		favicon_directory: '.'
 	};
 	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
-	return gulp.src('templates/index.pug')
+	gulp.src('templates/index.pug')
 		.pipe(pug({
 			locals: locals
 		}))
 		.pipe(gulp.dest('./tmp'));
+	done();
 }
 
-function compileHTMLOwnExample() {
+function compileHTMLOwnExample(done) {
 	// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 	const locals = {
 		production: true,
@@ -285,15 +310,16 @@ function compileHTMLOwnExample() {
 		favicon_directory: '..'
 	};
 	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
-	return gulp.src('templates/index.pug')
+	gulp.src('templates/index.pug')
 		.pipe(pug({
 			pretty: true,
 			locals: locals
 		}))
 		.pipe(gulp.dest('./tmp/me'));
+	done();
 }
 
-function compileHTMLTest() {
+function compileHTMLTest(done) {
 	// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 	const locals = {
 		production: false,
@@ -307,46 +333,38 @@ function compileHTMLTest() {
 		favicon_directory: '.'
 	};
 	// jscs:enable requireCamelCaseOrUpperCaseIdentifiers
-	return gulp.src('templates/index.pug')
+	gulp.src('templates/index.pug')
 		.pipe(pug({
 			locals: locals
 		}))
 		.pipe(gulp.dest('./test_tmp'));
+	done();
 }
 
 // Compile JavaScript
-function compileReleaseMinified() {
-	return compiledCode('./dist', true, true);
+function compileReleaseMinified(done) {
+	compiledCode('./dist', true, true).on('finish', function() {
+		return done();
+	});
 }
 
-function compileRelease() {
-	return compiledCode('./dist', false, true);
+function compileRelease(done) {
+	compiledCode('./dist', false, true).on('finish', function() {
+		return done();
+	});
 }
 
-function compileDevelopment() {
-	return compiledCode('./tmp/js', false, false);
+function compileDevelopment(done) {
+	compiledCode('./tmp/js', false, false).on('finish', function() {
+		return done();
+	});
 }
 
 const build = gulp.series(compileHTML, compileDevelopment, copyJSONBuild, copyIconsBuild);
 
-function watch() {
-	gulp.watch(['js/**/*.js', 'index.html', 'spec/*.js', 'karma.conf.js'], build);
-}
-
-// Task for development
-const develop = gulp.series(watch, build, serve);
-
-// Task for test
-// const test = gulp.series(watch, build, testKarmaBuild); // coverage
-
-// Build the project
-// gulp.task('build', ['compile:html', // 'test:karma:build',
-// 	'compile:development', 'copy:json:build', 'copy:icons:build'
-// ]);
-
 const release = gulp.series(compileReleaseMinified, compileRelease);
 
-const sourceCheckDevelopment = gulp.series(compileDevelopment, jsHintDevelopment, JscsDevelopment);
+const sourceCheckDevelopment = gulp.series(compileDevelopment, jscsDevelopment, jsHintDevelopment);
 
 const sourceCheckTools = gulp.series(jshintTools, jscsTools);
 
@@ -472,8 +490,32 @@ function testLocal(done) {
 	done();
 }
 
+function watch() {
+	// Example build changes
+	gulp.watch(JS_SOURCE, gulp.series(compileDevelopment, jsHintDevelopment, jscsDevelopment, testKarmaBuild, testE2EBuild));
+	gulp.watch(['favicons/*'], copyIconsTest);
+	gulp.watch(['responses/*'], copyJSONBuild);
+
+	gulp.watch(['templates/**/*.pug'], gulp.series(compileHTML)); // Lint Pug here
+	gulp.watch(MARKDOWN, gulp.series(mdlint)); // Run MD Compile here too
+
+	// Pure linting
+	gulp.watch(JSON, jsonLint);
+	gulp.watch(TOOLS, sourceCheckTools);
+
+	// Unit Testing
+	gulp.watch(UNIT_TESTS, gulp.series(jscsUnitTests, jshintUnitTests, testKarmaBuild));
+
+	// UI Testing
+	gulp.watch(UI_TESTS, gulp.series(jscsUITests, jshintUITests, testE2EBuild));
+}
+
+// Task for development
+const develop = gulp.parallel(watch, build, serve);
+
 module.exports = {
 	'default': develop,
+	watch,
 
 	// Build tasks
 	'build:gh_pages': buildGHPages,

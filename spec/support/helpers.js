@@ -44,8 +44,7 @@ var getSingleOutput =  function() {
 	return $(output[0]).html().decodeSpace();
 };
 
-
-var failedCommandOutput = manCommandOutput = function() {
+var failedCommandOutput = function() {
 	var lines = $(".terminal-output > div");
 	var output = $(lines[lines.length - 1]).find("div span");
 
@@ -54,6 +53,8 @@ var failedCommandOutput = manCommandOutput = function() {
 		message: $(output[1]).html().decodeSpace()
 	};
 };
+
+var manCommandOutput = failedCommandOutput;
 
 var pdfCommandOutput = function() {
 	var lines = $(".terminal-output > div");
@@ -90,17 +91,17 @@ var references = {
 		var parsedOutput = [];
 		var command = "";
 
-		output.each(function(count, value){
-			if (count === 0){
+		output.each(function(count, value) {
+			if (count === 0) {
 				command = $(value).find("span").html().decodeSpace();
 			} else {
 				var parsedValue = "";
 
-				$(value).children('span,a').each(function(index, value){
+				$(value).children("span,a").each(function(index, value) {
 					parsedValue += $(value).html().decodeSpace();
 				});
 
-				if (parsedValue){ // Filter out empty value
+				if (parsedValue) { // Filter out empty value
 					parsedOutput.push(parsedValue);
 				}
 			}
@@ -109,7 +110,7 @@ var references = {
 		return {
 			command: command,
 			values: parsedOutput
-		}
+		};
 	}
 };
 
@@ -125,17 +126,17 @@ var socialmedia = {
 		var parsedOutput = [];
 		var command = "";
 
-		output.each(function(count, value){
-			if (count === 0){
+		output.each(function(count, value) {
+			if (count === 0) {
 				command = $(value).find("span").html().decodeSpace();
 			} else {
 				var parsedValue = "";
 
-				$(value).children('span,a').each(function(index, value){
+				$(value).children("span,a").each(function(index, value) {
 					parsedValue += $(value).html().decodeSpace();
 				});
 
-				if (parsedValue){ // Filter out empty value
+				if (parsedValue) { // Filter out empty value
 					parsedOutput.push(parsedValue);
 				}
 			}
@@ -144,7 +145,7 @@ var socialmedia = {
 		return {
 			command: command,
 			values: parsedOutput
-		}
+		};
 	}
 };
 
@@ -160,12 +161,12 @@ var fullCommandOutput = function() {
 	var output = $(lines[lines.length - 1]).find("div span");
 	var parsedOutput = [];
 	var command = "";
-	output.each(function(count, value){
-		if (count === 0){
+	output.each(function(count, value) {
+		if (count === 0) {
 			command = $(value).html().decodeSpace();
 		} else {
 			var parsedValue = $(value).html().decodeSpace();
-			if (parsedValue){ // Filter out empty value
+			if (parsedValue) { // Filter out empty value
 				parsedOutput.push(parsedValue);
 			}
 		}
@@ -183,17 +184,17 @@ var helpOutput = function() {
 	var parsedOutput = [];
 	var command = "";
 
-	output.each(function(count, value){
-		if (count === 0){
+	output.each(function(count, value) {
+		if (count === 0) {
 			command = $(value).find("span").html().decodeSpace();
 		} else {
 			var parsedValue = "";
 
-			$(value).children('span').each(function(index, value){
+			$(value).children("span").each(function(index, value) {
 				parsedValue += $(value).html().decodeSpace();
 			});
 
-			if (parsedValue){ // Filter out empty value
+			if (parsedValue) { // Filter out empty value
 				parsedOutput.push(parsedValue);
 			}
 		}
@@ -202,7 +203,7 @@ var helpOutput = function() {
 	return {
 		command: command,
 		values: parsedOutput
-	}
+	};
 };
 
 String.prototype.decodeSpace = function() {
@@ -217,7 +218,7 @@ var typeCharacters = function(text) {
 	// Based off enter_text https://github.com/jcubic/jquery.terminal/blob/master/spec/terminalSpec.js
 	var docElement = $(document.documentElement || window);
 
-	text.split("").forEach(function(character){
+	text.split("").forEach(function(character) {
 		var event = $.Event("keydown");
 		event.keyCode = character.toUpperCase().charCodeAt(0);
 		event.which = character.toUpperCase().charCodeAt(0);
@@ -230,7 +231,7 @@ var typeCharacters = function(text) {
 		event.key = character;
 		event.ctrlKey = false;
 		event.altKey = false;
-		docElement.trigger(event);		
+		docElement.trigger(event);
 	});
 };
 
@@ -240,19 +241,19 @@ var pressEnter = function() {
 	var docElement = $(document.documentElement || window);
 
 	var event = $.Event("keydown");
-    event.ctrlKey = false;
-    event.key = "enter";
-    event.altKey = false;
-    event.shiftKey = false;
-    event.which = ENTER_KEY;
-    event.keyCode = ENTER_KEY;
-    docElement.trigger(event);
+	event.ctrlKey = false;
+	event.key = "enter";
+	event.altKey = false;
+	event.shiftKey = false;
+	event.which = ENTER_KEY;
+	event.keyCode = ENTER_KEY;
+	docElement.trigger(event);
 
-    event = $.Event("keypress");
-    event.key = "enter";
-    event.which = 0;
-    event.keyCode = 0;
-    docElement.trigger(event);
+	event = $.Event("keypress");
+	event.key = "enter";
+	event.which = 0;
+	event.keyCode = 0;
+	docElement.trigger(event);
 };
 
 var enterCommand = function(command) {
@@ -260,7 +261,7 @@ var enterCommand = function(command) {
 	pressEnter();
 };
 
-var successResponse = function(filename){
+var successResponse = function(filename) {
 	return {
 		status: 200,
 		responseText: JSON.stringify(loadJSON(filename))

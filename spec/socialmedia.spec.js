@@ -1,4 +1,4 @@
-describe("Social Media", function(){
+describe("Social Media", function() {
 	beforeEach(function() {
 		var div = $("<div id='cmd-resume'></div>");
 		$("body").append(div);
@@ -9,7 +9,7 @@ describe("Social Media", function(){
 		$("#cmd-resume").remove();
 		jasmine.Ajax.uninstall();
 	});
-	describe("empty", function(){
+	describe("empty", function() {
 		describe("Without socialmedia", function() {
 			beforeEach(function() {
 				$("#cmd-resume").CMDResume("noVolunteer.json");
@@ -55,12 +55,12 @@ describe("Social Media", function(){
 		});
 	});
 
-	describe("all", function(){
+	describe("all", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("details.json");
 		});
 
-		it("should only show one entry", function(){
+		it("should only show one entry", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify(loadJSON("socialmedia"))
@@ -78,7 +78,7 @@ describe("Social Media", function(){
 			expect(output.values[3]).toEqual("Resume - http://en.wikipedia.org/wiki/R%C3%A9sum%C3%A9");
 		});
 	});
-	describe("missing parts", function(){
+	describe("missing parts", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("socialmedia.json");
 			jasmine.Ajax.requests.mostRecent().respondWith({
@@ -87,106 +87,106 @@ describe("Social Media", function(){
 			});
 			enterCommand("socialmedia");
 		});
-		it("Missing network", function(){
+		it("Missing network", function() {
 			var output = socialmedia.fullCommandOutput();
 			expect(output.values[0]).toEqual("http://www.twitter.com/something");
 		});
-		it("Missing url", function(){
+		it("Missing url", function() {
 			var output = socialmedia.fullCommandOutput();
 			expect(output.values.length).toEqual(1);
 		});
 	});
 
-	describe("Email", function(){
+	describe("Email", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("socialmedia.json");
 		});
-		it("Has mailto", function(){
+		it("Has mailto", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
-				responseText: JSON.stringify({basics: {profiles: [{network: "email",url:"mailto:test@example.com"}]}})
+				responseText: JSON.stringify({basics: {profiles: [{network: "email", url: "mailto:test@example.com"}]}})
 			});
 			enterCommand("socialmedia");
 
 			var output = socialmedia.fullCommandOutput();
 			expect(output.values[0]).toEqual("Email - test@example.com");
 		});
-		it("Straight email", function(){
+		it("Straight email", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
-				responseText: JSON.stringify({basics: {profiles: [{network: "email",url:"test@example.com"}]}})
+				responseText: JSON.stringify({basics: {profiles: [{network: "email", url: "test@example.com"}]}})
 			});
 			enterCommand("socialmedia");
-			
+
 			var output = socialmedia.fullCommandOutput();
 			expect(output.values[0]).toEqual("Email - test@example.com");
 		});
-		it("Is missing url", function(){
+		it("Is missing url", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
-				responseText: JSON.stringify({basics: {profiles: [{network: "email",username:"test@example.com"}]}})
+				responseText: JSON.stringify({basics: {profiles: [{network: "email", username: "test@example.com"}]}})
 			});
 			enterCommand("socialmedia");
-			
+
 			var output = socialmedia.fullCommandOutput();
 			expect(output.values[0]).toEqual("Email - test@example.com");
 		});
 
-		it("Is missing url and username", function(){
+		it("Is missing url and username", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify({basics: {profiles: [{network: "email"}]}})
 			});
 			enterCommand("socialmedia");
-			
+
 			var output = socialmedia.fullCommandOutput();
 			expect(output.command).toEqual("Social Media");
 			expect(output.values.length).toEqual(0);
 		});
 
-		it("It builds url with username", function(){
+		it("It builds url with username", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify({basics: {profiles: [{network: "GitHub", username: "test"}]}})
 			});
 			enterCommand("socialmedia");
-			
+
 			var output = socialmedia.fullCommandOutput();
 			expect(output.command).toEqual("Social Media");
 			expect(output.values[0]).toEqual("GitHub - https://www.github.com/test");
 		});
 
-		it("It isn't a known network (network, username)", function(){
+		it("It isn't a known network (network, username)", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify({basics: {profiles: [{network: "Network", username: "test"}]}})
 			});
 			enterCommand("socialmedia");
-			
+
 			var output = socialmedia.fullCommandOutput();
 			expect(output.command).toEqual("Social Media");
 			expect(output.values.length).toEqual(0);
 		});
 
-		it("It isn't a known network (url)", function(){
+		it("It isn't a known network (url)", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify({basics: {profiles: [{url: "http://example.com/"}]}})
 			});
 			enterCommand("socialmedia");
-			
+
 			var output = socialmedia.fullCommandOutput();
 			expect(output.command).toEqual("Social Media");
 			expect(output.values[0]).toEqual("http://example.com/");
 		});
 
-		it("It isn't a known network (username)", function(){
+		it("It isn't a known network (username)", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify({basics: {profiles: [{username: "test"}]}})
 			});
 			enterCommand("socialmedia");
-			
+
 			var output = socialmedia.fullCommandOutput();
 			expect(output.command).toEqual("Social Media");
 			expect(output.values.length).toEqual(0);
@@ -195,8 +195,8 @@ describe("Social Media", function(){
 
 	describe("Github no username supplied", function() {
 		beforeEach(function() {
-			jasmine.Ajax.stubRequest('details.json').andReturn(successResponse("noGithubUsername"));
-			jasmine.Ajax.stubRequest('https://api.github.com/users/example/repos').andReturn(successResponse("github/override"));
+			jasmine.Ajax.stubRequest("details.json").andReturn(successResponse("noGithubUsername"));
+			jasmine.Ajax.stubRequest("https://api.github.com/users/example/repos").andReturn(successResponse("github/override"));
 
 			$("#cmd-resume").CMDResume("details.json");
 		});

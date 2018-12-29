@@ -1,4 +1,4 @@
-let wdioConf = require("./wdio.browserstack.base.conf.js").config;
+let wdioConf = require('./wdio.browserstack.base.conf.js').config;
 var merge = require('deepmerge');
 
 exports.config = merge(wdioConf, {

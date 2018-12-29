@@ -19,45 +19,41 @@ describe("github", function() {
 
 	describe("Github filtering and formatting", function() {
 		beforeEach(function() {
-			this.response = loadJSON('github/withForks');
+			this.response = loadJSON("github/withForks");
 		});
 
-	it("Without forks", function() {
-		expect(filterGithubFork(this.response, "test.github.com", false).length).toBe(4);
-	});
+		it("Without forks", function() {
+			expect(filterGithubFork(this.response, "test.github.com", false).length).toBe(4);
+		});
 
-	it("With forks", function() {
-		expect(filterGithubFork(this.response, "test.github.com", true).length).toBe(5);
-	});
+		it("With forks", function() {
+			expect(filterGithubFork(this.response, "test.github.com", true).length).toBe(5);
+		});
 
-	it("Formatting first item", function() {
-		expect(formatGithub(this.response[0], true)).toBe("[[b;green;#000]HelloWorld] - Create hello world");
-	});
+		it("Formatting first item", function() {
+			expect(formatGithub(this.response[0], true)).toBe("[[b;green;#000]HelloWorld] - Create hello world");
+		});
 
-	it("Formatting other items", function() {
-		expect(formatGithub(this.response[0], false)).toBe("\n[[b;green;#000]HelloWorld] - Create hello world");
-	});
+		it("Formatting other items", function() {
+			expect(formatGithub(this.response[0], false)).toBe("\n[[b;green;#000]HelloWorld] - Create hello world");
+		});
 
-	it("Formatting empty string", function() {
-		expect(formatGithub("", true)).toBe("");
-	});
+		it("Formatting empty string", function() {
+			expect(formatGithub("", true)).toBe("");
+		});
 
-	it("Formatting null item", function() {
-		expect(formatGithub(null, true)).toBe("");
-	});
+		it("Formatting null item", function() {
+			expect(formatGithub(null, true)).toBe("");
+		});
 
-	it("Formatting empty item", function() {
-		expect(formatGithub({}, true)).toBe("");
-	});
-	it("Without description", function() {
-		this.response = loadJSON('github/withoutDescription');
-		expect
-	})
+		it("Formatting empty item", function() {
+			expect(formatGithub({}, true)).toBe("");
+		});
 	});
 
 	describe("getGithub", function() {
 		beforeEach(function() {
-			this.response = loadJSON('github/withForks');
+			this.response = loadJSON("github/withForks");
 			jasmine.Ajax.install();
 		});
 
