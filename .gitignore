@@ -48,6 +48,8 @@ terminal.jquery.json
 /test_tmp
 /spec-e2e/shots/*
 /spec-e2e/screenshots/
+/spec-e2e/visual-diffs/current
+/spec-e2e/visual-diffs/diff
 index.html
 
 # Doc diagram

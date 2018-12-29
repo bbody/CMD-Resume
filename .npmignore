@@ -43,3 +43,4 @@ favicons/
 coverage/
 LICENSE/
 js/examples
+spec-e2e/visual-diffs/
