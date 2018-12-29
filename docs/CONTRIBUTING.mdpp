@@ -26,7 +26,9 @@ This guide assumes you are using a command line, if you want to use other tools
 7. Commit code (Using format of '[:emoji:][emo] Description of change') by
    default :pencil: is prepended to any commit message without an emoji.
    **Optional:** [Change previous commit message][commit]
-8. Create pull request into main branch
+8. Create pull request into `development` branch
+9. Once tests pass, I will merge into `development`
+10. Then I will merge into `master` with other changes
 
 ## Technologies
 !INCLUDE "docs/partials/TECHNOLOGIES.md"
