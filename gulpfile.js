@@ -336,14 +336,6 @@ function watch() {
 // Task for development
 const develop = gulp.series(watch, build, serve);
 
-// Task for test
-// const test = gulp.series(watch, build, testKarmaBuild); // coverage
-
-// Build the project
-// gulp.task('build', ['compile:html', // 'test:karma:build',
-// 	'compile:development', 'copy:json:build', 'copy:icons:build'
-// ]);
-
 const release = gulp.series(compileReleaseMinified, compileRelease);
 
 const sourceCheckDevelopment = gulp.series(compileDevelopment, jsHintDevelopment, JscsDevelopment);

@@ -50,5 +50,5 @@ exports.config = {
 
     onComplete: function(exitCode, config, capabilities) {
         process.exit(exitCode);
-    },
+    }
 };
