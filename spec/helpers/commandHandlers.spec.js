@@ -1,4 +1,4 @@
-describe("commandHandlers", function(){
+describe("commandHandlers", function() {
 	describe("Basic command handler", function() {
 		it("Returns base case", function() {
 			var command = {
@@ -356,9 +356,9 @@ describe("commandHandlers", function(){
 				var command = {
 					data: this.data,
 					handlers: {
-						organisation: function(value) { return value.organisation},
-						title: function(value) { return undefined; },
-						date: function(value) { return value.date; }
+						organisation: function(value) {return value.organisation;},
+						title: function(value) {return undefined;},
+						date: function(value) {return value.date;}
 					}
 				};
 
@@ -369,9 +369,9 @@ describe("commandHandlers", function(){
 				var command = {
 					data: this.data,
 					handlers: {
-						organisation: function(value) { return value.organisation},
-						title: function(value) { return value.title; },
-						date: function(value) { return undefined; }
+						organisation: function(value) {return value.organisation;},
+						title: function(value) {return value.title;},
+						date: function(value) {return undefined;}
 					}
 				};
 
@@ -380,7 +380,6 @@ describe("commandHandlers", function(){
 		});
 	});
 
-	
 	describe("Date formatting", function() {
 		it("To and from dates", function() {
 			expect(getDate("19/10/2014", "20/02/2016")).toBe("19/10/2014 - 20/02/2016");
@@ -597,7 +596,7 @@ describe("commandHandlers", function(){
 
 	describe("isValidCommand", function() {
 		beforeEach(function() {
-			spyOn(console, 'error');
+			spyOn(console, "error");
 		});
 
 		describe("name", function() {
@@ -662,35 +661,35 @@ describe("commandHandlers", function(){
 
 		describe("type", function() {
 			it("handles no command type", function() {
-				expect(isValidCommand({name: 'command', description: "description"})).toBe(false);
+				expect(isValidCommand({name: "command", description: "description"})).toBe(false);
 
 				expect(console.error).toHaveBeenCalled();
 				expect(console.error).toHaveBeenCalledWith("'command' does not have a valid type [basic, system, array, calculated]");
 			});
 
 			it("handles invalid command type", function() {
-				expect(isValidCommand({name: 'command', description: "description", type: 'notACommand'})).toBe(false);
+				expect(isValidCommand({name: "command", description: "description", type: "notACommand"})).toBe(false);
 
 				expect(console.error).toHaveBeenCalled();
 				expect(console.error).toHaveBeenCalledWith("'command' does not have a valid type [basic, system, array, calculated]");
 			});
 
 			it("handles empty command type", function() {
-				expect(isValidCommand({name: 'command', description: "description", type: ''})).toBe(false);
+				expect(isValidCommand({name: "command", description: "description", type: ""})).toBe(false);
 
 				expect(console.error).toHaveBeenCalled();
 				expect(console.error).toHaveBeenCalledWith("'command' does not have a valid type [basic, system, array, calculated]");
 			});
 
 			it("handles empty command type", function() {
-				expect(isValidCommand({name: 'command', description: "description", type: null})).toBe(false);
+				expect(isValidCommand({name: "command", description: "description", type: null})).toBe(false);
 
 				expect(console.error).toHaveBeenCalled();
 				expect(console.error).toHaveBeenCalledWith("'command' does not have a valid type [basic, system, array, calculated]");
 			});
 
 			it("handles empty command type", function() {
-				expect(isValidCommand({name: 'command', description: "description", type: undefined})).toBe(false);
+				expect(isValidCommand({name: "command", description: "description", type: undefined})).toBe(false);
 
 				expect(console.error).toHaveBeenCalled();
 				expect(console.error).toHaveBeenCalledWith("'command' does not have a valid type [basic, system, array, calculated]");
@@ -700,7 +699,7 @@ describe("commandHandlers", function(){
 		describe("ARRAY type", function() {
 			it("handles no data", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					type: "array"
 				};
@@ -713,7 +712,7 @@ describe("commandHandlers", function(){
 
 			it("handles empty data", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					type: "array",
 					data: ""
@@ -727,7 +726,7 @@ describe("commandHandlers", function(){
 
 			it("handles null data", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					type: "array",
 					data: null
@@ -741,7 +740,7 @@ describe("commandHandlers", function(){
 
 			it("handles undefined data", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					type: "array",
 					data: undefined
@@ -755,7 +754,7 @@ describe("commandHandlers", function(){
 
 			it("handles no handler", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					type: "array",
 					data: "something"
@@ -769,7 +768,7 @@ describe("commandHandlers", function(){
 
 			it("handles null handler", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					type: "array",
 					data: ["something"],
@@ -784,7 +783,7 @@ describe("commandHandlers", function(){
 
 			it("handles undefined handler", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					type: "array",
 					data: ["something", "else"],
@@ -799,7 +798,7 @@ describe("commandHandlers", function(){
 
 			it("handles handler", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					type: "array",
 					data: ["something", "else"],
@@ -815,7 +814,7 @@ describe("commandHandlers", function(){
 		describe("SYSTEM type", function() {
 			it("handles no handler", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					type: "system"
 				};
@@ -828,7 +827,7 @@ describe("commandHandlers", function(){
 
 			it("handles null handler", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					type: "system",
 					handler: null
@@ -842,7 +841,7 @@ describe("commandHandlers", function(){
 
 			it("handles undefined handler", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					type: "system",
 					data: ["something", "else"],
@@ -857,7 +856,7 @@ describe("commandHandlers", function(){
 
 			it("handles handler", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					type: "system",
 					data: ["something", "else"],
@@ -873,7 +872,7 @@ describe("commandHandlers", function(){
 		describe("CALCULATED type", function() {
 			it("handles no data", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					type: "calculated"
 				};
@@ -886,7 +885,7 @@ describe("commandHandlers", function(){
 
 			it("handles no handler", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					data: ["key"],
 					type: "calculated"
@@ -900,7 +899,7 @@ describe("commandHandlers", function(){
 
 			it("handles null handler", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					data: ["key"],
 					type: "calculated",
@@ -915,7 +914,7 @@ describe("commandHandlers", function(){
 
 			it("handles undefined handler", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					data: ["key"],
 					type: "calculated",
@@ -930,7 +929,7 @@ describe("commandHandlers", function(){
 
 			it("handles handler", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					data: ["key"],
 					type: "calculated",
@@ -946,7 +945,7 @@ describe("commandHandlers", function(){
 		describe("BASIC type", function() {
 			it("handles no data", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					type: "basic"
 				};
@@ -959,7 +958,7 @@ describe("commandHandlers", function(){
 
 			it("handles empty data", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					type: "basic",
 					data: ""
@@ -973,7 +972,7 @@ describe("commandHandlers", function(){
 
 			it("handles null data", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					type: "basic",
 					data: null
@@ -987,7 +986,7 @@ describe("commandHandlers", function(){
 
 			it("handles undefined data", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					type: "basic",
 					data: undefined
@@ -1001,7 +1000,7 @@ describe("commandHandlers", function(){
 
 			it("handles successful", function() {
 				var command = {
-					name: 'command',
+					name: "command",
 					description: "description",
 					type: "basic",
 					data: ["key"]

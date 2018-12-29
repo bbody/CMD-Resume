@@ -51,7 +51,7 @@ describe("misc", function() {
 			expect(document.title).toBe("Command Line Résumé");
 		});
 	});
-	
+
 	describe("Color validator", function() {
 		it("Hex code (3 digits)", function() {
 			expect(isValidColor("#FFF")).toBeTruthy();

@@ -1,16 +1,16 @@
-var helper = require('./support/helper.js');
+var helper = require("./support/helper.js");
 
 describe("Name", function() {
-	beforeEach(function(){
-		browser.url('/');
+	beforeEach(function() {
+		browser.url("/");
 
 		helper.loadExtendedCMDResume(browser);
 
-		$('body.full-screen-terminal').waitForExist(5000);
+		$("body.full-screen-terminal").waitForExist(5000);
 	});
 
-	it("returns pgpkey", function(){
-		helper.keyboard.typeCommand(browser, 'pgpkey');
+	it("returns pgpkey", function() {
+		helper.keyboard.typeCommand(browser, "pgpkey");
 
 		var commandOutput = helper.getMultiValues(browser);
 
@@ -19,9 +19,8 @@ describe("Name", function() {
 		helper.assertDiff(browser, expect);
 	});
 
-	it("returns splash screen", function(){
-		helper.keyboard.typeCommand(browser, 'splash');
-		
+	it("returns splash screen", function() {
+		helper.keyboard.typeCommand(browser, "splash");
 		var commandOutput = helper.getMultiValues(browser);
 
 		expect(commandOutput.values.length).toBeGreaterThan(5);

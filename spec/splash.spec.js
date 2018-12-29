@@ -9,7 +9,7 @@ describe("Splash screen", function() {
 		$("#cmd-resume").remove();
 		jasmine.Ajax.uninstall();
 	});
-	
+
 	describe("Featuring name", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("justName.json");
@@ -70,14 +70,14 @@ describe("Splash screen", function() {
 	describe("Custom splash", function() {
 		describe("Single line", function() {
 			beforeEach(function() {
-				jasmine.Ajax.stubRequest('emptyStrings.json').andReturn({
+				jasmine.Ajax.stubRequest("emptyStrings.json").andReturn({
 					status: 200,
-				    responseText: JSON.stringify(loadJSON("emptyStrings"))
+					responseText: JSON.stringify(loadJSON("emptyStrings"))
 				});
 
-				jasmine.Ajax.stubRequest('customSplash.json').andReturn({
+				jasmine.Ajax.stubRequest("customSplash.json").andReturn({
 					status: 200,
-				    responseText: JSON.stringify(loadJSON("extraDetails/customSplash"))
+					responseText: JSON.stringify(loadJSON("extraDetails/customSplash"))
 				});
 
 				$("#cmd-resume").CMDResume("emptyStrings.json", {extraDetails: "customSplash.json"});
@@ -91,14 +91,14 @@ describe("Splash screen", function() {
 
 		describe("Multiple lines", function() {
 			beforeEach(function() {
-				jasmine.Ajax.stubRequest('emptyStrings.json').andReturn({
+				jasmine.Ajax.stubRequest("emptyStrings.json").andReturn({
 					status: 200,
-				    responseText: JSON.stringify(loadJSON("emptyStrings"))
+					responseText: JSON.stringify(loadJSON("emptyStrings"))
 				});
 
-				jasmine.Ajax.stubRequest('customSplash.json').andReturn({
+				jasmine.Ajax.stubRequest("customSplash.json").andReturn({
 					status: 200,
-				    responseText: JSON.stringify(loadJSON("extraDetails/largeCustomSplash"))
+					responseText: JSON.stringify(loadJSON("extraDetails/largeCustomSplash"))
 				});
 
 				$("#cmd-resume").CMDResume("emptyStrings.json", {extraDetails: "customSplash.json"});
@@ -184,14 +184,14 @@ describe("Splash screen", function() {
 
 		describe("Custom splash", function() {
 			beforeEach(function() {
-				jasmine.Ajax.stubRequest('emptyStrings.json').andReturn({
+				jasmine.Ajax.stubRequest("emptyStrings.json").andReturn({
 					status: 200,
-				    responseText: JSON.stringify(loadJSON("emptyStrings"))
+					responseText: JSON.stringify(loadJSON("emptyStrings"))
 				});
 
-				jasmine.Ajax.stubRequest('customSplash.json').andReturn({
+				jasmine.Ajax.stubRequest("customSplash.json").andReturn({
 					status: 200,
-				    responseText: JSON.stringify(loadJSON("extraDetails/customSplash"))
+					responseText: JSON.stringify(loadJSON("extraDetails/customSplash"))
 				});
 
 				$("#cmd-resume").CMDResume("emptyStrings.json", {extraDetails: "customSplash.json"});
