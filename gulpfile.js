@@ -21,12 +21,14 @@ var UI_TESTS = ['spec-e2e/**/*.spec.js', 'spec-e2e/support/*.js'];
 var SOURCE = ['js/helpers/constants.js', 'js/helpers/misc.js',
 	'js/helpers/formatters.js', 'js/helpers/commandHandlers.js',
 	'js/helpers/github.js',
-	'js/cmd-resume.js'];
+	'js/cmd-resume.js'
+];
 var JS_SOURCE = ['js/cmd-resume.js', 'js/helpers/*.js'];
 var OUTPUT = ['tmp/js/cmd-resume.js'];
 var JSON = ['browserstack/*.json', 'fixtures/*.json', 'responses/*.json',
 	'fixtures/*.json', 'spec/.jscsrc*', '.jshintrc-*', '..jscsrc-*',
-	'spec/.jshintrc', 'spec-e2e/.jscsrc', 'spec-e2e/.jshintrc'];
+	'spec/.jshintrc', 'spec-e2e/.jscsrc', 'spec-e2e/.jshintrc'
+];
 var MARKDOWN = ['docs/**/*.mdpp'];
 // var YAML = ['**/*.yaml', '!node_modules/**'];
 
@@ -153,7 +155,7 @@ function jshintUITests(done) {
 
 var jshintTests = gulp.parallel(jshintUnitTests, jshintUITests);
 
-function JscsDevelopment(done) {
+function jscsDevelopment(done) {
 	gulp.src(SOURCE)
 		.pipe(jscs())
 		.pipe(jscs.reporter())
@@ -341,31 +343,34 @@ function compileHTMLTest(done) {
 
 // Compile JavaScript
 function compileReleaseMinified(done) {
-	compiledCode('./dist', true, true);
-	done();
+	compiledCode('./dist', true, true).on('finish', function() {
+		return done();
+	});
 }
 
 function compileRelease(done) {
-	compiledCode('./dist', false, true);
-	done();
+	compiledCode('./dist', false, true).on('finish', function() {
+		return done();
+	});
 }
 
 function compileDevelopment(done) {
-	compiledCode('./tmp/js', false, false);
-	done();
+	compiledCode('./tmp/js', false, false).on('finish', function() {
+		return done();
+	});
 }
 
 const build = gulp.series(compileHTML, compileDevelopment, copyJSONBuild, copyIconsBuild);
 
 const release = gulp.series(compileReleaseMinified, compileRelease);
 
-const sourceCheckDevelopment = gulp.series(compileDevelopment, JscsDevelopment, jsHintDevelopment);
+const sourceCheckDevelopment = gulp.series(compileDevelopment, jscsDevelopment, jsHintDevelopment);
 
 const sourceCheckTools = gulp.series(jshintTools, jscsTools);
 
 const sourceCheckTests = gulp.series(jshintTests, jscsTests, jsonLint, mdlint);
 
-const sourceCheck = gulp.parallel(sourceCheckDevelopment, sourceCheckTools, sourceCheckTests);
+const sourceCheck = gulp.series(sourceCheckDevelopment, sourceCheckTools, sourceCheckTests);
 
 let runTests = (browsers, done) => {
 	new Server({
@@ -487,7 +492,7 @@ function testLocal(done) {
 
 function watch() {
 	// Example build changes
-	gulp.watch(JS_SOURCE, gulp.series(compileDevelopment, jsHintDevelopment, JscsDevelopment, testKarmaBuild, testE2EBuild));
+	gulp.watch(JS_SOURCE, gulp.series(compileDevelopment, jsHintDevelopment, jscsDevelopment, testKarmaBuild, testE2EBuild));
 	gulp.watch(['favicons/*'], copyIconsTest);
 	gulp.watch(['responses/*'], copyJSONBuild);
 
