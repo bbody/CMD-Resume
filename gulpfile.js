@@ -23,7 +23,7 @@ var SOURCE = ['js/helpers/constants.js', 'js/helpers/misc.js',
 	'js/helpers/github.js',
 	'js/cmd-resume.js'];
 var JS_SOURCE = ['js/cmd-resume.js', 'js/helpers/*.js'];
-var OUTPUT = ['./tmp/js/cmd-resume.js'];
+var OUTPUT = ['tmp/js/cmd-resume.js'];
 var JSON = ['browserstack/*.json', 'fixtures/*.json', 'responses/*.json',
 	'fixtures/*.json', 'spec/.jscsrc*', '.jshintrc-*', '..jscsrc-*',
 	'spec/.jshintrc', 'spec-e2e/.jscsrc', 'spec-e2e/.jshintrc'];
@@ -357,20 +357,15 @@ function compileDevelopment(done) {
 
 const build = gulp.series(compileHTML, compileDevelopment, copyJSONBuild, copyIconsBuild);
 
-// Build the project
-// gulp.task('build', ['compile:html', // 'test:karma:build',
-// 	'compile:development', 'copy:json:build', 'copy:icons:build'
-// ]);
-
 const release = gulp.series(compileReleaseMinified, compileRelease);
 
-const sourceCheckDevelopment = gulp.series(compileDevelopment, jsHintDevelopment, JscsDevelopment);
+const sourceCheckDevelopment = gulp.series(compileDevelopment, JscsDevelopment, jsHintDevelopment);
 
 const sourceCheckTools = gulp.series(jshintTools, jscsTools);
 
 const sourceCheckTests = gulp.series(jshintTests, jscsTests, jsonLint, mdlint);
 
-const sourceCheck = gulp.series(sourceCheckDevelopment, sourceCheckTools, sourceCheckTests);
+const sourceCheck = gulp.parallel(sourceCheckDevelopment, sourceCheckTools, sourceCheckTests);
 
 let runTests = (browsers, done) => {
 	new Server({
