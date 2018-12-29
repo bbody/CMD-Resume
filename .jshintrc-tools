@@ -5,7 +5,7 @@
 	"curly": true,
 	"eqeqeq": true,
 	"forin": true,
-	"freeze": false, // Allow overriding of string library
+	"freeze": false,
 	"immed": true,
 	"latedef": true,
 	"newcap": true,
