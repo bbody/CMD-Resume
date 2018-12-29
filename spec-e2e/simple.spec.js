@@ -1,16 +1,16 @@
-var helper = require('./support/helper.js');
+var helper = require("./support/helper.js");
 
 describe("Simple", function() {
-	beforeEach(function(){
-		browser.url('/');
+	beforeEach(function() {
+		browser.url("/");
 
 		helper.loadSimpleCMDResume(browser);
 
-		$('body.full-screen-terminal').waitForExist(5000);
+		$("body.full-screen-terminal").waitForExist(5000);
 	});
 
-	it("returns name", function(){
-		helper.keyboard.typeCommand(browser, 'name');
+	it("returns name", function() {
+		helper.keyboard.typeCommand(browser, "name");
 
 		var commandOutput = helper.getSimpleValues(browser);
 
@@ -18,8 +18,8 @@ describe("Simple", function() {
 		expect(commandOutput.value).toBe("Richard Hendriks");
 	});
 
-	it("returns location", function(){
-		helper.keyboard.typeCommand(browser, 'location');
+	it("returns location", function() {
+		helper.keyboard.typeCommand(browser, "location");
 
 		var commandOutput = helper.getSimpleValues(browser);
 
@@ -27,8 +27,8 @@ describe("Simple", function() {
 		expect(commandOutput.value).toBe("San Francisco, California, US");
 	});
 
-	it("returns about", function(){
-		helper.keyboard.typeCommand(browser, 'about');
+	it("returns about", function() {
+		helper.keyboard.typeCommand(browser, "about");
 
 		var commandOutput = helper.getSimpleValues(browser);
 
@@ -36,8 +36,8 @@ describe("Simple", function() {
 		expect(commandOutput.value).toContain("Richard hails from Tulsa.");
 	});
 
-	it("handles invalid command", function(){
-		helper.keyboard.typeCommand(browser, 'dog');
+	it("handles invalid command", function() {
+		helper.keyboard.typeCommand(browser, "dog");
 
 		var commandOutput = helper.getSingleValue(browser);
 
@@ -45,23 +45,22 @@ describe("Simple", function() {
 		expect(commandOutput).toContain("dog");
 	});
 
-	it("handles clear command", function(){
-		helper.keyboard.typeCommand(browser, 'clear');
+	it("handles clear command", function() {
+		helper.keyboard.typeCommand(browser, "clear");
 
-		expect($$('.terminal-output div').length).toBe(0);
+		expect($$(".terminal-output div").length).toBe(0);
 	});
 
-	it("handles no command", function(){
-		helper.keyboard.typeCommand(browser, '');
+	it("handles no command", function() {
+		helper.keyboard.typeCommand(browser, "");
 
 		var commandOutput = helper.getSingleValue(browser);
 
 		expect(commandOutput).toContain("No command entered");
 	});
 
-
-	it("handles tab completion", function(){
-		helper.keyboard.typeCommand(browser, 'he', true);
+	it("handles tab completion", function() {
+		helper.keyboard.typeCommand(browser, "he", true);
 
 		var commandOutput = helper.getMultiValues(browser);
 
@@ -69,17 +68,17 @@ describe("Simple", function() {
 		expect(commandOutput.values.length).toBeGreaterThan(1);
 	});
 
-	describe("man", function(){
-		beforeEach(function(){
-			browser.url('/');
+	describe("man", function() {
+		beforeEach(function() {
+			browser.url("/");
 
 			helper.loadSimpleCMDResume(browser);
 
-			$('body.full-screen-terminal').waitForExist(5000);
+			$("body.full-screen-terminal").waitForExist(5000);
 		});
 
-		it("handles a command", function(){
-			helper.keyboard.typeCommand(browser, 'man man');
+		it("handles a command", function() {
+			helper.keyboard.typeCommand(browser, "man man");
 
 			var commandOutput = helper.getSingleValue(browser);
 
@@ -87,8 +86,8 @@ describe("Simple", function() {
 			expect(commandOutput).toContain("man");
 		});
 
-		it("handles invalid command", function(){
-			helper.keyboard.typeCommand(browser, 'man dog');
+		it("handles invalid command", function() {
+			helper.keyboard.typeCommand(browser, "man dog");
 
 			var commandOutput = helper.getSingleValue(browser);
 
@@ -96,8 +95,8 @@ describe("Simple", function() {
 			expect(commandOutput).toContain("dog");
 		});
 
-		it("handles no command", function(){
-			helper.keyboard.typeCommand(browser, 'man');
+		it("handles no command", function() {
+			helper.keyboard.typeCommand(browser, "man");
 
 			var commandOutput = helper.getSingleValue(browser);
 			expect(commandOutput).toBe("man: No command entered.");

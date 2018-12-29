@@ -1,4 +1,4 @@
-describe("Volunteer", function(){
+describe("Volunteer", function() {
 	beforeEach(function() {
 		var div = $("<div id='cmd-resume'></div>");
 		$("body").append(div);
@@ -9,8 +9,8 @@ describe("Volunteer", function(){
 		$("#cmd-resume").remove();
 		jasmine.Ajax.uninstall();
 	});
-	
-	describe("empty", function(){
+
+	describe("empty", function() {
 		describe("Without volunteer", function() {
 			beforeEach(function() {
 				$("#cmd-resume").CMDResume("noVolunteer.json");
@@ -59,12 +59,12 @@ describe("Volunteer", function(){
 		});
 	});
 
-	describe("all", function(){
+	describe("all", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("details.json");
 		});
 
-		it("should only show one entry", function(){
+		it("should only show one entry", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify(loadJSON("volunteer"))
@@ -83,12 +83,12 @@ describe("Volunteer", function(){
 		});
 	});
 
-	describe("top", function(){
+	describe("top", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("details.json");
 		});
 
-		it("should only show one entry", function(){
+		it("should only show one entry", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify(loadJSON("details"))
@@ -102,7 +102,7 @@ describe("Volunteer", function(){
 		});
 	});
 
-	describe("missing parts", function(){
+	describe("missing parts", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("volunteer.json");
 			jasmine.Ajax.requests.mostRecent().respondWith({
@@ -111,23 +111,23 @@ describe("Volunteer", function(){
 			});
 			enterCommand("volunteering");
 		});
-		it("Missing end date", function(){
+		it("Missing end date", function() {
 			var output = fullCommandOutput();
 			expect(output.values[0]).toEqual("CoderDojo    Teacher    2012-01-01 - Present");
 		});
-		it("Missing start date", function(){
+		it("Missing start date", function() {
 			var output = fullCommandOutput();
 			expect(output.values[1]).toEqual("CoderDojo    Teacher    Until 2013-01-01");
 		});
-		it("Missing both dates", function(){
+		it("Missing both dates", function() {
 			var output = fullCommandOutput();
 			expect(output.values[2]).toEqual("CoderDojo    Teacher");
 		});
-		it("Missing title", function(){
+		it("Missing title", function() {
 			var output = fullCommandOutput();
 			expect(output.values[3]).toEqual("CoderDojo    2012-01-01 - 2013-01-01");
 		});
-		it("Missing company", function(){
+		it("Missing company", function() {
 			var output = fullCommandOutput();
 			expect(output.values[4]).toEqual("Teacher    2012-01-01 - 2013-01-01");
 		});

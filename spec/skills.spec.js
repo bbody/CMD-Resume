@@ -1,4 +1,4 @@
-describe("Skills", function(){
+describe("Skills", function() {
 	beforeEach(function() {
 		var div = $("<div id='cmd-resume'></div>");
 		$("body").append(div);
@@ -9,7 +9,7 @@ describe("Skills", function(){
 		$("#cmd-resume").remove();
 		jasmine.Ajax.uninstall();
 	});
-	describe("empty", function(){
+	describe("empty", function() {
 		describe("Without skills", function() {
 			beforeEach(function() {
 				$("#cmd-resume").CMDResume("noVolunteer.json");
@@ -55,12 +55,12 @@ describe("Skills", function(){
 		});
 	});
 
-	describe("all", function(){
+	describe("all", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("details.json");
 		});
 
-		it("should only show one entry", function(){
+		it("should only show one entry", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify(loadJSON("skills"))
@@ -78,7 +78,7 @@ describe("Skills", function(){
 		});
 	});
 
-	describe("missing parts", function(){
+	describe("missing parts", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("skills.json");
 			jasmine.Ajax.requests.mostRecent().respondWith({
@@ -87,11 +87,11 @@ describe("Skills", function(){
 			});
 			enterCommand("skills");
 		});
-		it("Missing name", function(){
+		it("Missing name", function() {
 			var output = skills.fullCommandOutput();
 			expect(output.values[0]).toEqual("Level 1");
 		});
-		it("Missing list", function(){
+		it("Missing list", function() {
 			var output = skills.fullCommandOutput();
 			expect(output.values[1]).toEqual("Name 2");
 		});

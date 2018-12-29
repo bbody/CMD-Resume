@@ -148,7 +148,7 @@ describe("Utilities", function() {
 		it("Data is empty", function() {
 			var mostRecentRequest = jasmine.Ajax.requests.mostRecent();
 			var data = loadJSON("details");
-			data['basics']['name'] = "";
+			data.basics.name = "";
 
 			mostRecentRequest.respondWith({
 				status: 200,
@@ -179,6 +179,4 @@ describe("Utilities", function() {
 			expect(output.message).toEqual(" is an unknown command.");
 		});
 	});
-
-	
 });

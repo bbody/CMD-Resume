@@ -1,4 +1,4 @@
-describe("Interests", function(){
+describe("Interests", function() {
 	beforeEach(function() {
 		var div = $("<div id='cmd-resume'></div>");
 		$("body").append(div);
@@ -9,7 +9,7 @@ describe("Interests", function(){
 		$("#cmd-resume").remove();
 		jasmine.Ajax.uninstall();
 	});
-	describe("empty", function(){
+	describe("empty", function() {
 		describe("Without interests", function() {
 			beforeEach(function() {
 				$("#cmd-resume").CMDResume("noVolunteer.json");
@@ -55,12 +55,12 @@ describe("Interests", function(){
 		});
 	});
 
-	describe("all", function(){
+	describe("all", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("details.json");
 		});
 
-		it("should only show one entry", function(){
+		it("should only show one entry", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify(loadJSON("interests"))
@@ -78,12 +78,12 @@ describe("Interests", function(){
 		});
 	});
 
-	describe("top", function(){
+	describe("top", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("details.json");
 		});
 
-		it("should only show one entry", function(){
+		it("should only show one entry", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify(loadJSON("details"))
@@ -97,7 +97,7 @@ describe("Interests", function(){
 		});
 	});
 
-	describe("missing parts", function(){
+	describe("missing parts", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("interests.json");
 			jasmine.Ajax.requests.mostRecent().respondWith({
@@ -106,11 +106,11 @@ describe("Interests", function(){
 			});
 			enterCommand("interests");
 		});
-		it("Missing name", function(){
+		it("Missing name", function() {
 			var output = interests.fullCommandOutput();
 			expect(output.values[0]).toEqual("Internet 1, Internet 2");
 		});
-		it("Missing list", function(){
+		it("Missing list", function() {
 			var output = interests.fullCommandOutput();
 			expect(output.values[1]).toEqual("Name 2");
 		});

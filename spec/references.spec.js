@@ -1,4 +1,4 @@
-describe("References", function(){
+describe("References", function() {
 	beforeEach(function() {
 		var div = $("<div id='cmd-resume'></div>");
 		$("body").append(div);
@@ -9,7 +9,7 @@ describe("References", function(){
 		$("#cmd-resume").remove();
 		jasmine.Ajax.uninstall();
 	});
-	describe("empty", function(){
+	describe("empty", function() {
 		describe("Without references", function() {
 			beforeEach(function() {
 				$("#cmd-resume").CMDResume("noVolunteer.json");
@@ -45,12 +45,12 @@ describe("References", function(){
 		});
 	});
 
-	describe("all", function(){
+	describe("all", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("details.json");
 		});
 
-		it("should only show one entry", function(){
+		it("should only show one entry", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith(successResponse("references"));
 
 			enterCommand("references");
@@ -64,33 +64,33 @@ describe("References", function(){
 		});
 	});
 
-	describe("top", function(){
+	describe("top", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("details.json");
 		});
 
-		it("should only show one entry", function(){
+		it("should only show one entry", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith(successResponse("details"));
 
 			enterCommand("references -top");
 
 			var output = references.topCommandOutput();
 
-			expect(output).toEqual("Erlich Bachman    It is my pleasure to recommend Richard, his performance working as a consultant for Main St. Company proved that he will be a valuable addition to any company.")
+			expect(output).toEqual("Erlich Bachman    It is my pleasure to recommend Richard, his performance working as a consultant for Main St. Company proved that he will be a valuable addition to any company.");
 		});
 	});
 
-	describe("missing parts", function(){
+	describe("missing parts", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("references.json");
 			jasmine.Ajax.requests.mostRecent().respondWith(successResponse("referencesMissing"));
 			enterCommand("references");
 		});
-		it("Missing name", function(){
+		it("Missing name", function() {
 			var output = references.fullCommandOutput();
 			expect(output.values[0]).toEqual("Reference 1");
 		});
-		it("Missing reference", function(){
+		it("Missing reference", function() {
 			var output = references.fullCommandOutput();
 			expect(output.values[1]).toEqual("Name 2");
 		});

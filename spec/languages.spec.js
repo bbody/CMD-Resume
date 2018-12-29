@@ -1,4 +1,4 @@
-describe("Languages", function(){
+describe("Languages", function() {
 	beforeEach(function() {
 		var div = $("<div id='cmd-resume'></div>");
 		$("body").append(div);
@@ -9,7 +9,7 @@ describe("Languages", function(){
 		$("#cmd-resume").remove();
 		jasmine.Ajax.uninstall();
 	});
-	describe("empty", function(){
+	describe("empty", function() {
 		describe("Without languages", function() {
 			beforeEach(function() {
 				$("#cmd-resume").CMDResume("noVolunteer.json");
@@ -55,12 +55,12 @@ describe("Languages", function(){
 		});
 	});
 
-	describe("all", function(){
+	describe("all", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("details.json");
 		});
 
-		it("should only show one entry", function(){
+		it("should only show one entry", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify(loadJSON("languages"))
@@ -78,12 +78,12 @@ describe("Languages", function(){
 		});
 	});
 
-	describe("top", function(){
+	describe("top", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("details.json");
 		});
 
-		it("should only show one entry", function(){
+		it("should only show one entry", function() {
 			jasmine.Ajax.requests.mostRecent().respondWith({
 				status: 200,
 				responseText: JSON.stringify(loadJSON("details"))
@@ -97,7 +97,7 @@ describe("Languages", function(){
 		});
 	});
 
-	describe("missing parts", function(){
+	describe("missing parts", function() {
 		beforeEach(function() {
 			$("#cmd-resume").CMDResume("languages.json");
 			jasmine.Ajax.requests.mostRecent().respondWith({
@@ -106,11 +106,11 @@ describe("Languages", function(){
 			});
 			enterCommand("languages");
 		});
-		it("Missing language", function(){
+		it("Missing language", function() {
 			var output = fullCommandOutput();
 			expect(output.values[0]).toEqual("Fluency 1");
 		});
-		it("Missing fluency", function(){
+		it("Missing fluency", function() {
 			var output = fullCommandOutput();
 			expect(output.values[1]).toEqual("Language 2");
 		});
