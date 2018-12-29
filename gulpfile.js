@@ -14,7 +14,8 @@ var gulp = require('gulp'),
 	remark = require('gulp-remark'),
 	webdriver = require('gulp-webdriver'),
 	pugLinter = require('gulp-pug-linter'),
-	package = require('./package.json');
+	package = require('./package.json'),
+	pugLintStylish = require('puglint-stylish');
 
 var TOOLS = ['*.conf.js', 'gulpfile.js', 'scripts/*.js', 'js/examples/*.js'];
 var UNIT_TESTS = ['spec/**/*.spec.js', 'spec/support/*.js'];
@@ -206,7 +207,7 @@ function mdlint(done) {
 
 function pugLint(done) {
 	gulp.src('templates/**/*.pug')
-		.pipe(pugLinter({failAfterError: true}));
+		.pipe(pugLinter({reporter: pugLintStylish, failAfterError: true}));
 	done();
 }
 
