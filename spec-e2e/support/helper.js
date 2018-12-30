@@ -51,7 +51,7 @@ module.exports = {
 	assertDiff(browser, expect) {
 		if (browser.checkDocument) {
 			var results = browser.checkDocument();
-			results.forEach((result) => expect(result.isExactSameImage).toBe(true));
+			results.forEach((result) => expect(result.misMatchPercentage).toBeLessThan(5.0));
 		}
 	}
 };

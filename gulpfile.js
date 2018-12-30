@@ -490,7 +490,7 @@ function testE2EWithVisualRegression(done) {
 		jasmineNodeOpts: {
 			defaultTimeoutInterval: 50000
 		},
-		logLevel: 'error',
+		logLevel: 'verbose',
 		capabilities: getE2EBrowsers(['chrome'], true)
 	}));
 
