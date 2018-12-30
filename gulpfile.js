@@ -104,7 +104,7 @@ function getE2EBrowsers(browserList, headless, server) {
 				capability['moz:firefoxOptions'].binary = '/usr/bin/firefox';
 			}
 		} else if (headless && browser === 'chrome') {
-			capability.version = 67;
+			capability.version = 71;
 			capability.chromeOptions = {
 				args: ['--headless', '--disable-gpu']
 			};
