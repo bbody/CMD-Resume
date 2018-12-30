@@ -15,9 +15,9 @@ function getScreenshotName(basePath) {
 wdioConf.services = ['visual-regression', ...wdioConf.services];
 wdioConf.visualRegression = {
 	compare: new VisualRegressionCompare.LocalCompare({
-		referenceName: getScreenshotName(path.join(process.cwd(), 'spec-e2e/visual-diffs/reference')),
-		screenshotName: getScreenshotName(path.join(process.cwd(), 'spec-e2e/visual-diffs/current')),
-		diffName: getScreenshotName(path.join(process.cwd(), 'spec-e2e/visual-diffs/diff')),
+		referenceName: getScreenshotName(path.join('.', 'spec-e2e/visual-diffs/reference')),
+		screenshotName: getScreenshotName(path.join('.', 'spec-e2e/visual-diffs/current')),
+		diffName: getScreenshotName(path.join('.', 'spec-e2e/visual-diffs/diff')),
 		misMatchTolerance: 0.01
 	}),
 	viewports: [{width: 1280, height: 800}],
