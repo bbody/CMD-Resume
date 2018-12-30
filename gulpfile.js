@@ -491,7 +491,7 @@ function testE2EWithVisualRegression(done) {
 			defaultTimeoutInterval: 50000
 		},
 		logLevel: 'error',
-		capabilities: getE2EBrowsers(['chrome', 'firefox'], true)
+		capabilities: getE2EBrowsers(['chrome'], true)
 	}));
 
 	done();
