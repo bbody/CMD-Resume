@@ -13,7 +13,9 @@ var gulp = require('gulp'),
 	jsonlint = require('gulp-jsonlint'),
 	remark = require('gulp-remark'),
 	webdriver = require('gulp-webdriver'),
-	package = require('./package.json');
+	pugLinter = require('gulp-pug-linter'),
+	package = require('./package.json'),
+	pugLintStylish = require('puglint-stylish');
 
 var TOOLS = ['*.conf.js', 'gulpfile.js', 'scripts/*.js', 'js/examples/*.js'];
 var UNIT_TESTS = ['spec/**/*.spec.js', 'spec/support/*.js'];
@@ -210,6 +212,12 @@ function mdlint(done) {
 	done();
 }
 
+function pugLint(done) {
+	gulp.src('templates/**/*.pug')
+		.pipe(pugLinter({reporter: pugLintStylish, failAfterError: true}));
+	done();
+}
+
 function copyExampleScript(done) {
 	gulp.src(['js/examples/example-script.js'])
 		.pipe(gulp.dest('tmp/js'));
@@ -377,7 +385,7 @@ const sourceCheckTools = gulp.series(jshintTools, jscsTools);
 
 const sourceCheckTests = gulp.series(jshintTests, jscsTests, jsonLint, mdlint);
 
-const sourceCheck = gulp.series(sourceCheckDevelopment, sourceCheckTools, sourceCheckTests);
+const sourceCheck = gulp.series(sourceCheckDevelopment, sourceCheckTools, sourceCheckTests, pugLint);
 
 let runTests = (browsers, done) => {
 	new Server({
@@ -529,7 +537,7 @@ function watch() {
 	gulp.watch(['favicons/*'], copyIconsTest);
 	gulp.watch(['responses/*'], copyJSONBuild);
 
-	gulp.watch(['templates/**/*.pug'], gulp.series(compileHTML)); // Lint Pug here
+	gulp.watch(['templates/**/*.pug'], gulp.series(pugLint, compileHTML)); // Lint Pug here
 	gulp.watch(MARKDOWN, gulp.series(mdlint)); // Run MD Compile here too
 
 	// Pure linting
@@ -557,6 +565,7 @@ module.exports = {
 
 	// Lint tasks
 	'lint:all': sourceCheck,
+	'lint:pug': pugLint,
 
 	// Unit tests
 	'test:unit:build': testKarmaBuild,
