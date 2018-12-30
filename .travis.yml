@@ -24,8 +24,7 @@ script:
       npm test && travis_wait 60 npm run test:all:bs_all
     elif $TRAVIS_SECURE_ENV_VARS ;then
       if [ $TRAVIS_EVENT_TYPE == "pull_request" ];then
-        npm run test:visual_regression
-        travis_wait 60 npm run test:all:bs_essential
+        npm run test:vis_reg && travis_wait 60 npm run test:all:bs_essential
       else
         npm test && travis_wait 60 npm run test:all:bs_essential
       fi
