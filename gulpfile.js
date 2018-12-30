@@ -504,7 +504,7 @@ function watch() {
 	gulp.watch(['favicons/*'], copyIconsTest);
 	gulp.watch(['responses/*'], copyJSONBuild);
 
-	gulp.watch(['templates/**/*.pug'], gulp.series(compileHTML)); // Lint Pug here
+	gulp.watch(['templates/**/*.pug'], gulp.series(pugLint, compileHTML)); // Lint Pug here
 	gulp.watch(MARKDOWN, gulp.series(mdlint)); // Run MD Compile here too
 
 	// Pure linting
