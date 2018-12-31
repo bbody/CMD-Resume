@@ -31,7 +31,7 @@ $(document).ready(function() {
 				type: 'system',
 				handler: function() {
 					return 'Geolocation is ' +
-						(navigator.geolocation ?  '' : 'not ') +
+					(navigator.geolocation ?  '' : 'not ') +
 						'supported for this browser';
 				}
 			},
