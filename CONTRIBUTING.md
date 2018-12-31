@@ -30,6 +30,15 @@ This guide assumes you are using a command line, if you want to use other tools
 9. Once tests pass, I will merge into `development`
 10. Then I will merge into `master` with other changes
 
+## Changes to the UI
+Visual regression is tested on on Pull Requests, so if any changes are made to 
+the way the page will look you will need to reset the reference images.
+
+1. Delete the reference images `rm spec-e2e/visual-diffs/reference`
+2. Regenerate the reference images `test:e2e:visual_reference`
+3. Stage the latest reference images `git add spec-e2e/visual-diffs/reference/*`
+4. Commit the latest reference images `git commit -m ":ambulance: Update visual regression reference images"`
+
 ## Technologies
 Despite CMD-Resume being quite simple there are quite a few packages and tools
 which are used to develop, test, build and deploy.
