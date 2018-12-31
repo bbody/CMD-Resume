@@ -16,6 +16,7 @@ describe("Simple", function() {
 
 		expect(commandOutput.key).toBe("Name");
 		expect(commandOutput.value).toBe("Richard Hendriks");
+		helper.assertDiff(browser, expect);
 	});
 
 	it("returns location", function() {
@@ -25,6 +26,7 @@ describe("Simple", function() {
 
 		expect(commandOutput.key).toBe("Location");
 		expect(commandOutput.value).toBe("San Francisco, California, US");
+		helper.assertDiff(browser, expect);
 	});
 
 	it("returns about", function() {
@@ -34,6 +36,7 @@ describe("Simple", function() {
 
 		expect(commandOutput.key).toBe("About");
 		expect(commandOutput.value).toContain("Richard hails from Tulsa.");
+		helper.assertDiff(browser, expect);
 	});
 
 	it("handles invalid command", function() {
@@ -43,12 +46,14 @@ describe("Simple", function() {
 
 		expect(commandOutput).toContain("is an unknown command");
 		expect(commandOutput).toContain("dog");
+		helper.assertDiff(browser, expect);
 	});
 
 	it("handles clear command", function() {
 		helper.keyboard.typeCommand(browser, "clear");
 
 		expect($$(".terminal-output div").length).toBe(0);
+		helper.assertDiff(browser, expect);
 	});
 
 	it("handles no command", function() {
@@ -57,6 +62,7 @@ describe("Simple", function() {
 		var commandOutput = helper.getSingleValue(browser);
 
 		expect(commandOutput).toContain("No command entered");
+		helper.assertDiff(browser, expect);
 	});
 
 	it("handles tab completion", function() {
@@ -66,6 +72,7 @@ describe("Simple", function() {
 
 		expect(commandOutput.key).toContain("Available Commands");
 		expect(commandOutput.values.length).toBeGreaterThan(1);
+		helper.assertDiff(browser, expect);
 	});
 
 	describe("man", function() {
@@ -84,6 +91,7 @@ describe("Simple", function() {
 
 			expect(commandOutput).toContain("describes what each command does");
 			expect(commandOutput).toContain("man");
+			helper.assertDiff(browser, expect);
 		});
 
 		it("handles invalid command", function() {
@@ -93,6 +101,7 @@ describe("Simple", function() {
 
 			expect(commandOutput).toContain("dog is an unknown command");
 			expect(commandOutput).toContain("dog");
+			helper.assertDiff(browser, expect);
 		});
 
 		it("handles no command", function() {
@@ -100,6 +109,7 @@ describe("Simple", function() {
 
 			var commandOutput = helper.getSingleValue(browser);
 			expect(commandOutput).toBe("man: No command entered.");
+			helper.assertDiff(browser, expect);
 		});
 	});
 });

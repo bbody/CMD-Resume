@@ -21,11 +21,15 @@ script:
   - npm run lint:all
   - |
     if [ $TRAVIS_EVENT_TYPE == "cron" ];then
-    npm test && travis_wait 60 npm run test:all:bs_all
+      npm test && travis_wait 60 npm run test:all:bs_all
     elif $TRAVIS_SECURE_ENV_VARS ;then
-    npm test && travis_wait 60 npm run test:all:bs_essential
+      if [ $TRAVIS_EVENT_TYPE == "pull_request" ];then
+        npm run test:vis_reg && travis_wait 60 npm run test:all:bs_essential
+      else
+        npm test && travis_wait 60 npm run test:all:bs_essential
+      fi
     else
-    npm test
+      npm test
     fi
 cache:
   directories:

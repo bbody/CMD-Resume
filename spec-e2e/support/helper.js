@@ -47,5 +47,11 @@ module.exports = {
 				browser.elementIdValue(activeElement, [...keys, "\uE006"]);
 			}
 		}
+	},
+	assertDiff(browser, expect) {
+		if (browser.checkDocument) {
+			var results = browser.checkDocument();
+			results.forEach((result) => expect(result.isWithinMisMatchTolerance).toBe(true));
+		}
 	}
 };

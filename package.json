@@ -91,12 +91,14 @@
     "wdio-jasmine-framework": "^0.3.7",
     "wdio-selenium-standalone-service": "0.0.11",
     "wdio-static-server-service": "^1.0.1",
+    "wdio-visual-regression-service": "^0.9.0",
     "webdriverio": "^4.14.0"
   },
   "scripts": {
     "setup": "gem install travis -v 1.8.9 && sudo pip install yamllint",
     "setup_local": "npm run setup && pip install MarkdownPP",
-    "test": "gulp test:unit:build && gulp build:e2e_prepare && gulp test:e2e:build",
+    "test": "gulp test:all:build",
+    "test:vis_reg": "gulp test:all:build_visual_regression",
     "test:all:bs_essential": "gulp test:unit:bs_essential && gulp test:e2e:bs_essential",
     "test:all:bs_all": "gulp test:unit:bs_all && gulp test:e2e:bs_all",
     "lint:yaml": "yamllint -c .yamllint .travis.yml docs/.remarkrc.yaml .yamllint",

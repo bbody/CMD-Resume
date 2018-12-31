@@ -19,6 +19,10 @@ html(lang='en')
 
         if production
             include partials/analytics.pug
+        else
+            link(href="https://fonts.googleapis.com/css?family=Ubuntu+Mono", rel="stylesheet")
+            style
+                include partials/style.css
     body
         if production
             include partials/github_banner.pug

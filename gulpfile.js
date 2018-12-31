@@ -86,25 +86,32 @@ function compiledCode(destination, minified, versioned) {
 	return stream.pipe(gulp.dest(destination));
 }
 
-function getE2EBrowsers(browserList, headless) {
+function getE2EBrowsers(browserList, headless, server) {
 	var capabilities = [];
 
 	headless = headless ? headless : false;
+	server = server ? server : false;
 
 	browserList.forEach(function(browser) {
 		var capability = {};
 
 		if (headless && browser === 'firefox') {
 			capability['moz:firefoxOptions'] = {
-				args: ['-headless'],
-				binary: '/usr/bin/firefox'
+				args: ['-headless']
 			};
+
+			if (server) {
+				capability['moz:firefoxOptions'].binary = '/usr/bin/firefox';
+			}
 		} else if (headless && browser === 'chrome') {
-			capability.version = 67;
+			capability.version = 71;
 			capability.chromeOptions = {
-				args: ['--headless', '--disable-gpu'],
-				binary: '/usr/bin/google-chrome'
+				args: ['--headless', '--disable-gpu']
 			};
+
+			if (server) {
+				capability.chromeOptions.binary = '/usr/bin/google-chrome';
+			}
 		}
 
 		capability.browserName = browser;
@@ -421,13 +428,14 @@ function testE2EBuild(done) {
 		jasmineNodeOpts: {
 			defaultTimeoutInterval: 50000
 		},
-		capabilities: getE2EBrowsers(['chrome', 'firefox'], true)
+		capabilities: getE2EBrowsers(['chrome', 'firefox'], true, true)
 	}));
+
 	done();
 }
 
 function testE2EBrowserstackEssential(done) {
-	gulp.src('./wdio.browserstack.essential.conf.js').pipe(webdriver({
+	gulp.src('wdio.browserstack.essential.conf.js').pipe(webdriver({
 		jasmineNodeOpts: {
 			defaultTimeoutInterval: 50000
 		}
@@ -436,7 +444,7 @@ function testE2EBrowserstackEssential(done) {
 }
 
 function testE2EBrowserstackAll(done) {
-	gulp.src('./wdio.browserstack.all.conf.js').pipe(webdriver({
+	gulp.src('wdio.browserstack.all.conf.js').pipe(webdriver({
 		jasmineNodeOpts: {
 			defaultTimeoutInterval: 50000
 		}
@@ -465,8 +473,27 @@ function testE2ELinux(done) {
 	done();
 }
 
-function testE2E(done) {
-	gulp.src('wdio.conf.js').pipe(webdriver());
+function testE2EHeadless(done) {
+	gulp.src('wdio.conf.js').pipe(webdriver({
+		jasmineNodeOpts: {
+			defaultTimeoutInterval: 50000
+		},
+		logLevel: 'error',
+		capabilities: getE2EBrowsers(['chrome', 'firefox'], true)
+	}));
+
+	done();
+}
+
+function testE2EWithVisualRegression(done) {
+	gulp.src('wdio.visualregression.conf.js').pipe(webdriver({
+		jasmineNodeOpts: {
+			defaultTimeoutInterval: 50000
+		},
+		logLevel: 'verbose',
+		capabilities: getE2EBrowsers(['chrome', 'firefox'], true)
+	}));
+
 	done();
 }
 
@@ -477,6 +504,12 @@ const testMacOS = gulp.series(testKarmaMacOS, testE2EPre, testE2EMacOS);
 const testWindows = gulp.series(testKarmaWindows, testE2EPre, testE2EWindows);
 
 const testLinux = gulp.series(testKarmaLinux, testE2EPre, testE2ELinux);
+
+const resetReferenceImages = gulp.series(testE2EPre, testE2EWithVisualRegression);
+
+const testWithVisualRegression = gulp.series(testKarmaBuild, testE2EPre, testE2EWithVisualRegression);
+
+const testBuild = gulp.series(testKarmaBuild, testE2EPre, testE2EBuild);
 
 const testBSUIEssential = gulp.series(testE2EPre, testE2EBrowserstackEssential);
 const testBSUIAll = gulp.series(testE2EPre, testE2EBrowserstackAll);
@@ -500,7 +533,7 @@ function testLocal(done) {
 
 function watch() {
 	// Example build changes
-	gulp.watch(JS_SOURCE, gulp.series(compileDevelopment, jsHintDevelopment, jscsDevelopment, testKarmaBuild, testE2EBuild));
+	gulp.watch(JS_SOURCE, gulp.series(compileDevelopment, jsHintDevelopment, jscsDevelopment, testKarmaBuild, testE2EHeadless));
 	gulp.watch(['favicons/*'], copyIconsTest);
 	gulp.watch(['responses/*'], copyJSONBuild);
 
@@ -515,7 +548,7 @@ function watch() {
 	gulp.watch(UNIT_TESTS, gulp.series(jscsUnitTests, jshintUnitTests, testKarmaBuild));
 
 	// UI Testing
-	gulp.watch(UI_TESTS, gulp.series(jscsUITests, jshintUITests, testE2EBuild));
+	gulp.watch(UI_TESTS, gulp.series(jscsUITests, jshintUITests, testE2EHeadless));
 }
 
 // Task for development
@@ -541,11 +574,14 @@ module.exports = {
 
 	// UI tests
 	'test:e2e:build': testE2EBuild,
-	'test:e2e:local': testE2E,
+	'test:e2e:local': testE2EHeadless,
 	'test:e2e:bs_essential': testBSUIEssential,
 	'test:e2e:bs_all': testBSUIAll,
+	'test:e2e:visual_reference': resetReferenceImages,
 
 	// Combined tests
+	'test:all:build': testBuild,
+	'test:all:build_visual_regression': testWithVisualRegression,
 	'test:all:local': testLocal,
 	'test:all:linux': testLinux,
 	'test:all:mac_os': testMacOS,

@@ -44,6 +44,7 @@ exports.config = {
 			version: '2.39'
 		}
 	},
+
 	onComplete: function(exitCode) {
 		process.exit(exitCode);
 	}

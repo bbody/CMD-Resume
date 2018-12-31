@@ -49,6 +49,7 @@
 		"browser": true,
 		"$$": true,
 		"module": true,
-		"require": true
+		"require": true,
+		"process": true
 	}
 }
