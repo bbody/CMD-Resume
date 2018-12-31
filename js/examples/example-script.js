@@ -30,7 +30,8 @@ $(document).ready(function() {
 				description: 'checks if geolocation is enabled',
 				type: 'system',
 				handler: function() {
-					return 'Geolocation is ' + (navigator.geolocation ?  '' : 'not ') +
+					return 'Geolocation is ' +
+						(navigator.geolocation ?  '' : 'not ') +
 						'supported for this browser';
 				}
 			},
@@ -44,7 +45,8 @@ $(document).ready(function() {
 				handler: function(value) {
 					var startYear = (new Date(value.unixtime)).getFullYear();
 					var endYear = (new Date()).getFullYear();
-					return 'Started ' + (endYear - startYear) + ' years ago to ' + value.motivation;
+					return 'Started ' + (endYear - startYear) +
+						' years ago to ' + value.motivation;
 				}
 			},
 			{
