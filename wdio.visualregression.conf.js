@@ -18,7 +18,7 @@ wdioConf.visualRegression = {
 		referenceName: getScreenshotName(path.join(process.cwd(), 'spec-e2e/visual-diffs/reference')),
 		screenshotName: getScreenshotName(path.join(process.cwd(), 'spec-e2e/visual-diffs/current')),
 		diffName: getScreenshotName(path.join(process.cwd(), 'spec-e2e/visual-diffs/diff')),
-		misMatchTolerance: 0.5
+		misMatchTolerance: 0.05
 	}),
 	viewports: [{width: 1024, height: 768}],
 };
