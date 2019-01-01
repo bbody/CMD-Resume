@@ -361,6 +361,9 @@ const sourceCheckTools = gulp.series(jshintTools, jscsTools);
 
 const sourceCheckTests = gulp.series(jshintTests, jscsTests);
 
+const sourceCheckUnitTests = gulp.series(jshintUnitTests, jscsUnitTests);
+const sourceCheckUITests = gulp.series(jshintUITests, jscsUITests);
+
 const sourceCheck = gulp.series(sourceCheckDevelopment, sourceCheckTools, sourceCheckTests, pugLint);
 
 let runTests = (browsers, done) => {
@@ -494,18 +497,33 @@ function compileGHPages() {
 	return compiledCode('tmp/js', false, false);
 }
 
-var localTest = {
-	'macos': testMacOS,
-	'windows': testWindows,
-	'linux': testLinux
+var localTestUnitList = {
+	'macos': testKarmaMacOS,
+	'windows': testKarmaWindows,
+	'linux': testKarmaLinux
+};
+
+var localTestUIList = {
+	'macos': testE2EMacOS,
+	'windows': testE2EWindows,
+	'linux': testE2ELinux
 };
 
 const buildGHPages = gulp.series(compileGHPages, compileHTMLExample, compileHTMLOwnExample, copyJSONBuild, copyIconsBuild, copyExampleScript, copyOwnScript);
 
-function testLocal(done) {
-	localTest[OPERATING_SYSTEM]();
+function testLocalUnit(done) {
+	localTestUnitList[OPERATING_SYSTEM]();
 	done();
 }
+
+function testLocalUITests(done) {
+	localTestUIList[OPERATING_SYSTEM]();
+	done();
+}
+
+const testLocalUI = gulp.series(testE2EPre, testLocalUITests);
+
+const testLocal = gulp.series(testLocalUnit, testLocalUI);
 
 function watch() {
 	// Example build changes
@@ -545,16 +563,19 @@ module.exports = {
 	'lint:markdown': mdlint,
 	'lint:javascript:source': sourceCheckDevelopment,
 	'lint:javascript:tests': sourceCheckTests,
+	'lint:javascript:tests:unit': sourceCheckUnitTests,
+	'lint:javascript:tests:e2e': sourceCheckUITests,
 	'lint:javascript:tools': sourceCheckTools,
 
 	// Unit tests
 	'test:unit:build': testKarmaBuild,
+	'test:unit:local': testLocalUnit,
 	'test:unit:bs_all': testKarmaBrowserstack,
 	'test:unit:bs_essential': testKarmaBrowserstackEssential,
 
 	// UI tests
 	'test:e2e:build': testE2EBuild,
-	'test:e2e:local': testE2EHeadless,
+	'test:e2e:local': testLocalUI,
 	'test:e2e:bs_essential': testBSUIEssential,
 	'test:e2e:bs_all': testBSUIAll,
 	'test:e2e:visual_reference': resetReferenceImages,

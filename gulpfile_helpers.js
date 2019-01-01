@@ -1,5 +1,4 @@
 var getArgumentList = function(argList) {
-	console.log(argList);
 	if (argList.length > 4) {
 		return argList[4].split(',');
 	} else {
