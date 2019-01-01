@@ -114,18 +114,7 @@
   "husky": {
     "hooks": {
       "prepare-commit-msg": "hooks/prepare-commit-msg ${HUSKY_GIT_PARAMS}",
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged --config lint-staged.config.json"
     }
-  },
-  "lint-staged": {
-    "(.travis.yml|docs/.remarkrc.yaml|.yamllint)": "yamllint -c .yamllint",
-    "(docs/*.mdpp|docs/partials/*.md)": "gulp lint:markdown --file",
-    "templates/**/*.pug": "gulp lint:pug --file",
-    "(browserstack/*.json|fixtures/*.json|responses/*.json|fixtures/*.json|spec/.jscsrc*|.jshintrc|.jshintrc-tools|.jscsrc|.jscsrc-tools|spec/.jshintrc|spec-e2e/.jscsrc|spec-e2e/.jshintrc|package.json|package-lock.json)": "gulp lint:json --file",
-    "(js/cmd-resume.js|helpers/*.js)": "gulp lint:javascript:source --file",
-    "(*.conf.js|gulpfile.js|gulpfile_helpers.js|scripts/*.js|js/examples/*.js)": "gulp lint:javascript:tools --file",
-    "(spec/**/*.spec.js|spec/support/*.js|spec-e2e/**/*.spec.js|spec-e2e/support/*.js)": "gulp lint:javascript:tests --file",
-    "(js/cmd-resume.js|helpers/*.js|spec/**/*.spec.js|spec/support/*.js)": "gulp test:unit:build --file",
-    "(js/cmd-resume.js|helpers/*.js|spec-e2e/**/*.spec.js|spec-e2e/support/*.js)": "gulp test:e2e:local --file"
   }
 }

@@ -1,26 +1,10 @@
 var getArgumentList = function(argList) {
-	// https://www.sitepoint.com/pass-parameters-gulp-tasks/
-	var arg = {}, a, opt, thisOpt, curOpt;
-	for (a = 0; a < argList.length; a++) {
-
-		thisOpt = argList[a].trim();
-		opt = thisOpt.replace(/^\-+/, '');
-
-		if (opt === thisOpt) {
-			// argument value
-			if (curOpt) {
-				arg[curOpt] = opt;
-			}
-			curOpt = null;
-		} else {
-			// argument name
-			curOpt = opt;
-			arg[curOpt] = true;
-		}
-
+	console.log(argList);
+	if (argList.length > 4) {
+		return argList[4].split(',');
+	} else {
+		return [];
 	}
-
-	return arg;
 };
 
 var getCurrentOperatingSystem = function() {

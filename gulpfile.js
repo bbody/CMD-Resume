@@ -33,13 +33,13 @@ var OUTPUT = ['tmp/js/cmd-resume.js'];
 var JSON = ['browserstack/*.json', 'fixtures/*.json', 'responses/*.json',
 	'fixtures/*.json', 'spec/.jscsrc*', '.jshintrc-*', '..jscsrc-*',
 	'spec/.jshintrc', 'spec-e2e/.jscsrc', 'spec-e2e/.jshintrc',
-	'package.json', 'package-lock.json'
+	'package.json', 'package-lock.json', 'lint-staged.config.json'
 ];
 var MARKDOWN = ['docs/**/*.mdpp'];
 var PUG = ['templates/**/*.pug'];
 
-var arg = helper.getArgumentList(process.argv);
-var file = arg && arg.file ? [arg.file] : false;
+var files = helper.getArgumentList(process.argv);
+files = files.length ? files : false;
 
 var OPERATING_SYSTEM = helper.getCurrentOperatingSystem();
 
@@ -107,7 +107,7 @@ function serve() {
 }
 
 function jsHintDevelopment(done) {
-	gulp.src(file ? file : OUTPUT)
+	gulp.src(files ? files : OUTPUT)
 		.pipe(jshint())
 		.pipe(jshint.reporter('jshint-stylish'))
 		.pipe(jshint.reporter('fail'));
@@ -115,7 +115,7 @@ function jsHintDevelopment(done) {
 }
 
 function jshintTools(done) {
-	gulp.src(file ? file : TOOLS)
+	gulp.src(files ? files : TOOLS)
 		.pipe(jshint('./.jshintrc-tools'))
 		.pipe(jshint.reporter('jshint-stylish'))
 		.pipe(jshint.reporter('fail'));
@@ -123,7 +123,7 @@ function jshintTools(done) {
 }
 
 function jshintUnitTests(done) {
-	gulp.src(file ? file : UNIT_TESTS)
+	gulp.src(files ? files : UNIT_TESTS)
 		.pipe(jshint('./spec/.jshintrc'))
 		.pipe(jshint.reporter('jshint-stylish'))
 		.pipe(jshint.reporter('fail'));
@@ -131,7 +131,7 @@ function jshintUnitTests(done) {
 }
 
 function jshintUITests(done) {
-	gulp.src(file ? file : UI_TESTS)
+	gulp.src(files ? files : UI_TESTS)
 		.pipe(jshint('./spec-e2e/.jshintrc'))
 		.pipe(jshint.reporter('jshint-stylish'))
 		.pipe(jshint.reporter('fail'));
@@ -141,7 +141,7 @@ function jshintUITests(done) {
 var jshintTests = gulp.parallel(jshintUnitTests, jshintUITests);
 
 function jscsDevelopment(done) {
-	gulp.src(file ? file : SOURCE)
+	gulp.src(files ? files : SOURCE)
 		.pipe(jscs())
 		.pipe(jscs.reporter())
 		.pipe(jscs.reporter('fail'));
@@ -149,7 +149,7 @@ function jscsDevelopment(done) {
 }
 
 function jscsTools(done) {
-	gulp.src(file ? file : TOOLS)
+	gulp.src(files ? files : TOOLS)
 		.pipe(jscs({configPath: './.jscsrc-tools'}))
 		.pipe(jscs.reporter())
 		.pipe(jscs.reporter('fail'));
@@ -157,7 +157,7 @@ function jscsTools(done) {
 }
 
 function jscsUnitTests(done) {
-	gulp.src(file ? file : UNIT_TESTS)
+	gulp.src(files ? files : UNIT_TESTS)
 		.pipe(jscs({configPath: './spec/.jscsrc'}))
 		.pipe(jscs.reporter())
 		.pipe(jscs.reporter('fail'));
@@ -165,7 +165,7 @@ function jscsUnitTests(done) {
 }
 
 function jscsUITests(done) {
-	gulp.src(file ? file : UI_TESTS)
+	gulp.src(files ? files : UI_TESTS)
 		.pipe(jscs({configPath: './spec-e2e/.jscsrc'}))
 		.pipe(jscs.reporter())
 		.pipe(jscs.reporter('fail'));
@@ -175,7 +175,7 @@ function jscsUITests(done) {
 var jscsTests = gulp.parallel(jscsUnitTests, jscsUITests);
 
 function jsonLint(done) {
-	gulp.src(file ? file : JSON)
+	gulp.src(files ? files : JSON)
 		.pipe(jsonlint())
 		.pipe(jsonlint.reporter())
 		.pipe(jsonlint.failOnError());
@@ -183,13 +183,13 @@ function jsonLint(done) {
 }
 
 function mdlint(done) {
-	gulp.src(file ? file : MARKDOWN)
+	gulp.src(files ? files : MARKDOWN)
 		.pipe(remark({frail: true}));
 	done();
 }
 
 function pugLint(done) {
-	gulp.src(file ? file : PUG)
+	gulp.src(files ? files : PUG)
 		.pipe(pugLinter({reporter: pugLintStylish, failAfterError: true}));
 	done();
 }
