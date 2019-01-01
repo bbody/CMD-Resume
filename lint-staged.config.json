@@ -1,0 +1,16 @@
+{
+    "linters":
+    {
+        "(.travis.yml|docs/.remarkrc.yaml|.yamllint)": "yamllint -c .yamllint",
+        "(docs/*.mdpp|docs/partials/*.md)": "node ./scripts/staged-gulp lint:markdown",
+        "templates/**/*.pug": "node ./scripts/staged-gulp lint:pug",
+        "(browserstack/*.json|fixtures/*.json|responses/*.json|fixtures/*.json|spec/.jscsrc*|.jshintrc|.jshintrc-tools|.jscsrc|.jscsrc-tools|spec/.jshintrc|spec-e2e/.jscsrc|spec-e2e/.jshintrc|*.json)": "node ./scripts/staged-gulp lint:json",
+        "(js/cmd-resume.js|helpers/*.js)": "node ./scripts/staged-gulp lint:javascript:source",
+        "(*.conf.js|gulpfile.js|gulpfile_helpers.js|scripts/*.js|js/examples/*.js)": "node ./scripts/staged-gulp lint:javascript:tools",
+        "(spec/*.spec.js|spec/helpers/*.spec.js|spec/support/*.js)": "node ./scripts/staged-gulp lint:javascript:tests:unit",
+        "(spec-e2e/*.spec.js|spec-e2e/support/*.js)": "node ./scripts/staged-gulp lint:javascript:tests:e2e",
+        "(js/cmd-resume.js|js/helpers/*.js|spec/*.spec.js|spec/helpers/*.spec.js|spec/support/*.js)": "node ./scripts/staged-gulp test:unit:local",
+        "(js/cmd-resume.js|js/helpers/*.js|spec-e2e/*.spec.js|spec-e2e/support/*.js)": "node ./scripts/staged-gulp test:e2e:local"
+    },
+    "relative": true
+}

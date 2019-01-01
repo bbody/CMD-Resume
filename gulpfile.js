@@ -1,5 +1,8 @@
 /* File: gulpfile.js */
 
+// Helpers
+var helper = require('./gulpfile_helpers');
+
 // Dependencies
 var gulp = require('gulp'),
 	jshint = require('gulp-jshint'),
@@ -17,7 +20,7 @@ var gulp = require('gulp'),
 	package = require('./package.json'),
 	pugLintStylish = require('puglint-stylish');
 
-var TOOLS = ['*.conf.js', 'gulpfile.js', 'scripts/*.js', 'js/examples/*.js'];
+var TOOLS = ['*.conf.js', 'gulpfile.js', 'gulpfile_helpers.js', 'scripts/*.js', 'js/examples/*.js'];
 var UNIT_TESTS = ['spec/**/*.spec.js', 'spec/support/*.js'];
 var UI_TESTS = ['spec-e2e/**/*.spec.js', 'spec-e2e/support/*.js'];
 var SOURCE = ['js/helpers/constants.js', 'js/helpers/misc.js',
@@ -29,43 +32,16 @@ var JS_SOURCE = ['js/cmd-resume.js', 'js/helpers/*.js'];
 var OUTPUT = ['tmp/js/cmd-resume.js'];
 var JSON = ['browserstack/*.json', 'fixtures/*.json', 'responses/*.json',
 	'fixtures/*.json', 'spec/.jscsrc*', '.jshintrc-*', '..jscsrc-*',
-	'spec/.jshintrc', 'spec-e2e/.jscsrc', 'spec-e2e/.jshintrc'
+	'spec/.jshintrc', 'spec-e2e/.jscsrc', 'spec-e2e/.jshintrc',
+	'package.json', 'package-lock.json', 'lint-staged.config.json'
 ];
 var MARKDOWN = ['docs/**/*.mdpp'];
-// var YAML = ['**/*.yaml', '!node_modules/**'];
+var PUG = ['templates/**/*.pug'];
 
-function getCurrentOperatingSystem() {
-	var os = require('os');
-	if (os.platform().includes('mac') || os.platform().includes('darwin')) {
-		return 'macos';
-	} else if (os.platform().includes('win')) {
-		return 'windows';
-	} else {
-		return 'linux';
-	}
-}
+var files = helper.getArgumentList(process.argv);
+files = files.length ? files : false;
 
-var OPERATING_SYSTEM = getCurrentOperatingSystem();
-
-// Useful functions
-function getVersion() {
-	return package.version;
-}
-
-function getAuthorName() {
-	return package.author.name;
-}
-
-function getGithubUrl() {
-	return package.repository.url;
-}
-
-function getVersionString() {
-	var versionInfo = '/* v' + getVersion() +
-		' of CMD Resume by ' + getAuthorName() +
-		'(' + getGithubUrl() + ') */';
-	return versionInfo;
-}
+var OPERATING_SYSTEM = helper.getCurrentOperatingSystem();
 
 function compiledCode(destination, minified, versioned) {
 	var stream = gulp.src(SOURCE)
@@ -80,7 +56,7 @@ function compiledCode(destination, minified, versioned) {
 	}
 
 	if (versioned) {
-		stream.pipe(inject.prepend(getVersionString() + '\n'));
+		stream.pipe(inject.prepend(helper.getVersionString(package)));
 	}
 
 	return stream.pipe(gulp.dest(destination));
@@ -131,7 +107,7 @@ function serve() {
 }
 
 function jsHintDevelopment(done) {
-	gulp.src(OUTPUT)
+	gulp.src(files ? files : OUTPUT)
 		.pipe(jshint())
 		.pipe(jshint.reporter('jshint-stylish'))
 		.pipe(jshint.reporter('fail'));
@@ -139,7 +115,7 @@ function jsHintDevelopment(done) {
 }
 
 function jshintTools(done) {
-	gulp.src(TOOLS)
+	gulp.src(files ? files : TOOLS)
 		.pipe(jshint('./.jshintrc-tools'))
 		.pipe(jshint.reporter('jshint-stylish'))
 		.pipe(jshint.reporter('fail'));
@@ -147,7 +123,7 @@ function jshintTools(done) {
 }
 
 function jshintUnitTests(done) {
-	gulp.src(UNIT_TESTS)
+	gulp.src(files ? files : UNIT_TESTS)
 		.pipe(jshint('./spec/.jshintrc'))
 		.pipe(jshint.reporter('jshint-stylish'))
 		.pipe(jshint.reporter('fail'));
@@ -155,7 +131,7 @@ function jshintUnitTests(done) {
 }
 
 function jshintUITests(done) {
-	gulp.src(UI_TESTS)
+	gulp.src(files ? files : UI_TESTS)
 		.pipe(jshint('./spec-e2e/.jshintrc'))
 		.pipe(jshint.reporter('jshint-stylish'))
 		.pipe(jshint.reporter('fail'));
@@ -165,7 +141,7 @@ function jshintUITests(done) {
 var jshintTests = gulp.parallel(jshintUnitTests, jshintUITests);
 
 function jscsDevelopment(done) {
-	gulp.src(SOURCE)
+	gulp.src(files ? files : SOURCE)
 		.pipe(jscs())
 		.pipe(jscs.reporter())
 		.pipe(jscs.reporter('fail'));
@@ -173,7 +149,7 @@ function jscsDevelopment(done) {
 }
 
 function jscsTools(done) {
-	gulp.src(TOOLS)
+	gulp.src(files ? files : TOOLS)
 		.pipe(jscs({configPath: './.jscsrc-tools'}))
 		.pipe(jscs.reporter())
 		.pipe(jscs.reporter('fail'));
@@ -181,7 +157,7 @@ function jscsTools(done) {
 }
 
 function jscsUnitTests(done) {
-	gulp.src(UNIT_TESTS)
+	gulp.src(files ? files : UNIT_TESTS)
 		.pipe(jscs({configPath: './spec/.jscsrc'}))
 		.pipe(jscs.reporter())
 		.pipe(jscs.reporter('fail'));
@@ -189,7 +165,7 @@ function jscsUnitTests(done) {
 }
 
 function jscsUITests(done) {
-	gulp.src(UI_TESTS)
+	gulp.src(files ? files : UI_TESTS)
 		.pipe(jscs({configPath: './spec-e2e/.jscsrc'}))
 		.pipe(jscs.reporter())
 		.pipe(jscs.reporter('fail'));
@@ -199,7 +175,7 @@ function jscsUITests(done) {
 var jscsTests = gulp.parallel(jscsUnitTests, jscsUITests);
 
 function jsonLint(done) {
-	gulp.src(JSON)
+	gulp.src(files ? files : JSON)
 		.pipe(jsonlint())
 		.pipe(jsonlint.reporter())
 		.pipe(jsonlint.failOnError());
@@ -207,13 +183,13 @@ function jsonLint(done) {
 }
 
 function mdlint(done) {
-	gulp.src(MARKDOWN)
+	gulp.src(files ? files : MARKDOWN)
 		.pipe(remark({frail: true}));
 	done();
 }
 
 function pugLint(done) {
-	gulp.src('templates/**/*.pug')
+	gulp.src(files ? files : PUG)
 		.pipe(pugLinter({reporter: pugLintStylish, failAfterError: true}));
 	done();
 }
@@ -383,7 +359,10 @@ const sourceCheckDevelopment = gulp.series(compileDevelopment, jscsDevelopment, 
 
 const sourceCheckTools = gulp.series(jshintTools, jscsTools);
 
-const sourceCheckTests = gulp.series(jshintTests, jscsTests, jsonLint, mdlint);
+const sourceCheckTests = gulp.series(jshintTests, jscsTests);
+
+const sourceCheckUnitTests = gulp.series(jshintUnitTests, jscsUnitTests);
+const sourceCheckUITests = gulp.series(jshintUITests, jscsUITests);
 
 const sourceCheck = gulp.series(sourceCheckDevelopment, sourceCheckTools, sourceCheckTests, pugLint);
 
@@ -518,18 +497,33 @@ function compileGHPages() {
 	return compiledCode('tmp/js', false, false);
 }
 
-var localTest = {
-	'macos': testMacOS,
-	'windows': testWindows,
-	'linux': testLinux
+var localTestUnitList = {
+	'macos': testKarmaMacOS,
+	'windows': testKarmaWindows,
+	'linux': testKarmaLinux
+};
+
+var localTestUIList = {
+	'macos': testE2EMacOS,
+	'windows': testE2EWindows,
+	'linux': testE2ELinux
 };
 
 const buildGHPages = gulp.series(compileGHPages, compileHTMLExample, compileHTMLOwnExample, copyJSONBuild, copyIconsBuild, copyExampleScript, copyOwnScript);
 
-function testLocal(done) {
-	localTest[OPERATING_SYSTEM]();
+function testLocalUnit(done) {
+	localTestUnitList[OPERATING_SYSTEM]();
 	done();
 }
+
+function testLocalUITests(done) {
+	localTestUIList[OPERATING_SYSTEM]();
+	done();
+}
+
+const testLocalUI = gulp.series(testE2EPre, testLocalUITests);
+
+const testLocal = gulp.series(testLocalUnit, testLocalUI);
 
 function watch() {
 	// Example build changes
@@ -552,11 +546,10 @@ function watch() {
 }
 
 // Task for development
-const develop = gulp.parallel(watch, build, serve);
+const develop = gulp.series(build, gulp.parallel(watch, serve));
 
 module.exports = {
 	'default': develop,
-	watch,
 
 	// Build tasks
 	'build:gh_pages': buildGHPages,
@@ -566,15 +559,23 @@ module.exports = {
 	// Lint tasks
 	'lint:all': sourceCheck,
 	'lint:pug': pugLint,
+	'lint:json': jsonLint,
+	'lint:markdown': mdlint,
+	'lint:javascript:source': sourceCheckDevelopment,
+	'lint:javascript:tests': sourceCheckTests,
+	'lint:javascript:tests:unit': sourceCheckUnitTests,
+	'lint:javascript:tests:e2e': sourceCheckUITests,
+	'lint:javascript:tools': sourceCheckTools,
 
 	// Unit tests
 	'test:unit:build': testKarmaBuild,
+	'test:unit:local': testLocalUnit,
 	'test:unit:bs_all': testKarmaBrowserstack,
 	'test:unit:bs_essential': testKarmaBrowserstackEssential,
 
 	// UI tests
 	'test:e2e:build': testE2EBuild,
-	'test:e2e:local': testE2EHeadless,
+	'test:e2e:local': testLocalUI,
 	'test:e2e:bs_essential': testBSUIEssential,
 	'test:e2e:bs_all': testBSUIAll,
 	'test:e2e:visual_reference': resetReferenceImages,
