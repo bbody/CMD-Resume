@@ -34,6 +34,8 @@ var JSON = ['browserstack/*.json', 'fixtures/*.json', 'responses/*.json',
 var MARKDOWN = ['docs/**/*.mdpp'];
 // var YAML = ['**/*.yaml', '!node_modules/**'];
 
+var file = args && args.file ? [args.file] : false;
+
 function getCurrentOperatingSystem() {
 	var os = require('os');
 	if (os.platform().includes('mac') || os.platform().includes('darwin')) {
