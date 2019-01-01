@@ -114,8 +114,7 @@
   "husky": {
     "hooks": {
       "prepare-commit-msg": "hooks/prepare-commit-msg ${HUSKY_GIT_PARAMS}",
-      "pre-commit": "lint-staged",
-      "pre-push": "gulp test:all:local"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
