@@ -26,6 +26,7 @@ module.exports = function(config) {
 			'fixture'
 		],
 		files: [
+			'node_modules/js-polyfills/keyboard.js',
 			'node_modules/jquery.terminal/js/jquery.terminal.js',
 			'spec/support/helpers.js',
 			'js/helpers/*.js',
