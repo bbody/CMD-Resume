@@ -35,7 +35,7 @@ var JSON = ['browserstack/*.json', 'fixtures/*.json', 'responses/*.json',
 	'spec/.jshintrc', 'spec-e2e/.jscsrc', 'spec-e2e/.jshintrc',
 	'package.json', 'package-lock.json', 'lint-staged.config.json'
 ];
-var MARKDOWN = ['docs/**/*.mdpp'];
+var MARKDOWN = ['docs/**/*.mdpp', 'LICENSE.md'];
 var PUG = ['templates/**/*.pug'];
 
 var files = helper.getArgumentList(process.argv);
