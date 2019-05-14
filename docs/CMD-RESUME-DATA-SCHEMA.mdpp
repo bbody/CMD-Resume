@@ -11,6 +11,8 @@ additional data can be provided.
 - pdf: A link to a PDF resume (string, optional) - will overwrite the social
   media profile resume (If it exists)
 - splash: A ASCII splash screen split into lines (array\[string], optional)
+    (See [Multiline JavaScript Converter](https://jsstringconverter.bbody.io/)
+    for converting text to JSON)
 
 *Note:* Ensure strings are properly escaped, please
 [validate JSON][json lint] first.
