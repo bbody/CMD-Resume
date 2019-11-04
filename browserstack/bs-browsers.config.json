@@ -117,12 +117,6 @@
 					"newest": 64,
 					"enabled": true,
 					"essential": true
-				},
-				{
-					"name": "Safari",
-					"versions": ["12"],
-					"enabled": true,
-					"essential": true
 				}
 			]
 		},
