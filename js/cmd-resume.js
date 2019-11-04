@@ -335,7 +335,7 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 
 				for (var i = 0; i < commands.length; i++) {
 					var command = commands[i];
-					if (Object.keys(self.commands).indexOf(command) !== -1){
+					if (Object.keys(self.commands).indexOf(command) !== -1) {
 						results.push(self.commandLineParse(command, []));
 					}
 				}

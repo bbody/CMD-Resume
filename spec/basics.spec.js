@@ -105,7 +105,7 @@ describe("Basics", function() {
 				enterCommand("help");
 				var output = helpOutput();
 				expect(output.command).toEqual("Available Commands:");
-				expect(output.values.length).toEqual(19);
+				expect(output.values.length).toEqual(20);
 			});
 		});
 
