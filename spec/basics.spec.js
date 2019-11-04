@@ -90,6 +90,35 @@ describe("Basics", function() {
 		});
 	});
 
+	describe("Resume", function() {
+		beforeEach(function() {
+			$("#cmd-resume").CMDResume("details.json");
+			var mostRecentRequest = jasmine.Ajax.requests.mostRecent();
+
+			mostRecentRequest.respondWith({
+				status: 200,
+				responseText: JSON.stringify(loadJSON("details-without-volunteering"))
+			});
+		});
+
+		it("Contains sections", function() {
+			enterCommand("resume");
+			var output = $(".terminal-output > div").text();
+			expect(output).toContain("Name");
+			expect(output).toContain("Label");
+			expect(output).toContain("About");
+			expect(output).toContain("Employment");
+			expect(output).not.toContain("Volunteering");
+			expect(output).toContain("Education");
+			expect(output).toContain("Awards");
+			expect(output).toContain("Publications");
+			expect(output).toContain("Skills");
+			expect(output).toContain("Languages");
+			expect(output).toContain("Interests");
+			expect(output).toContain("References");
+		});
+	});
+
 	describe("Help", function() {
 		describe("Full command set", function() {
 			beforeEach(function() {
