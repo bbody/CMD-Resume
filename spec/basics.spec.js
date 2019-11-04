@@ -90,6 +90,35 @@ describe("Basics", function() {
 		});
 	});
 
+	describe("Resume", function() {
+		beforeEach(function() {
+			$("#cmd-resume").CMDResume("details.json");
+			var mostRecentRequest = jasmine.Ajax.requests.mostRecent();
+
+			mostRecentRequest.respondWith({
+				status: 200,
+				responseText: JSON.stringify(loadJSON("details-without-volunteering"))
+			});
+		});
+
+		it("Contains sections", function() {
+			enterCommand("resume");
+			var output = $(".terminal-output > div").text();
+			expect(output).toContain("Name");
+			expect(output).toContain("Label");
+			expect(output).toContain("About");
+			expect(output).toContain("Employment");
+			expect(output).not.toContain("Volunteering");
+			expect(output).toContain("Education");
+			expect(output).toContain("Awards");
+			expect(output).toContain("Publications");
+			expect(output).toContain("Skills");
+			expect(output).toContain("Languages");
+			expect(output).toContain("Interests");
+			expect(output).toContain("References");
+		});
+	});
+
 	describe("Help", function() {
 		describe("Full command set", function() {
 			beforeEach(function() {
@@ -105,7 +134,7 @@ describe("Basics", function() {
 				enterCommand("help");
 				var output = helpOutput();
 				expect(output.command).toEqual("Available Commands:");
-				expect(output.values.length).toEqual(19);
+				expect(output.values.length).toEqual(20);
 			});
 		});
 
@@ -123,14 +152,14 @@ describe("Basics", function() {
 				enterCommand("help");
 				var output = helpOutput();
 				expect(output.command).toEqual("Available Commands:");
-				expect(output.values.length).toEqual(18);
+				expect(output.values.length).toEqual(19);
 			});
 
 			it("Ignores top", function() {
 				enterCommand("help -top");
 				var output = helpOutput();
 				expect(output.command).toEqual("Available Commands:");
-				expect(output.values.length).toEqual(18);
+				expect(output.values.length).toEqual(19);
 			});
 		});
 
@@ -151,7 +180,7 @@ describe("Basics", function() {
 				var output = helpOutput();
 
 				expect(output.command).toEqual("Available Commands:");
-				expect(output.values.length).toEqual(4);
+				expect(output.values.length).toEqual(5);
 				expect(output.values[0]).toEqual("clear - clear command history from screen");
 				expect(output.values[1]).toEqual("man - describes what each command does");
 				expect(output.values[2]).toEqual("help - lists help for all the commands");

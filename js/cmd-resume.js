@@ -320,6 +320,28 @@ $.fn.CMDResume = function(primaryEndpoint, options) {
 				}
 				return results.setPGP();
 			}
+		},
+		{
+			name: "resume",
+			title: "Résumé",
+			description: "prints résumé",
+			type: CMD.SYSTEM,
+			handler: function() {
+				var results = [];
+				var commands = ["name", "label", "about", "socialmedia",
+					"employment", "volunteering", "education", "awards",
+					"publications", "skills", "languages", "interests",
+					"references"];
+
+				for (var i = 0; i < commands.length; i++) {
+					var command = commands[i];
+					if (Object.keys(self.commands).indexOf(command) !== -1) {
+						results.push(self.commandLineParse(command, []));
+					}
+				}
+
+				return results.join(CONSTANTS.NEW_LINE + CONSTANTS.NEW_LINE);
+			}
 		}
 	];
 
