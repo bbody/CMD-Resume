@@ -123,14 +123,14 @@ describe("Basics", function() {
 				enterCommand("help");
 				var output = helpOutput();
 				expect(output.command).toEqual("Available Commands:");
-				expect(output.values.length).toEqual(18);
+				expect(output.values.length).toEqual(19);
 			});
 
 			it("Ignores top", function() {
 				enterCommand("help -top");
 				var output = helpOutput();
 				expect(output.command).toEqual("Available Commands:");
-				expect(output.values.length).toEqual(18);
+				expect(output.values.length).toEqual(19);
 			});
 		});
 
@@ -151,7 +151,7 @@ describe("Basics", function() {
 				var output = helpOutput();
 
 				expect(output.command).toEqual("Available Commands:");
-				expect(output.values.length).toEqual(4);
+				expect(output.values.length).toEqual(5);
 				expect(output.values[0]).toEqual("clear - clear command history from screen");
 				expect(output.values[1]).toEqual("man - describes what each command does");
 				expect(output.values[2]).toEqual("help - lists help for all the commands");
