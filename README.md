@@ -25,8 +25,8 @@ CMD-Resume is a Javascript based command line for demonstrating your resume.
 
 ![CMD Resume Screenshot][cmd example image]
 
-- [Hacker News Discussion](hackernews)
-- [Reddit Discussion](reddit)
+- [Hacker News Discussion][hackernews]
+- [Reddit Discussion][reddit]
 
 ## Setup
 ### Prerequisites
