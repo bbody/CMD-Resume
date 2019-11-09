@@ -7,6 +7,6 @@
 .cmd div {
     font-family: 'Ubuntu Mono', monospace !important;
 }
-.cmd {
+.terminal .terminal-wrapper .cmd {
     margin-bottom: 85px;
 }
