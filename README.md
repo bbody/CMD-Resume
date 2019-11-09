@@ -25,6 +25,9 @@ CMD-Resume is a Javascript based command line for demonstrating your resume.
 
 ![CMD Resume Screenshot][cmd example image]
 
+- [Hacker News Discussion](hackernews)
+- [Reddit Discussion](reddit)
+
 ## Setup
 ### Prerequisites
 - [jQuery 3.X.X][jquery]
@@ -168,3 +171,5 @@ If you wish to contribute feel please read the [Contribution Guide][contribute].
 [polyfill]: https://rawgit.com/inexorabletash/polyfill/master/keyboard.js
 [schema]: CMD-RESUME-DATA-SCHEMA.md
 [version]: https://github.com/bbody/CMD-Resume/releases/latest
+[hackernews]: https://news.ycombinator.com/item?id=21415593
+[reddit]: https://www.reddit.com/r/SideProject/comments/dr10gi/command_line_r%C3%A9sum%C3%A9/
