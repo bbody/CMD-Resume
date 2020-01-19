@@ -28,3 +28,9 @@ html(lang='en')
             include partials/github_banner.pug
             div#codefund
             script(src="https://app.codefund.io/properties/612/funder.js", type="text/javascript", async="async")
+            div#issue-embed
+            script(src="https://cdn.issueembed.dev/issue-embed.min.js", type="text/javascript")
+            script.
+                $(document).ready(function() {
+                    issueEmbed.init("#issue-embed", "755470cf-96e9-4d50-f6c6-e9c6a8457362", "MIDDLE-BOTTOM");
+                });
