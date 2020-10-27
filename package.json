@@ -106,7 +106,8 @@
     "lint:travis": "travis lint --skip-completion-check .travis.yml",
     "lint:all": "gulp lint:all && npm run lint:yaml && npm run lint:travis",
     "build:doc": "markdown-pp ./docs/README.mdpp -o README.md && markdown-pp ./docs/CMD-RESUME-DATA-SCHEMA.mdpp -o CMD-RESUME-DATA-SCHEMA.md && markdown-pp ./docs/CONTRIBUTING.mdpp -o CONTRIBUTING.md",
-    "build:browsers": "node scripts/generate-browserstack-karma-browsers.js"
+    "build:browsers": "node scripts/generate-browserstack-karma-browsers.js",
+    "release": "gulp release"
   },
   "resolutions": {
     "natives": "1.1.3"
