@@ -10,10 +10,6 @@ before_script:
   - sudo apt-get update
   - sudo apt-get install -y libappindicator1 fonts-liberation
   - sudo apt-get install graphicsmagick
-  - >
-    wget
-    https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-  - sudo dpkg -i google-chrome*.deb
   - sudo apt install firefox
   - npm install
   - npm install -g gulp-cli
@@ -38,9 +34,9 @@ cache:
 env:
   global:
     - CXX=g++-4.8 CC=gcc-4.8
-    - CHROME_BIN=/usr/bin/google-chrome
 addons:
-  - apt:
+  chrome: stable
+  apt:
     sources:
       - ubuntu-toolchain-r-test
     packages:
