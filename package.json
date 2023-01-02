@@ -80,7 +80,7 @@
     "lint-staged": "^8.1.0",
     "puglint-stylish": "^0.1.1",
     "pump": "^3.0.0",
-    "remark-cli": "^6.0.1",
+    "remark-cli": "^11.0.0",
     "remark-preset-lint-markdown-style-guide": "^2.1.2",
     "requirejs": "^2.3.6",
     "selenium-standalone": "^6.15.4",
