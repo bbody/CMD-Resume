@@ -1,7 +1,7 @@
 {
     "linters":
     {
-        "(.travis.yml|docs/.remarkrc.yaml|.yamllint)": "yamllint -c .yamllint",
+        "(.travis.yml|.github/workflows/*.yml|docs/.remarkrc.yaml|.yamllint)": "yamllint -c .yamllint",
         "(docs/*.mdpp|docs/partials/*.md|LICENSE.md)": "node ./scripts/staged-gulp lint:markdown",
         "templates/**/*.pug": "node ./scripts/staged-gulp lint:pug",
         "(browserstack/*.json|fixtures/*.json|responses/*.json|fixtures/*.json|spec/.jscsrc*|.jshintrc|.jshintrc-tools|.jscsrc|.jscsrc-tools|spec/.jshintrc|spec-e2e/.jscsrc|spec-e2e/.jshintrc|*.json)": "node ./scripts/staged-gulp lint:json",

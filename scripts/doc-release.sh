@@ -2,8 +2,8 @@
 PACKAGE_VERSION=$1
 GH_TOKEN=$2
 
-git config --global user.email "support@travis-ci.org"
-git config --global user.name "Travis CI"
+git config --global user.email "github-actions[bot]@users.noreply.github.com"
+git config --global user.name "github-actions[bot]"
 
 git checkout master
 git reset

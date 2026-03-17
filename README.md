@@ -1,3 +1,4 @@
+[![CI][ci img]][ci]
 [![Build Status][travis build img]][travis]
 [![Maintainability][maintain img]][maintain]
 [![npm version][npm version img]][npm version]
@@ -6,6 +7,8 @@
 [maintain img]: https://api.codeclimate.com/v1/badges/245ed2739858462f5337/maintainability
 [npm version]: https://badge.fury.io/js/cmd-resume
 [npm version img]: https://badge.fury.io/js/cmd-resume.svg
+[ci]: https://github.com/bbody/CMD-Resume/actions/workflows/ci.yml
+[ci img]: https://github.com/bbody/CMD-Resume/actions/workflows/ci.yml/badge.svg
 [travis build img]: https://travis-ci.org/bbody/CMD-Resume.svg?branch=master
 [travis]: https://travis-ci.org/bbody/CMD-Resume
 

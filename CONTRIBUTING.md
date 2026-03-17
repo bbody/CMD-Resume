@@ -87,7 +87,7 @@ which are used to develop, test, build and deploy.
     - [JSCS][] - used to ensure code style is consistent (differs across code,
       tests and tooling)
     - [JSON Lint][] - used to check the JSON files creating the resume
-    - [YAML Lint][] - used to lint the Travis file
+    - [YAML Lint][] - used to lint the Travis file and GitHub Actions workflows
     - [Travis Lint][] - used to lint and verify the Travis file according to
       Travis' recommended format
     - [Code Climate][] - used to provide code coverage and code quality
@@ -101,6 +101,7 @@ which are used to develop, test, build and deploy.
 - Markdown
     - [Markdown Preprocessor][md pp] - build Markdown from a preprocessor
 - Deployment
+    - [GitHub Actions][] - used to build, run tests and deploy code
     - [Travis CI][] - used to build, run tests and deploy code
 
 
@@ -139,6 +140,7 @@ For more information a list of dependencies please check
 [node]: https://nodejs.org/en/
 [npm]: https://www.npmjs.com/
 [package]: https://github.com/bbody/CMD-Resume/blob/master/package.json
+[github actions]: https://docs.github.com/en/actions
 [pugjs]: https://github.com/pugjs/pug
 [travis ci]: https://travis-ci.org/
 [travis lint]: https://github.com/travis-ci/travis.rb#lint

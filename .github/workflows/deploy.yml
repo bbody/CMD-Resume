@@ -1,0 +1,134 @@
+name: Deploy
+
+on:
+  push:
+    branches: [master]
+    tags: ["*"]
+
+jobs:
+  deploy-release:
+    name: GitHub Release
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install gulp-cli
+        run: npm install -g gulp-cli
+
+      - name: Build release
+        run: gulp build:release
+
+      - name: Build docs
+        run: npm run build:doc
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/cmd-resume*.js
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy-pages:
+    name: GitHub Pages
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install gulp-cli
+        run: npm install -g gulp-cli
+
+      - name: Build release
+        run: gulp build:release
+
+      - name: Build gh-pages
+        run: gulp build:gh_pages
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./tmp
+          cname: cmd-resume.bbody.io
+
+  deploy-npm:
+    name: npm Publish
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install gulp-cli
+        run: npm install -g gulp-cli
+
+      - name: Build release
+        run: gulp build:release
+
+      - name: Publish to npm
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPMJS_TOKEN }}
+
+  deploy-docs:
+    name: Doc Release
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push' && github.actor != 'github-actions[bot]'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install gulp-cli
+        run: npm install -g gulp-cli
+
+      - name: Build release
+        run: gulp build:release
+
+      - name: Build gh-pages
+        run: gulp build:gh_pages
+
+      - name: Build docs
+        run: npm run build:doc
+
+      - name: Doc release
+        run: |
+          PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
+          scripts/doc-release.sh "$PACKAGE_VERSION" "${{ secrets.GITHUB_TOKEN }}"

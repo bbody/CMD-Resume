@@ -102,7 +102,7 @@
     "test:vis_reg": "gulp test:all:build_visual_regression",
     "test:all:bs_essential": "gulp test:unit:bs_essential && gulp test:e2e:bs_essential",
     "test:all:bs_all": "gulp test:unit:bs_all && gulp test:e2e:bs_all",
-    "lint:yaml": "yamllint -c .yamllint .travis.yml docs/.remarkrc.yaml .yamllint",
+    "lint:yaml": "yamllint -c .yamllint .travis.yml .github/workflows/*.yml docs/.remarkrc.yaml .yamllint",
     "lint:travis": "travis lint --skip-completion-check .travis.yml",
     "lint:all": "gulp lint:all && npm run lint:yaml && npm run lint:travis",
     "build:doc": "markdown-pp ./docs/README.mdpp -o README.md && markdown-pp ./docs/CMD-RESUME-DATA-SCHEMA.mdpp -o CMD-RESUME-DATA-SCHEMA.md && markdown-pp ./docs/CONTRIBUTING.mdpp -o CONTRIBUTING.md",

@@ -1,3 +1,4 @@
+[![CI][ci img]][ci]
 [![Build Status][travis build img]][travis]
 [![Maintainability][maintain img]][maintain]
 [![Test Coverage][test cover img]][test cover]
@@ -5,6 +6,8 @@
 [![npm version][npm version img]][npm version]
 [![BrowserStack Status][browserstack img]][browserstack]
 
+[ci]: https://github.com/bbody/CMD-Resume/actions/workflows/ci.yml
+[ci img]: https://github.com/bbody/CMD-Resume/actions/workflows/ci.yml/badge.svg
 [browserstack]: https://www.browserstack.com/automate/public-build/TXJtSnFra2t1em56djV0cDNHbXBWQ0F1S2ZwWFNndG0rQTlySU5YaUZaUT0tLTFsTlp3ZUcrT29rMUNPcXhtbHRpNXc9PQ==--8f9c890ea5f00b2700273a981af403651fea3f65
 [browserstack img]: https://www.browserstack.com/automate/badge.svg?badge_key=TXJtSnFra2t1em56djV0cDNHbXBWQ0F1S2ZwWFNndG0rQTlySU5YaUZaUT0tLTFsTlp3ZUcrT29rMUNPcXhtbHRpNXc9PQ==--8f9c890ea5f00b2700273a981af403651fea3f65
 [devdep]: https://david-dm.org/bbody/cmd-resume?type=dev
