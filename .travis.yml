@@ -3,9 +3,9 @@ language: node_js
 node_js:
   - '10.14.1'
 dist: focal
+services:
+  - xvfb
 before_script:
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3
   - sudo apt-get update
   - sudo apt-get install -y libappindicator1 fonts-liberation
   - sudo apt-get install graphicsmagick
