@@ -33,7 +33,6 @@ cache:
 addons:
   chrome: stable
 before_install:
-  - jdk_switcher use oraclejdk8
   - npm run setup
 before_deploy:
   - gulp build:release
