@@ -2,11 +2,10 @@
 language: node_js
 node_js:
   - '10.14.1'
-dist: trusty
-sudo: required
+dist: focal
+services:
+  - xvfb
 before_script:
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3
   - sudo apt-get update
   - sudo apt-get install -y libappindicator1 fonts-liberation
   - sudo apt-get install graphicsmagick
@@ -15,7 +14,7 @@ before_script:
   - npm install -g gulp-cli
   - sudo pip install MarkdownPP
 script:
-  - npm run lint:all
+  - npm run lint:ci
   - |
     if [ $TRAVIS_EVENT_TYPE == "cron" ];then
       npm test && travis_wait 60 npm run test:all:bs_all
@@ -31,18 +30,9 @@ script:
 cache:
   directories:
     - node_modules
-env:
-  global:
-    - CXX=g++-4.8 CC=gcc-4.8
 addons:
   chrome: stable
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.8
 before_install:
-  - jdk_switcher use oraclejdk8
   - npm run setup
 before_deploy:
   - gulp build:release
