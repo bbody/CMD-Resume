@@ -19,6 +19,21 @@ var gulp = require('gulp'),
 	package = require('./package.json'),
 	pugLintStylish = require('puglint-stylish');
 
+function compileElm(done) {
+	var child = require('child_process').spawn(
+		'npm',
+		['run', 'build'],
+		{cwd: './cmd-resume-lib', stdio: 'inherit'}
+	);
+	child.on('close', function(code) {
+		if (code !== 0) {
+			done(new Error('Elm compilation failed'));
+		} else {
+			done();
+		}
+	});
+}
+
 var TOOLS = ['*.conf.js', 'gulpfile.js', 'gulpfile_helpers.js', 'scripts/*.js', 'js/examples/*.js'];
 var UNIT_TESTS = ['spec/**/*.spec.js', 'spec/support/*.js'];
 var UI_TESTS = ['spec-e2e/**/*.spec.js', 'spec-e2e/support/*.js'];
@@ -340,9 +355,9 @@ function compileDevelopment() {
 	return compiledCode('./tmp/js', false, false);
 }
 
-const build = gulp.series(compileHTML, compileDevelopment, copyJSONBuild, copyIconsBuild);
+const build = gulp.series(compileElm, compileHTML, compileDevelopment, copyJSONBuild, copyIconsBuild);
 
-const release = gulp.series(compileReleaseMinified, compileRelease);
+const release = gulp.series(compileElm, compileReleaseMinified, compileRelease);
 
 const sourceCheckDevelopment = gulp.series(compileDevelopment, jscsDevelopment, jsHintDevelopment);
 
@@ -493,7 +508,7 @@ const resetReferenceImages = gulp.series(testE2EPre, testE2EWithVisualRegression
 
 const testWithVisualRegression = gulp.series(testKarmaBuild, testE2EPre, testE2EWithVisualRegression);
 
-const testBuild = gulp.series(compileBuild, testKarmaBuild, testE2EPre, testE2EBuild);
+const testBuild = gulp.series(compileElm, compileBuild, testKarmaBuild, testE2EPre, testE2EBuild);
 
 const testBSUIEssential = gulp.series(testE2EPre, testE2EBrowserstackEssential);
 const testBSUIAll = gulp.series(testE2EPre, testE2EBrowserstackAll);
@@ -557,6 +572,7 @@ module.exports = {
 	'default': develop,
 
 	// Build tasks
+	'build:elm': compileElm,
 	'build:gh_pages': buildGHPages,
 	'build:release': release,
 	'build:e2e_prepare': testE2EPre,
