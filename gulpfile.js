@@ -4,12 +4,11 @@
 var helper = require('./gulpfile_helpers');
 
 // Dependencies
+var esbuild = require('esbuild');
+
 var gulp = require('gulp'),
 	jshint = require('gulp-jshint'),
-	uglify = require('gulp-uglify'),
-	inject = require('gulp-inject-string'),
 	webserver = require('gulp-webserver'),
-	concat = require('gulp-concat'),
 	jscs = require('gulp-jscs'),
 	Server = require('karma').Server,
 	pug = require('gulp-pug'),
@@ -20,14 +19,25 @@ var gulp = require('gulp'),
 	package = require('./package.json'),
 	pugLintStylish = require('puglint-stylish');
 
+function compileElm(done) {
+	var child = require('child_process').spawn(
+		'npm',
+		['run', 'build'],
+		{cwd: './cmd-resume-lib', stdio: 'inherit'}
+	);
+	child.on('close', function(code) {
+		if (code !== 0) {
+			done(new Error('Elm compilation failed'));
+		} else {
+			done();
+		}
+	});
+}
+
 var TOOLS = ['*.conf.js', 'gulpfile.js', 'gulpfile_helpers.js', 'scripts/*.js', 'js/examples/*.js'];
 var UNIT_TESTS = ['spec/**/*.spec.js', 'spec/support/*.js'];
 var UI_TESTS = ['spec-e2e/**/*.spec.js', 'spec-e2e/support/*.js'];
-var SOURCE = ['js/helpers/constants.js', 'js/helpers/misc.js',
-	'js/helpers/formatters.js', 'js/helpers/commandHandlers.js',
-	'js/helpers/github.js',
-	'js/cmd-resume.js'
-];
+var SOURCE = ['js/cmd-resume.js', 'js/helpers/*.js'];
 var JS_SOURCE = ['js/cmd-resume.js', 'js/helpers/*.js'];
 var OUTPUT = ['tmp/js/cmd-resume.js'];
 var JSON = ['browserstack/*.json', 'fixtures/*.json', 'responses/*.json',
@@ -44,22 +54,18 @@ files = files.length ? files : false;
 var OPERATING_SYSTEM = helper.getCurrentOperatingSystem();
 
 function compiledCode(destination, minified, versioned) {
-	var stream = gulp.src(SOURCE)
-		.pipe(concat(minified ? 'cmd-resume.min.js' : 'cmd-resume.js'));
+	var versionBanner = versioned ? helper.getVersionString(package) : '';
+	var jqueryBanner = ';(function($) {\n"use strict";\n\n';
 
-	stream.pipe(inject.prepend(';(function($){\n"use strict";\n\n'))
-		.pipe(inject.afterEach('\n', '  '))
-		.pipe(inject.append('\n}(jQuery));'));
-
-	if (minified) {
-		stream.pipe(uglify());
-	}
-
-	if (versioned) {
-		stream.pipe(inject.prepend(helper.getVersionString(package)));
-	}
-
-	return stream.pipe(gulp.dest(destination));
+	return esbuild.build({
+		entryPoints: ['js/cmd-resume.js'],
+		bundle: true,
+		outfile: destination + '/' + (minified ? 'cmd-resume.min.js' : 'cmd-resume.js'),
+		format: 'iife',
+		banner: {js: versionBanner + jqueryBanner},
+		footer: {js: '\n}(jQuery));'},
+		minify: minified
+	});
 }
 
 function getE2EBrowsers(browserList, headless, server) {
@@ -220,7 +226,7 @@ function copyJSONTest(done) {
 }
 
 function copyJSTest(done) {
-	gulp.src(['dist/cmd-resume.js'])
+	gulp.src(['build/cmd-resume.js'])
 		.pipe(gulp.dest('test_tmp/js'));
 	done();
 }
@@ -333,27 +339,25 @@ function compileHTMLTest(done) {
 }
 
 // Compile JavaScript
-function compileReleaseMinified(done) {
-	compiledCode('./dist', true, true).on('finish', function() {
-		return done();
-	});
+function compileReleaseMinified() {
+	return compiledCode('./dist', true, true);
 }
 
-function compileRelease(done) {
-	compiledCode('./dist', false, true).on('finish', function() {
-		return done();
-	});
+function compileRelease() {
+	return compiledCode('./dist', false, true);
 }
 
-function compileDevelopment(done) {
-	compiledCode('./tmp/js', false, false).on('finish', function() {
-		return done();
-	});
+function compileBuild() {
+	return compiledCode('./build', false, false);
 }
 
-const build = gulp.series(compileHTML, compileDevelopment, copyJSONBuild, copyIconsBuild);
+function compileDevelopment() {
+	return compiledCode('./tmp/js', false, false);
+}
 
-const release = gulp.series(compileReleaseMinified, compileRelease);
+const build = gulp.series(compileElm, compileHTML, compileDevelopment, copyJSONBuild, copyIconsBuild);
+
+const release = gulp.series(compileElm, compileReleaseMinified, compileRelease);
 
 const sourceCheckDevelopment = gulp.series(compileDevelopment, jscsDevelopment, jsHintDevelopment);
 
@@ -365,6 +369,22 @@ const sourceCheckUnitTests = gulp.series(jshintUnitTests, jscsUnitTests);
 const sourceCheckUITests = gulp.series(jshintUITests, jscsUITests);
 
 const sourceCheck = gulp.series(sourceCheckDevelopment, sourceCheckTools, sourceCheckTests, pugLint);
+
+function testJasmineNode(done) {
+	var child = require('child_process').spawn(
+		'node',
+		['-r', 'esm', './node_modules/jasmine/bin/jasmine.js',
+			'--config=spec-unit/support/jasmine.json'],
+		{stdio: 'inherit'}
+	);
+	child.on('close', function(code) {
+		if (code !== 0) {
+			done(new Error('Jasmine node tests failed'));
+		} else {
+			done();
+		}
+	});
+}
 
 let runTests = (browsers, done) => {
 	new Server({
@@ -488,13 +508,13 @@ const resetReferenceImages = gulp.series(testE2EPre, testE2EWithVisualRegression
 
 const testWithVisualRegression = gulp.series(testKarmaBuild, testE2EPre, testE2EWithVisualRegression);
 
-const testBuild = gulp.series(testKarmaBuild, testE2EPre, testE2EBuild);
+const testBuild = gulp.series(compileElm, compileBuild, testKarmaBuild, testE2EPre, testE2EBuild);
 
 const testBSUIEssential = gulp.series(testE2EPre, testE2EBrowserstackEssential);
 const testBSUIAll = gulp.series(testE2EPre, testE2EBrowserstackAll);
 
 function compileGHPages() {
-	return compiledCode('tmp/js', false, false);
+	return compiledCode('./tmp/js', false, false);
 }
 
 var localTestUnitList = {
@@ -552,6 +572,7 @@ module.exports = {
 	'default': develop,
 
 	// Build tasks
+	'build:elm': compileElm,
 	'build:gh_pages': buildGHPages,
 	'build:release': release,
 	'build:e2e_prepare': testE2EPre,
@@ -568,6 +589,7 @@ module.exports = {
 	'lint:javascript:tools': sourceCheckTools,
 
 	// Unit tests
+	'test:unit:node': testJasmineNode,
 	'test:unit:build': testKarmaBuild,
 	'test:unit:local': testLocalUnit,
 	'test:unit:bs_all': testKarmaBrowserstack,

@@ -84,3 +84,9 @@ var isJsonFormat = function(url) {
 var getHtmlVersion = function(url) {
 	return url.replace(/.json$/, ".html");
 };
+
+export {
+	isUndefinedOrNull, updateTitle, isValidColor,
+	getKeyArray, getDataFromArrayKey, isDefinedNotEmpty,
+	isJsonResumeHosted, isJsonFormat, getHtmlVersion
+};

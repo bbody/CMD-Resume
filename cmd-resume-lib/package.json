@@ -1,0 +1,12 @@
+{
+  "name": "cmd-resume-lib",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Elm data layer for CMD-Resume",
+  "scripts": {
+    "build": "mkdir -p dist && elm make src/Main.elm --output=dist/elm.js"
+  },
+  "devDependencies": {
+    "elm": "0.19.1-5"
+  }
+}

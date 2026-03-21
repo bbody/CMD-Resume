@@ -19,6 +19,7 @@
 	"trailing": true,
 	"unused": true,
 	"devel": true,
+	"esversion": 6,
 	"globals": {
 		"escape": true
 	}

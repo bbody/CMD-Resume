@@ -1,3 +1,34 @@
+import { CONSTANTS, StyleEnum } from "./constants.js";
+import { isValidColor, isUndefinedOrNull } from "./misc.js";
+
+// Default styles for displaying text
+var defaultStyles = {
+	standard: {
+		color: "white",
+		bold: false,
+		italic: false,
+		backgroundColor: "#000"
+	},
+	title: {
+		color: "red",
+		bold: true
+	},
+	command: {
+		color: "white",
+		bold: false,
+		italic: true
+	},
+	pgp: {
+		color: "white",
+		bold: false,
+		italic: true
+	},
+	name: {
+		color: "green",
+		bold: true
+	}
+};
+
 // Calculate the formatting
 var mergeFormatting = function(baseStyle, overRideStyle) {
 	if (overRideStyle.color && isValidColor(overRideStyle.color)) {
@@ -85,8 +116,8 @@ String.prototype.setPGP = function() {
 	return this.setFormat(StyleEnum.PGP);
 };
 
-// Intiate styles with custom added options
-var initStyles = function(defaultStyles, options) {
+// Initiate styles with custom added options
+var initStyles = function(options) {
 	// Copy the object
 	var styles = $.extend(true, {}, defaultStyles);
 
@@ -110,5 +141,7 @@ var initStyles = function(defaultStyles, options) {
 		}
 	});
 
-	return styles;
+	defaultStyles = styles;
 };
+
+export { initStyles };

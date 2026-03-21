@@ -1,3 +1,5 @@
+import { CONSTANTS } from "./constants.js";
+
 // Get Github URI based on username
 var getGithubUri = function(username) {
 	// Return empty is username is empty
@@ -55,3 +57,5 @@ var formatGithub = function(repository, first) {
 
 	return repoCache;
 };
+
+export { getGithubUri, filterGithubFork, getGithub, formatGithub };
