@@ -473,7 +473,7 @@ const resetReferenceImages = gulp.series(testE2EPre, testE2EWithVisualRegression
 
 const testWithVisualRegression = gulp.series(testKarmaBuild, testE2EPre, testE2EWithVisualRegression);
 
-const testBuild = gulp.series(testKarmaBuild, testE2EPre, testE2EBuild);
+const testBuild = gulp.series(compileRelease, testKarmaBuild, testE2EPre, testE2EBuild);
 
 const testBSUIEssential = gulp.series(testE2EPre, testE2EBrowserstackEssential);
 const testBSUIAll = gulp.series(testE2EPre, testE2EBrowserstackAll);
