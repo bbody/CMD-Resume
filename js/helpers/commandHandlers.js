@@ -1,3 +1,5 @@
+import { CONSTANTS } from "./constants.js";
+
 // Basic command handlers
 var basicHandlerFunction = function(command) {
 	var result = CONSTANTS.NEW_LINE;
@@ -260,4 +262,6 @@ var isValidCommand = function(command) {
 
 	return commandValidators[command.type](command);
 };
+
+export { CMD, getDate, getFullDegree, buildSocialNetwork, isValidCommand };
 

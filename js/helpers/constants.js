@@ -1,31 +1,3 @@
-// Default styles for displaying text
-var defaultStyles = {
-	standard: {
-		color: "white",
-		bold: false,
-		italic: false,
-		backgroundColor: "#000"
-	},
-	title: {
-		color: "red",
-		bold: true
-	},
-	command: {
-		color: "white",
-		bold: false,
-		italic: true
-	},
-	pgp: {
-		color: "white",
-		bold: false,
-		italic: true
-	},
-	name: {
-		color: "green",
-		bold: true
-	}
-};
-
 var CONSTANTS = {
 	NEW_LINE: "\n",
 	SEMI_COLON: ";",
@@ -60,3 +32,5 @@ var StyleEnum = {
 		}
 	}
 };
+
+export { CONSTANTS, StyleEnum };

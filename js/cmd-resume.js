@@ -1,10 +1,21 @@
+import { CONSTANTS } from "./helpers/constants.js";
+import {
+	isUndefinedOrNull, updateTitle, isDefinedNotEmpty,
+	isJsonResumeHosted, isJsonFormat, getHtmlVersion, getDataFromArrayKey
+} from "./helpers/misc.js";
+import { initStyles } from "./helpers/formatters.js";
+import {
+	CMD, getDate, getFullDegree, buildSocialNetwork, isValidCommand
+} from "./helpers/commandHandlers.js";
+import { getGithubUri, getGithub, formatGithub } from "./helpers/github.js";
+
 $.fn.CMDResume = function(primaryEndpoint, options) {
 	// Get element
 	var element = this;
 
 	options = options || {};
 
-	defaultStyles = initStyles(defaultStyles, options);
+	initStyles(options);
 
 	var self = {};
 

@@ -4,12 +4,11 @@
 var helper = require('./gulpfile_helpers');
 
 // Dependencies
+var esbuild = require('esbuild');
+
 var gulp = require('gulp'),
 	jshint = require('gulp-jshint'),
-	uglify = require('gulp-uglify'),
-	inject = require('gulp-inject-string'),
 	webserver = require('gulp-webserver'),
-	concat = require('gulp-concat'),
 	jscs = require('gulp-jscs'),
 	Server = require('karma').Server,
 	pug = require('gulp-pug'),
@@ -23,11 +22,7 @@ var gulp = require('gulp'),
 var TOOLS = ['*.conf.js', 'gulpfile.js', 'gulpfile_helpers.js', 'scripts/*.js', 'js/examples/*.js'];
 var UNIT_TESTS = ['spec/**/*.spec.js', 'spec/support/*.js'];
 var UI_TESTS = ['spec-e2e/**/*.spec.js', 'spec-e2e/support/*.js'];
-var SOURCE = ['js/helpers/constants.js', 'js/helpers/misc.js',
-	'js/helpers/formatters.js', 'js/helpers/commandHandlers.js',
-	'js/helpers/github.js',
-	'js/cmd-resume.js'
-];
+var SOURCE = ['js/cmd-resume.js', 'js/helpers/*.js'];
 var JS_SOURCE = ['js/cmd-resume.js', 'js/helpers/*.js'];
 var OUTPUT = ['tmp/js/cmd-resume.js'];
 var JSON = ['browserstack/*.json', 'fixtures/*.json', 'responses/*.json',
@@ -44,22 +39,18 @@ files = files.length ? files : false;
 var OPERATING_SYSTEM = helper.getCurrentOperatingSystem();
 
 function compiledCode(destination, minified, versioned) {
-	var stream = gulp.src(SOURCE)
-		.pipe(concat(minified ? 'cmd-resume.min.js' : 'cmd-resume.js'));
+	var versionBanner = versioned ? helper.getVersionString(package) : '';
+	var jqueryBanner = ';(function($) {\n"use strict";\n\n';
 
-	stream.pipe(inject.prepend(';(function($){\n"use strict";\n\n'))
-		.pipe(inject.afterEach('\n', '  '))
-		.pipe(inject.append('\n}(jQuery));'));
-
-	if (minified) {
-		stream.pipe(uglify());
-	}
-
-	if (versioned) {
-		stream.pipe(inject.prepend(helper.getVersionString(package)));
-	}
-
-	return stream.pipe(gulp.dest(destination));
+	return esbuild.build({
+		entryPoints: ['js/cmd-resume.js'],
+		bundle: true,
+		outfile: destination + '/' + (minified ? 'cmd-resume.min.js' : 'cmd-resume.js'),
+		format: 'iife',
+		banner: {js: versionBanner + jqueryBanner},
+		footer: {js: '\n}(jQuery));'},
+		minify: minified
+	});
 }
 
 function getE2EBrowsers(browserList, headless, server) {
@@ -333,22 +324,16 @@ function compileHTMLTest(done) {
 }
 
 // Compile JavaScript
-function compileReleaseMinified(done) {
-	compiledCode('./dist', true, true).on('finish', function() {
-		return done();
-	});
+function compileReleaseMinified() {
+	return compiledCode('./dist', true, true);
 }
 
-function compileRelease(done) {
-	compiledCode('./dist', false, true).on('finish', function() {
-		return done();
-	});
+function compileRelease() {
+	return compiledCode('./dist', false, true);
 }
 
-function compileDevelopment(done) {
-	compiledCode('./tmp/js', false, false).on('finish', function() {
-		return done();
-	});
+function compileDevelopment() {
+	return compiledCode('./tmp/js', false, false);
 }
 
 const build = gulp.series(compileHTML, compileDevelopment, copyJSONBuild, copyIconsBuild);
@@ -494,7 +479,7 @@ const testBSUIEssential = gulp.series(testE2EPre, testE2EBrowserstackEssential);
 const testBSUIAll = gulp.series(testE2EPre, testE2EBrowserstackAll);
 
 function compileGHPages() {
-	return compiledCode('tmp/js', false, false);
+	return compiledCode('./tmp/js', false, false);
 }
 
 var localTestUnitList = {
