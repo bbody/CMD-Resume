@@ -43,6 +43,7 @@ terminal.jquery.json
 /.publish
 
 /release
+/build
 /node_modules
 /tmp
 /test_tmp

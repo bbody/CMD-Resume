@@ -29,13 +29,13 @@ module.exports = function(config) {
 			'node_modules/js-polyfills/keyboard.js',
 			'node_modules/jquery.terminal/js/jquery.terminal.js',
 			'spec/support/helpers.js',
-			'dist/cmd-resume.js',
+			'build/cmd-resume.js',
 			'spec/**/*.spec.js',
 			'fixtures/**/*.json'
 		],
 		exclude: [],
 		preprocessors: {
-			'dist/cmd-resume.js': ['coverage'],
+			'build/cmd-resume.js': ['coverage'],
 			'fixtures/**/*.json': ['json_fixtures']
 
 		},

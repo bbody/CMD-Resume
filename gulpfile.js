@@ -211,7 +211,7 @@ function copyJSONTest(done) {
 }
 
 function copyJSTest(done) {
-	gulp.src(['dist/cmd-resume.js'])
+	gulp.src(['build/cmd-resume.js'])
 		.pipe(gulp.dest('test_tmp/js'));
 	done();
 }
@@ -330,6 +330,10 @@ function compileReleaseMinified() {
 
 function compileRelease() {
 	return compiledCode('./dist', false, true);
+}
+
+function compileBuild() {
+	return compiledCode('./build', false, false);
 }
 
 function compileDevelopment() {
@@ -473,7 +477,7 @@ const resetReferenceImages = gulp.series(testE2EPre, testE2EWithVisualRegression
 
 const testWithVisualRegression = gulp.series(testKarmaBuild, testE2EPre, testE2EWithVisualRegression);
 
-const testBuild = gulp.series(compileRelease, testKarmaBuild, testE2EPre, testE2EBuild);
+const testBuild = gulp.series(compileBuild, testKarmaBuild, testE2EPre, testE2EBuild);
 
 const testBSUIEssential = gulp.series(testE2EPre, testE2EBrowserstackEssential);
 const testBSUIAll = gulp.series(testE2EPre, testE2EBrowserstackAll);
