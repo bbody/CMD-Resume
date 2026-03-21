@@ -263,5 +263,10 @@ var isValidCommand = function(command) {
 	return commandValidators[command.type](command);
 };
 
-export { CMD, getDate, getFullDegree, buildSocialNetwork, isValidCommand };
+export {
+	CMD, getDate, getFullDegree, buildSocialNetwork, isValidCommand,
+	basicHandlerFunction, systemHandlerFunction, calculatedHandlerFunction,
+	arrayHandlerFunction, buildUrl, buildEmail, parseEmail,
+	buildSocialNetworkAddress, isValidCommandType
+};
 

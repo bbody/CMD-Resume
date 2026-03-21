@@ -355,6 +355,22 @@ const sourceCheckUITests = gulp.series(jshintUITests, jscsUITests);
 
 const sourceCheck = gulp.series(sourceCheckDevelopment, sourceCheckTools, sourceCheckTests, pugLint);
 
+function testJasmineNode(done) {
+	var child = require('child_process').spawn(
+		'node',
+		['-r', 'esm', './node_modules/jasmine/bin/jasmine.js',
+			'--config=spec-unit/support/jasmine.json'],
+		{stdio: 'inherit'}
+	);
+	child.on('close', function(code) {
+		if (code !== 0) {
+			done(new Error('Jasmine node tests failed'));
+		} else {
+			done();
+		}
+	});
+}
+
 let runTests = (browsers, done) => {
 	new Server({
 		configFile: `${__dirname}/karma.conf.js`,
@@ -557,6 +573,7 @@ module.exports = {
 	'lint:javascript:tools': sourceCheckTools,
 
 	// Unit tests
+	'test:unit:node': testJasmineNode,
 	'test:unit:build': testKarmaBuild,
 	'test:unit:local': testLocalUnit,
 	'test:unit:bs_all': testKarmaBrowserstack,
