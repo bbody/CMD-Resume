@@ -58,7 +58,7 @@
     "jasmine": "^2.99",
     "jasmine-core": "^3.3.0",
     "jquery": "=3.4.0",
-    "jquery.terminal": "=2.0.1",
+    "jquery.terminal": "=2.31.1",
     "js-polyfills": "^0.1.42",
     "jshint": "^2.9.6",
     "jshint-stylish": "^2.2.1",
