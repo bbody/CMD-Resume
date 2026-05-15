@@ -6,10 +6,8 @@ var helper = require('./gulpfile_helpers');
 // Dependencies
 var gulp = require('gulp'),
 	jshint = require('gulp-jshint'),
-	uglify = require('gulp-uglify'),
-	inject = require('gulp-inject-string'),
+	rollup = require('rollup'),
 	webserver = require('gulp-webserver'),
-	concat = require('gulp-concat'),
 	jscs = require('gulp-jscs'),
 	Server = require('karma').Server,
 	pug = require('gulp-pug'),
@@ -26,9 +24,12 @@ var UI_TESTS = ['spec-e2e/**/*.spec.js', 'spec-e2e/support/*.js'];
 var SOURCE = ['js/helpers/constants.js', 'js/helpers/misc.js',
 	'js/helpers/formatters.js', 'js/helpers/commandHandlers.js',
 	'js/helpers/github.js',
-	'js/cmd-resume.js'
+	'js/window_binded/constants.js', 'js/window_binded/misc.js',
+	'js/window_binded/formatters.js', 'js/window_binded/commandHandlers.js',
+	'js/window_binded/github.js',
+	'js/cmd-resume.js', 'js/cmd-resume.test.js'
 ];
-var JS_SOURCE = ['js/cmd-resume.js', 'js/helpers/*.js'];
+var JS_SOURCE = ['js/cmd-resume.js', 'js/cmd-resume.test.js', 'js/helpers/*.js', 'js/window_binded/*.js'];
 var OUTPUT = ['tmp/js/cmd-resume.js'];
 var JSON = ['browserstack/*.json', 'fixtures/*.json', 'responses/*.json',
 	'fixtures/*.json', 'spec/.jscsrc*', '.jshintrc-*', '..jscsrc-*',
@@ -44,22 +45,29 @@ files = files.length ? files : false;
 var OPERATING_SYSTEM = helper.getCurrentOperatingSystem();
 
 function compiledCode(destination, minified, versioned) {
-	var stream = gulp.src(SOURCE)
-		.pipe(concat(minified ? 'cmd-resume.min.js' : 'cmd-resume.js'));
+	var createConfig = require('./rollup.config.js');
+	var full = createConfig({ minify: minified, outDir: destination });
+	var inputOptions = {
+		input: full.input,
+		external: full.external,
+		plugins: full.plugins
+	};
+	return rollup.rollup(inputOptions).then(function(bundle) {
+		return bundle.write(full.output);
+	});
+}
 
-	stream.pipe(inject.prepend(';(function($){\n"use strict";\n\n'))
-		.pipe(inject.afterEach('\n', '  '))
-		.pipe(inject.append('\n}(jQuery));'));
-
-	if (minified) {
-		stream.pipe(uglify());
-	}
-
-	if (versioned) {
-		stream.pipe(inject.prepend(helper.getVersionString(package)));
-	}
-
-	return stream.pipe(gulp.dest(destination));
+function compileTestBundle() {
+	var createConfig = require('./rollup.config.js');
+	var full = createConfig({ test: true });
+	var inputOptions = {
+		input: full.input,
+		external: full.external,
+		plugins: full.plugins
+	};
+	return rollup.rollup(inputOptions).then(function(bundle) {
+		return bundle.write(full.output);
+	});
 }
 
 function getE2EBrowsers(browserList, headless, server) {
@@ -333,22 +341,16 @@ function compileHTMLTest(done) {
 }
 
 // Compile JavaScript
-function compileReleaseMinified(done) {
-	compiledCode('./dist', true, true).on('finish', function() {
-		return done();
-	});
+function compileReleaseMinified() {
+	return compiledCode('./dist', true, true);
 }
 
-function compileRelease(done) {
-	compiledCode('./dist', false, true).on('finish', function() {
-		return done();
-	});
+function compileRelease() {
+	return compiledCode('./dist', false, true);
 }
 
-function compileDevelopment(done) {
-	compiledCode('./tmp/js', false, false).on('finish', function() {
-		return done();
-	});
+function compileDevelopment() {
+	return compiledCode('./tmp/js', false, false);
 }
 
 const build = gulp.series(compileHTML, compileDevelopment, copyJSONBuild, copyIconsBuild);
@@ -376,30 +378,41 @@ let runTests = (browsers, done) => {
 
 // Testing
 function testKarmaBuild(done) {
-	return runTests(['CustomChromeHeadless', 'FirefoxHeadless'],
-		done);
+	compileTestBundle().then(function() {
+		runTests(['CustomChromeHeadless', 'FirefoxHeadless'], done);
+	}).catch(done);
 }
 
 function testKarmaBrowserstack(done) {
 	var browsers = require('./browserstack/bs-browerList.json').browsers;
-	return runTests(browsers, done);
+	compileTestBundle().then(function() {
+		runTests(browsers, done);
+	}).catch(done);
 }
 
 function testKarmaBrowserstackEssential(done) {
 	var browsers = require('./browserstack/bs-browerList-essential.json').browsers;
-	return runTests(browsers, done);
+	compileTestBundle().then(function() {
+		runTests(browsers, done);
+	}).catch(done);
 }
 
 function testKarmaLinux(done) {
-	return runTests(['Chrome', 'Firefox'], done);
+	compileTestBundle().then(function() {
+		runTests(['Chrome', 'Firefox'], done);
+	}).catch(done);
 }
 
 function testKarmaMacOS(done) {
-	return runTests(['Chrome', 'Firefox', 'Safari'], done);
+	compileTestBundle().then(function() {
+		runTests(['Chrome', 'Firefox', 'Safari'], done);
+	}).catch(done);
 }
 
 function testKarmaWindows(done) {
-	return runTests(['Chrome', 'Firefox', 'IE', 'Edge'], done);
+	compileTestBundle().then(function() {
+		runTests(['Chrome', 'Firefox', 'IE', 'Edge'], done);
+	}).catch(done);
 }
 
 function testE2EBuild(done) {
@@ -512,13 +525,11 @@ var localTestUIList = {
 const buildGHPages = gulp.series(compileGHPages, compileHTMLExample, compileHTMLOwnExample, copyJSONBuild, copyIconsBuild, copyExampleScript, copyOwnScript);
 
 function testLocalUnit(done) {
-	localTestUnitList[OPERATING_SYSTEM]();
-	done();
+	localTestUnitList[OPERATING_SYSTEM](done);
 }
 
 function testLocalUITests(done) {
-	localTestUIList[OPERATING_SYSTEM]();
-	done();
+	localTestUIList[OPERATING_SYSTEM](done);
 }
 
 const testLocalUI = gulp.series(testE2EPre, testLocalUITests);

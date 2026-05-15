@@ -1,10 +1,34 @@
+import $ from "jquery";
+import { CONSTANTS, styleState } from "./helpers/constants.js";
+import {
+	isJsonResumeHosted,
+	isJsonFormat,
+	getHtmlVersion,
+	isUndefinedOrNull,
+	isDefinedNotEmpty,
+	getDataFromArrayKey,
+	updateTitle
+} from "./helpers/misc.js";
+import { initStyles } from "./helpers/formatters.js";
+import {
+	CMD,
+	getDate,
+	getFullDegree,
+	buildSocialNetwork,
+	isValidCommand
+} from "./helpers/commandHandlers.js";
+import { getGithubUri, getGithub, formatGithub } from "./helpers/github.js";
+
 $.fn.CMDResume = function(primaryEndpoint, options) {
 	// Get element
 	var element = this;
 
 	options = options || {};
 
-	defaultStyles = initStyles(defaultStyles, options);
+	var __nextDefaults = initStyles(styleState.defaults, options);
+	Object.keys(__nextDefaults).forEach(function(k) {
+		styleState.defaults[k] = __nextDefaults[k];
+	});
 
 	var self = {};
 

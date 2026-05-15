@@ -464,11 +464,9 @@ describe("commandHandlers", function() {
 
 	describe("buildSocialNetworkAddress", function() {
 		it("handles email", function() {
-			spyOn(window, "buildEmail");
-			buildSocialNetworkAddress("email", "url", "username");
-
-			expect(window.buildEmail).toHaveBeenCalled();
-			expect(window.buildEmail).toHaveBeenCalledWith("url", "username");
+			expect(buildSocialNetworkAddress("email", "", "person@example.com")).toBe(
+				"person@example.com"
+			);
 		});
 
 		it("handles just url", function() {
@@ -477,14 +475,12 @@ describe("commandHandlers", function() {
 		});
 
 		it("handles just username", function() {
-			spyOn(window, "buildUrl").and.returnValue("url");
-			var result = buildSocialNetworkAddress("", "", "username");
-			expect(result).toBe("url");
+			var result = buildSocialNetworkAddress("twitter", "", "testuser");
+			expect(result).toBe("https://www.twitter.com/testuser");
 		});
 
 		it("handles just username without valid social network", function() {
-			spyOn(window, "buildUrl").and.returnValue("");
-			var result = buildSocialNetworkAddress("", "", "username");
+			var result = buildSocialNetworkAddress("myspace", "", "username");
 			expect(result).toBe(false);
 		});
 
@@ -529,17 +525,19 @@ describe("commandHandlers", function() {
 		});
 
 		it("handles having an address", function() {
-			spyOn(window, "buildSocialNetworkAddress").and.returnValue("url");
 			var value = {
-				network: "network"
+				network: "twitter",
+				username: "testuser"
 			};
-			expect(buildSocialNetwork(value)).toBe("Network - url");
+			expect(buildSocialNetwork(value)).toBe(
+				"Twitter - https://www.twitter.com/testuser"
+			);
 		});
 
 		it("handles not having an address", function() {
-			spyOn(window, "buildSocialNetworkAddress").and.returnValue("");
 			var value = {
-				network: "network"
+				network: "twitter",
+				username: ""
 			};
 			expect(buildSocialNetwork(value)).toBe(false);
 		});

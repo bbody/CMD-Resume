@@ -1,5 +1,9 @@
+import $ from "jquery";
+import { CONSTANTS, StyleEnum, styleState } from "./constants.js";
+import { isUndefinedOrNull, isValidColor } from "./misc.js";
+
 // Calculate the formatting
-var mergeFormatting = function(baseStyle, overRideStyle) {
+export var mergeFormatting = function(baseStyle, overRideStyle) {
 	if (overRideStyle.color && isValidColor(overRideStyle.color)) {
 		baseStyle.color = overRideStyle.color;
 	}
@@ -21,7 +25,7 @@ var mergeFormatting = function(baseStyle, overRideStyle) {
 };
 
 // Wrap around styling
-var wrappedFormatting = function(style, content) {
+export var wrappedFormatting = function(style, content) {
 	// Check if content null, then ignore
 	if (!content) {
 		return CONSTANTS.EMPTY;
@@ -33,7 +37,7 @@ var wrappedFormatting = function(style, content) {
 	return "[[" + style + "]" + content + "]";
 };
 
-// Update color
+// Side effects: extend String with terminal styling helpers (used across the plugin).
 String.prototype.setFormat = function(styleEnumValue) {
 	var result = CONSTANTS.EMPTY;
 
@@ -42,10 +46,10 @@ String.prototype.setFormat = function(styleEnumValue) {
 	}
 
 	var type = StyleEnum.toString(styleEnumValue);
-	var style = $.extend({}, defaultStyles.standard);
+	var style = $.extend({}, styleState.defaults.standard);
 
 	if (type && styleEnumValue !== StyleEnum.STANDARD) {
-		style = mergeFormatting(style, defaultStyles[type]);
+		style = mergeFormatting(style, styleState.defaults[type]);
 	}
 
 	if (style.bold) {
@@ -86,7 +90,7 @@ String.prototype.setPGP = function() {
 };
 
 // Intiate styles with custom added options
-var initStyles = function(defaultStyles, options) {
+export var initStyles = function(defaultStyles, options) {
 	// Copy the object
 	var styles = $.extend(true, {}, defaultStyles);
 

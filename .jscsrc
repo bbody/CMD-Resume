@@ -1,6 +1,7 @@
 {
 	"preset": "jquery",
 	"preset": "google",
+	"esnext": true,
 	"validateIndentation": "\t",
 	"validateQuoteMarks": "\"",
 	"maximumLineLength": 80,

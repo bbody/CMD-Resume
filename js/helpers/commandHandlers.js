@@ -1,5 +1,7 @@
+import { CONSTANTS } from "./constants.js";
+
 // Basic command handlers
-var basicHandlerFunction = function(command) {
+export var basicHandlerFunction = function(command) {
 	var result = CONSTANTS.NEW_LINE;
 
 	result += command ? (command.data ? command.data : CONSTANTS.EMPTY)
@@ -9,7 +11,7 @@ var basicHandlerFunction = function(command) {
 };
 
 // System commmand handler
-var systemHandlerFunction = function(command) {
+export var systemHandlerFunction = function(command) {
 	if (command) {
 		if (command.handler) {
 			return command.handler(command.data);
@@ -22,12 +24,12 @@ var systemHandlerFunction = function(command) {
 };
 
 // Calculated command handler
-var calculatedHandlerFunction = function(command) {
+export var calculatedHandlerFunction = function(command) {
 	return CONSTANTS.NEW_LINE + systemHandlerFunction(command);
 };
 
 // Array function handler
-var arrayHandlerFunction = function(command, top) {
+export var arrayHandlerFunction = function(command, top) {
 	var result = CONSTANTS.EMPTY;
 
 	if (!command.handlers) {
@@ -78,7 +80,7 @@ var commandProcessor = {
 	system: systemHandlerFunction
 };
 
-var CMD = {
+export var CMD = {
 	BASIC: "basic",
 	ARRAY: "array",
 	CALCULATED: "calculated",
@@ -89,7 +91,7 @@ var CMD = {
 };
 
 // Format date
-var getDate = function(startDate, endDate) {
+export var getDate = function(startDate, endDate) {
 	if (!endDate && !startDate) {
 		return CONSTANTS.EMPTY;
 	} else if (!endDate) {
@@ -102,7 +104,7 @@ var getDate = function(startDate, endDate) {
 };
 
 // Get degree name
-var getFullDegree = function(studyType, area) {
+export var getFullDegree = function(studyType, area) {
 	if (!studyType && !area) {
 		return CONSTANTS.EMPTY;
 	} else if (!studyType) {
@@ -115,7 +117,7 @@ var getFullDegree = function(studyType, area) {
 };
 
 // Build URL based on social media username
-var buildUrl = function(network, username) {
+export var buildUrl = function(network, username) {
 	if (!network || !username) {
 		return CONSTANTS.EMPTY;
 	}
@@ -138,11 +140,11 @@ var buildUrl = function(network, username) {
 	}
 };
 
-var parseEmail = function(email) {
+export var parseEmail = function(email) {
 	return email.replace("mailto:", "");
 };
 
-var buildEmail = function(email, username) {
+export var buildEmail = function(email, username) {
 	var address = "";
 
 	if (email) {
@@ -158,7 +160,7 @@ var buildEmail = function(email, username) {
 	return false;
 };
 
-var buildSocialNetworkAddress = function(network, url, username) {
+export var buildSocialNetworkAddress = function(network, url, username) {
 	if (network.toLowerCase() === "email") {
 		return buildEmail(url, username);
 	} else if (url) {
@@ -181,7 +183,7 @@ String.prototype.upperCaseFirstLetter = function() {
 	return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
-var buildSocialNetwork = function(value) {
+export var buildSocialNetwork = function(value) {
 	if (value.network) {
 		var address = buildSocialNetworkAddress(value.network, value.url,
 			value.username);
@@ -193,7 +195,7 @@ var buildSocialNetwork = function(value) {
 	return value.url ? value.url : false;
 };
 
-var isValidCommandType = function(commandType) {
+export var isValidCommandType = function(commandType) {
 	return !!commandType && commandProcessor.hasOwnProperty(commandType);
 };
 
@@ -239,7 +241,7 @@ var commandValidators = {
 	}
 };
 
-var isValidCommand = function(command) {
+export var isValidCommand = function(command) {
 	if (!command.name) {
 		console.error("Command must have a name");
 		return false;
@@ -260,4 +262,3 @@ var isValidCommand = function(command) {
 
 	return commandValidators[command.type](command);
 };
-
