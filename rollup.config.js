@@ -1,4 +1,4 @@
-/* File: rollup.config.js — factory for Rollup input + output (used from gulpfile.js) */
+/* File: rollup.config.js — Rollup options for gulpfile.js (production UMD vs Karma test IIFE) */
 "use strict";
 
 var path = require("path");
@@ -8,19 +8,7 @@ var commonjs = require("@rollup/plugin-commonjs");
 var terser = require("rollup-plugin-terser").terser;
 var pkg = require("./package.json");
 
-/**
- * @param {{ minify?: boolean, outDir?: string, test?: boolean }} args
- * @returns {object} Rollup input options plus `output` for bundle.write()
- */
-module.exports = function rollupConfigFactory(args) {
-	args = args || {};
-	var test = !!args.test;
-	var minify = !test && !!args.minify;
-	var outDir = args.outDir || (test ? "test_tmp/js" : "dist");
-	var input = test ? "js/cmd-resume.test.js" : "js/cmd-resume.js";
-	var fileName = test ? "cmd-resume.test.js" : (minify ? "cmd-resume.min.js" : "cmd-resume.js");
-	var banner = test ? undefined : ("/*! " + pkg.name + " v" + pkg.version + " | " + pkg.license + " */");
-
+function getBasePlugins(minify) {
 	var plugins = [
 		resolve({ browser: true }),
 		commonjs(),
@@ -49,22 +37,57 @@ module.exports = function rollupConfigFactory(args) {
 		);
 	}
 
-	var output = {
-		file: path.join(outDir, fileName),
-		format: test ? "iife" : "umd",
-		globals: { jquery: "jQuery" },
-		sourcemap: true
-	};
+	return plugins;
+}
 
-	if (!test) {
-		output.name = "CMDResume";
-		output.banner = banner;
-	}
+/**
+ * @param {{ minify?: boolean, outDir?: string }} args
+ * @returns {{ input: string, external: string[], plugins: unknown[], output: object }}
+ */
+function createProductionRollupConfig(args) {
+	args = args || {};
+	var minify = !!args.minify;
+	var outDir = args.outDir || "dist";
+	var fileName = minify ? "cmd-resume.min.js" : "cmd-resume.js";
+	var banner = "/*! " + pkg.name + " v" + pkg.version + " | " + pkg.license + " */";
 
 	return {
-		input: input,
+		input: "js/cmd-resume.js",
 		external: ["jquery"],
-		plugins: plugins,
-		output: output
+		plugins: getBasePlugins(minify),
+		output: {
+			file: path.join(outDir, fileName),
+			format: "umd",
+			name: "CMDResume",
+			globals: { jquery: "jQuery" },
+			sourcemap: true,
+			banner: banner
+		}
 	};
+}
+
+/**
+ * @param {{ outDir?: string }} args
+ * @returns {{ input: string, external: string[], plugins: unknown[], output: object }}
+ */
+function createTestRollupConfig(args) {
+	args = args || {};
+	var outDir = args.outDir || "test_tmp/js";
+
+	return {
+		input: "js/cmd-resume.test.js",
+		external: ["jquery"],
+		plugins: getBasePlugins(false),
+		output: {
+			file: path.join(outDir, "cmd-resume.test.js"),
+			format: "iife",
+			globals: { jquery: "jQuery" },
+			sourcemap: true
+		}
+	};
+}
+
+module.exports = {
+	createProductionRollupConfig: createProductionRollupConfig,
+	createTestRollupConfig: createTestRollupConfig
 };

@@ -7,6 +7,7 @@ var helper = require('./gulpfile_helpers');
 var gulp = require('gulp'),
 	jshint = require('gulp-jshint'),
 	rollup = require('rollup'),
+	rollupFactories = require('./rollup.config.js'),
 	webserver = require('gulp-webserver'),
 	jscs = require('gulp-jscs'),
 	Server = require('karma').Server,
@@ -44,30 +45,27 @@ files = files.length ? files : false;
 
 var OPERATING_SYSTEM = helper.getCurrentOperatingSystem();
 
-function compiledCode(destination, minified, versioned) {
-	var createConfig = require('./rollup.config.js');
-	var full = createConfig({ minify: minified, outDir: destination });
-	var inputOptions = {
+function runRollupFromConfig(full) {
+	return rollup.rollup({
 		input: full.input,
 		external: full.external,
 		plugins: full.plugins
-	};
-	return rollup.rollup(inputOptions).then(function(bundle) {
+	}).then(function(bundle) {
 		return bundle.write(full.output);
 	});
 }
 
-function compileTestBundle() {
-	var createConfig = require('./rollup.config.js');
-	var full = createConfig({ test: true });
-	var inputOptions = {
-		input: full.input,
-		external: full.external,
-		plugins: full.plugins
-	};
-	return rollup.rollup(inputOptions).then(function(bundle) {
-		return bundle.write(full.output);
+function compiledCode(destination, minified) {
+	var full = rollupFactories.createProductionRollupConfig({
+		minify: minified,
+		outDir: destination
 	});
+	return runRollupFromConfig(full);
+}
+
+function compileTestBundle() {
+	var full = rollupFactories.createTestRollupConfig({});
+	return runRollupFromConfig(full);
 }
 
 function getE2EBrowsers(browserList, headless, server) {
@@ -342,15 +340,15 @@ function compileHTMLTest(done) {
 
 // Compile JavaScript
 function compileReleaseMinified() {
-	return compiledCode('./dist', true, true);
+	return compiledCode('./dist', true);
 }
 
 function compileRelease() {
-	return compiledCode('./dist', false, true);
+	return compiledCode('./dist', false);
 }
 
 function compileDevelopment() {
-	return compiledCode('./tmp/js', false, false);
+	return compiledCode('./tmp/js', false);
 }
 
 const build = gulp.series(compileHTML, compileDevelopment, copyJSONBuild, copyIconsBuild);
@@ -507,7 +505,7 @@ const testBSUIEssential = gulp.series(testE2EPre, testE2EBrowserstackEssential);
 const testBSUIAll = gulp.series(testE2EPre, testE2EBrowserstackAll);
 
 function compileGHPages() {
-	return compiledCode('tmp/js', false, false);
+	return compiledCode('tmp/js', false);
 }
 
 var localTestUnitList = {
