@@ -1,32 +1,34 @@
-// Default styles for displaying text
-var defaultStyles = {
-	standard: {
-		color: "white",
-		bold: false,
-		italic: false,
-		backgroundColor: "#000"
-	},
-	title: {
-		color: "red",
-		bold: true
-	},
-	command: {
-		color: "white",
-		bold: false,
-		italic: true
-	},
-	pgp: {
-		color: "white",
-		bold: false,
-		italic: true
-	},
-	name: {
-		color: "green",
-		bold: true
+// Default styles for displaying text (mutable via styleState.defaults)
+export var styleState = {
+	defaults: {
+		standard: {
+			color: "white",
+			bold: false,
+			italic: false,
+			backgroundColor: "#000"
+		},
+		title: {
+			color: "red",
+			bold: true
+		},
+		command: {
+			color: "white",
+			bold: false,
+			italic: true
+		},
+		pgp: {
+			color: "white",
+			bold: false,
+			italic: true
+		},
+		name: {
+			color: "green",
+			bold: true
+		}
 	}
 };
 
-var CONSTANTS = {
+export var CONSTANTS = {
 	NEW_LINE: "\n",
 	SEMI_COLON: ";",
 	EMPTY: "",
@@ -37,7 +39,7 @@ var CONSTANTS = {
 	SPACE: " "
 };
 
-var StyleEnum = {
+export var StyleEnum = {
 	STANDARD: 0,
 	TITLE: 1,
 	COMMAND: 2,

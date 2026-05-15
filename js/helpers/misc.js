@@ -1,16 +1,18 @@
+import $ from "jquery";
+
 // Check if something is undefined or null
-var isUndefinedOrNull = function(value) {
+export var isUndefinedOrNull = function(value) {
 	return typeof value === "undefined" || value === null;
 };
 
 // Update HTML title
-var updateTitle = function(name) {
+export var updateTitle = function(name) {
 	// Check if a name exists, if not make title default
 	document.title = name ? name + "'s Résumé" : "Command Line Résumé";
 };
 
 // Check if a valid color
-var isValidColor = function(color) {
+export var isValidColor = function(color) {
 	if (color) {
 		// Disable style checking on external function
 		// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
@@ -22,7 +24,7 @@ var isValidColor = function(color) {
 };
 
 // Get key array
-var getKeyArray = function(key) {
+export var getKeyArray = function(key) {
 	if (Array.isArray(key)) {
 		return key;
 	} else {
@@ -31,7 +33,7 @@ var getKeyArray = function(key) {
 };
 
 // Get value
-var getDataFromArrayKey = function(data, keys) {
+export var getDataFromArrayKey = function(data, keys) {
 	keys = getKeyArray(keys);
 	for (var i = 0; i < keys.length; i++) {
 		var key = keys[i];
@@ -47,7 +49,7 @@ var getDataFromArrayKey = function(data, keys) {
 };
 
 // Check if an object has key and has length
-var isDefinedNotEmpty = function(object, key, isObject) {
+export var isDefinedNotEmpty = function(object, key, isObject) {
 	if (!key || !object) {
 		return false;
 	}
@@ -58,7 +60,7 @@ var isDefinedNotEmpty = function(object, key, isObject) {
 };
 
 // Checks is hosted on JSON Resume
-var isJsonResumeHosted = function(url) {
+export var isJsonResumeHosted = function(url) {
 	if (!url || url.length === 0) {
 		return false;
 	}
@@ -71,7 +73,7 @@ var isJsonResumeHosted = function(url) {
 };
 
 // Checks if URL ends with JSON
-var isJsonFormat = function(url) {
+export var isJsonFormat = function(url) {
 	if (!url || url.length === 0) {
 		return false;
 	}
@@ -81,6 +83,6 @@ var isJsonFormat = function(url) {
 };
 
 // Get HTML Version of URL
-var getHtmlVersion = function(url) {
+export var getHtmlVersion = function(url) {
 	return url.replace(/.json$/, ".html");
 };

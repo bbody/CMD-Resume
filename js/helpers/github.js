@@ -1,5 +1,8 @@
+import $ from "jquery";
+import { CONSTANTS } from "./constants.js";
+
 // Get Github URI based on username
-var getGithubUri = function(username) {
+export var getGithubUri = function(username) {
 	// Return empty is username is empty
 	if (username) {
 		return "https://api.github.com/users/" + username + "/repos";
@@ -9,7 +12,7 @@ var getGithubUri = function(username) {
 };
 
 // Go through Github array (Split to make testing easier)
-var filterGithubFork = function(repos, ownRepo, showForks) {
+export var filterGithubFork = function(repos, ownRepo, showForks) {
 	var result = [];
 
 	repos.forEach(function(value) {
@@ -24,7 +27,7 @@ var filterGithubFork = function(repos, ownRepo, showForks) {
 };
 
 // Get the Github information
-var getGithub = function(uri, username, showForks, callback) {
+export var getGithub = function(uri, username, showForks, callback) {
 	var ownRepo = username.toLowerCase() + ".github.com";
 
 	$.getJSON(uri, function(response) {
@@ -36,7 +39,7 @@ var getGithub = function(uri, username, showForks, callback) {
 };
 
 // Format Github response
-var formatGithub = function(repository, first) {
+export var formatGithub = function(repository, first) {
 	var repoCache = CONSTANTS.EMPTY;
 
 	if (!repository || !repository.name) {
